@@ -1,0 +1,15 @@
+import ru.netology.fmhandroid.repository.FmhRepository
+
+class FmhRepositoryImp : FmhRepository {
+    override fun getNews(): List<News> {
+        //TODO("Not yet implemented")
+    }
+
+    override fun getPatients(): List<Patient> {
+        //TODO("Not yet implemented")
+    }
+
+    override fun getNotes(id: Long): List<Note> {
+        //TODO("Not yet implemented")
+    }
+}
