@@ -39,21 +39,8 @@ data class UserEntity(
             dto.email,
             dto.deleted
         )
-
-        fun fromApi(dto: User) = UserEntity(
-            dto.id,
-            dto.login,
-            dto.password,
-            dto.first_name,
-            dto.last_name,
-            dto.middle_name,
-            dto.phone_number,
-            dto.email,
-            dto.deleted
-        )
     }
 
     fun List<UserEntity>.toDto(): List<User> = map(UserEntity::toDto)
     fun List<User>.toEntity(): List<UserEntity> = map(UserEntity::fromDto)
-    fun List<User>.toApiEntity(): List<UserEntity> = map(UserEntity::fromApi)
 }

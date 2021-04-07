@@ -46,23 +46,8 @@ data class NoteEntity(
             dto.comment,
             dto.deleted
         )
-
-        fun fromApi(dto: Note) = NoteEntity(
-            dto.id,
-            dto.patient_id,
-            dto.description,
-            dto.creator_id,
-            dto.executor_id,
-            dto.create_date,
-            dto.plane_execute_date,
-            dto.fact_execute_date,
-            dto.status_id,
-            dto.comment,
-            dto.deleted
-        )
     }
 
     fun List<NoteEntity>.toDto(): List<Note> = map(NoteEntity::toDto)
     fun List<Note>.toEntity(): List<NoteEntity> = map(NoteEntity::fromDto)
-    fun List<Note>.toApiEntity(): List<NoteEntity> = map(NoteEntity::fromApi)
 }

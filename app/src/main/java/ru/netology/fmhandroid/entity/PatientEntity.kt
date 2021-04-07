@@ -34,19 +34,8 @@ data class PatientEntity(
             dto.birth_date,
             dto.deleted
         )
-
-        fun fromApi(dto: Patient) = PatientEntity(
-            dto.id,
-            dto.room_id,
-            dto.first_name,
-            dto.last_name,
-            dto.middle_name,
-            dto.birth_date,
-            dto.deleted
-        )
     }
 
     fun List<PatientEntity>.toDto(): List<Patient> = map(PatientEntity::toDto)
     fun List<Patient>.toEntity(): List<PatientEntity> = map(PatientEntity::fromDto)
-    fun List<Patient>.toApiEntity(): List<PatientEntity> = map(PatientEntity::fromApi)
 }

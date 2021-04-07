@@ -5,8 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.entity.NoteEntity
 import ru.netology.fmhandroid.entity.PatientEntity
 
 @Dao
