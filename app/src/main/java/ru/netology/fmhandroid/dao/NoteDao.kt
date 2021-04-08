@@ -1,16 +1,13 @@
 package ru.netology.fmhandroid.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.entity.NoteEntity
 
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM NoteEntity WHERE patient_id = :id ORDER BY id DESC")
+    @Query("SELECT * FROM NoteEntity WHERE patient_id = :id AND deleted = 0 ORDER BY id DESC")
     fun getAllNotesByPatientId(id: Long): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM NoteEntity WHERE id = :id")
@@ -21,4 +18,7 @@ interface NoteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notes: List<NoteEntity>)
+
+    @Query("UPDATE NoteEntity Set deleted = 1 WHERE id = :id")
+    suspend fun deleteNoteById(id: Long)
 }
