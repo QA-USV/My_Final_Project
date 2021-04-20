@@ -1,17 +1,15 @@
 package ru.netology.fmhandroid.dto
 
-import java.util.*
-
 data class Note(
-    val id: Long,
-    val patient_id: Long,
-    var description: Char,
-    val creator_id: Long,
-    val executor_id: Long,
-    val create_date: Date,
-    val plane_execute_date: Date,
-    val fact_execute_date: Date,
-    val status_id: Long,
-    var comment: Char,
+    val id: Int,
+    val patientId: Int,
+    var description: String,
+    val creatorId: Int,
+    val executorId: Int,
+    val createDate: String,
+    val planeExecuteDate: String,
+    val factExecuteDate: String,
+    val statusId: Int,
+    var comment: String,
     val deleted: Boolean
 )

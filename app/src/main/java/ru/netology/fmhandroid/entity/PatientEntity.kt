@@ -1,37 +1,38 @@
 package ru.netology.fmhandroid.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Patient
-import java.util.*
 
 @Entity
 data class PatientEntity(
-    val id : Long,
-    val room_id: Long,
-    var first_name: Char,
-    var last_name: Char,
-    var middle_name: Char,
-    val birth_date: Date,
+    @PrimaryKey
+    val id : Int,
+    val roomId: Int,
+    var firstName: String,
+    var lastName: String,
+    var middleName: String,
+    val birthDate: String,
     val deleted: Boolean
 ) {
     fun toDto() = Patient(
         id,
-        room_id,
-        first_name,
-        last_name,
-        middle_name,
-        birth_date,
+        roomId,
+        firstName,
+        lastName,
+        middleName,
+        birthDate,
         deleted
     )
 
     companion object {
         fun fromDto(dto: Patient) = PatientEntity(
             dto.id,
-            dto.room_id,
-            dto.first_name,
-            dto.last_name,
-            dto.middle_name,
-            dto.birth_date,
+            dto.roomId,
+            dto.firstName,
+            dto.lastName,
+            dto.middleName,
+            dto.birthDate,
             dto.deleted
         )
     }

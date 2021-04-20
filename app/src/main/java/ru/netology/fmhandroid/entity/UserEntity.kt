@@ -1,28 +1,30 @@
 package ru.netology.fmhandroid.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.User
 
 @Entity
 data class UserEntity(
-    val id: Long,
-    var login: Char,
-    var password: Char,
-    var first_name: Char,
-    var last_name: Char,
-    var middle_name: Char,
-    var phone_number: Char,
-    var email: Char,
+    @PrimaryKey
+    val id: Int,
+    var login: String,
+    var password: String,
+    var firstName: String,
+    var lastName: String,
+    var middleName: String,
+    var phoneNumber: String,
+    var email: String,
     val deleted: Boolean
 ) {
     fun toDto() = User(
         id,
         login,
         password,
-        first_name,
-        last_name,
-        middle_name,
-        phone_number,
+        firstName,
+        lastName,
+        middleName,
+        phoneNumber,
         email,
         deleted
     )
@@ -32,10 +34,10 @@ data class UserEntity(
             dto.id,
             dto.login,
             dto.password,
-            dto.first_name,
-            dto.last_name,
-            dto.middle_name,
-            dto.phone_number,
+            dto.firstName,
+            dto.lastName,
+            dto.middleName,
+            dto.phoneNumber,
             dto.email,
             dto.deleted
         )

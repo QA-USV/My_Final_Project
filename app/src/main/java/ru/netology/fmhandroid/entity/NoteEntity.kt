@@ -1,33 +1,35 @@
 package ru.netology.fmhandroid.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
 import java.util.*
 
 @Entity
 data class NoteEntity(
-    val id: Long,
-    val patient_id: Long,
-    var description: Char,
-    val creator_id: Long,
-    val executor_id: Long,
-    val create_date: Date,
-    val plane_execute_date: Date,
-    val fact_execute_date: Date,
-    val status_id: Long,
-    var comment: Char,
+    @PrimaryKey
+    val id: Int,
+    val patientId: Int,
+    var description: String,
+    val creatorId: Int,
+    val executorId: Int,
+    val createDate: String,
+    val planeExecuteDate: String,
+    val factExecuteDate: String,
+    val statusId: Int,
+    var comment: String,
     val deleted: Boolean
 ) {
     fun toDto() = Note(
         id,
-        patient_id,
+        patientId,
         description,
-        creator_id,
-        executor_id,
-        create_date,
-        plane_execute_date,
-        fact_execute_date,
-        status_id,
+        creatorId,
+        executorId,
+        createDate,
+        planeExecuteDate,
+        factExecuteDate,
+        statusId,
         comment,
         deleted
     )
@@ -35,14 +37,14 @@ data class NoteEntity(
     companion object {
         fun fromDto(dto: Note) = NoteEntity(
             dto.id,
-            dto.patient_id,
+            dto.patientId,
             dto.description,
-            dto.creator_id,
-            dto.executor_id,
-            dto.create_date,
-            dto.plane_execute_date,
-            dto.fact_execute_date,
-            dto.status_id,
+            dto.creatorId,
+            dto.executorId,
+            dto.createDate,
+            dto.planeExecuteDate,
+            dto.factExecuteDate,
+            dto.statusId,
             dto.comment,
             dto.deleted
         )

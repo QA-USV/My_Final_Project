@@ -1,13 +1,11 @@
 package ru.netology.fmhandroid.dto
 
-import java.util.*
-
 data class Patient(
-    val id : Long,
-    val room_id: Long,
-    var first_name: Char,
-    var last_name: Char,
-    var middle_name: Char,
-    val birth_date: Date,
+    val id : Int,
+    val roomId: Int,
+    var firstName: String,
+    var lastName: String,
+    var middleName: String,
+    val birthDate: String,
     val deleted: Boolean
 )
