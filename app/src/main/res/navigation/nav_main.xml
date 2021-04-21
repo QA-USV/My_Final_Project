@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/patientsListFragment">
+
+    <fragment
+        android:id="@+id/patientsListFragment"
+        android:name="ru.netology.fmhandroid.PatientsListFragment"
+        android:label="fragment_patients_list"
+        tools:layout="@layout/fragment_patients_list" >
+        <action
+            android:id="@+id/action_patientsListFragment_to_addPatientFragment"
+            app:destination="@id/addPatientFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPatientFragment"
+        android:name="ru.netology.fmhandroid.AddPatientFragment"
+        android:label="AddPatientFragment" />
+
+</navigation>

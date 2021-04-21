@@ -1,3 +1,25 @@
-<resources>
-    <string name="app_name">FMHAndroid</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">First moscow hospice</string>
+    <string name="patients">Patients</string>
+    <string name="FLN">FLN</string>
+    <string name="location">Location</string>
+    <string name="patient_name">Ivanov Ivan Ivanovich</string>
+    <string name="patient_location">Yes</string>
+    <string name="more">More</string>
+    <string name="add">Add patient</string>
+    <string name="new_patient">New patient</string>
+    <string name="new_patient_last_name">Last name</string>
+    <string name="new_patient_name">Name</string>
+    <string name="new_patient_middle_name">Middle name</string>
+    <string name="new_patient_birth_date">Birth date</string>
+    <string name="cancel_button" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="save_button" tools:ignore="ButtonCase">SAVE</string>
+    <string name="cancelation">The changes won\'t be saved, do you really want to log out?</string>
+    <string name="add_patient_fragment_positive_button" translatable="false">OK</string>
+    <string name="add_patient_fragment_negative_button">CANCEL</string>
+    <string name="error_loading">Something went wrong. Try again later.</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_patients_list">There are no patients.\nIf you create a new patient, it will appear here</string>
+    <string name="error_saving">Saving failed. Try again later.</string>
+    <string name="toast_empty_field">The field cannot be empty.</string>
 </resources>
