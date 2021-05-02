@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/patient_profile"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view_patient_data_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@color/light_grey"
+            app:cardCornerRadius="6dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_patient_data_card_constraint_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/view_patient_data_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/grey"
+                    android:text="@string/patient_data"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_patient_data_card_barrier"
+                    app:layout_constraintStart_toStartOf="@+id/view_patient_data_card_constraint_container"
+                    app:layout_constraintTop_toTopOf="@+id/view_patient_data_card_constraint_container" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_patient_data_button_edit"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/editing"
+                    android:minWidth="14dp"
+                    android:minHeight="14dp"
+                    app:icon="@drawable/ic_edit_24"
+                    app:iconTint="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_patient_data_card_barrier"
+                    app:layout_constraintEnd_toEndOf="@+id/view_patient_data_card_constraint_container"
+                    app:layout_constraintTop_toTopOf="@+id/view_patient_data_card_constraint_container" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/view_patient_data_card_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="view_patient_data_card_title, view_patient_data_button_edit" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/view_patient_data_card_constraint_container"
+                    app:layout_constraintStart_toStartOf="@+id/view_patient_data_card_constraint_container"
+                    app:layout_constraintTop_toBottomOf="@+id/view_patient_data_card_barrier">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/view_patient_data_card_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:text="Иванов Иван Иванович"
+                            android:textColor="@color/blue"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/patient_data"
+                                android:textColor="#8A000000"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/view_patient_data_card_birthday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:text="19.03.1968"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/room"
+                                android:textColor="@color/grey"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/view_patient_data_card_room"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:text="1/14"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- admissions card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view_admissions_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@color/light_grey"
+            app:cardCornerRadius="6dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_admissions_card_constraint_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/view_admissions_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/grey"
+                    android:text="@string/admissions"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_admissions_card_barrier"
+                    app:layout_constraintStart_toStartOf="@+id/view_admissions_card_constraint_container"
+                    app:layout_constraintTop_toTopOf="@+id/view_admissions_card_constraint_container" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_admissions_button_edit"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/add"
+                    android:minWidth="14dp"
+                    android:minHeight="14dp"
+                    app:icon="@drawable/ic_add_24"
+                    app:iconTint="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_admissions_card_barrier"
+                    app:layout_constraintEnd_toEndOf="@+id/view_admissions_card_constraint_container"
+                    app:layout_constraintTop_toTopOf="@+id/view_admissions_card_constraint_container" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/view_admissions_card_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="view_admissions_card_title, view_admissions_button_edit" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/view_admissions_card_constraint_container"
+                    app:layout_constraintStart_toStartOf="@+id/view_admissions_card_constraint_container"
+                    app:layout_constraintTop_toBottomOf="@+id/view_admissions_card_barrier">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/date_in"
+                                android:textColor="#8A000000"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:text="@string/date_out"
+                                android:textColor="@color/grey"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#14000000" />
+
+                        <LinearLayout
+                            android:id="@+id/view_admissions_card_rv_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="60dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="15dp">
+
+                            <!-- admission cards-->
+                            <include layout="@layout/admission_card" />
+
+                            <include layout="@layout/admission_card" />
+
+                            <include layout="@layout/admission_card" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- notes card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view_notes_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/light_grey"
+            app:cardCornerRadius="6dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_notes_card_constraint_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/view_notes_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/grey"
+                    android:text="@string/notes"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_notes_card_barrier"
+                    app:layout_constraintStart_toStartOf="@+id/view_notes_card_constraint_container"
+                    app:layout_constraintTop_toTopOf="@+id/view_notes_card_constraint_container" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_notes_button_edit"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/add"
+                    android:minWidth="14dp"
+                    android:minHeight="14dp"
+                    app:icon="@drawable/ic_add_24"
+                    app:iconTint="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_notes_card_barrier"
+                    app:layout_constraintEnd_toEndOf="@+id/view_notes_card_constraint_container"
+                    app:layout_constraintTop_toTopOf="@+id/view_notes_card_constraint_container" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/view_notes_card_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="view_notes_card_title, view_notes_button_edit" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/view_notes_card_constraint_container"
+                    app:layout_constraintStart_toStartOf="@+id/view_notes_card_constraint_container"
+                    app:layout_constraintTop_toBottomOf="@+id/view_notes_card_barrier">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@string/note"
+                            android:textColor="#8A000000"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#14000000" />
+
+                        <LinearLayout
+                            android:id="@+id/view_notes_card_rv_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="60dp"
+                            android:orientation="vertical">
+
+                            <!-- note cards-->
+                            <include layout="@layout/note_card" />
+
+                            <include layout="@layout/note_card" />
+
+                            <include layout="@layout/note_card" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>
+
