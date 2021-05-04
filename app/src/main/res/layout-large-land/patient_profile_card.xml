@@ -5,30 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="62dp"
         android:paddingVertical="40dp">
 
         <TextView
+            android:id="@+id/view_title_patient_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:text="@string/patient_profile"
             android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- patient card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/view_patient_data_card"
-            android:layout_width="match_parent"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/light_grey"
-            app:cardCornerRadius="6dp">
+            app:cardCornerRadius="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/view_admissions_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_title_patient_profile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_patient_data_card_constraint_container"
@@ -53,10 +60,12 @@
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/editing"
                     android:minWidth="14dp"
                     android:minHeight="14dp"
+                    android:text="@string/change"
                     app:icon="@drawable/ic_edit_14"
                     app:iconTint="@color/blue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_patient_data_card_barrier"
@@ -90,8 +99,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
-                            android:ellipsize="end"
-                            android:singleLine="true"
                             android:text="Иванов Иван Иванович"
                             android:textColor="@color/blue"
                             android:textSize="20sp" />
@@ -148,11 +155,14 @@
         <!-- admissions card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/view_admissions_card"
-            android:layout_width="match_parent"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
             app:cardBackgroundColor="@color/light_grey"
-            app:cardCornerRadius="6dp">
+            app:cardCornerRadius="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_patient_data_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_admissions_card_constraint_container"
@@ -177,10 +187,12 @@
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/add"
                     android:minWidth="14dp"
                     android:minHeight="14dp"
+                    android:text="@string/add"
                     app:icon="@drawable/ic_add_14"
                     app:iconTint="@color/blue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_admissions_card_barrier"
@@ -209,27 +221,43 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/textView2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/date_in"
                                 android:textColor="#8A000000"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="143dp"
+                                android:text="@string/date_out"
+                                android:textColor="@color/grey"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="40dp"
-                                android:text="@string/date_out"
+                                android:layout_marginStart="250dp"
+                                android:text="@string/room"
                                 android:textColor="@color/grey"
-                                android:textSize="15sp" />
-                        </LinearLayout>
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -253,8 +281,13 @@
             android:id="@+id/view_notes_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="394dp"
+            android:layout_marginTop="24dp"
             app:cardBackgroundColor="@color/light_grey"
-            app:cardCornerRadius="6dp">
+            app:cardCornerRadius="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_title_patient_profile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_notes_card_constraint_container"
@@ -279,10 +312,12 @@
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/add"
                     android:minWidth="14dp"
                     android:minHeight="14dp"
+                    android:text="@string/add"
                     app:icon="@drawable/ic_add_14"
                     app:iconTint="@color/blue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_notes_card_barrier"
@@ -311,14 +346,38 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginBottom="16dp"
-                            android:text="@string/note"
-                            android:textColor="#8A000000"
-                            android:textSize="15sp" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="54dp"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginBottom="14dp"
+                                android:text="@string/note"
+                                android:textColor="#8A000000"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginEnd="83dp"
+                                android:layout_marginBottom="14dp"
+                                android:text="@string/term_of_execution"
+                                android:textColor="#8A000000"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -336,5 +395,5 @@
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
