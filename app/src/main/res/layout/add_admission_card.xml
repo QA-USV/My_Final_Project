@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/view_add_admission_card"
+    android:id="@+id/viewAddAdmissionCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/view_add_admission_card_date_in_plan"
+        android:id="@+id/viewAddAdmissionCardDateInPlan"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         android:textSize="14sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/view_add_admission_card_date_in_fact"
+        android:id="@+id/viewAddAdmissionCardDateInFact"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
         android:textSize="14sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/view_add_admission_card_room"
+        android:id="@+id/viewAddAdmissionCardRoom"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,14 +96,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/view_add_admission_card_button_save"
+        android:id="@+id/viewAddAdmissionCardButtonSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/save"
         android:text="@string/save" />
 
     <Button
-        android:id="@+id/view_add_admission_card_button_cancel"
+        android:id="@+id/viewAddAdmissionCardButtonCancel"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

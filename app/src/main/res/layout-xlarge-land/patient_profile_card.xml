@@ -26,7 +26,7 @@
 
         <!-- patient card -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/view_patient_data_card"
+            android:id="@+id/viewPatientDataCard"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -37,12 +37,12 @@
             app:layout_constraintTop_toBottomOf="@id/view_title_patient_profile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_patient_data_card_constraint_container"
+                android:id="@+id/viewPatientDataCardConstraintContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/view_patient_data_card_title"
+                    android:id="@+id/viewPatientDataCardTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -50,12 +50,12 @@
                     android:text="@string/patient_data"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_patient_data_card_barrier"
-                    app:layout_constraintStart_toStartOf="@+id/view_patient_data_card_constraint_container"
-                    app:layout_constraintTop_toTopOf="@+id/view_patient_data_card_constraint_container" />
+                    app:layout_constraintBottom_toBottomOf="@+id/viewPatientDataCardBarrier"
+                    app:layout_constraintStart_toStartOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/view_patient_data_card_button_edit"
+                    android:id="@+id/viewPatientDataCardButtonEdit"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,25 +67,25 @@
                     android:text="@string/change"
                     app:icon="@drawable/ic_edit_14"
                     app:iconTint="@color/blue"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_patient_data_card_barrier"
-                    app:layout_constraintEnd_toEndOf="@+id/view_patient_data_card_constraint_container"
-                    app:layout_constraintTop_toTopOf="@+id/view_patient_data_card_constraint_container" />
+                    app:layout_constraintBottom_toBottomOf="@+id/viewPatientDataCardBarrier"
+                    app:layout_constraintEnd_toEndOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/view_patient_data_card_barrier"
+                    android:id="@+id/viewPatientDataCardBarrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="view_patient_data_card_title, view_patient_data_card_button_edit" />
+                    app:constraint_referenced_ids="viewPatientDataCardTitle, viewPatientDataCardButtonEdit" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/view_patient_data_card_constraint_container"
-                    app:layout_constraintStart_toStartOf="@+id/view_patient_data_card_constraint_container"
-                    app:layout_constraintTop_toBottomOf="@+id/view_patient_data_card_barrier">
+                    app:layout_constraintEnd_toEndOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintStart_toStartOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/viewPatientDataCardBarrier">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                         android:padding="16dp">
 
                         <TextView
-                            android:id="@+id/view_patient_data_card_name"
+                            android:id="@+id/viewPatientDataCardName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
@@ -116,7 +116,7 @@
                                 android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/view_patient_data_card_birthday"
+                                android:id="@+id/viewPatientDataCardBirthday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
@@ -138,7 +138,7 @@
                                 android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/view_patient_data_card_room"
+                                android:id="@+id/viewPatientDataCardRoom"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
@@ -153,7 +153,7 @@
 
         <!-- admissions card -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/view_admissions_card"
+            android:id="@+id/viewAdmissionsCard"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -161,15 +161,15 @@
             app:cardBackgroundColor="@color/light_grey"
             app:cardCornerRadius="6dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_patient_data_card">
+            app:layout_constraintTop_toBottomOf="@id/viewPatientDataCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_admissions_card_constraint_container"
+                android:id="@+id/viewAdmissionsCardConstraintContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/view_admissions_card_title"
+                    android:id="@+id/viewAdmissionsCardTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -177,12 +177,12 @@
                     android:text="@string/admissions"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_admissions_card_barrier"
-                    app:layout_constraintStart_toStartOf="@+id/view_admissions_card_constraint_container"
-                    app:layout_constraintTop_toTopOf="@+id/view_admissions_card_constraint_container" />
+                    app:layout_constraintBottom_toBottomOf="@+id/viewAdmissionsCardBarrier"
+                    app:layout_constraintStart_toStartOf="@+id/viewAdmissionsCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewAdmissionsCardConstraintContainer" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/view_admissions_card_button_edit"
+                    android:id="@+id/viewAdmissionsCardButtonEdit"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -194,25 +194,25 @@
                     android:text="@string/add"
                     app:icon="@drawable/ic_add_14"
                     app:iconTint="@color/blue"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_admissions_card_barrier"
-                    app:layout_constraintEnd_toEndOf="@+id/view_admissions_card_constraint_container"
-                    app:layout_constraintTop_toTopOf="@+id/view_admissions_card_constraint_container" />
+                    app:layout_constraintBottom_toBottomOf="@+id/viewAdmissionsCardBarrier"
+                    app:layout_constraintEnd_toEndOf="@+id/viewAdmissionsCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewAdmissionsCardConstraintContainer" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/view_admissions_card_barrier"
+                    android:id="@+id/viewAdmissionsCardBarrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="view_admissions_card_title, view_admissions_card_button_edit" />
+                    app:constraint_referenced_ids="viewAdmissionsCardTitle, viewAdmissionsCardButtonEdit" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/view_admissions_card_constraint_container"
-                    app:layout_constraintStart_toStartOf="@+id/view_admissions_card_constraint_container"
-                    app:layout_constraintTop_toBottomOf="@+id/view_admissions_card_barrier">
+                    app:layout_constraintEnd_toEndOf="@+id/viewAdmissionsCardConstraintContainer"
+                    app:layout_constraintStart_toStartOf="@+id/viewAdmissionsCardConstraintContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/viewAdmissionsCardBarrier">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -272,7 +272,7 @@
                             android:paddingVertical="15dp">
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/view_admissions_card_rv_list"
+                                android:id="@+id/viewAdmissionsCardRVList"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:itemCount="3"
@@ -287,7 +287,7 @@
 
         <!-- notes card -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/view_notes_card"
+            android:id="@+id/viewNotesCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="394dp"
@@ -299,12 +299,12 @@
             app:layout_constraintTop_toBottomOf="@+id/view_title_patient_profile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_notes_card_constraint_container"
+                android:id="@+id/viewNotesCardConstraintContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/view_notes_card_title"
+                    android:id="@+id/viewNotesCardTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -312,12 +312,12 @@
                     android:text="@string/notes"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_notes_card_barrier"
-                    app:layout_constraintStart_toStartOf="@+id/view_notes_card_constraint_container"
-                    app:layout_constraintTop_toTopOf="@+id/view_notes_card_constraint_container" />
+                    app:layout_constraintBottom_toBottomOf="@+id/viewNotesCardBarrier"
+                    app:layout_constraintStart_toStartOf="@+id/viewNotesCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewNotesCardConstraintContainer" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/view_notes_card_button_edit"
+                    android:id="@+id/viewNotesCardButtonEdit"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -329,25 +329,25 @@
                     android:text="@string/add"
                     app:icon="@drawable/ic_add_14"
                     app:iconTint="@color/blue"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_notes_card_barrier"
-                    app:layout_constraintEnd_toEndOf="@+id/view_notes_card_constraint_container"
-                    app:layout_constraintTop_toTopOf="@+id/view_notes_card_constraint_container" />
+                    app:layout_constraintBottom_toBottomOf="@+id/viewNotesCardBarrier"
+                    app:layout_constraintEnd_toEndOf="@+id/viewNotesCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewNotesCardConstraintContainer" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/view_notes_card_barrier"
+                    android:id="@+id/viewNotesCardBarrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="view_notes_card_title, view_notes_card_button_edit" />
+                    app:constraint_referenced_ids="viewNotesCardTitle, viewNotesCardButtonEdit" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/view_notes_card_constraint_container"
-                    app:layout_constraintStart_toStartOf="@+id/view_notes_card_constraint_container"
-                    app:layout_constraintTop_toBottomOf="@+id/view_notes_card_barrier">
+                    app:layout_constraintEnd_toEndOf="@+id/viewNotesCardConstraintContainer"
+                    app:layout_constraintStart_toStartOf="@+id/viewNotesCardConstraintContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/viewNotesCardBarrier">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -415,7 +415,7 @@
                             android:padding="16dp">
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/view_notes_card_rv_list"
+                                android:id="@+id/viewNotesCardRVList"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:itemCount="3"
