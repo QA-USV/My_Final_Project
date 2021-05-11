@@ -22,5 +22,5 @@ interface PatientDao {
     suspend fun insert(patients: List<PatientEntity>)
 
     @Query("UPDATE PatientEntity SET deleted = 1 WHERE id = :id")
-    suspend fun deletePatientById(id: Long)
+    suspend fun deletePatientById(id: Int)
 }

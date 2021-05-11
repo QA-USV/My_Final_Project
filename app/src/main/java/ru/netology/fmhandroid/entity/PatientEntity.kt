@@ -1,18 +1,28 @@
 package ru.netology.fmhandroid.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Patient
 
-@Entity
+@Entity(tableName = "PatientEntity")
 data class PatientEntity(
     @PrimaryKey
-    val id : Int,
+    @ColumnInfo(name = "id")
+    val id: Int,
+    @ColumnInfo(name = "roomId")
     val roomId: Int,
-    var firstName: String,
-    var lastName: String,
-    var middleName: String,
+    @ColumnInfo(name = "firstName")
+    val firstName: String,
+    @ColumnInfo(name = "lastName")
+    val lastName: String,
+    @ColumnInfo(name = "middleName")
+    val middleName: String,
+    @ColumnInfo(name = "shortPatientName")
+    val shortPatientName: String,
+    @ColumnInfo(name = "birthDate")
     val birthDate: String,
+    @ColumnInfo(name = "deleted")
     val deleted: Boolean
 ) {
     fun toDto() = Patient(
@@ -21,22 +31,23 @@ data class PatientEntity(
         firstName,
         lastName,
         middleName,
+        shortPatientName,
         birthDate,
         deleted
     )
-
-    companion object {
-        fun fromDto(dto: Patient) = PatientEntity(
-            dto.id,
-            dto.roomId,
-            dto.firstName,
-            dto.lastName,
-            dto.middleName,
-            dto.birthDate,
-            dto.deleted
-        )
-    }
-
-    fun List<PatientEntity>.toDto(): List<Patient> = map(PatientEntity::toDto)
-    fun List<Patient>.toEntity(): List<PatientEntity> = map(PatientEntity::fromDto)
 }
+
+fun List<PatientEntity>.toDto(): List<Patient> = map(PatientEntity::toDto)
+fun List<Patient>.toListEntity(): List<PatientEntity> = map(Patient::toEntity)
+fun Patient.toEntity(): PatientEntity = PatientEntity(
+    id,
+    roomId,
+    firstName,
+    lastName,
+    middleName,
+    shortPatientName,
+    birthDate,
+    deleted
+)
+
+

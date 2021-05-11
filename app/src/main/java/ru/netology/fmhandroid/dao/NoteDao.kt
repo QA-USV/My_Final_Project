@@ -20,5 +20,5 @@ interface NoteDao {
     suspend fun insert(notes: List<NoteEntity>)
 
     @Query("UPDATE NoteEntity Set deleted = 1 WHERE id = :id")
-    suspend fun deleteNoteById(id: Long)
+    suspend fun deleteNoteById(id: Int)
 }
