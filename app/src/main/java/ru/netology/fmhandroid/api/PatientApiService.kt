@@ -32,6 +32,9 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface PatientApiService {
+    @GET("patient?offset=0&limit=30&show_active=false")
+    suspend fun getAllPatients(): Response<List<Patient>>
+
     @GET("patient/{id}")
     suspend fun getPatientById(@Path("id") id: Int): Response<Patient>
 

@@ -21,7 +21,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            manifestPlaceholders.usesCleartextTraffic = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", '"http://130.193.44.96:8080/fmh/"'
+        }
+        debug {
+            manifestPlaceholders.usesCleartextTraffic = true
+            buildConfigField "String", "BASE_URL", '"http://130.193.44.96:8080/fmh/"'
         }
     }
     compileOptions {
@@ -38,9 +44,14 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     def junit_version = "4.13"
-    def room_version = "2.2.6"
+    def room_version = "2.3.0"
     def coroutines_version = "1.4.2"
+    def retrofit_version = "2.9.0"
+    def retrofitgson_version = "2.9.0"
+    def okhttploggin_version = '5.0.0-alpha.2'
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -53,6 +64,10 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitgson_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttploggin_version"
+
 
     testImplementation "androidx.room:room-testing:$room_version"
     testImplementation "junit:junit:$junit_version"

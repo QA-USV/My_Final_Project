@@ -4,6 +4,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.PatientApiService
+import ru.netology.fmhandroid.dao.AdmissionDao
+import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dao.PatientDao
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
@@ -18,12 +20,29 @@ import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 
 class PatientRepositoryImp(
-    private val dao: PatientDao
+    private val patientDao: PatientDao,
+    private val admissionDao: AdmissionDao,
+    private val noteDao: NoteDao
 ) : PatientRepository {
 
-    override val data = dao.getAllPatients()
+    override val data = patientDao.getAllPatients()
         .map(List<PatientEntity>::toDto)
         .flowOn(Dispatchers.Default)
+
+    override suspend fun getAllPatients() {
+        try {
+            val response = PatientApiService.PatientApi.service.getAllPatients()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            patientDao.insert(body.map { it.toEntity() })
+        } catch (e: IOException) {
+            throw ServerError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
 
     override suspend fun getPatientById(patientId: Int): Patient {
         try {
@@ -33,7 +52,7 @@ class PatientRepositoryImp(
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(body.toEntity())
+            patientDao.insert(body.toEntity())
             return body
         } catch (e: IOException) {
             throw ServerError
@@ -50,13 +69,13 @@ class PatientRepositoryImp(
                     throw ApiError(response.code(), response.message())
                 }
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
-                dao.insert(body.toEntity())
+                patientDao.insert(body.toEntity())
             } else {
                 val response = PatientApiService.PatientApi.service.editPatient(patient)
                 if (!response.isSuccessful) {
                     throw ApiError(response.code(), response.message())
                 }
-                dao.insert(patient.toEntity())
+                patientDao.insert(patient.toEntity())
             }
         } catch (e: IOException) {
             throw ServerError
@@ -66,10 +85,36 @@ class PatientRepositoryImp(
     }
 
     override suspend fun getPatientAdmissions(patientId: Int): List<Admission> {
-        TODO("Not yet implemented")
+        try {
+            val response = PatientApiService.PatientApi.service.getPatientAdmissions(patientId)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            admissionDao.insert(body.map { it.toEntity() })
+            return body
+        } catch (e: IOException) {
+            throw ServerError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun getPatientNotes(patientId: Int): List<Note> {
-        TODO("Not yet implemented")
+        try {
+            val response = PatientApiService.PatientApi.service.getPatientNotes(patientId)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            noteDao.insert(body.map { it.toEntity() })
+            return body
+        } catch (e: IOException) {
+            throw ServerError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 }

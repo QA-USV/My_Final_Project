@@ -7,6 +7,7 @@ import ru.netology.fmhandroid.dto.Patient
 
 interface PatientRepository {
     val data: Flow<List<Patient>>
+    suspend fun getAllPatients()
     suspend fun getPatientById(patientId: Int) : Patient
     suspend fun savePatient(patient: Patient)
     suspend fun getPatientAdmissions(patientId: Int) : List<Admission>

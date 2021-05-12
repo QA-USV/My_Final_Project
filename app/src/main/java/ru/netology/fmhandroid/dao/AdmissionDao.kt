@@ -20,7 +20,7 @@ interface AdmissionDao {
     suspend fun getAdmissionById(id: Int): AdmissionEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(admission: Admission)
+    suspend fun insert(admission: AdmissionEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(admission: List<AdmissionEntity>)
