@@ -28,29 +28,29 @@ data class UserEntity(
     val deleted: Boolean
 ) {
     fun toDto() = User(
-        id,
-        login,
-        password,
-        firstName,
-        lastName,
-        middleName,
-        phoneNumber,
-        email,
-        deleted
+        id = id,
+        login = login,
+        password = password,
+        firstName = firstName,
+        lastName = lastName,
+        middleName = middleName,
+        phoneNumber = phoneNumber,
+        email = email,
+        deleted = deleted
     )
 }
 
 fun List<UserEntity>.toDto(): List<User> = map(UserEntity::toDto)
 fun List<User>.toEntity(): List<UserEntity> = map(User::toEntity)
 fun User.toEntity() = UserEntity(
-    id,
-    login,
-    password,
-    firstName,
-    lastName,
-    middleName,
-    phoneNumber,
-    email,
-    deleted
+    id = id,
+    login = login,
+    password = password,
+    firstName = firstName,
+    lastName = lastName,
+    middleName = middleName,
+    phoneNumber = phoneNumber,
+    email = email,
+    deleted = deleted
 )
 

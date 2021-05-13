@@ -3,7 +3,7 @@ package ru.netology.fmhandroid.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import ru.netology.fmhandroid.api.PatientApiService
+import ru.netology.fmhandroid.api.PatientApi
 import ru.netology.fmhandroid.dao.AdmissionDao
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dao.PatientDao
@@ -31,7 +31,7 @@ class PatientRepositoryImp(
 
     override suspend fun getAllPatients() {
         try {
-            val response = PatientApiService.PatientApi.service.getAllPatients()
+            val response = PatientApi.service.getAllPatients()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -46,7 +46,7 @@ class PatientRepositoryImp(
 
     override suspend fun getPatientById(patientId: Int): Patient {
         try {
-            val response = PatientApiService.PatientApi.service.getPatientById(patientId)
+            val response = PatientApi.service.getPatientById(patientId)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -64,14 +64,14 @@ class PatientRepositoryImp(
     override suspend fun savePatient(patient: Patient) {
         try {
             if (patient.id == 0) {
-                val response = PatientApiService.PatientApi.service.savePatient(patient)
+                val response = PatientApi.service.savePatient(patient)
                 if (!response.isSuccessful) {
                     throw ApiError(response.code(), response.message())
                 }
                 val body = response.body() ?: throw ApiError(response.code(), response.message())
                 patientDao.insert(body.toEntity())
             } else {
-                val response = PatientApiService.PatientApi.service.editPatient(patient)
+                val response = PatientApi.service.editPatient(patient)
                 if (!response.isSuccessful) {
                     throw ApiError(response.code(), response.message())
                 }
@@ -86,7 +86,7 @@ class PatientRepositoryImp(
 
     override suspend fun getPatientAdmissions(patientId: Int): List<Admission> {
         try {
-            val response = PatientApiService.PatientApi.service.getPatientAdmissions(patientId)
+            val response = PatientApi.service.getPatientAdmissions(patientId)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -103,7 +103,7 @@ class PatientRepositoryImp(
 
     override suspend fun getPatientNotes(patientId: Int): List<Note> {
         try {
-            val response = PatientApiService.PatientApi.service.getPatientNotes(patientId)
+            val response = PatientApi.service.getPatientNotes(patientId)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }

@@ -32,32 +32,32 @@ data class NoteEntity(
     val deleted: Boolean
 ) {
     fun toDto() = Note(
-        id,
-        patientId,
-        description,
-        creatorId,
-        executorId,
-        createDate,
-        planeExecuteDate,
-        factExecuteDate,
-        statusId,
-        comment,
-        deleted
+        id = id,
+        patientId = patientId,
+        description = description,
+        creatorId = creatorId,
+        executorId = executorId,
+        createDate = createDate,
+        planeExecuteDate = planeExecuteDate,
+        factExecuteDate = factExecuteDate,
+        statusId = statusId,
+        comment = comment,
+        deleted = deleted
     )
 }
 
 fun List<NoteEntity>.toDto(): List<Note> = map(NoteEntity::toDto)
 fun List<Note>.toEntity(): List<NoteEntity> = map(Note::toEntity)
 fun Note.toEntity() = NoteEntity(
-    id,
-    patientId,
-    description,
-    creatorId,
-    executorId,
-    createDate,
-    planeExecuteDate,
-    factExecuteDate,
-    statusId,
-    comment,
-    deleted
+    id = id,
+    patientId = patientId,
+    description = description,
+    creatorId = creatorId,
+    executorId = executorId,
+    createDate = createDate,
+    planeExecuteDate = planeExecuteDate,
+    factExecuteDate = factExecuteDate,
+    statusId = statusId,
+    comment = comment,
+    deleted = deleted
 )

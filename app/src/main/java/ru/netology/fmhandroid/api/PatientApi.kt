@@ -1,8 +1,6 @@
 package ru.netology.fmhandroid.api
 
-import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,24 +12,7 @@ import ru.netology.fmhandroid.dto.Patient
 import java.util.concurrent.TimeUnit
 
 
-private val loggin = HttpLoggingInterceptor().apply {
-    if (BuildConfig.DEBUG) {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-}
-
-private val okhttp = OkHttpClient.Builder()
-    .addInterceptor(loggin)
-    .connectTimeout(30, TimeUnit.SECONDS)
-    .build()
-
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl(BASE_URL)
-    .client(okhttp)
-    .build()
-
-interface PatientApiService {
+interface PatientApi {
     @GET("patient?offset=0&limit=30&show_active=false")
     suspend fun getAllPatients(): Response<List<Patient>>
 
@@ -50,9 +31,20 @@ interface PatientApiService {
     @PATCH("patient")
     suspend fun editPatient(@Body patient: Patient): Response<Patient>
 
-    object PatientApi {
-        val service: PatientApiService by lazy {
-            retrofit.create(PatientApiService::class.java)
+    companion object {
+
+        private val okhttp = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .build()
+
+        private val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .client(okhttp)
+            .build()
+
+        val service: PatientApi by lazy {
+            retrofit.create(PatientApi::class.java)
         }
     }
 }
