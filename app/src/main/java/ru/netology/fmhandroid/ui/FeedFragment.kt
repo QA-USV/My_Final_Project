@@ -26,6 +26,6 @@ class FeedFragment : Fragment() {
             false
         )
 
-        TODO("Not yet implemented")
+        return binding.root
     }
 }
