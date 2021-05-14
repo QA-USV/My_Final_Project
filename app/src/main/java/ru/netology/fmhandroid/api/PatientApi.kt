@@ -28,9 +28,6 @@ interface PatientApi {
     @POST("patient")
     suspend fun savePatient(@Body patient: Patient): Response<Patient>
 
-    @PATCH("patient")
-    suspend fun editPatient(@Body patient: Patient): Response<Patient>
-
     companion object {
 
         private val okhttp = OkHttpClient.Builder()
