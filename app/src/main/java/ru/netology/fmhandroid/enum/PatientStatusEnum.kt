@@ -1,6 +1,6 @@
 package ru.netology.fmhandroid.enum
 
-enum class PatientStatusList {
+enum class PatientStatusEnum {
     ACTIVE,
     DISCHARGED,
     EXPECTED

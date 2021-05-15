@@ -14,7 +14,7 @@ import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.entity.PatientEntity
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
-import ru.netology.fmhandroid.enum.PatientStatusList
+import ru.netology.fmhandroid.enum.PatientStatusEnum
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
@@ -41,7 +41,7 @@ class PatientRepositoryImp(
     )
 
     override suspend fun getAllPatientsWithAdmissionStatus(
-        status: PatientStatusList
+        status: PatientStatusEnum
     ): List<Patient> = makeRequest(
         request = { PatientApi.service.getAllPatientsWithAdmissionStatus(status) },
         onSuccess = { body ->

@@ -9,7 +9,7 @@ import ru.netology.fmhandroid.BuildConfig.BASE_URL
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.enum.PatientStatusList
+import ru.netology.fmhandroid.enum.PatientStatusEnum
 import java.util.concurrent.TimeUnit
 
 
@@ -17,8 +17,10 @@ interface PatientApi {
     @GET("patient?patients_status_list=ACTIVE")
     suspend fun getAllPatients(): Response<List<Patient>>
 
-    @GET("patient?")
-    suspend fun getAllPatientsWithAdmissionStatus(@Query("patients_status_list") status: PatientStatusList): Response<List<Patient>>
+    @GET("patient")
+    suspend fun getAllPatientsWithAdmissionStatus(
+        @Query("patients_status_list") status: PatientStatusEnum
+    ): Response<List<Patient>>
 
     @GET("patient/{id}")
     suspend fun getPatientById(@Path("id") id: Int): Response<Patient>
