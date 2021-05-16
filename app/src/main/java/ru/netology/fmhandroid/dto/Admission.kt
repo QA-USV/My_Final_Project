@@ -1,7 +1,7 @@
 package ru.netology.fmhandroid.dto
 
 /**
- * Госпитацизация
+ * Госпитализация
  */
 data class Admission(
     val id: Int,
@@ -15,7 +15,7 @@ data class Admission(
      */
     val planDateOut: String,
     /**
-     * Вактическая дата госпитализации
+     * Фактическая дата госпитализации
      */
     val factDateIn: String,
     /**
@@ -23,9 +23,9 @@ data class Admission(
      */
     val factDateOut: String,
     /**
-     * Актуальный статус госпитализации
+     * Идентификатор статуса госпитализации
      */
-    val admStatusId: Int,
+    val statusId: Int,
     val roomId: Int,
     val comment: String,
     val deleted: Boolean = false,

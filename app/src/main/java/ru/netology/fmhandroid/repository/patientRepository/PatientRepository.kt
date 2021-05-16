@@ -4,11 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.enum.PatientStatusEnum
+import ru.netology.fmhandroid.dto.PatientStatusEnum
 
 interface PatientRepository {
-    val data: Flow<List<Patient>>
-    suspend fun getAllPatients() : List<Patient>
+    suspend fun data() : Flow<List<Patient>>
     suspend fun getAllPatientsWithAdmissionStatus(status: PatientStatusEnum) : List<Patient>
     suspend fun getPatientById(patientId: Int) : Patient
     suspend fun savePatient(patient: Patient) : Patient

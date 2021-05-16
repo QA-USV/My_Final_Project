@@ -9,7 +9,7 @@ import ru.netology.fmhandroid.BuildConfig.BASE_URL
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.enum.PatientStatusEnum
+import ru.netology.fmhandroid.dto.PatientStatusEnum
 import java.util.concurrent.TimeUnit
 
 

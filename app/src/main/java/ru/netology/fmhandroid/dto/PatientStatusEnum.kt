@@ -1,4 +1,4 @@
-package ru.netology.fmhandroid.enum
+package ru.netology.fmhandroid.dto
 
 enum class PatientStatusEnum {
     ACTIVE,

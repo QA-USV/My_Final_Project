@@ -36,7 +36,7 @@ data class AdmissionEntity(
         planDateOut = planDateOut,
         factDateIn = factDateIn,
         factDateOut = factDateOut,
-        admStatusId = admStatusId,
+        statusId = admStatusId,
         roomId = roomId,
         comment = comment,
         deleted = deleted
@@ -52,7 +52,7 @@ fun Admission.toEntity() = AdmissionEntity(
     planDateOut = planDateOut,
     factDateIn = factDateIn,
     factDateOut = factDateOut,
-    admStatusId = admStatusId,
+    admStatusId = statusId,
     roomId = roomId,
     comment = comment,
     deleted = deleted
