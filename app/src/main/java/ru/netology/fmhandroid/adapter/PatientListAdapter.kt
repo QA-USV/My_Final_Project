@@ -32,10 +32,9 @@ class PatientListAdapter(
             private val binding: PatientsListCardBinding,
             private val onInterractionListener: OnInterractionListener,
     ) : RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
         fun bind(patient: Patient) {
             binding.apply {
-                patientName.text = patient.lastName + " " + patient.firstName + " " + patient.middleName
+                (patient.lastName + " " + patient.firstName + " " + patient.middleName).also { patientName.text = it }
                 patientLocation.text = if (patient.inHospice) "Да" else "Нет"
                 patientName.setOnClickListener {
                     onInterractionListener.onOpenCard(patient)

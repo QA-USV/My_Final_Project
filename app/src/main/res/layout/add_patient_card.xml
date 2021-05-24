@@ -53,11 +53,11 @@
         android:gravity="center_vertical"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/set_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_patient_last_name"
             />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -78,6 +78,7 @@
         android:gravity="center_vertical"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/set_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_patient_name"
@@ -102,6 +103,7 @@
         android:gravity="center_vertical"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/set_middle_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_patient_middle_name"
@@ -126,6 +128,7 @@
         android:gravity="center_vertical"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/set_birth_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_patient_birth_date"
@@ -165,6 +168,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="408dp"
         android:lineSpacingExtra="8sp"
+        android:textColor="@color/white"
         android:gravity="center_horizontal|center_vertical"
         style="@style/cancel_button_style"
         />

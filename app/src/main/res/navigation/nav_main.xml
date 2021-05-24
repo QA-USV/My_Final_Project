@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/patientsListFragment"
-        android:name="ru.netology.fmhandroid.PatientsListFragment"
+        android:name="ru.netology.fmhandroid.ui.PatientsListFragment"
         android:label="fragment_patients_list"
         tools:layout="@layout/fragment_patients_list" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPatientFragment"
-        android:name="ru.netology.fmhandroid.AddPatientFragment"
+        android:name="ru.netology.fmhandroid.ui.AddPatientFragment"
         android:label="AddPatientFragment" />
 
 </navigation>

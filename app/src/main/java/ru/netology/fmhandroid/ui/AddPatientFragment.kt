@@ -1,21 +1,21 @@
-package ru.netology.fmhandroid
+package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.AddPatientCardBinding
-import ru.netology.fmhandroid.viewmodel.FmhViewModel
+import ru.netology.fmhandroid.viewmodel.PatientViewModel
 import ru.netology.fmhandroid.viewmodel.emptyPatient
 
 class AddPatientFragment : DialogFragment() {
-    private val viewModel: FmhViewModel by viewModels(
+    private val viewModel: PatientViewModel by viewModels(
             ownerProducer = ::requireParentFragment
     )
 
@@ -28,23 +28,17 @@ class AddPatientFragment : DialogFragment() {
 
         binding.saveButton.setOnClickListener {
             val patient = emptyPatient.copy(
-                    lastName = binding.newPatientLastName.editText?.text.toString(),
-                    firstName = binding.newPatientName.editText?.text.toString(),
-                    middleName = binding.newPatientMiddleName.editText?.text.toString(),
-                    birthDate = binding.newPatientBirthDate.editText?.text.toString())
-            if (patient.lastName.isNotBlank() && patient.firstName.isNotBlank() && patient.middleName.isNotBlank()) {
+                    lastName = binding.setLastName.text.toString(),
+                    firstName = binding.setName.text.toString(),
+                    middleName = binding.setMiddleName.text.toString(),
+                    birthDate = binding.setBirthDate.text.toString())
                 viewModel.changePatientData(
                         patient.lastName,
                         patient.firstName,
                         patient.middleName,
                         patient.birthDate)
                 viewModel.save()
-            } else {
-                Toast.makeText(activity, R.string.toast_empty_field, Toast.LENGTH_LONG).show()
-            }
-            viewModel.patientCreated.observe(viewLifecycleOwner, {
-                dismiss()
-            })
+            patientCreatedObserver()
         }
 
         binding.cancelButton.setOnClickListener {
@@ -70,9 +64,19 @@ class AddPatientFragment : DialogFragment() {
         return binding.root
     }
 
+    private fun patientCreatedObserver() {
+        try {
+            viewModel.patientCreated.observe(viewLifecycleOwner, {
+                dismiss()
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
-        val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+        val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
         dialog?.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 }

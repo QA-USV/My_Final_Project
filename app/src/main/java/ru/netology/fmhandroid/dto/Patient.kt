@@ -8,5 +8,5 @@ data class Patient(
     var middleName: String,
     val birthDate: String,
     val deleted: Boolean,
-    var inHospice: Boolean
+    val inHospice: Boolean
 )

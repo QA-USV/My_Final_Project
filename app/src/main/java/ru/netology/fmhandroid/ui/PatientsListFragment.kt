@@ -1,4 +1,4 @@
-package ru.netology.fmhandroid
+package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +8,16 @@ import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.OnInterractionListener
 import ru.netology.fmhandroid.adapter.PatientListAdapter
 import ru.netology.fmhandroid.databinding.FragmentPatientsListBinding
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.viewmodel.FmhViewModel
+import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 
 class PatientsListFragment : Fragment() {
-    private val viewModel: FmhViewModel by viewModels(
+    private val viewModel: PatientViewModel by viewModels(
             ownerProducer = ::requireParentFragment
     )
 
@@ -52,13 +53,23 @@ class PatientsListFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         }
 
-        binding.topAppBar.setNavigationOnClickListener {
-            PopupMenu(it.context, it).apply {
+        binding.addPatient.setOnClickListener {
+            AddPatientFragment().show(parentFragmentManager, "AddPatientFragment")
+        }
+
+        binding.topAppBar.setNavigationOnClickListener { view ->
+            PopupMenu(view.context, view).apply {
                 inflate(R.menu.top_app_bar)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.add -> {
-                            AddPatientFragment().show(parentFragmentManager, "AddPatientFragment")
+                        R.id.add_patient -> {
+                            viewModel.loadPatientsList()
+                            true
+                        }
+                        R.id.in_hospice -> {
+                            true
+                        }
+                        R.id.expected -> {
                             true
                         }
                         else -> false

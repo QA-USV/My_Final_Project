@@ -6,7 +6,9 @@
     <string name="patient_name">Ivanov Ivan Ivanovich</string>
     <string name="patient_location">Yes</string>
     <string name="more">More</string>
-    <string name="add">Add patient</string>
+    <string name="all_patients">All patients</string>
+    <string name="patients_in_hospice">In hospice</string>
+    <string name="patients_expected">Expected</string>
     <string name="new_patient">New patient</string>
     <string name="new_patient_last_name">Last name</string>
     <string name="new_patient_name">Name</string>

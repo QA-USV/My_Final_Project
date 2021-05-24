@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.model.FeedModel
@@ -22,10 +23,10 @@ val emptyPatient = Patient(
         middleName = "",
         birthDate = "",
         deleted = false,
-        inHospice = true
+        inHospice = false
 )
 
-class FmhViewModel(application: Application) : AndroidViewModel(application) {
+class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
     private val patientRepository: PatientRepository =
             PatientRepositoryImp(AppDb.getInstance(context = application).patientDao())
@@ -59,19 +60,29 @@ class FmhViewModel(application: Application) : AndroidViewModel(application) {
     fun save() {
         edited.value?.let {
             viewModelScope.launch {
-                try {
-                    patientRepository.savePatient(it)
-                    _dataState.value = FeedModelState()
-                    loadPatientsList()
-                } catch (e: Exception) {
-                    _dataState.value = FeedModelState(errorSaving = true)
+                if (it.lastName.isNotBlank() && it.firstName.isNotBlank() && it.middleName.isNotBlank()) {
+                    try {
+                        patientRepository.savePatient(it)
+                        _dataState.value = FeedModelState()
+                        loadPatientsList()
+                    } catch (e: Exception) {
+//                        _dataState.value = FeedModelState(errorSaving = true)
+                    }
+                    _patientCreated.value = Unit
+                } else {
+                    Toast.makeText(getApplication(), R.string.toast_empty_field, Toast.LENGTH_LONG)
+                            .show()
                 }
             }
-            _patientCreated.value = Unit
         }
     }
 
-    fun changePatientData(lastName: String, firstName: String, middleName: String, birthDate: String) {
+    fun changePatientData(
+            lastName: String,
+            firstName: String,
+            middleName: String,
+            birthDate: String
+    ) {
         val lastNameText = lastName.trim()
         val firstNameText = firstName.trim()
         val middleNameText = middleName.trim()
@@ -84,51 +95,7 @@ class FmhViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    suspend fun getAllNotes() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun saveNote() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun updateNote() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun getNoteById() {
-        TODO("Not yet implemented")
-    }
-
     suspend fun getAllPatients() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun getAllUsers() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun saveUser() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun updateUser() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun getUserById() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun saveAdmission() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun updateAdmission() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun getAdmissionById() {
         TODO("Not yet implemented")
     }
 }

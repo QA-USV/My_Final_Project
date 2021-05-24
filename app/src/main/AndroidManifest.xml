@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.FMHAndroid">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <nav-graph android:value="@navigation/nav_main" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
