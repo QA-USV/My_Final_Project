@@ -45,5 +45,3 @@ fun Patient.toEntity(): PatientEntity = PatientEntity(
     currentAdmissionId = currentAdmissionId,
     deleted = deleted
 )
-
-
