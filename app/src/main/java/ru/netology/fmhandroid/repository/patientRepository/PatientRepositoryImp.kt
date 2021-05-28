@@ -25,7 +25,7 @@ class PatientRepositoryImp(
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(body.toEntity())
+            dao.insert(body.toListEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -34,14 +34,14 @@ class PatientRepositoryImp(
     }
 
     override suspend fun savePatient(patient: Patient) {
-        dao.insert(PatientEntity.fromDto(patient))
+        dao.insert(patient.toEntity())
         try {
             val response = PatientApi.service.savePatient(patient)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(PatientEntity.fromDto(body))
+            dao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

@@ -21,6 +21,7 @@ val emptyPatient = Patient(
         firstName = "",
         lastName = "",
         middleName = "",
+        shortPatientName = "",
         birthDate = "",
         deleted = false,
         inHospice = false

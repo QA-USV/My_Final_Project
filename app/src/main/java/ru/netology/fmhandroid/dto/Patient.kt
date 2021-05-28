@@ -6,6 +6,7 @@ data class Patient(
     var firstName: String,
     var lastName: String,
     var middleName: String,
+    val shortPatientName: String,
     val birthDate: String,
     val deleted: Boolean,
     val inHospice: Boolean

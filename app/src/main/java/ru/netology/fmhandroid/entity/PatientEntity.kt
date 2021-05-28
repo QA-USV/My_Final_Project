@@ -1,45 +1,55 @@
 package ru.netology.fmhandroid.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Patient
 
-@Entity
+@Entity(tableName = "PatientEntity")
 data class PatientEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    val roomId: Long,
-    var firstName: String,
-    var lastName: String,
-    var middleName: String,
-    val birthDate: String,
-    val deleted: Boolean,
-    val inHospice: Boolean
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "id")
+        val id: Long,
+        @ColumnInfo(name = "roomId")
+        val roomId: Long,
+        @ColumnInfo(name = "firstName")
+        val firstName: String,
+        @ColumnInfo(name = "lastName")
+        val lastName: String,
+        @ColumnInfo(name = "middleName")
+        val middleName: String,
+        @ColumnInfo(name = "shortPatientName")
+        val shortPatientName: String,
+        @ColumnInfo(name = "birthDate")
+        val birthDate: String,
+        @ColumnInfo(name = "deleted")
+        val deleted: Boolean,
+        @ColumnInfo(name = "inHospice")
+        val inHospice: Boolean,
 ) {
     fun toDto() = Patient(
+            id,
+            roomId,
+            firstName,
+            lastName,
+            middleName,
+            shortPatientName,
+            birthDate,
+            deleted,
+            inHospice
+    )
+}
+
+fun List<PatientEntity>.toDto(): List<Patient> = map(PatientEntity::toDto)
+fun List<Patient>.toListEntity(): List<PatientEntity> = map(Patient::toEntity)
+fun Patient.toEntity(): PatientEntity = PatientEntity(
         id,
         roomId,
         firstName,
         lastName,
         middleName,
+        shortPatientName,
         birthDate,
         deleted,
         inHospice
-    )
-
-    companion object {
-        fun fromDto(dto: Patient) = PatientEntity(
-            dto.id,
-            dto.roomId,
-            dto.firstName,
-            dto.lastName,
-            dto.middleName,
-            dto.birthDate,
-            dto.deleted,
-            dto.inHospice
-        )
-    }
-}
-
-fun List<PatientEntity>.toDto(): List<Patient> = map(PatientEntity::toDto)
-fun List<Patient>.toEntity(): List<PatientEntity> = map(PatientEntity::fromDto)
+)

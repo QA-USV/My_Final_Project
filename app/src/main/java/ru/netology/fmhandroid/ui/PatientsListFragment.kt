@@ -62,7 +62,7 @@ class PatientsListFragment : Fragment() {
                 inflate(R.menu.top_app_bar)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.add_patient -> {
+                        R.id.all_patients -> {
                             viewModel.loadPatientsList()
                             true
                         }

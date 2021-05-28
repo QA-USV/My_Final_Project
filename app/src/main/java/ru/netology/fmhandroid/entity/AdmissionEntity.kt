@@ -1,45 +1,47 @@
 package ru.netology.fmhandroid.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Admission
 
-@Entity
+@Entity(tableName = "AdmissionEntity")
 data class AdmissionEntity(
-        @PrimaryKey(autoGenerate = true)
+        @PrimaryKey
+        @ColumnInfo(name = "id")
         val id: Long,
-        val patientId: Long,
-        val comment: String,
+        @ColumnInfo(name = "dateIn")
         val dateIn: String,
+        @ColumnInfo(name = "dateOut")
         val dateOut: String,
+        @ColumnInfo(name = "factIn")
         val factIn: String,
+        @ColumnInfo(name = "factOut")
         val factOut: String,
-        val deleted: Boolean
+        @ColumnInfo(name = "deleted")
+        val deleted: Boolean = false,
+        @ColumnInfo(name = "patientId")
+        val patientId: Long,
 ) {
     fun toDto() = Admission(
             id,
-            patientId,
-            comment,
             dateIn,
             dateOut,
             factIn,
             factOut,
-            deleted
+            deleted,
+            patientId
     )
-
-    companion object {
-        fun fromDto(dto: Admission) = AdmissionEntity(
-                dto.id,
-                dto.patientId,
-                dto.comment,
-                dto.dateIn,
-                dto.dateOut,
-                dto.factIn,
-                dto.factOut,
-                dto.deleted
-        )
-    }
 }
 
-fun List<AdmissionEntity>.toDto(): List<Admission> = map(AdmissionEntity::toDto)
-fun List<Admission>.toEntity(): List<AdmissionEntity> = map(AdmissionEntity::fromDto)
+    fun List<AdmissionEntity>.toDto(): List<Admission> = map(AdmissionEntity::toDto)
+    fun List<Admission>.toEntity(): List<AdmissionEntity> = map(Admission::toEntity)
+    fun Admission.toEntity() = AdmissionEntity(
+            id,
+            dateIn,
+            dateOut,
+            factIn,
+            factOut,
+            deleted,
+            patientId
+    )
