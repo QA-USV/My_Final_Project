@@ -1,0 +1,63 @@
+package ru.netology.fmhandroid.entity
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import ru.netology.fmhandroid.dto.Note
+
+@Entity(tableName = "NoteEntity")
+data class NoteEntity(
+        @PrimaryKey
+        @ColumnInfo(name = "id")
+        val id: Long,
+        @ColumnInfo(name = "patientId")
+        val patientId: Long,
+        @ColumnInfo(name = "description")
+        var description: String,
+        @ColumnInfo(name = "creatorId")
+        val creatorId: Long,
+        @ColumnInfo(name = "executorId")
+        val executorId: Long,
+        @ColumnInfo(name = "createDate")
+        val createDate: String,
+        @ColumnInfo(name = "planeExecuteDate")
+        val planeExecuteDate: String,
+        @ColumnInfo(name = "factExecuteDate")
+        val factExecuteDate: String,
+        @ColumnInfo(name = "statusId")
+        val statusId: Long,
+        @ColumnInfo(name = "comment")
+        var comment: String,
+        @ColumnInfo(name = "deleted")
+        val deleted: Boolean
+) {
+    fun toDto() = Note(
+            id,
+            patientId,
+            description,
+            creatorId,
+            executorId,
+            createDate,
+            planeExecuteDate,
+            factExecuteDate,
+            statusId,
+            comment,
+            deleted
+    )
+}
+
+    fun List<NoteEntity>.toDto(): List<Note> = map(NoteEntity::toDto)
+    fun List<Note>.toEntity(): List<NoteEntity> = map(Note::toEntity)
+    fun Note.toEntity() = NoteEntity(
+            id,
+            patientId,
+            description,
+            creatorId,
+            executorId,
+            createDate,
+            planeExecuteDate,
+            factExecuteDate,
+            statusId,
+            comment,
+            deleted
+    )
