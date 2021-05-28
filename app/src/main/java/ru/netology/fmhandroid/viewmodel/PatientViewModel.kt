@@ -9,22 +9,22 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Patient
+import ru.netology.fmhandroid.dto.PatientStatusEnum
 import ru.netology.fmhandroid.model.FeedModel
 import ru.netology.fmhandroid.model.FeedModelState
+import ru.netology.fmhandroid.repository.PatientRepositoryImp
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
 val emptyPatient = Patient(
         id = 0,
-        roomId = 0,
         firstName = "",
         lastName = "",
         middleName = "",
-        shortPatientName = "",
         birthDate = "",
         deleted = false,
-        inHospice = false
+        status = PatientStatusEnum.EXPECTED
 )
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
@@ -51,7 +51,7 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
     fun loadPatientsList() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            patientRepository.getAllPatients()
+            patientRepository.getAllPatientsWithAdmissionStatus()
 //            _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(errorLoading = true)
