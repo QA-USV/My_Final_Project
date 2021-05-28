@@ -15,7 +15,7 @@ interface PatientDao {
     fun getAllPatients(): Flow<List<PatientEntity>>
 
     @Query("SELECT * FROM PatientEntity WHERE id = :id")
-    suspend fun getPatientById(id: Long): PatientEntity
+    suspend fun getPatientById(id: Int): PatientEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(patient: PatientEntity)
@@ -24,11 +24,11 @@ interface PatientDao {
     suspend fun insert(patients: List<PatientEntity>)
 
     @Query("SELECT * FROM NoteEntity WHERE patientId = :id")
-    suspend fun getNotesByPatientId(id: Long): List<NoteEntity>
+    suspend fun getNotesByPatientId(id: Int): List<NoteEntity>
 
     @Query("SELECT * FROM AdmissionEntity WHERE patientId == :id")
-    suspend fun getAdmissionsByPatientId(id: Long): List<AdmissionEntity>
+    suspend fun getAdmissionsByPatientId(id: Int): List<AdmissionEntity>
 
     @Query("UPDATE PatientEntity SET deleted = 1 WHERE id = :id")
-    suspend fun deletePatientById(id: Long)
+    suspend fun deletePatientById(id: Int)
 }

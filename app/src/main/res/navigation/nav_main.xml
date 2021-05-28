@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/patientsListFragment">
+    app:startDestination="@id/feedFragment">
 
     <fragment
         android:id="@+id/patientsListFragment"
@@ -18,5 +18,11 @@
         android:id="@+id/addPatientFragment"
         android:name="ru.netology.fmhandroid.ui.AddPatientFragment"
         android:label="AddPatientFragment" />
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="ru.netology.fmhandroid.ui.FeedFragment"
+        android:label="fragment_new_post"
+        tools:layout="@layout/fragment_feed">
+    </fragment>
 
 </navigation>

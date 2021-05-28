@@ -1,7 +1,7 @@
 package ru.netology.fmhandroid.dto
 
 data class User(
-    val id: Long,
+    val id: Int,
     var login: String,
     var password: String,
     var firstName: String,
