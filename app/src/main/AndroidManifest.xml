@@ -16,6 +16,7 @@
 
         <activity android:name=".ui.AppActivity">
             <nav-graph android:value="@navigation/nav_main" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
