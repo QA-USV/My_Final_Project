@@ -47,7 +47,7 @@ class AddPatientFragment : DialogFragment() {
             }
 
             dialog
-                    ?.setMessage(R.string.cancelation)
+                    ?.setMessage(R.string.cancellation)
                     ?.setPositiveButton(R.string.add_patient_fragment_positive_button) { dialog, int ->
                         dismiss()
                     }
