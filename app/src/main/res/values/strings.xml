@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">FMHAndroid</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="patient_data">Данные о пациенте</string>
     <string name="editing">Редактирование</string>
     <string name="room">Палата</string>
