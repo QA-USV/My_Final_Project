@@ -16,8 +16,13 @@ interface OnInterractionListener {
 class PatientListAdapter(
         private val onInterractionListener: OnInterractionListener,
 ) : ListAdapter<Patient, PatientListAdapter.PatientViewHolder>(PatientDiffCallBack()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientViewHolder {
-        val binding = PatientsListCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = PatientsListCardBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
         return PatientViewHolder(binding, onInterractionListener)
     }
