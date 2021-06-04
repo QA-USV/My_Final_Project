@@ -20,7 +20,11 @@ import ru.netology.fmhandroid.util.Utils
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
     private val patientRepository: PatientRepository =
-            PatientRepositoryImpl(AppDb.getInstance(context = application).patientDao())
+            PatientRepositoryImpl(
+                AppDb.getInstance(context = application).patientDao(),
+                AppDb.getInstance(context = application).admissionDao(),
+                AppDb.getInstance(context = application).noteDao(),
+            )
 
     val data: LiveData<PatientModel> = patientRepository.data()
             .map(::PatientModel)
