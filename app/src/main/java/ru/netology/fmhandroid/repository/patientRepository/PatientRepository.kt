@@ -7,7 +7,8 @@ import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
 
 interface PatientRepository {
-    suspend fun data() : Flow<List<Patient>>
+    fun data() : Flow<List<Patient>>
+    suspend fun getAllActivePatients() : List<Patient>
     suspend fun getAllPatientsWithAdmissionStatus(status: PatientStatusEnum) : List<Patient>
     suspend fun getPatientById(patientId: Int) : Patient
     suspend fun savePatient(patient: Patient) : Patient

@@ -8,38 +8,28 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
-import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
-import ru.netology.fmhandroid.model.FeedModel
+import ru.netology.fmhandroid.model.PatientModel
 import ru.netology.fmhandroid.model.FeedModelState
-import ru.netology.fmhandroid.repository.PatientRepositoryImp
+import ru.netology.fmhandroid.repository.PatientRepositoryImpl
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
-import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
+import ru.netology.fmhandroid.util.Utils
 
-val emptyPatient = Patient(
-        id = 0,
-        firstName = "",
-        lastName = "",
-        middleName = "",
-        birthDate = "",
-        deleted = false,
-        status = PatientStatusEnum.EXPECTED
-)
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
     private val patientRepository: PatientRepository =
-            PatientRepositoryImp(AppDb.getInstance(context = application).patientDao())
+            PatientRepositoryImpl(AppDb.getInstance(context = application).patientDao())
 
-    val data: LiveData<FeedModel> = patientRepository.data
-            .map(::FeedModel)
+    val data: LiveData<PatientModel> = patientRepository.data()
+            .map(::PatientModel)
             .asLiveData(Dispatchers.Default)
 
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
-    private val edited = MutableLiveData(emptyPatient)
+    private val edited = MutableLiveData(Utils.emptyPatient)
     private val _patientCreated = SingleLiveEvent<Unit>()
     val patientCreated: LiveData<Unit>
         get() = _patientCreated
@@ -51,8 +41,8 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
     fun loadPatientsList() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            patientRepository.getAllPatientsWithAdmissionStatus()
-//            _dataState.value = FeedModelState()
+            patientRepository.getAllPatientsWithAdmissionStatus(PatientStatusEnum.ACTIVE)
+            _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(errorLoading = true)
         }

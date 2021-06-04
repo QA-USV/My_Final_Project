@@ -1,6 +1,5 @@
 package ru.netology.fmhandroid.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.databinding.PatientsListCardBinding
 import ru.netology.fmhandroid.dto.Patient
+import ru.netology.fmhandroid.dto.PatientStatusEnum
 
 interface OnInterractionListener {
     fun onOpenCard(patient: Patient) {}
@@ -40,7 +40,7 @@ class PatientListAdapter(
         fun bind(patient: Patient) {
             binding.apply {
                 (patient.lastName + " " + patient.firstName + " " + patient.middleName).also { patientName.text = it }
-                patientLocation.text = if (patient.inHospice) "Да" else "Нет"
+                patientLocation.text = if (patient.status == PatientStatusEnum.ACTIVE) "Да" else "Нет"
                 patientName.setOnClickListener {
                     onInterractionListener.onOpenCard(patient)
                 }

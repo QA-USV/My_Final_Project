@@ -1,10 +1,13 @@
 package ru.netology.fmhandroid.api
 
+import okhttp3.OkHttpClient
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.dto.Admission
-
-private val retrofit = RetrofitBuilder().retrofit
+import java.util.concurrent.TimeUnit
 
 interface AdmissionApiService {
 
@@ -16,10 +19,21 @@ interface AdmissionApiService {
 
     @GET("patient/{id}")
     suspend fun getAdmissionById(@Path("id") id: Long): Response<Admission>
-}
 
-object AdmissionApi {
-    val service: AdmissionApiService by lazy {
-        retrofit.create(AdmissionApiService::class.java)
+    companion object {
+
+        private val okhttp = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .build()
+
+        private val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okhttp)
+            .build()
+
+        val service: PatientApi by lazy {
+            retrofit.create(PatientApi::class.java)
+        }
     }
 }

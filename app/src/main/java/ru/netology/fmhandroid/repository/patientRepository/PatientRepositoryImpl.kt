@@ -23,22 +23,25 @@ import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import java.io.IOException
 
 
-class PatientRepositoryImp(
+class PatientRepositoryImpl(
     private val patientDao: PatientDao,
     private val admissionDao: AdmissionDao,
     private val noteDao: NoteDao
 ) : PatientRepository {
 
-    override suspend fun data(): Flow<List<Patient>> =
-        makeRequest(
-            request = { PatientApi.service.getAllPatients() },
-            onSuccess = { body ->
-                patientDao.insert(body.map { it.toEntity() })
-                patientDao.getAllPatients()
-                    .map(List<PatientEntity>::toDto)
-                    .flowOn(Dispatchers.Default)
-            }
-        )
+    override fun data(): Flow<List<Patient>> =
+        patientDao.getAllPatients()
+            .map(List<PatientEntity>::toDto)
+            .flowOn(Dispatchers.Default)
+
+
+    override suspend fun getAllActivePatients(): List<Patient> = makeRequest(
+        request = { PatientApi.service.getAllActivePatients() },
+        onSuccess = { body ->
+            patientDao.insert(body.map { it.toEntity() })
+            body
+        }
+    )
 
     override suspend fun getAllPatientsWithAdmissionStatus(
         status: PatientStatusEnum

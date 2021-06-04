@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 interface PatientApi {
     @GET("patient?patients_status_list=ACTIVE")
-    suspend fun getAllPatients(): Response<List<Patient>>
+    suspend fun getAllActivePatients(): Response<List<Patient>>
 
     @GET("patient")
     suspend fun getAllPatientsWithAdmissionStatus(
