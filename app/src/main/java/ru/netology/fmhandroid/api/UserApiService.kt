@@ -4,7 +4,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.fmhandroid.dto.User
 
-private val retrofit = RetrofitBuilder().retrofit
+private val retrofit = PatientApi.rtf
 
 interface UserApiService {
     @GET("user")

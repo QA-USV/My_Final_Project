@@ -1,4 +1,4 @@
-package ru.netology.fmhandroid.repository
+package ru.netology.fmhandroid.repository.patientRepository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,9 +19,7 @@ import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
-import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import java.io.IOException
-
 
 class PatientRepositoryImp(
     private val patientDao: PatientDao,
@@ -29,16 +27,10 @@ class PatientRepositoryImp(
     private val noteDao: NoteDao
 ) : PatientRepository {
 
-    override suspend fun data(): Flow<List<Patient>> =
-        makeRequest(
-            request = { PatientApi.service.getAllPatients() },
-            onSuccess = { body ->
-                patientDao.insert(body.map { it.toEntity() })
-                patientDao.getAllPatients()
-                    .map(List<PatientEntity>::toDto)
-                    .flowOn(Dispatchers.Default)
-            }
-        )
+    override val data: Flow<List<Patient>> =
+        patientDao.getAllPatients()
+            .map(List<PatientEntity>::toDto)
+            .flowOn(Dispatchers.Default)
 
     override suspend fun getAllPatientsWithAdmissionStatus(
         status: PatientStatusEnum

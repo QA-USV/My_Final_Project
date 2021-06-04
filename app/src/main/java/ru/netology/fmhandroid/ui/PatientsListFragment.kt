@@ -13,8 +13,8 @@ import ru.netology.fmhandroid.adapter.OnInterractionListener
 import ru.netology.fmhandroid.adapter.PatientListAdapter
 import ru.netology.fmhandroid.databinding.FragmentPatientsListBinding
 import ru.netology.fmhandroid.dto.Patient
+import ru.netology.fmhandroid.dto.PatientStatusEnum
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
-
 
 class PatientsListFragment : Fragment() {
     private val viewModel: PatientViewModel by viewModels(
@@ -49,7 +49,10 @@ class PatientsListFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner
         ) { state ->
-            adapter.submitList(state.patients)
+            adapter.submitList(
+                state.dto.map {
+                    it as Patient
+                })
             binding.emptyText.isVisible = state.empty
         }
 
@@ -62,14 +65,22 @@ class PatientsListFragment : Fragment() {
                 inflate(R.menu.top_app_bar)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.all_patients -> {
-                            viewModel.loadPatientsList()
-                            true
-                        }
-                        R.id.in_hospice -> {
+                        R.id.active -> {
+                            viewModel.getAllPatientsWithAdmissionStatus(
+                                PatientStatusEnum.ACTIVE
+                            )
                             true
                         }
                         R.id.expected -> {
+                            viewModel.getAllPatientsWithAdmissionStatus(
+                                PatientStatusEnum.EXPECTED
+                            )
+                            true
+                        }
+                        R.id.discharged -> {
+                            viewModel.getAllPatientsWithAdmissionStatus(
+                                PatientStatusEnum.DISCHARGED
+                            )
                             true
                         }
                         else -> false

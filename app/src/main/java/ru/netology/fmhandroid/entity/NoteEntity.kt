@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.NoteStatusEnum
 
 @Entity(tableName = "NoteEntity")
 data class NoteEntity(
@@ -26,6 +27,8 @@ data class NoteEntity(
     val factExecuteDate: String,
     @ColumnInfo(name = "statusId")
     val statusId: Int,
+    @ColumnInfo(name = "status")
+    val status: NoteStatusEnum,
     @ColumnInfo(name = "comment")
     var comment: String,
     @ColumnInfo(name = "deleted")
@@ -41,6 +44,7 @@ data class NoteEntity(
         planeExecuteDate = planeExecuteDate,
         factExecuteDate = factExecuteDate,
         statusId = statusId,
+        status = status,
         comment = comment,
         deleted = deleted
     )
@@ -58,6 +62,7 @@ fun Note.toEntity() = NoteEntity(
     planeExecuteDate = planeExecuteDate,
     factExecuteDate = factExecuteDate,
     statusId = statusId,
+    status = status,
     comment = comment,
     deleted = deleted
 )

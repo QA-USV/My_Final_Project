@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/all_patients"
-        android:title="@string/all_patients"/>
-
-    <item
-        android:id="@+id/in_hospice"
-        android:title="@string/patients_in_hospice"/>
+        android:id="@+id/active"
+        android:title="@string/patients_status_active"/>
 
     <item
         android:id="@+id/expected"
-        android:title="@string/patients_expected"/>
+        android:title="@string/patients_status_expected"/>
+
+    <item
+        android:id="@+id/discharged"
+        android:title="@string/patients_status_discharged"/>
 </menu>

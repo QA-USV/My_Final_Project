@@ -25,8 +25,7 @@ data class PatientEntity(
     val deleted: Boolean,
     @ColumnInfo(name = "status")
     val status: PatientStatusEnum,
-
-    ) {
+) {
     fun toDto() = Patient(
         id = id,
         firstName = firstName,

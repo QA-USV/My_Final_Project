@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="33dp"
-        android:text="@string/patient_location"
+        android:text="@string/patients_status_active"
         android:textAppearance="@style/patientsListLocationStyle"
         android:lineSpacingExtra="4sp"
         android:gravity="center_vertical"

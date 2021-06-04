@@ -49,6 +49,9 @@ interface PatientApi {
             .client(okhttp)
             .build()
 
+        val rtf: Retrofit
+            get() = retrofit
+
         val service: PatientApi by lazy {
             retrofit.create(PatientApi::class.java)
         }
