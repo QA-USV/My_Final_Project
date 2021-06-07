@@ -8,7 +8,7 @@ import ru.netology.fmhandroid.dto.PatientStatusEnum
 
 @Entity(tableName = "PatientEntity")
 data class PatientEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "firstName")
