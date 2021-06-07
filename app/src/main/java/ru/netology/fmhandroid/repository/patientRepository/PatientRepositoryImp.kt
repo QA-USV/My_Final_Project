@@ -50,13 +50,17 @@ class PatientRepositoryImp(
         }
     )
 
-    override suspend fun savePatient(patient: Patient): Patient = makeRequest(
-        request = { PatientApi.service.savePatient(patient) },
-        onSuccess = { body ->
-            patientDao.insert(body.toEntity())
-            body
-        }
-    )
+    override suspend fun savePatient(patient: Patient): Patient {
+        patientDao.insert(patient.toEntity())
+        return makeRequest(
+            request = { PatientApi.service.savePatient(patient) },
+            onSuccess = { body ->
+                patientDao.insert(body.toEntity())
+                body
+            }
+        )
+    }
+
 
     override suspend fun editPatient(patient: Patient): Patient = makeRequest(
         request = { PatientApi.service.updatePatient(patient) },

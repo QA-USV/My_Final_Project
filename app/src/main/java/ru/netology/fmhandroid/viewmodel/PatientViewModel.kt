@@ -52,8 +52,9 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         loadPatientsList()
     }
 
-    fun loadPatientsList() = viewModelScope.launch {
-        edited.value?.let {
+    fun loadPatientsList() {
+        val it = edited.value ?: return
+        viewModelScope.launch {
             try {
                 _dataState.value = FeedModelState(loading = true)
                 patientRepository.getAllPatientsWithAdmissionStatus(it.status)
@@ -77,22 +78,16 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         }
 
     fun save() {
-        edited.value?.let {
-            viewModelScope.launch {
-                if (it.lastName.isNotBlank() && it.firstName.isNotBlank() && it.middleName.isNotBlank()) {
-                    try {
-                        patientRepository.savePatient(it)
-                        _dataState.value = FeedModelState()
-                        loadPatientsList()
-                    } catch (e: Exception) {
+        val it = edited.value ?: return
+        viewModelScope.launch {
+            try {
+                patientRepository.savePatient(it)
+                _dataState.value = FeedModelState()
+                loadPatientsList()
+            } catch (e: Exception) {
 //                        _dataState.value = FeedModelState(errorSaving = true)
-                    }
-                    _patientCreated.value = Unit
-                } else {
-                    Toast.makeText(getApplication(), R.string.toast_empty_field, Toast.LENGTH_LONG)
-                        .show()
-                }
             }
+            _patientCreated.value = Unit
         }
     }
 

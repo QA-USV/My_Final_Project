@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -16,28 +17,37 @@ import ru.netology.fmhandroid.viewmodel.emptyPatient
 
 class AddPatientFragment : DialogFragment() {
     private val viewModel: PatientViewModel by viewModels(
-            ownerProducer = ::requireParentFragment
+        ownerProducer = ::requireParentFragment
     )
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
         val binding = AddPatientCardBinding.inflate(inflater, container, false)
 
         binding.saveButton.setOnClickListener {
             val patient = emptyPatient.copy(
-                    lastName = binding.setLastName.text.toString(),
-                    firstName = binding.setName.text.toString(),
-                    middleName = binding.setMiddleName.text.toString(),
-                    birthDate = binding.setBirthDate.text.toString())
-                viewModel.changePatientData(
-                        patient.lastName,
-                        patient.firstName,
-                        patient.middleName,
-                        patient.birthDate)
+                lastName = binding.setLastName.text.toString(),
+                firstName = binding.setName.text.toString(),
+                middleName = binding.setMiddleName.text.toString(),
+                birthDate = binding.setBirthDate.text.toString()
+            )
+            viewModel.changePatientData(
+                patient.lastName,
+                patient.firstName,
+                patient.middleName,
+                patient.birthDate
+            )
+            if (patient.lastName.isNotBlank() &&
+                patient.firstName.isNotBlank() &&
+                patient.middleName.isNotBlank()
+            ) {
                 viewModel.save()
+            } else {
+                Toast.makeText(activity, R.string.toast_empty_field, Toast.LENGTH_LONG).show()
+            }
             patientCreatedObserver()
         }
 
@@ -47,15 +57,15 @@ class AddPatientFragment : DialogFragment() {
             }
 
             dialog
-                    ?.setMessage(R.string.cancellation)
-                    ?.setPositiveButton(R.string.add_patient_fragment_positive_button) { dialog, int ->
-                        dismiss()
-                    }
-                    ?.setNegativeButton(R.string.add_patient_fragment_negative_button) { dialog, int ->
-                        isCancelable
-                    }
-                    ?.create()
-                    ?.show()
+                ?.setMessage(R.string.cancellation)
+                ?.setPositiveButton(R.string.add_patient_fragment_positive_button) { dialog, int ->
+                    dismiss()
+                }
+                ?.setNegativeButton(R.string.add_patient_fragment_negative_button) { dialog, int ->
+                    isCancelable
+                }
+                ?.create()
+                ?.show()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().popBackStack()

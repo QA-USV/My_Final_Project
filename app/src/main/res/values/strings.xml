@@ -5,6 +5,7 @@
     <string name="FLN">FLN</string>
     <string name="status">Status</string>
     <string name="patient_name">Ivanov Ivan Ivanovich</string>
+    <string name="patient_full_name_format">%s %s %s</string>
     <string name="more">More</string>
     <string name="all_patients">All patients</string>
     <string name="patients_status_active">In hospice</string>

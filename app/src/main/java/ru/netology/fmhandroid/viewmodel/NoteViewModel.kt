@@ -61,17 +61,16 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun save() {
-        edited.value?.let {
-            viewModelScope.launch {
-                try {
-                    noteRepository.saveNote(it)
-                    _dataState.value = FeedModelState()
-                    loadNotesList()
-                } catch (e: Exception) {
+        val it = edited.value ?: return
+        viewModelScope.launch {
+            try {
+                noteRepository.saveNote(it)
+                _dataState.value = FeedModelState()
+                loadNotesList()
+            } catch (e: Exception) {
 //                        _dataState.value = FeedModelState(errorSaving = true)
-                }
-                _noteCreated.value = Unit
             }
+            _noteCreated.value = Unit
         }
     }
 
@@ -90,30 +89,24 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveNoteCommentById() {
-        edited.value?.let {
-            viewModelScope.launch {
-                try {
-                    noteRepository.saveNoteCommentById(it.id, it.comment)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+        val it = edited.value ?: return
+        viewModelScope.launch {
+            try {
+                noteRepository.saveNoteCommentById(it.id, it.comment)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
 
     fun setNoteStatusById() {
-        edited.value?.let {
-            viewModelScope.launch {
-                try {
-                    noteRepository.setNoteStatusById(it.id, it.status)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+        val it = edited.value ?: return
+        viewModelScope.launch {
+            try {
+                noteRepository.setNoteStatusById(it.id, it.status)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-    }
-
-    fun changeNoteData() {
-        TODO("Not yet implemented")
     }
 }

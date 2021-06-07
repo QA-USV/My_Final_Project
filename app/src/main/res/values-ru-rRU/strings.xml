@@ -6,6 +6,7 @@
     <string name="FLN">ФИО</string>
     <string name="status">Статус</string>
     <string name="patient_name">Иванов Иван Иванович</string>
+    <string name="patient_full_name_format">%s %s %s</string>
     <string name="more">Еще</string>
     <string name="all_patients">Все пациенты</string>
     <string name="patients_status_active">В хосписе</string>

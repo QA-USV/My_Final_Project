@@ -1,19 +1,15 @@
 package ru.netology.fmhandroid.api
 
-import okhttp3.OkHttpClient
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import ru.netology.fmhandroid.BuildConfig.BASE_URL
+import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.rtf
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
-import java.util.concurrent.TimeUnit
 
 
-interface PatientApi {
+interface PatientApiService {
     @GET("patient?patients_status_list=ACTIVE")
     suspend fun getAllPatients(): Response<List<Patient>>
 
@@ -36,24 +32,10 @@ interface PatientApi {
 
     @PATCH("patient/update")
     suspend fun updatePatient(@Body patient: Patient): Response<Patient>
+}
 
-    companion object {
-
-        private val okhttp = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .build()
-
-        private val retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
-            .client(okhttp)
-            .build()
-
-        val rtf: Retrofit
-            get() = retrofit
-
-        val service: PatientApi by lazy {
-            retrofit.create(PatientApi::class.java)
-        }
+object PatientApi {
+    val service: PatientApiService by lazy {
+        rtf.create(PatientApiService::class.java)
     }
 }

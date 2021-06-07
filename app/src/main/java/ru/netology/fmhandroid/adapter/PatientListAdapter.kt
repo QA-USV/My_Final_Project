@@ -15,10 +15,11 @@ interface OnInterractionListener {
 }
 
 class PatientListAdapter(
-        private val onInterractionListener: OnInterractionListener,
+    private val onInterractionListener: OnInterractionListener,
 ) : ListAdapter<Patient, PatientListAdapter.PatientViewHolder>(PatientDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientViewHolder {
-        val binding = PatientsListCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            PatientsListCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return PatientViewHolder(binding, onInterractionListener)
     }
@@ -30,38 +31,35 @@ class PatientListAdapter(
     }
 
     class PatientViewHolder(
-            private val binding: PatientsListCardBinding,
-            private val onInterractionListener: OnInterractionListener,
+        private val binding: PatientsListCardBinding,
+        private val onInterractionListener: OnInterractionListener,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(patient: Patient) {
-            binding.apply {
-                (patient.lastName + " " + patient.firstName + " " + patient.middleName).also { patientName.text = it }
-                patientLocation.text =
-                    when (patient.status) {
-                        PatientStatusEnum.ACTIVE -> {
-                            itemView.context.getString(R.string.patients_status_active)
-                        }
-                        PatientStatusEnum.EXPECTED -> {
-                            itemView.context.getString(R.string.patients_status_expected)
-                        }
-                        PatientStatusEnum.DISCHARGED -> {
-                            itemView.context.getString(R.string.patients_status_discharged)
-                        }
-                    }
-                patientName.setOnClickListener {
-                    onInterractionListener.onOpenCard(patient)
-                }
+        fun bind(patient: Patient) = with(binding) {
+            patientName.text = itemView.resources.getString(
+                R.string.patient_full_name_format,
+                patient.lastName, patient.firstName, patient.middleName
+            )
+
+            val patientStatusResId = when (patient.status) {
+                PatientStatusEnum.ACTIVE -> R.string.patients_status_active
+                PatientStatusEnum.EXPECTED -> R.string.patients_status_expected
+                PatientStatusEnum.DISCHARGED -> R.string.patients_status_discharged
+            }
+            patientStatus.text = itemView.context.getString(patientStatusResId)
+
+            patientName.setOnClickListener {
+                onInterractionListener.onOpenCard(patient)
             }
         }
     }
+}
 
-    class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
-        override fun areItemsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-            return oldItem == newItem
-        }
+class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
+    override fun areItemsTheSame(oldItem: Patient, newItem: Patient): Boolean {
+        return oldItem == newItem
+    }
 
-        override fun areContentsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-            return oldItem == newItem
-        }
+    override fun areContentsTheSame(oldItem: Patient, newItem: Patient): Boolean {
+        return oldItem == newItem
     }
 }
