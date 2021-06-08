@@ -13,22 +13,22 @@ import ru.netology.fmhandroid.model.PatientModel
 import ru.netology.fmhandroid.model.FeedModelState
 import ru.netology.fmhandroid.repository.PatientRepositoryImpl
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
-import ru.netology.fmhandroid.util.SingleLiveEvent
-import ru.netology.fmhandroid.util.Utils
+import ru.netology.fmhandroid.utils.SingleLiveEvent
+import ru.netology.fmhandroid.utils.Utils
 
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
     private val patientRepository: PatientRepository =
-            PatientRepositoryImpl(
-                AppDb.getInstance(context = application).patientDao(),
-                AppDb.getInstance(context = application).admissionDao(),
-                AppDb.getInstance(context = application).noteDao(),
-            )
+        PatientRepositoryImpl(
+            AppDb.getInstance(context = application).patientDao(),
+            AppDb.getInstance(context = application).admissionDao(),
+            AppDb.getInstance(context = application).noteDao(),
+        )
 
     val data: LiveData<PatientModel> = patientRepository.data()
-            .map(::PatientModel)
-            .asLiveData(Dispatchers.Default)
+        .map(::PatientModel)
+        .asLiveData(Dispatchers.Default)
 
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
@@ -61,32 +61,35 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
                         _dataState.value = FeedModelState()
                         loadPatientsList()
                     } catch (e: Exception) {
-//                        _dataState.value = FeedModelState(errorSaving = true)
+                        _dataState.value = FeedModelState(errorSaving = true)
                     }
                     _patientCreated.value = Unit
                 } else {
                     Toast.makeText(getApplication(), R.string.toast_empty_field, Toast.LENGTH_LONG)
-                            .show()
+                        .show()
                 }
             }
         }
     }
 
     fun changePatientData(
-            lastName: String,
-            firstName: String,
-            middleName: String,
-            birthDate: String
+        lastName: String,
+        firstName: String,
+        middleName: String,
+        birthDate: String
     ) {
         val lastNameText = lastName.trim()
         val firstNameText = firstName.trim()
         val middleNameText = middleName.trim()
         val birthDateText = birthDate.trim()
+        val shortPatientName =
+            "${lastName.trim()} ${firstNameText.first()}.${middleNameText.first()}."
         edited.value = edited.value?.copy(
-                lastName = lastNameText,
-                firstName = firstNameText,
-                middleName = middleNameText,
-                birthDate = birthDateText
+            lastName = lastNameText,
+            firstName = firstNameText,
+            middleName = middleNameText,
+            birthDate = birthDateText,
+            shortPatientName = shortPatientName
         )
     }
 

@@ -29,6 +29,6 @@ interface PatientDao {
     @Query("SELECT * FROM AdmissionEntity WHERE patientId == :id")
     suspend fun getAdmissionsByPatientId(id: Int): List<AdmissionEntity>
 
-    @Query("UPDATE PatientEntity SET deleted = 1 WHERE id = :id")
+    @Query("DELETE FROM PatientEntity WHERE id = :id")
     suspend fun deletePatientById(id: Int)
 }

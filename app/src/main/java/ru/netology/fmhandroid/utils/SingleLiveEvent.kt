@@ -1,4 +1,4 @@
-package ru.netology.fmhandroid.util
+package ru.netology.fmhandroid.utils
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData

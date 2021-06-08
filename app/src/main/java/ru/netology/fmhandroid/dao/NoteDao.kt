@@ -7,8 +7,8 @@ import ru.netology.fmhandroid.entity.NoteEntity
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM NoteEntity WHERE patientId = :id ORDER BY id DESC")
-    fun getAllNotesByPatientId(id: Int): Flow<List<NoteEntity>>
+    @Query("SELECT * FROM NoteEntity ORDER BY id DESC")
+    fun getAllNotes(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM NoteEntity WHERE id = :id")
     suspend fun getNoteById(id: Int): NoteEntity

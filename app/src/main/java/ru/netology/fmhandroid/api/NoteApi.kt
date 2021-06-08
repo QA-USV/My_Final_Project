@@ -9,7 +9,7 @@ import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.dto.Note
 import java.util.concurrent.TimeUnit
 
-interface NoteApiService {
+interface NoteApi {
     @GET("note")
     suspend fun getAllNotes(): Response<List<Note>>
 

@@ -1,10 +1,12 @@
 package ru.netology.fmhandroid.api
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.BuildConfig.BASE_URL
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
@@ -39,8 +41,15 @@ interface PatientApi {
 
     companion object {
 
+        private val logging = HttpLoggingInterceptor().apply {
+            if (BuildConfig.DEBUG) {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+        }
+
         private val okhttp = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(logging)
             .build()
 
         private val retrofit = Retrofit.Builder()

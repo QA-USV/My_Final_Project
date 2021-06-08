@@ -40,7 +40,7 @@ class PatientListAdapter(
         fun bind(patient: Patient) {
             binding.apply {
                 (patient.lastName + " " + patient.firstName + " " + patient.middleName).also { patientName.text = it }
-                patientLocation.text = if (patient.status == PatientStatusEnum.ACTIVE) "Да" else "Нет"
+//                patientLocation.text = if (patient.status == PatientStatusEnum.ACTIVE) "Да" else "Нет"
                 patientName.setOnClickListener {
                     onInterractionListener.onOpenCard(patient)
                 }
