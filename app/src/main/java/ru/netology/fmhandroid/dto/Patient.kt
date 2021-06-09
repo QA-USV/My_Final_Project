@@ -1,21 +1,14 @@
 package ru.netology.fmhandroid.dto
 
-import com.google.gson.annotations.SerializedName
-
 data class Patient(
     val id: Int,
-    @SerializedName("firstName")
     var firstName: String,
-    @SerializedName("lastName")
     var lastName: String,
-    @SerializedName("middleName")
     var middleName: String,
-    @SerializedName("birthDate")
     val birthDate: String,
-//    val currentAdmissionId: Int,
-//    val deleted: Boolean = false,
-//    val status: PatientStatusEnum,
-    @SerializedName("shortPatientName")
+    val currentAdmissionId: Int? = null,
+    val deleted: Boolean = false,
+    val status: PatientStatusEnum? = null,
     val shortPatientName: String
 )
 

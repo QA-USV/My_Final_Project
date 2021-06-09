@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.NoteStatus
 
 @Entity(tableName = "NoteEntity")
 data class NoteEntity(
@@ -11,25 +12,25 @@ data class NoteEntity(
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "patientId")
-    val patientId: Int,
+    val patientId: Int? = null,
     @ColumnInfo(name = "description")
     var description: String,
     @ColumnInfo(name = "creatorId")
-    val creatorId: Int,
+    val creatorId: Int? = null,
     @ColumnInfo(name = "executorId")
-    val executorId: Int,
+    val executorId: Int? = null,
     @ColumnInfo(name = "createDate")
-    val createDate: String,
+    val createDate: String? = null,
     @ColumnInfo(name = "planeExecuteDate")
     val planeExecuteDate: String,
     @ColumnInfo(name = "factExecuteDate")
     val factExecuteDate: String,
     @ColumnInfo(name = "statusId")
-    val statusId: Int,
+    val noteStatus: NoteStatus? = null,
     @ColumnInfo(name = "comment")
-    var comment: String,
+    var comment: String? = null,
     @ColumnInfo(name = "deleted")
-    val deleted: Boolean
+    val deleted: Boolean = false
 ) {
     fun toDto() = Note(
         id = id,
@@ -40,7 +41,7 @@ data class NoteEntity(
         createDate = createDate,
         planeExecuteDate = planeExecuteDate,
         factExecuteDate = factExecuteDate,
-        statusId = statusId,
+        noteStatus = noteStatus,
         comment = comment,
         deleted = deleted
     )
@@ -57,7 +58,7 @@ fun Note.toEntity() = NoteEntity(
     createDate = createDate,
     planeExecuteDate = planeExecuteDate,
     factExecuteDate = factExecuteDate,
-    statusId = statusId,
+    noteStatus = noteStatus,
     comment = comment,
     deleted = deleted
 )
