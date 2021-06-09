@@ -13,3 +13,9 @@ data class Note(
     var comment: String,
     val deleted: Boolean
 )
+
+enum class NoteStatus {
+    ACTIVE,
+    CANCELED,
+    EXECUTED
+}
