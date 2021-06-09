@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="@dimen/elevation_patient_card"
+    android:layout_margin="@dimen/padding_between_elements"
+    android:id="@+id/note_card_item_for_list">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_between_elements">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/note_card_item_for_list_priority_indicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/note_card_item_for_list_expand_menu"
+            app:shapeAppearanceOverlay="@style/circleImageView" />
+
+        <ImageButton
+            android:id="@+id/note_card_item_for_list_expand_menu"
+            style="@style/AppNormalButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/menu_button"
+            android:src="@drawable/ic_baseline_menu_open_24"
+            app:iconTint="@color/colorMediumGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_between_elements"
+            android:layout_marginEnd="@dimen/padding_between_elements"
+            android:minHeight="24dp"
+            android:autoLink="web"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@+id/note_card_item_for_list_expand_menu"
+            app:layout_constraintStart_toEndOf="@+id/note_card_item_for_list_priority_indicator"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@sample/posts.json/data/description" />
+
+        <ImageView
+            android:id="@+id/line_divider"
+            android:layout_width="360dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="#14000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_description"
+            android:contentDescription="@string/line_divider" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_patient_name_label"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/padding_between_elements"
+            android:text="@string/note_patient_label"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_divider" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_patient_name"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_patient_name_label"
+            app:layout_constraintTop_toBottomOf="@id/note_card_item_for_list_patient_name_label"
+            tools:text="@sample/posts.json/data/patient" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_executor_name_label"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/note_executor_label"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_divider" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_executor_name"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_executor_name_label"
+            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_executor_name_label"
+            tools:text="@sample/posts.json/data/executor" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_plan_date_label"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:layout_marginStart="@dimen/padding_between_elements"
+            android:text="@string/note_plan_date_label"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_executor_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_plan_date"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_plan_date_label"
+            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_plan_date_label"
+            tools:text="@sample/posts.json/data/edited" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_fact_date_label"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/note_fact_date_label"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_executor_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note_card_item_for_list_fact_date"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/empty_fact_date"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_fact_date_label"
+            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_fact_date_label" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

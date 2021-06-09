@@ -42,4 +42,11 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="admission">Admission</string>
+    <string name="menu_button" translatable="false">Menu Button</string>
+    <string name="line_divider">Divider Line</string>
+    <string name="note_patient_label" translatable="false">Patient:</string>
+    <string name="note_executor_label" translatable="false">Executor:</string>
+    <string name="note_plan_date_label" translatable="false">Plan date:</string>
+    <string name="note_fact_date_label" translatable="false">Fact date:</string>
+    <string name="empty_fact_date" translatable="false">Not yet accepted for work</string>
 </resources>

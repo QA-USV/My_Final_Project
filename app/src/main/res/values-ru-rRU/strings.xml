@@ -42,4 +42,11 @@
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
     <string name="admission">Госпитализация</string>
+    <string name="menu_button" translatable="false">Кнопка Меню</string>
+    <string name="line_divider">Разделительная линия</string>
+    <string name="note_patient_label" translatable="false">Пациент:</string>
+    <string name="note_executor_label" translatable="false">Исполнитель:</string>
+    <string name="note_plan_date_label" translatable="false">Плановая дата:</string>
+    <string name="note_fact_date_label" translatable="false">Фактическая дата:</string>
+    <string name="empty_fact_date" translatable="false">Не взята в работу</string>
 </resources>

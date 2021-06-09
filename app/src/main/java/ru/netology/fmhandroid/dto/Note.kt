@@ -11,5 +11,5 @@ data class Note(
     val factExecuteDate: String,
     val statusId: Int,
     var comment: String,
-    val deleted: Boolean
+    val deleted: Boolean = false
 )
