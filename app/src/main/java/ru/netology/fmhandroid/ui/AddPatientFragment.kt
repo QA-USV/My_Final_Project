@@ -50,6 +50,7 @@ class AddPatientFragment : DialogFragment() {
                     ?.setMessage(R.string.cancellation)
                     ?.setPositiveButton(R.string.add_patient_fragment_positive_button) { dialog, int ->
                         dismiss()
+                        findNavController().navigateUp()
                     }
                     ?.setNegativeButton(R.string.add_patient_fragment_negative_button) { dialog, int ->
                         isCancelable
@@ -68,6 +69,7 @@ class AddPatientFragment : DialogFragment() {
         try {
             viewModel.patientCreated.observe(viewLifecycleOwner, {
                 dismiss()
+                findNavController().navigateUp()
             })
         } catch (e: Exception) {
             e.printStackTrace()

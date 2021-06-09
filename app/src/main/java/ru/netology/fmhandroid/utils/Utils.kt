@@ -11,9 +11,9 @@ class Utils {
             lastName = "",
             middleName = "",
             birthDate = "",
-//            currentAdmissionId = 0,
-//            deleted = false,
-//            status = PatientStatusEnum.EXPECTED,
+            currentAdmissionId = 0,
+            deleted = false,
+            status = PatientStatusEnum.EXPECTED,
             shortPatientName = ""
         )
     }
