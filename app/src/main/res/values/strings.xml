@@ -42,4 +42,5 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="admission">Admission</string>
+    <string name="helper_text_date">In format: YYYY-MM-DD</string>
 </resources>

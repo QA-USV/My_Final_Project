@@ -126,12 +126,17 @@
         android:textAppearance="@style/new_patient_name_style"
         android:lineSpacingExtra="5sp"
         android:gravity="center_vertical"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperTextEnabled="true"
+        app:helperText="@string/helper_text_date"
+        >
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/set_birth_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_patient_birth_date"
+            android:inputType="date"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
