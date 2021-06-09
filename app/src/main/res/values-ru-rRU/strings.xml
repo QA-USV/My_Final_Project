@@ -49,4 +49,8 @@
     <string name="note_plan_date_label" translatable="false">Плановая дата:</string>
     <string name="note_fact_date_label" translatable="false">Фактическая дата:</string>
     <string name="empty_fact_date" translatable="false">Не взята в работу</string>
+    <string name="patient_status_active" translatable="false">В хосписе</string>
+    <string name="patient_status_expected" translatable="false">Ожидание</string>
+    <string name="patient_status_discharged" translatable="false">Выписан</string>
+
 </resources>

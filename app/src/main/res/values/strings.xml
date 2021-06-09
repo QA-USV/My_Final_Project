@@ -49,4 +49,7 @@
     <string name="note_plan_date_label" translatable="false">Plan date:</string>
     <string name="note_fact_date_label" translatable="false">Fact date:</string>
     <string name="empty_fact_date" translatable="false">Not yet accepted for work</string>
+    <string name="patient_status_active" translatable="false">In hospice</string>
+    <string name="patient_status_expected" translatable="false">Expected</string>
+    <string name="patient_status_discharged" translatable="false">Discharged</string>
 </resources>
