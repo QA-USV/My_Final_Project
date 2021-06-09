@@ -12,9 +12,9 @@ data class Patient(
     var middleName: String,
     @SerializedName("birthDate")
     val birthDate: String,
-//    val currentAdmissionId: Int,
-//    val deleted: Boolean = false,
-//    val status: PatientStatusEnum,
+    val currentAdmissionId: Int? = null,
+    val deleted: Boolean = false,
+    val status: PatientStatusEnum? = null,
     @SerializedName("shortPatientName")
     val shortPatientName: String
 )
