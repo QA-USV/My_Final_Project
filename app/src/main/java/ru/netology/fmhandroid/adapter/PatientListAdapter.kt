@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.PatientsListCardBinding
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
@@ -40,12 +41,20 @@ class PatientListAdapter(
         fun bind(patient: Patient) {
             binding.apply {
                 (patient.lastName + " " + patient.firstName + " " + patient.middleName).also { patientName.text = it }
-//                patientLocation.text = if (patient.status == PatientStatusEnum.ACTIVE) "Да" else "Нет"
+                patientLocation.text = selectionOfPatientStatus(patient).toString()
                 patientName.setOnClickListener {
                     onInterractionListener.onOpenCard(patient)
                 }
             }
         }
+
+        private fun selectionOfPatientStatus(patient: Patient) =
+            when (patient.status) {
+                PatientStatusEnum.ACTIVE -> R.string.patient_status_active
+                PatientStatusEnum.EXPECTED -> R.string.patient_status_expected
+                PatientStatusEnum.DISCHARGED -> R.string.patient_status_discharged
+                null -> "-"
+            }
     }
 
     class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
