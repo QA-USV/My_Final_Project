@@ -1,12 +1,17 @@
 package ru.netology.fmhandroid.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.NoteCardItemForListBinding
+import ru.netology.fmhandroid.domain.BusinessRules
 import ru.netology.fmhandroid.dto.Note
+import java.time.LocalDateTime
 
 interface OnNoteItemClickListener {
     fun onCard(note: Note) {}
@@ -35,13 +40,15 @@ class NoteListAdapter(
         private val binding: NoteCardItemForListBinding,
         private val onNoteItemClickListener: OnNoteItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(note: Note) {
 
             binding.apply {
-                when(note.priorityStatus) {
+                val executionPriority = BusinessRules.determiningPriorityLevelOfNote(LocalDateTime.now(), note.planeExecuteDate)
+                when(note.executionPriority) {
                     Status.RED -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
                     Status.YELLOW -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.yellow)
-                    Status.GREEN -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.light_green)
+                    Status.GREEN -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.green)
                 }
                 noteCardItemForListPatientName.text = note.shortPatientName
                 noteCardItemForListExecutorName.text = note.shortExecutorName

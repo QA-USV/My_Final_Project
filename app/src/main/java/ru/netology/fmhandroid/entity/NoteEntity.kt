@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.NoteStatus
+import ru.netology.fmhandroid.enum.ExecutionPriority
 
 @Entity(tableName = "NoteEntity")
 data class NoteEntity(
@@ -25,12 +26,18 @@ data class NoteEntity(
     val planeExecuteDate: String,
     @ColumnInfo(name = "factExecuteDate")
     val factExecuteDate: String,
+    @ColumnInfo(name = "executionPriority")
+    val executionPriority: ExecutionPriority,
     @ColumnInfo(name = "statusId")
     val noteStatus: NoteStatus? = null,
     @ColumnInfo(name = "comment")
     var comment: String? = null,
     @ColumnInfo(name = "deleted")
-    val deleted: Boolean = false
+    val deleted: Boolean = false,
+    @ColumnInfo(name = "shortExecutorName")
+    val shortExecutorName: String,
+    @ColumnInfo(name = "shortPatientName")
+    val shortPatientName: String
 ) {
     fun toDto() = Note(
         id = id,
@@ -41,9 +48,12 @@ data class NoteEntity(
         createDate = createDate,
         planeExecuteDate = planeExecuteDate,
         factExecuteDate = factExecuteDate,
+        executionPriority = executionPriority,
         noteStatus = noteStatus,
         comment = comment,
-        deleted = deleted
+        deleted = deleted,
+        shortExecutorName = shortExecutorName,
+        shortPatientName = shortPatientName
     )
 }
 
@@ -58,7 +68,10 @@ fun Note.toEntity() = NoteEntity(
     createDate = createDate,
     planeExecuteDate = planeExecuteDate,
     factExecuteDate = factExecuteDate,
+    executionPriority = executionPriority,
     noteStatus = noteStatus,
     comment = comment,
-    deleted = deleted
+    deleted = deleted,
+    shortExecutorName = shortExecutorName,
+    shortPatientName = shortPatientName
 )

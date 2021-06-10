@@ -1,5 +1,7 @@
 package ru.netology.fmhandroid.dto
 
+import ru.netology.fmhandroid.enum.ExecutionPriority
+
 data class Note(
     val id: Int,
     val patientId: Int? = null,
@@ -9,9 +11,12 @@ data class Note(
     val createDate: String? = null,
     val planeExecuteDate: String,
     val factExecuteDate: String,
+    val executionPriority: ExecutionPriority,
     val noteStatus: NoteStatus? = null,
     var comment: String? = null,
-    val deleted: Boolean = false
+    val deleted: Boolean = false,
+    val shortExecutorName: String,
+    val shortPatientName: String
 )
 
 enum class NoteStatus {
