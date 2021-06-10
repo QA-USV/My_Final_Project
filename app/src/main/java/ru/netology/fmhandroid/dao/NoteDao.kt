@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.entity.NoteEntity
+import java.time.LocalDateTime
 
 @Dao
 interface NoteDao {
@@ -22,3 +23,12 @@ interface NoteDao {
     @Query("UPDATE NoteEntity Set deleted = 1 WHERE id = :id")
     suspend fun deleteNoteById(id: Int)
 }
+
+class Converters {
+    @TypeConverter
+    fun toAttachmentType(value: String) = LocalDateTime(value)
+
+    @TypeConverter
+    fun fromAttachment(value: AttachmentType) = value.name
+}
+

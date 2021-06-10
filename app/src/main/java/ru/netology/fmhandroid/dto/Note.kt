@@ -1,6 +1,6 @@
 package ru.netology.fmhandroid.dto
 
-import ru.netology.fmhandroid.enum.ExecutionPriority
+import java.time.LocalDateTime
 
 data class Note(
     val id: Int,
@@ -9,9 +9,8 @@ data class Note(
     val creatorId: Int? = null,
     val executorId: Int? = null,
     val createDate: String? = null,
-    val planeExecuteDate: String,
-    val factExecuteDate: String,
-    val executionPriority: ExecutionPriority,
+    val planeExecuteDate: LocalDateTime,
+    val factExecuteDate: LocalDateTime? = null,
     val noteStatus: NoteStatus? = null,
     var comment: String? = null,
     val deleted: Boolean = false,

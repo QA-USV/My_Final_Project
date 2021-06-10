@@ -14,14 +14,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="to List ofPatient Fragment"
-        />
+        android:text="to List ofPatient Fragment" />
 
     <Button
     android:id="@+id/toAddPAtientFragmentButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:text="to Add Patient Fragment"/>
+    android:text="to Add Patient Fragment" />
+
+    <Button
+        android:id="@+id/toListOfNotesFragmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="to List of Notes Fragment" />
 
 </LinearLayout>

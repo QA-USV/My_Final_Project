@@ -11,6 +11,7 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.NoteCardItemForListBinding
 import ru.netology.fmhandroid.domain.BusinessRules
 import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.enum.ExecutionPriority
 import java.time.LocalDateTime
 
 interface OnNoteItemClickListener {
@@ -32,7 +33,9 @@ class NoteListAdapter(
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                holder.bind(it)
+            }
         }
     }
 
@@ -44,16 +47,23 @@ class NoteListAdapter(
         fun bind(note: Note) {
 
             binding.apply {
-                val executionPriority = BusinessRules.determiningPriorityLevelOfNote(LocalDateTime.now(), note.planeExecuteDate)
-                when(note.executionPriority) {
-                    Status.RED -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
-                    Status.YELLOW -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.yellow)
-                    Status.GREEN -> this.noteCardItemForListPriorityIndicator.setImageResource(R.color.green)
+                val executionPriority = BusinessRules.determiningPriorityLevelOfNote(
+                    LocalDateTime.now(),
+                    note.planeExecuteDate
+                )
+
+                when(executionPriority) {
+                    ExecutionPriority.HIGH ->
+                        this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
+                    ExecutionPriority.MEDIUM ->
+                        this.noteCardItemForListPriorityIndicator.setImageResource(R.color.yellow)
+                    ExecutionPriority.LOW ->
+                        this.noteCardItemForListPriorityIndicator.setImageResource(R.color.green)
                 }
                 noteCardItemForListPatientName.text = note.shortPatientName
                 noteCardItemForListExecutorName.text = note.shortExecutorName
-                noteCardItemForListPlanDate.text = note.planeExecuteDate
-                noteCardItemForListFactDate.text = note.factExecuteDate
+                noteCardItemForListPlanDate.text = note.planeExecuteDate.toString()
+                noteCardItemForListFactDate.text = note.factExecuteDate.toString()
                 noteCardItemForListDescription.text = note.description
                 noteCardItemForListDescription.setOnClickListener {
                     onNoteItemClickListener.onCard(note)

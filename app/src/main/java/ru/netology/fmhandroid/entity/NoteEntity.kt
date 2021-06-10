@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.NoteStatus
 import ru.netology.fmhandroid.enum.ExecutionPriority
+import java.time.LocalDateTime
 
 @Entity(tableName = "NoteEntity")
 data class NoteEntity(
@@ -23,11 +24,9 @@ data class NoteEntity(
     @ColumnInfo(name = "createDate")
     val createDate: String? = null,
     @ColumnInfo(name = "planeExecuteDate")
-    val planeExecuteDate: String,
+    val planeExecuteDate: LocalDateTime,
     @ColumnInfo(name = "factExecuteDate")
-    val factExecuteDate: String,
-    @ColumnInfo(name = "executionPriority")
-    val executionPriority: ExecutionPriority,
+    val factExecuteDate: LocalDateTime? = null,
     @ColumnInfo(name = "statusId")
     val noteStatus: NoteStatus? = null,
     @ColumnInfo(name = "comment")
@@ -48,7 +47,6 @@ data class NoteEntity(
         createDate = createDate,
         planeExecuteDate = planeExecuteDate,
         factExecuteDate = factExecuteDate,
-        executionPriority = executionPriority,
         noteStatus = noteStatus,
         comment = comment,
         deleted = deleted,
@@ -68,7 +66,6 @@ fun Note.toEntity() = NoteEntity(
     createDate = createDate,
     planeExecuteDate = planeExecuteDate,
     factExecuteDate = factExecuteDate,
-    executionPriority = executionPriority,
     noteStatus = noteStatus,
     comment = comment,
     deleted = deleted,

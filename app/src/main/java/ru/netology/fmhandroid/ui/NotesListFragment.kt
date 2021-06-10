@@ -14,6 +14,9 @@ class NotesListFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val binding = FragmentPatientsListBinding.inflate(inflater, container, false)
+
+
+        return binding.root
     }
 
 }

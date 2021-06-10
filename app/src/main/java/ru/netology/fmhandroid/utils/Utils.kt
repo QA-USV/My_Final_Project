@@ -3,6 +3,8 @@ package ru.netology.fmhandroid.utils
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class Utils {
     companion object {
@@ -25,13 +27,15 @@ class Utils {
             creatorId = null,
             executorId = null,
             createDate = null,
-            planeExecuteDate = "",
-            factExecuteDate = "",
+            planeExecuteDate = LocalDateTime.now(),
+            factExecuteDate = null,
             noteStatus = null,
             comment = null,
             deleted = false,
             shortExecutorName = "",
             shortPatientName = ""
         )
+
+        fun LocalDateTime.toMillis(zone: ZoneId = ZoneId.systemDefault()) = atZone(zone)?.toInstant()?.toEpochMilli()
     }
 }
