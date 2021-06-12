@@ -3,7 +3,10 @@ package ru.netology.fmhandroid.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.entity.NoteEntity
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 @Dao
 interface NoteDao {
@@ -26,9 +29,12 @@ interface NoteDao {
 
 class Converters {
     @TypeConverter
-    fun toAttachmentType(value: String) = LocalDateTime(value)
+    fun fromTimestamp(value: Long?): LocalDateTime? {
+        return value?.let { LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneOffset.UTC) }
+    }
 
     @TypeConverter
-    fun fromAttachment(value: AttachmentType) = value.name
+    fun dateToTimestamp(date: LocalDateTime?): Long? {
+        return date?.atZone(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
+    }
 }
-

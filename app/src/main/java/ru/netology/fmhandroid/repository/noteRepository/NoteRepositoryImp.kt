@@ -1,7 +1,5 @@
 package ru.netology.fmhandroid.repository.noteRepository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import ru.netology.fmhandroid.dao.NoteDao
@@ -16,8 +14,7 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
         .map(List<NoteEntity>::toDto)
         .flowOn(Dispatchers.Default)
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getAllNotes() : List<Note> {
+    override suspend fun getAllNotes(): List<Note> {
         try {
             val listOfNotes = mutableListOf<Note>()
             listOfNotes.add(
@@ -73,7 +70,8 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
                 )
             )
             dao.insert(listOfNotes.map { it.toEntity() })
-return listOfNotes
+            return listOfNotes
+
         } catch (e: Exception) {
             throw UnknownException
         }

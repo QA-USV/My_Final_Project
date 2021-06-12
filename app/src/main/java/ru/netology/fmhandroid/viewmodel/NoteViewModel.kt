@@ -31,6 +31,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
+
     private val edited = MutableLiveData(Utils.emptyNote)
     private val _noteCreated = SingleLiveEvent<Unit>()
     val noteCreated: LiveData<Unit>

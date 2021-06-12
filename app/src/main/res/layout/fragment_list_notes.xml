@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.NotesListFragment">
 
+    <TextView
+        android:id="@+id/empty_notes_list_text"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:text="@string/empty_notes_list"
+        android:textAlignment="center"
+        style="@style/LargeBlackTextStyle"
+        android:visibility="gone"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notes_list"
         android:layout_width="match_parent"

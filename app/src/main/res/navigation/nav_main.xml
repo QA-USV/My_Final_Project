@@ -14,10 +14,17 @@
             android:id="@+id/action_patientsListFragment_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/addPatientFragment"
         android:name="ru.netology.fmhandroid.ui.AddPatientFragment"
         android:label="AddPatientFragment" />
+
+    <fragment
+        android:id="@+id/fragment_list_notes"
+        android:name="ru.netology.fmhandroid.ui.NotesListFragment"
+        android:label="@string/list_of_notes_fragment_label" />
+
     <fragment
         android:id="@+id/feedFragment"
         android:name="ru.netology.fmhandroid.ui.FeedFragment"
@@ -29,6 +36,9 @@
         <action
             android:id="@+id/action_feedFragment_to_patientsListFragment"
             app:destination="@id/patientsListFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_fragment_list_notes"
+            app:destination="@id/fragment_list_notes" />
     </fragment>
 
 </navigation>

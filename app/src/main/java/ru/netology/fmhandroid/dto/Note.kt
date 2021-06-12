@@ -9,7 +9,7 @@ data class Note(
     val creatorId: Int? = null,
     val executorId: Int? = null,
     val createDate: String? = null,
-    val planeExecuteDate: LocalDateTime,
+    val planeExecuteDate: LocalDateTime? = null,
     val factExecuteDate: LocalDateTime? = null,
     val noteStatus: NoteStatus? = null,
     var comment: String? = null,

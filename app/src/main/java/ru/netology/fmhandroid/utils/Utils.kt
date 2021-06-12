@@ -4,7 +4,8 @@ import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
 import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Utils {
     companion object {
@@ -27,7 +28,7 @@ class Utils {
             creatorId = null,
             executorId = null,
             createDate = null,
-            planeExecuteDate = LocalDateTime.now(),
+            planeExecuteDate = null,
             factExecuteDate = null,
             noteStatus = null,
             comment = null,
@@ -36,6 +37,14 @@ class Utils {
             shortPatientName = ""
         )
 
-        fun LocalDateTime.toMillis(zone: ZoneId = ZoneId.systemDefault()) = atZone(zone)?.toInstant()?.toEpochMilli()
+        fun convertDate(dateTime: LocalDateTime): String {
+
+            val localDateTime = LocalDateTime.parse(dateTime.toString())
+            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+                "dd MMMM yyyy HH:mm",
+                Locale.getDefault()
+            )
+            return formatter.format(localDateTime)
+        }
     }
 }

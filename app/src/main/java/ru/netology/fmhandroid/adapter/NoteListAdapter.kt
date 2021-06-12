@@ -12,6 +12,7 @@ import ru.netology.fmhandroid.databinding.NoteCardItemForListBinding
 import ru.netology.fmhandroid.domain.BusinessRules
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.enum.ExecutionPriority
+import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
 interface OnNoteItemClickListener {
@@ -47,27 +48,37 @@ class NoteListAdapter(
         fun bind(note: Note) {
 
             binding.apply {
-                val executionPriority = BusinessRules.determiningPriorityLevelOfNote(
-                    LocalDateTime.now(),
-                    note.planeExecuteDate
-                )
-
-                when(executionPriority) {
-                    ExecutionPriority.HIGH ->
-                        this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
-                    ExecutionPriority.MEDIUM ->
-                        this.noteCardItemForListPriorityIndicator.setImageResource(R.color.yellow)
-                    ExecutionPriority.LOW ->
-                        this.noteCardItemForListPriorityIndicator.setImageResource(R.color.green)
-                }
+                prioritization(note)
                 noteCardItemForListPatientName.text = note.shortPatientName
                 noteCardItemForListExecutorName.text = note.shortExecutorName
-                noteCardItemForListPlanDate.text = note.planeExecuteDate.toString()
-                noteCardItemForListFactDate.text = note.factExecuteDate.toString()
+                noteCardItemForListPlanDate.text = Utils.convertDate(note.planeExecuteDate!!)
+
+                if (note.factExecuteDate == null) {
+                    noteCardItemForListFactDate.setText(R.string.date_not_set)
+                } else {
+                    noteCardItemForListFactDate.text = Utils.convertDate(note.factExecuteDate)
+                }
                 noteCardItemForListDescription.text = note.description
                 noteCardItemForListDescription.setOnClickListener {
                     onNoteItemClickListener.onCard(note)
                 }
+            }
+        }
+
+        private fun NoteCardItemForListBinding.prioritization(note: Note) {
+            val executionPriority = note.planeExecuteDate?.let {
+                BusinessRules.determiningPriorityLevelOfNote(
+                    LocalDateTime.now(),
+                    it
+                )
+            }
+            when (executionPriority) {
+                ExecutionPriority.HIGH ->
+                    this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
+                ExecutionPriority.MEDIUM ->
+                    this.noteCardItemForListPriorityIndicator.setImageResource(R.color.yellow)
+                ExecutionPriority.LOW ->
+                    this.noteCardItemForListPriorityIndicator.setImageResource(R.color.green)
             }
         }
     }
