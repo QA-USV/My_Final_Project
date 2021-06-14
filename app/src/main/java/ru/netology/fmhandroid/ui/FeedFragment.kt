@@ -36,6 +36,10 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_patientsListFragment)
         }
 
+        binding.toAddNote.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_addNoteFragment)
+        }
+
         return binding.root
     }
 }
