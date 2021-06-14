@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_menu_24"
+            app:title="Записка" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp">
+
+        <!-- note card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewPatientDataCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@color/light_grey"
+            app:cardCornerRadius="6dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewPatientDataCardConstraintContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/viewNoteItemPriorityStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/note_status"
+                    tools:src="@drawable/ic_circle_14"
+                    app:layout_constraintBottom_toTopOf="@id/viewPatientDataCardBarrier"
+                    app:layout_constraintEnd_toStartOf="@+id/viewNoteCardStatus"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer"
+                    tools:tint="@color/green" />
+
+                <TextView
+                    android:id="@+id/viewNoteCardStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/grey"
+                    tools:text="@sample/note.json/data/status"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/viewPatientDataCardBarrier"
+                    app:layout_constraintStart_toEndOf="@+id/viewNoteItemPriorityStatus"
+                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer" />
+
+                <ImageButton
+                    android:id="@+id/viewPatientDataCardButtonEdit"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/editing"
+                    android:src="@drawable/ic_menu_open_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/viewPatientDataCardBarrier"
+                    app:layout_constraintEnd_toEndOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:tint="@color/grey" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/viewPatientDataCardBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="viewNoteCardStatus, viewPatientDataCardButtonEdit" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintStart_toStartOf="@+id/viewPatientDataCardConstraintContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/viewPatientDataCardBarrier">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:paddingEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/viewNoteCardLabelPatient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Пациент:"
+                            android:textColor="#8A000000"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardPatient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardLabelPatient"
+                            tools:text="@sample/note.json/data/patientName" />
+
+                        <ImageButton
+                            android:id="@+id/viewPatientDataCardButtonToPatient"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="@string/editing"
+                            android:src="@drawable/ic_keyboard_arrow_right_24"
+                            app:layout_constraintBottom_toBottomOf="@+id/viewNoteCardPatient"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/viewNoteCardPatient"
+                            app:tint="@color/grey" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardLabelExecutor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Ответственный:"
+                            android:textColor="#8A000000"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardPatient" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardExecutor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardLabelExecutor"
+                            tools:text="@sample/note.json/data/executorName" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardLabelPlanExecuteDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Плановая дата:"
+                            android:textColor="#8A000000"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardExecutor" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardPlanExecuteDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardLabelPlanExecuteDate"
+                            tools:text="@sample/note.json/data/planeExecuteDate" />
+
+                        <ImageView
+                            android:id="@+id/viewNoteCardDivider1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="#14000000"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardPlanExecuteDate" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:inputType="textMultiLine"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardDivider1"
+                            tools:text="@sample/note.json/data/description" />
+
+                        <TextView
+                            android:id="@+id/viewNoteCardComments"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:inputType="textMultiLine"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardDescription"
+                            tools:text="@sample/note.json/data/comment" />
+
+                        <EditText
+                            android:id="@+id/viewNoteCardAddComment"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="8dp"
+                            android:hint="Напишите комментарий..."
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardComments" />
+
+                        <Button
+                            android:id="@+id/viewPatientDataCardButtonAddComment"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="0dp"
+                            android:text="Комментировать"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardAddComment">
+                        </Button>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </ScrollView>
+</LinearLayout>
