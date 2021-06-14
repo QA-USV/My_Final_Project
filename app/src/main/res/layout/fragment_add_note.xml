@@ -76,7 +76,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vRoomNumber"
+            android:id="@+id/vExecutorDropMenu"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:layout_marginTop="20dp"
             android:hint="Описание"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vRoomNumber">
+            app:layout_constraintTop_toBottomOf="@+id/vExecutorDropMenu">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
