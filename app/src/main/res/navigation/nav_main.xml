@@ -29,6 +29,13 @@
         <action
             android:id="@+id/action_feedFragment_to_patientsListFragment"
             app:destination="@id/patientsListFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addNoteFragment"
+        android:name="ru.netology.fmhandroid.ui.AddNoteFragment"
+        android:label="AddNoteFragment" />
 
 </navigation>
