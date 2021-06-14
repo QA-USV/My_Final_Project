@@ -25,10 +25,17 @@
     android:text="to Add Patient Fragment"/>
 
     <Button
-        android:id="@+id/toAddNote"
+        android:id="@+id/btnToAddNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="to Add Note"/>
+
+    <Button
+        android:id="@+id/btnToNoteCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="to Note Card"/>
 
 </LinearLayout>

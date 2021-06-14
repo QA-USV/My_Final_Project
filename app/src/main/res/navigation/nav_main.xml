@@ -32,10 +32,17 @@
         <action
             android:id="@+id/action_feedFragment_to_addNoteFragment"
             app:destination="@id/addNoteFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_noteCardFragment"
+            app:destination="@id/noteCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="ru.netology.fmhandroid.ui.AddNoteFragment"
         android:label="AddNoteFragment" />
+    <fragment
+        android:id="@+id/noteCardFragment"
+        android:name="ru.netology.fmhandroid.ui.NoteCardFragment"
+        android:label="NoteCardFragment" />
 
 </navigation>
