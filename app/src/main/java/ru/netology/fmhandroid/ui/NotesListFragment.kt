@@ -27,7 +27,7 @@ class NotesListFragment : Fragment() {
 
 
         val adapter = NoteListAdapter(object : OnNoteItemClickListener {
-            override fun onCard(note: Note) {
+            override fun onNote(note: Note) {
                 TODO()
             }
         })
