@@ -16,7 +16,7 @@ import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
 interface OnNoteItemClickListener {
-    fun onCard(note: Note) {}
+    fun onNote(note: Note) {}
 }
 
 class NoteListAdapter(
