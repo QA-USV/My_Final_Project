@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.FragmentFeedBinding
+import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.viewmodel.NoteViewModel
 
-class FeedFragment : Fragment() {
+class MainFragment : Fragment() {
 
     private val noteViewModel: NoteViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -29,7 +29,7 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = FragmentFeedBinding.inflate(
+        val binding = FragmentMainBinding.inflate(
             inflater,
             container,
             false
@@ -44,7 +44,6 @@ class FeedFragment : Fragment() {
         }
 
         binding.toListOfNotesFragmentButton.setOnClickListener {
-            noteViewModel.loadNotesList()
             findNavController().navigate(R.id.action_feedFragment_to_fragment_list_notes)
         }
 

@@ -3,11 +3,7 @@ package ru.netology.fmhandroid.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import ru.netology.fmhandroid.dao.Converters
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatus
-import ru.netology.fmhandroid.enum.ExecutionPriority
 import java.time.LocalDateTime
 
 @Entity(tableName = "NoteEntity")
@@ -30,7 +26,7 @@ data class NoteEntity(
     @ColumnInfo(name = "factExecuteDate")
     val factExecuteDate: LocalDateTime? = null,
     @ColumnInfo(name = "statusId")
-    val noteStatus: NoteStatus? = null,
+    val noteStatus: Note.Status? = null,
     @ColumnInfo(name = "comment")
     var comment: String? = null,
     @ColumnInfo(name = "deleted")

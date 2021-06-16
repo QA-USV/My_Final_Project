@@ -28,7 +28,7 @@
             style="@style/AppNormalButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:contentDescription="@string/menu_button"
+            android:contentDescription="@string/menu_button_description"
             android:src="@drawable/ic_baseline_menu_open_24"
             app:iconTint="@color/colorMediumGrey"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,15 +52,15 @@
 
         <ImageView
             android:id="@+id/line_divider"
-            android:layout_width="360dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="8dp"
-            android:background="#14000000"
+            android:layout_width="@dimen/line_divider_width"
+            android:layout_height="@dimen/line_divider_height"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:background="@color/colorLightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_description"
-            android:contentDescription="@string/line_divider" />
+            android:contentDescription="@string/line_divider_description" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/note_card_item_for_list_patient_name_label"

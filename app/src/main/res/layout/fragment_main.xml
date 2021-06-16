@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".ui.FeedFragment">
+    tools:context=".ui.MainFragment">
 
     <Button
         android:id="@+id/toPatientListFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="to List ofPatient Fragment" />
+        android:text="to List of Patients Fragment" />
 
     <Button
     android:id="@+id/toAddPAtientFragmentButton"

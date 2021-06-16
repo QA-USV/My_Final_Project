@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.NotesListFragment">
+    android:orientation="vertical"
+    tools:context=".ui.NoteListFragment">
 
     <TextView
         android:id="@+id/empty_notes_list_text"
+        style="@style/LargeBlackTextStyle"
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:text="@string/empty_notes_list"
         android:textAlignment="center"
-        style="@style/LargeBlackTextStyle"
-        android:visibility="gone"
-        />
-
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notes_list"

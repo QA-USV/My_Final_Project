@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatus
 import ru.netology.fmhandroid.entity.*
 import ru.netology.fmhandroid.exceptions.*
 import java.time.LocalDateTime
@@ -29,7 +28,7 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
                         10
                     ),
                     factExecuteDate = null,
-                    noteStatus = NoteStatus.ACTIVE,
+                    noteStatus = Note.Status.ACTIVE,
                     shortPatientName = "Салтыков-Щедрин Е.В.",
                     shortExecutorName = "Североморская Е.В."
                 )
@@ -47,7 +46,7 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
                         10
                     ),
                     factExecuteDate = null,
-                    noteStatus = NoteStatus.ACTIVE,
+                    noteStatus = Note.Status.ACTIVE,
                     shortPatientName = "Ложкин П.В",
                     shortExecutorName = "Gregory House M.D."
                 )
@@ -64,12 +63,12 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
                         10
                     ),
                     factExecuteDate = null,
-                    noteStatus = NoteStatus.ACTIVE,
+                    noteStatus = Note.Status.ACTIVE,
                     shortPatientName = "Североморская Е.В.",
                     shortExecutorName = "Аброськин Н.Г."
                 )
             )
-            dao.insert(listOfNotes.map { it.toEntity() })
+            dao.insert(listOfNotes.map(Note::toEntity))
             return listOfNotes
 
         } catch (e: Exception) {

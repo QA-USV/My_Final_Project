@@ -8,12 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import ru.netology.fmhandroid.adapter.NoteListAdapter
-import ru.netology.fmhandroid.adapter.OnNoteItemClickListener
-import ru.netology.fmhandroid.databinding.FragmentListNotesBinding
-import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.databinding.FragmentListNoteBinding
 import ru.netology.fmhandroid.viewmodel.NoteViewModel
 
-class NotesListFragment : Fragment() {
+class NoteListFragment : Fragment() {
     private val viewModel: NoteViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -23,20 +21,17 @@ class NotesListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val binding = FragmentListNotesBinding.inflate(inflater, container, false)
+        val binding = FragmentListNoteBinding.inflate(inflater, container, false)
 
 
-        val adapter = NoteListAdapter(object : OnNoteItemClickListener {
-            override fun onNote(note: Note) {
-                TODO()
-            }
-        })
+        val adapter = NoteListAdapter()
 
         binding.rvNotesList.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner
+        viewModel.data.observe(
+            viewLifecycleOwner
         ) { state ->
             adapter.submitList(state.notes)
-            binding.emptyNotesListText.isVisible = state.empty
+            binding.emptyNotesListText.isVisible = state.notes.isEmpty()
         }
 
         return binding.root

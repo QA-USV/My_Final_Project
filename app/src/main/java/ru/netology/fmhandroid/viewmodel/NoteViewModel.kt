@@ -41,13 +41,15 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         loadNotesList()
     }
 
-    fun loadNotesList() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            noteRepository.getAllNotes()
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(errorLoading = true)
+    fun loadNotesList() {
+        viewModelScope.launch {
+            try {
+                _dataState.value = FeedModelState(loading = true)
+                noteRepository.getAllNotes()
+                _dataState.value = FeedModelState()
+            } catch (e: Exception) {
+                _dataState.value = FeedModelState(errorLoading = true)
+            }
         }
     }
 

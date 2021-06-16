@@ -22,14 +22,14 @@
 
     <fragment
         android:id="@+id/fragment_list_notes"
-        android:name="ru.netology.fmhandroid.ui.NotesListFragment"
+        android:name="ru.netology.fmhandroid.ui.NoteListFragment"
         android:label="@string/list_of_notes_fragment_label" />
 
     <fragment
         android:id="@+id/feedFragment"
-        android:name="ru.netology.fmhandroid.ui.FeedFragment"
+        android:name="ru.netology.fmhandroid.ui.MainFragment"
         android:label="fragment_new_post"
-        tools:layout="@layout/fragment_feed">
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_feedFragment_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />

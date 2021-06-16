@@ -13,13 +13,7 @@ import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
-interface OnNoteItemClickListener {
-    fun onNote(note: Note)
-}
-
-class NoteListAdapter(
-    private val onNoteItemClickListener: OnNoteItemClickListener
-) : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffCallback()) {
+class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NoteCardItemForListBinding.inflate(
@@ -27,18 +21,17 @@ class NoteListAdapter(
             parent,
             false
         )
-        return NoteViewHolder(binding, onNoteItemClickListener)
+        return NoteViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         getItem(position)?.let {
-                holder.bind(it)
+            holder.bind(it)
         }
     }
 
     class NoteViewHolder(
-        private val binding: NoteCardItemForListBinding,
-        private val onNoteItemClickListener: OnNoteItemClickListener
+        private val binding: NoteCardItemForListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note) {
 
@@ -54,19 +47,18 @@ class NoteListAdapter(
                     noteCardItemForListFactDate.text = Utils.convertDate(note.factExecuteDate)
                 }
                 noteCardItemForListDescription.text = note.description
-                noteCardItemForListDescription.setOnClickListener {
-                    onNoteItemClickListener.onNote(note)
-                }
             }
         }
 
         private fun NoteCardItemForListBinding.prioritization(note: Note) {
+
             val executionPriority = note.planeExecuteDate?.let {
                 BusinessRules.determiningPriorityLevelOfNote(
                     LocalDateTime.now(),
                     it
                 )
             }
+
             when (executionPriority) {
                 ExecutionPriority.HIGH ->
                     this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
@@ -78,13 +70,13 @@ class NoteListAdapter(
         }
     }
 
-    class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
+    private object NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
     }
 }

@@ -11,15 +11,15 @@ data class Note(
     val createDate: String? = null,
     val planeExecuteDate: LocalDateTime? = null,
     val factExecuteDate: LocalDateTime? = null,
-    val noteStatus: NoteStatus? = null,
+    val noteStatus: Status? = null,
     var comment: String? = null,
     val deleted: Boolean = false,
     val shortExecutorName: String,
     val shortPatientName: String
-)
-
-enum class NoteStatus {
-    ACTIVE,
-    CANCELED,
-    EXECUTED
+) {
+    enum class Status {
+        ACTIVE,
+        CANCELED,
+        EXECUTED
+    }
 }

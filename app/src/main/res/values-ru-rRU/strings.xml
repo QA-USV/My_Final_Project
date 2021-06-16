@@ -37,13 +37,13 @@
     <string name="note">Записка</string>
     <string name="patient_profile">Профиль пациента</string>
     <string name="change">Изменить</string>
-    <string name="term_of_execution">Срок исполнеия</string>
+    <string name="term_of_execution">Срок исполнения</string>
     <string name="responsible">Ответственный</string>
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
     <string name="admission">Госпитализация</string>
-    <string name="menu_button" translatable="false">Кнопка Меню</string>
-    <string name="line_divider">Разделительная линия</string>
+    <string name="menu_button_description" translatable="false">Кнопка Меню</string>
+    <string name="line_divider_description">Разделительная линия</string>
     <string name="note_patient_label" translatable="false">Пациент:</string>
     <string name="note_executor_label" translatable="false">Исполнитель:</string>
     <string name="note_plan_date_label" translatable="false">Плановая дата:</string>
@@ -55,5 +55,6 @@
     <string name="list_of_notes_fragment_label">Записки</string>
     <string name="empty_notes_list">Здесь нет ни одной записки. Вы можете создать новую или обновить список.</string>
     <string name="date_not_set">Дата не установлена</string>
+    <string name="patient_status_is_not_determined"> --- </string>
 
 </resources>
