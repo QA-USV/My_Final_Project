@@ -18,12 +18,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/patientLocation"
-        android:text="@string/patient_name"
         android:ellipsize="end"
         android:singleLine="true"
         android:textAppearance="@style/recyclerPatientsListStyle"
         android:lineSpacingExtra="4sp"
         android:gravity="center_vertical"
+        tools:text="@sample/note.json/data/patientName"
         />
 
     <TextView

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Первый московский хоспис</string>
+    <string name="patient_with_colon">Пациент:</string>
     <string name="patients">Пациенты</string>
     <string name="FLN">ФИО</string>
     <string name="location">В хосписе</string>
-    <string name="patient_name">Иванов Иван Иванович</string>
     <string name="patient_location">Да</string>
     <string name="more">Еще</string>
     <string name="all_patients">Все пациенты</string>
@@ -39,8 +39,17 @@
     <string name="change">Изменить</string>
     <string name="term_of_execution">Срок исполнеия</string>
     <string name="responsible">Ответственный</string>
+    <string name="responsible_with_colon">Ответственный:</string>
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
     <string name="admission">Госпитализация</string>
     <string name="helper_text_date">В формате: ГГГГ-ММ-ДД</string>
+    <string name="plan_data_colon">Плановая дата:</string>
+    <string name="write_a_comment">Напишете комментарий…</string>
+    <string name="add_comment">Комментировать</string>
+    <string name="completion_date">Дата выполнения</string>
+    <string name="completion_time">Время выполнения</string>
+    <string name="patient_selection">Выбор пациента</string>
+    <string name="responsible_selection">Выбор ответственного</string>
+    <string name="description">Описание</string>
 </resources>

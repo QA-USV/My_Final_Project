@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">First moscow hospice</string>
+    <string name="patient_with_colon">Patient:</string>
     <string name="patients">Patients</string>
     <string name="FLN">FLN</string>
     <string name="location">Location</string>
-    <string name="patient_name">Ivanov Ivan Ivanovich</string>
     <string name="patient_location">Yes</string>
     <string name="more">More</string>
     <string name="all_patients">All patients</string>
@@ -39,8 +39,17 @@
     <string name="change">Change</string>
     <string name="term_of_execution">Term of execution</string>
     <string name="responsible">Responsible</string>
+    <string name="responsible_with_colon">Responsible:</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="admission">Admission</string>
     <string name="helper_text_date">In format: YYYY-MM-DD</string>
+    <string name="plan_data_colon">Plan data:</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="add_comment">Add comment</string>
+    <string name="completion_date">Сompletion date</string>
+    <string name="completion_time">Completion time</string>
+    <string name="patient_selection">Patient selection</string>
+    <string name="responsible_selection">Responsible selection</string>
+    <string name="description">Description</string>
 </resources>

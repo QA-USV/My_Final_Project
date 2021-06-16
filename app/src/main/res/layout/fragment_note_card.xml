@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -50,11 +49,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:contentDescription="@string/note_status"
-                    tools:src="@drawable/ic_circle_14"
                     app:layout_constraintBottom_toTopOf="@id/viewPatientDataCardBarrier"
                     app:layout_constraintEnd_toStartOf="@+id/viewNoteCardStatus"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer"
+                    tools:src="@drawable/ic_circle_14"
                     tools:tint="@color/green" />
 
                 <TextView
@@ -63,12 +62,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:backgroundTint="@color/grey"
-                    tools:text="@sample/note.json/data/status"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/viewPatientDataCardBarrier"
                     app:layout_constraintStart_toEndOf="@+id/viewNoteItemPriorityStatus"
-                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer" />
+                    app:layout_constraintTop_toTopOf="@+id/viewPatientDataCardConstraintContainer"
+                    tools:text="@sample/note.json/data/status" />
 
                 <ImageButton
                     android:id="@+id/viewPatientDataCardButtonEdit"
@@ -109,7 +108,7 @@
                             android:id="@+id/viewNoteCardLabelPatient"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Пациент:"
+                            android:text="@string/patient_with_colon"
                             android:textColor="#8A000000"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +143,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="Ответственный:"
+                            android:text="@string/responsible_with_colon"
                             android:textColor="#8A000000"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +166,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="Плановая дата:"
+                            android:text="@string/plan_data_colon"
                             android:textColor="#8A000000"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +196,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:inputType="textMultiLine"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -210,7 +208,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
                             android:layout_marginTop="8dp"
-                            android:inputType="textMultiLine"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -222,7 +219,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_marginTop="8dp"
-                            android:hint="Напишите комментарий..."
+                            android:hint="@string/write_a_comment"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/viewNoteCardComments" />
 
@@ -232,10 +229,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingHorizontal="0dp"
-                            android:text="Комментировать"
+                            android:text="@string/add_comment"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardAddComment">
-                        </Button>
+                            app:layout_constraintTop_toBottomOf="@+id/viewNoteCardAddComment"></Button>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
