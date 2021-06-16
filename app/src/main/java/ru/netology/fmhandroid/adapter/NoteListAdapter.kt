@@ -1,9 +1,7 @@
 package ru.netology.fmhandroid.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +32,7 @@ class NoteListAdapter(
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         getItem(position)?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 holder.bind(it)
-            }
         }
     }
 
@@ -44,7 +40,6 @@ class NoteListAdapter(
         private val binding: NoteCardItemForListBinding,
         private val onNoteItemClickListener: OnNoteItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
-        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(note: Note) {
 
             binding.apply {
