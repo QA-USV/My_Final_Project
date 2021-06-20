@@ -14,9 +14,9 @@
           android:contentDescription="@string/line_divider_description" />
     ```
 
-    * ``` <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/notes_list_recycler_view" />
+    *``` <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/notes_list_recycler_view" />
     ```
   
-    * ```     <string name="date_not_set">Date not set</string>
+    *``` <string name="date_not_set">Date not set</string>
     ```
