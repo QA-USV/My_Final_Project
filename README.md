@@ -9,14 +9,15 @@
 * Для нейминга в xml используется Snake Case. Завершаищим элементом в названии должен идти тип view (полностью):
   
   Примеры:
-    * ``` <ImageView
+    * ```html <ImageView
           android:id="@+id/line_divider_image_view"
           android:contentDescription="@string/line_divider_description" />
     ```
 
-    *``` <androidx.recyclerview.widget.RecyclerView
+    * ```html <androidx.recyclerview.widget.RecyclerView
          android:id="@+id/notes_list_recycler_view" />
     ```
   
-    *``` <string name="date_not_set">Date not set</string>
+    * ```html
+    <string name="date_not_set">Date not set</string>
     ```
