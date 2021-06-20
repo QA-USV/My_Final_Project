@@ -13,5 +13,6 @@
             android:id="@+id/line_divider_image_view"
             android:contentDescription="@string/line_divider_description" />
 ```
+  
   * ```     <string name="date_not_set">Date not set</string
 ```
