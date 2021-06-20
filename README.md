@@ -3,7 +3,7 @@
 * Для логики, фрагментов, функций и т.п.:
 *Используется Cammel Case*
 
-Примеры:
-1. class MainFragment : Fragment() {}
-2. fun convertDate(): String {}
+  Примеры:
+  1. class MainFragment : Fragment() {}
+  2. fun convertDate(): String {}
 * Для нейминга в xml:
