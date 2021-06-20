@@ -5,5 +5,5 @@
 
   Примеры:
   1. class MainFragment : Fragment() {}
-  2. fun convertDate(): String {}
+  1. fun convertDate(): String {}
 * Для нейминга в xml:
