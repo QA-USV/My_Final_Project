@@ -16,3 +16,6 @@
     * `
     <string name="date_not_set">Date not set</string>
     `
+    * `
+    <color name="light_grey">#F5F5F5</color>
+    `
