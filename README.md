@@ -10,12 +10,11 @@
   
   Примеры:
   * ```html 
-          <ImageView
-            android:id="@+id/line_divider_image_view"
-            ...
-            android:contentDescription="@string/line_divider_description" />
+  <ImageView
+    android:id="@+id/line_divider_image_view"
+    ...
+    android:contentDescription="@string/line_divider_description" />
 ```
-  
   * ```html 
   <string name="date_not_set">Date not set</string>
   ```
