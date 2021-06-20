@@ -4,8 +4,8 @@
 *Используется Cammel Case*
 
   Примеры:
-  1. class MainFragment : Fragment() {}
-  2. fun convertDate(): String {}
+  * class MainFragment : Fragment() {}
+  * fun convertDate(): String {}
 * Для нейминга в xml используется Snake Case. Завершаищим элементом в названии должен идти тип view (полностью):
   
   Примеры:
