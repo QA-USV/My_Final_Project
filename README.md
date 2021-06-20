@@ -13,7 +13,9 @@
 Имена классов и объектов начинаются с заглавной буквы и используют PascalCase:
 
   Пример:
-  * `class MainFragment : Fragment() {}
+  * open class DeclarationProcessor { /*...*/ }
+
+object EmptyDeclarationProcessor : DeclarationProcessor() { /*...*/ }
   `
 
 * Для нейминга в xml *используется Snake Case*. Завершающим элементом в названии должен идти тип view (полностью).
