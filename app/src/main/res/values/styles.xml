@@ -115,7 +115,7 @@
 
     <style name="SmallLightGreyTextStyle">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorLightGrey</item>
+        <item name="android:textColor">@color/half_light_grey</item>
     </style>
 
     <style name="SmallBlackTextStyle">

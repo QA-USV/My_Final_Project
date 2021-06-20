@@ -30,7 +30,7 @@
             android:layout_height="24dp"
             android:contentDescription="@string/menu_button_description"
             android:src="@drawable/ic_baseline_menu_open_24"
-            app:iconTint="@color/colorMediumGrey"
+            app:iconTint="@color/full_medium_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +55,7 @@
             android:layout_width="@dimen/line_divider_width"
             android:layout_height="@dimen/line_divider_height"
             android:layout_marginTop="@dimen/padding_between_elements"
-            android:background="@color/colorLightGrey"
+            android:background="@color/half_light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
