@@ -9,6 +9,7 @@
     android:padding="8dp"
     tools:context=".ui.MainFragment">
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
         android:id="@+id/toPatientListFragment"
         android:layout_width="wrap_content"
@@ -16,6 +17,7 @@
         android:layout_gravity="center"
         android:text="to List of Patients Fragment" />
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
     android:id="@+id/toAddPAtientFragmentButton"
     android:layout_width="wrap_content"
@@ -23,6 +25,7 @@
     android:layout_gravity="center"
     android:text="to Add Patient Fragment" />
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
         android:id="@+id/toListOfNotesFragmentButton"
         android:layout_width="wrap_content"

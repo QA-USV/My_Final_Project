@@ -31,8 +31,14 @@ data class NoteEntity(
     var comment: String? = null,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean = false,
+    /*
+    Вопрос по данному полю остается отркрытым, стоит или не стоит его хранить в локальной БД?
+     */
     @ColumnInfo(name = "shortExecutorName")
     val shortExecutorName: String,
+    /*
+    Вопрос по данному полю остается отркрытым, стоит или не стоит его хранить в локальной БД?
+    */
     @ColumnInfo(name = "shortPatientName")
     val shortPatientName: String
 ) {

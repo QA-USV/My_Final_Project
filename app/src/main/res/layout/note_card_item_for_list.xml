@@ -51,7 +51,7 @@
             tools:text="@sample/posts.json/data/description" />
 
         <ImageView
-            android:id="@+id/line_divider"
+            android:id="@+id/line_divider_image_view"
             android:layout_width="@dimen/line_divider_width"
             android:layout_height="@dimen/line_divider_height"
             android:layout_marginTop="@dimen/padding_between_elements"
@@ -72,7 +72,7 @@
             android:text="@string/note_patient_label"
             android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_divider" />
+            app:layout_constraintTop_toBottomOf="@+id/line_divider_image_view" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/note_card_item_for_list_patient_name"
@@ -95,7 +95,7 @@
             android:text="@string/note_executor_label"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_divider" />
+            app:layout_constraintTop_toBottomOf="@+id/line_divider_image_view" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/note_card_item_for_list_executor_name"
