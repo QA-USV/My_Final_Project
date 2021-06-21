@@ -52,4 +52,5 @@
     <string name="patient_selection">Выбор пациента</string>
     <string name="responsible_selection">Выбор ответственного</string>
     <string name="description">Описание</string>
+    <string name="creating_a_note">Создание записки</string>
 </resources>

@@ -52,4 +52,5 @@
     <string name="patient_selection">Patient selection</string>
     <string name="responsible_selection">Responsible selection</string>
     <string name="description">Description</string>
+    <string name="creating_a_note">Creating a note</string>
 </resources>
