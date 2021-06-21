@@ -68,10 +68,10 @@
   Больше ничего лишнего не добавляется:
   
   Пример:
-    * `   <ImageView
+  * `   <ImageView
           android:id="@+id/line_divider_image_view"/>`
-    * `   <string name="date_not_set">Date not set</string>`
-    * `   <color name="light_grey">#F5F5F5</color>`
+  * `   <string name="date_not_set">Date not set</string>`
+  * `   <color name="light_grey">#F5F5F5</color>`
 
 ### Выбирайте хорошие имена
 
