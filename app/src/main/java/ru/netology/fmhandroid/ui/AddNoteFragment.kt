@@ -30,16 +30,16 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         /* DropMenuPatient */
         val patientDropMenuItems = listOf("Иванов Иван Иванович", "Петров Пётр Петрович", "Сидоров Сидор Сидорович",)
         val patientArrayAdapter = ArrayAdapter(requireContext(), R.layout.menu_item, patientDropMenuItems)
-        (binding.vPatientDropMenu.editText as? AutoCompleteTextView)?.setAdapter(patientArrayAdapter)
+        (binding.patientDropMenuTextInputLayout.editText as? AutoCompleteTextView)?.setAdapter(patientArrayAdapter)
 
         /* DropMenuExecutor */
         val executorDropMenuItems = listOf("Иван Арнольдович Борменталь", "Грегори Хаус", "Персиваль Улисс Кокс", "Джон Дориан",)
         val executorArrayAdapter = ArrayAdapter(requireContext(), R.layout.menu_item, executorDropMenuItems)
-        (binding.vExecutorDropMenu.editText as? AutoCompleteTextView)?.setAdapter(executorArrayAdapter)
+        (binding.executorDropMenuTextInputLayout.editText as? AutoCompleteTextView)?.setAdapter(executorArrayAdapter)
 
         val myCalendar = Calendar.getInstance()
-        vDatePicker = binding.vDateInPlanField
-        vTimePicker = binding.vTimeInPlanField
+        vDatePicker = binding.dateInPlanTextInputEditText
+        vTimePicker = binding.timeInPlanTextInputEditText
 
         /* DatePickerDialog */
         val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
