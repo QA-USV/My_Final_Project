@@ -2,16 +2,12 @@ package ru.netology.fmhandroid.repository.noteRepository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import retrofit2.Response
 import ru.netology.fmhandroid.api.NoteApi
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatusEnum
+import ru.netology.fmhandroid.dto.Status
 import ru.netology.fmhandroid.entity.*
-import ru.netology.fmhandroid.exceptions.ApiException
-import ru.netology.fmhandroid.exceptions.ServerException
-import ru.netology.fmhandroid.exceptions.UnknownException
-import java.io.IOException
+import ru.netology.fmhandroid.util.makeRequest
 
 class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
     override val data = dao.getAllNotes()
@@ -58,30 +54,11 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
         }
     )
 
-    override suspend fun setNoteStatusById(noteId: Int, status: NoteStatusEnum): Note = makeRequest(
+    override suspend fun setNoteStatusById(noteId: Int, status: Status): Note = makeRequest(
         request = { NoteApi.service.setNoteStatusById(noteId, status)},
         onSuccess = { body ->
             dao.insert(body.toEntity())
             body
         }
     )
-
-    private suspend fun <T, R> makeRequest(
-        request: suspend () -> Response<T>,
-        onSuccess: suspend (body: T) -> R
-    ): R {
-        try {
-            val response = request()
-            if (!response.isSuccessful) {
-                throw ApiException(response.code(), response.message())
-            }
-            val body =
-                response.body() ?: throw ApiException(response.code(), response.message())
-            return onSuccess(body)
-        } catch (e: IOException) {
-            throw ServerException
-        } catch (e: Exception) {
-            throw UnknownException
-        }
-    }
 }

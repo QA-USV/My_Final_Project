@@ -2,7 +2,7 @@ package ru.netology.fmhandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
-import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.rtf
+import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.retrofit
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.NoteStatusEnum
 
@@ -34,6 +34,6 @@ interface NoteApiService {
 
 object NoteApi {
     val service: NoteApiService by lazy {
-        rtf.create(NoteApiService::class.java)
+        retrofit.create(NoteApiService::class.java)
     }
 }

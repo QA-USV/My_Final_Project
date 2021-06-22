@@ -12,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.AddPatientCardBinding
+import ru.netology.fmhandroid.viewmodel.EMPTY_PATIENT
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
-import ru.netology.fmhandroid.viewmodel.emptyPatient
 
 class AddPatientFragment : DialogFragment() {
     private val viewModel: PatientViewModel by viewModels(
@@ -28,7 +28,7 @@ class AddPatientFragment : DialogFragment() {
         val binding = AddPatientCardBinding.inflate(inflater, container, false)
 
         binding.saveButton.setOnClickListener {
-            val patient = emptyPatient.copy(
+            val patient = EMPTY_PATIENT.copy(
                 lastName = binding.setLastName.text.toString(),
                 firstName = binding.setName.text.toString(),
                 middleName = binding.setMiddleName.text.toString(),
@@ -76,7 +76,7 @@ class AddPatientFragment : DialogFragment() {
 
     private fun patientCreatedObserver() {
         try {
-            viewModel.patientCreated.observe(viewLifecycleOwner, {
+            viewModel.patientCreatedEvent.observe(viewLifecycleOwner, {
                 dismiss()
             })
         } catch (e: Exception) {

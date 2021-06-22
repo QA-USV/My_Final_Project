@@ -4,19 +4,16 @@ import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
-import ru.netology.fmhandroid.model.FeedModel
-import ru.netology.fmhandroid.model.FeedModelState
-import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
+import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
-val emptyPatient = Patient(
+val EMPTY_PATIENT = Patient(
     id = 0,
     firstName = "",
     lastName = "",
@@ -36,17 +33,13 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
             AppDb.getInstance(context = application).noteDao()
         )
 
-    val data: LiveData<FeedModel> = patientRepository.data
-        .map(::FeedModel)
+    val data: LiveData<List<Patient>> = patientRepository.data
         .asLiveData(Dispatchers.Default)
 
-    private val _dataState = MutableLiveData<FeedModelState>()
-    val dataState: LiveData<FeedModelState>
-        get() = _dataState
-    private val edited = MutableLiveData(emptyPatient)
-    private val _patientCreated = SingleLiveEvent<Unit>()
-    val patientCreated: LiveData<Unit>
-        get() = _patientCreated
+    private val edited = MutableLiveData(EMPTY_PATIENT)
+    private val _patientCreatedEvent = SingleLiveEvent<Unit>()
+    val patientCreatedEvent: LiveData<Unit>
+        get() = _patientCreatedEvent
 
     init {
         loadPatientsList()
@@ -56,11 +49,9 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         val it = edited.value ?: return
         viewModelScope.launch {
             try {
-                _dataState.value = FeedModelState(loading = true)
                 patientRepository.getAllPatientsWithAdmissionStatus(it.status)
-//            _dataState.value = FeedModelState()
             } catch (e: Exception) {
-                _dataState.value = FeedModelState(errorLoading = true)
+                Toast.makeText(getApplication(), R.string.error_loading, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -68,11 +59,9 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
     fun getAllPatientsWithAdmissionStatus(status: PatientStatusEnum) =
         viewModelScope.launch {
             try {
-                _dataState.value = FeedModelState(loading = true)
                 patientRepository.getAllPatientsWithAdmissionStatus(status)
-//            _dataState.value = FeedModelState()
             } catch (e: Exception) {
-                _dataState.value = FeedModelState(errorLoading = true)
+                Toast.makeText(getApplication(), R.string.error_loading, Toast.LENGTH_LONG).show()
 
             }
         }
@@ -82,12 +71,11 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             try {
                 patientRepository.savePatient(it)
-                _dataState.value = FeedModelState()
                 loadPatientsList()
             } catch (e: Exception) {
-//                        _dataState.value = FeedModelState(errorSaving = true)
+                Toast.makeText(getApplication(), R.string.error_saving, Toast.LENGTH_LONG).show()
             }
-            _patientCreated.value = Unit
+            _patientCreatedEvent.call()
         }
     }
 

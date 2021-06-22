@@ -2,7 +2,7 @@ package ru.netology.fmhandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
-import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.rtf
+import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.retrofit
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
@@ -36,6 +36,6 @@ interface PatientApiService {
 
 object PatientApi {
     val service: PatientApiService by lazy {
-        rtf.create(PatientApiService::class.java)
+        retrofit.create(PatientApiService::class.java)
     }
 }

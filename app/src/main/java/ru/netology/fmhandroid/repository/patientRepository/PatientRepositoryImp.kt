@@ -19,6 +19,7 @@ import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
+import ru.netology.fmhandroid.util.makeRequest
 import java.io.IOException
 
 class PatientRepositoryImp(
@@ -66,7 +67,6 @@ class PatientRepositoryImp(
         }
     )
 
-
     override suspend fun getPatientAdmissions(patientId: Int): List<Admission> =
         makeRequest(
             request = { PatientApi.service.getPatientAdmissions(patientId) },
@@ -83,23 +83,4 @@ class PatientRepositoryImp(
             body
         }
     )
-
-    private suspend fun <T, R> makeRequest(
-        request: suspend () -> Response<T>,
-        onSuccess: suspend (body: T) -> R
-    ): R {
-        try {
-            val response = request()
-            if (!response.isSuccessful) {
-                throw ApiException(response.code(), response.message())
-            }
-            val body =
-                response.body() ?: throw ApiException(response.code(), response.message())
-            return onSuccess(body)
-        } catch (e: IOException) {
-            throw ServerException
-        } catch (e: Exception) {
-            throw UnknownException
-        }
-    }
 }

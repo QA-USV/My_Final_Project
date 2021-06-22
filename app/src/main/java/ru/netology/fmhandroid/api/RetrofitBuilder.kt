@@ -14,13 +14,13 @@ class RetrofitBuilder {
             .connectTimeout(30, TimeUnit.SECONDS)
             .build()
 
-        private val retrofit = Retrofit.Builder()
+        private val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BuildConfig.BASE_URL)
             .client(okhttp)
             .build()
 
-        val rtf: Retrofit
-            get() = retrofit
+        val retrofit: Retrofit
+            get() = retrofitBuilder
     }
 }

@@ -10,18 +10,18 @@ import ru.netology.fmhandroid.databinding.PatientsListCardBinding
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
 
-interface OnInterractionListener {
+interface OnInteractionListener {
     fun onOpenCard(patient: Patient) {}
 }
 
 class PatientListAdapter(
-    private val onInterractionListener: OnInterractionListener,
+    private val onInteractionListener: OnInteractionListener,
 ) : ListAdapter<Patient, PatientListAdapter.PatientViewHolder>(PatientDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientViewHolder {
         val binding =
             PatientsListCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return PatientViewHolder(binding, onInterractionListener)
+        return PatientViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: PatientViewHolder, position: Int) {
@@ -32,7 +32,7 @@ class PatientListAdapter(
 
     class PatientViewHolder(
         private val binding: PatientsListCardBinding,
-        private val onInterractionListener: OnInterractionListener,
+        private val onInteractionListener: OnInteractionListener,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(patient: Patient) = with(binding) {
             patientName.text = itemView.resources.getString(
@@ -48,7 +48,7 @@ class PatientListAdapter(
             patientStatus.text = itemView.context.getString(patientStatusResId)
 
             patientName.setOnClickListener {
-                onInterractionListener.onOpenCard(patient)
+                onInteractionListener.onOpenCard(patient)
             }
         }
     }

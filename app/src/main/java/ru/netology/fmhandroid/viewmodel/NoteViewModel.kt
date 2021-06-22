@@ -1,20 +1,19 @@
 package ru.netology.fmhandroid.viewmodel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatusEnum
-import ru.netology.fmhandroid.model.FeedModel
-import ru.netology.fmhandroid.model.FeedModelState
+import ru.netology.fmhandroid.dto.Status
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepository
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
-val emptyNote = Note(
+private val EMPTY_NOTE = Note(
     id = 0,
     patientId = 0,
     description = "",
@@ -24,7 +23,7 @@ val emptyNote = Note(
     planeExecuteDate = "",
     factExecuteDate = "",
     statusId = 0,
-    status = NoteStatusEnum.ACTIVE,
+    status = Status.ACTIVE,
     comment = "",
     deleted = false
 )
@@ -34,17 +33,13 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val noteRepository: NoteRepository =
         NoteRepositoryImp(AppDb.getInstance(context = application).noteDao())
 
-    val data: LiveData<FeedModel> = noteRepository.data
-        .map(::FeedModel)
+    val data: LiveData<List<Note>> = noteRepository.data
         .asLiveData(Dispatchers.Default)
 
-    private val _dataState = MutableLiveData<FeedModelState>()
-    val dataState: LiveData<FeedModelState>
-        get() = _dataState
-    private val edited = MutableLiveData(emptyNote)
-    private val _noteCreated = SingleLiveEvent<Unit>()
-    val noteCreated: LiveData<Unit>
-        get() = _noteCreated
+    private val edited = MutableLiveData(EMPTY_NOTE)
+    private val _noteCreatedEvent = SingleLiveEvent<Unit>()
+    val noteCreatedEvent: LiveData<Unit>
+        get() = _noteCreatedEvent
 
     init {
         loadNotesList()
@@ -52,11 +47,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadNotesList() = viewModelScope.launch {
         try {
-            _dataState.value = FeedModelState(loading = true)
             noteRepository.getAllNotes()
-//            _dataState.value = FeedModelState()
         } catch (e: Exception) {
-            _dataState.value = FeedModelState(errorLoading = true)
+            Toast.makeText(getApplication(), R.string.error_loading, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -65,12 +58,11 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 noteRepository.saveNote(it)
-                _dataState.value = FeedModelState()
                 loadNotesList()
             } catch (e: Exception) {
-//                        _dataState.value = FeedModelState(errorSaving = true)
+                Toast.makeText(getApplication(), R.string.error_saving, Toast.LENGTH_LONG).show()
             }
-            _noteCreated.value = Unit
+            _noteCreatedEvent.call()
         }
     }
 

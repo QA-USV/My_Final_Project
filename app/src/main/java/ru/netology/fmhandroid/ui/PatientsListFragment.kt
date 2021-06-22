@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.adapter.OnInterractionListener
+import ru.netology.fmhandroid.adapter.OnInteractionListener
 import ru.netology.fmhandroid.adapter.PatientListAdapter
 import ru.netology.fmhandroid.databinding.FragmentPatientsListBinding
 import ru.netology.fmhandroid.dto.Patient
@@ -29,31 +29,16 @@ class PatientsListFragment : Fragment() {
 
         val binding = FragmentPatientsListBinding.inflate(inflater, container, false)
 
-        val adapter = PatientListAdapter(object : OnInterractionListener {
+        val adapter = PatientListAdapter(object : OnInteractionListener {
             override fun onOpenCard(patient: Patient) {
                 TODO("Not yet implemented")
             }
         })
 
-        binding.recyclerPatientsList.adapter = adapter
-        viewModel.dataState.observe(viewLifecycleOwner,
-                { state ->
-                    binding.progress.isVisible = state.loading
-//                    binding.errorLoadingGroup.isVisible = state.errorLoading
-                    binding.errorSavingGroup.isVisible = state.errorSaving
-                })
-
-        binding.retryLoadingButton.setOnClickListener {
-            viewModel.loadPatientsList()
-        }
-
         viewModel.data.observe(viewLifecycleOwner
         ) { state ->
-            adapter.submitList(
-                state.dto.map {
-                    it as Patient
-                })
-            binding.emptyText.isVisible = state.empty
+            adapter.submitList(state)
+            binding.emptyText.isVisible = state.isEmpty()
         }
 
         binding.addPatient.setOnClickListener {

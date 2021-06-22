@@ -1,9 +1,8 @@
 package ru.netology.fmhandroid.api
 
 import retrofit2.Response
-import retrofit2.Retrofit
 import retrofit2.http.*
-import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.rtf
+import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.retrofit
 import ru.netology.fmhandroid.dto.User
 
 interface UserApiService {
@@ -22,6 +21,6 @@ interface UserApiService {
 
 object UserApi {
     val service: UserApiService by lazy {
-        rtf.create(UserApiService::class.java)
+        retrofit.create(UserApiService::class.java)
     }
 }
