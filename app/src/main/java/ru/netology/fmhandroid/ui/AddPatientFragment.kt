@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.AddPatientCardBinding
-import ru.netology.fmhandroid.viewmodel.EMPTY_PATIENT
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 class AddPatientFragment : DialogFragment() {
@@ -28,21 +27,20 @@ class AddPatientFragment : DialogFragment() {
         val binding = AddPatientCardBinding.inflate(inflater, container, false)
 
         binding.saveButton.setOnClickListener {
-            val patient = EMPTY_PATIENT.copy(
-                lastName = binding.setLastName.text.toString(),
-                firstName = binding.setName.text.toString(),
-                middleName = binding.setMiddleName.text.toString(),
-                birthDate = binding.setBirthDate.text.toString()
-            )
+            val lastName = binding.setLastName.text.toString()
+            val firstName = binding.setName.text.toString()
+            val middleName = binding.setMiddleName.text.toString()
+            val birthDate = binding.setBirthDate.text.toString()
+
             viewModel.changePatientData(
-                patient.lastName,
-                patient.firstName,
-                patient.middleName,
-                patient.birthDate
+                lastName,
+                firstName,
+                middleName,
+                birthDate
             )
-            if (patient.lastName.isNotBlank() &&
-                patient.firstName.isNotBlank() &&
-                patient.middleName.isNotBlank()
+            if (lastName.isNotBlank() &&
+                firstName.isNotBlank() &&
+                middleName.isNotBlank()
             ) {
                 viewModel.save()
             } else {
@@ -58,10 +56,10 @@ class AddPatientFragment : DialogFragment() {
 
             dialog
                 ?.setMessage(R.string.cancellation)
-                ?.setPositiveButton(R.string.add_patient_fragment_positive_button) { dialog, int ->
+                ?.setPositiveButton(R.string.fragment_positive_button) { dialog, int ->
                     dismiss()
                 }
-                ?.setNegativeButton(R.string.add_patient_fragment_negative_button) { dialog, int ->
+                ?.setNegativeButton(R.string.fragment_negative_button) { dialog, int ->
                     isCancelable
                 }
                 ?.create()
@@ -81,6 +79,17 @@ class AddPatientFragment : DialogFragment() {
             })
         } catch (e: Exception) {
             e.printStackTrace()
+            viewModel.savePatientExceptionEvent.observe(viewLifecycleOwner, {
+                val dialog = activity?.let { activity ->
+                    AlertDialog.Builder(activity)
+                }
+                dialog?.setMessage(R.string.error_saving)
+                    ?.setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    ?.create()
+                    ?.show()
+            })
         }
     }
 

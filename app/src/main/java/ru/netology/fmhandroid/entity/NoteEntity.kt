@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatusEnum
+import ru.netology.fmhandroid.dto.NoteStatus
 
 @Entity(tableName = "NoteEntity")
 data class NoteEntity(
@@ -28,7 +28,7 @@ data class NoteEntity(
     @ColumnInfo(name = "statusId")
     val statusId: Int,
     @ColumnInfo(name = "status")
-    val status: NoteStatusEnum,
+    val status: NoteStatus,
     @ColumnInfo(name = "comment")
     var comment: String,
     @ColumnInfo(name = "deleted")

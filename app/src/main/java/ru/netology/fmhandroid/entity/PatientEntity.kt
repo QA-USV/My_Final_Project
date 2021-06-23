@@ -39,7 +39,7 @@ data class PatientEntity(
 }
 
 fun List<PatientEntity>.toDto(): List<Patient> = map(PatientEntity::toDto)
-fun List<Patient>.toListEntity(): List<PatientEntity> = map(Patient::toEntity)
+fun List<Patient>.toEntity(): List<PatientEntity> = map(Patient::toEntity)
 fun Patient.toEntity(): PatientEntity = PatientEntity(
     id = id,
     firstName = firstName,

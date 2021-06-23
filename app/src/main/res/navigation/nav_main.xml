@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_patientsListFragment_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />
+        <action
+            android:id="@+id/action_patientsListFragment_to_patientProfileCardFragment"
+            app:destination="@id/patientProfileCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPatientFragment"
@@ -24,5 +27,9 @@
         android:label="fragment_new_post"
         tools:layout="@layout/fragment_feed">
     </fragment>
+    <fragment
+        android:id="@+id/patientProfileCardFragment"
+        android:name="ru.netology.fmhandroid.ui.PatientProfileCardFragment"
+        android:label="PatientProfileCardFragment" />
 
 </navigation>

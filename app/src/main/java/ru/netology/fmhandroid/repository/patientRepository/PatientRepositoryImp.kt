@@ -1,26 +1,14 @@
 package ru.netology.fmhandroid.repository.patientRepository
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import retrofit2.Response
+import kotlinx.coroutines.flow.flow
 import ru.netology.fmhandroid.api.PatientApi
 import ru.netology.fmhandroid.dao.AdmissionDao
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dao.PatientDao
-import ru.netology.fmhandroid.dto.Admission
-import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
-import ru.netology.fmhandroid.entity.PatientEntity
-import ru.netology.fmhandroid.entity.toDto
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.entity.toEntity
-import ru.netology.fmhandroid.exceptions.ApiException
-import ru.netology.fmhandroid.exceptions.ServerException
-import ru.netology.fmhandroid.exceptions.UnknownException
 import ru.netology.fmhandroid.util.makeRequest
-import java.io.IOException
 
 class PatientRepositoryImp(
     private val patientDao: PatientDao,
@@ -28,20 +16,17 @@ class PatientRepositoryImp(
     private val noteDao: NoteDao
 ) : PatientRepository {
 
-    override val data: Flow<List<Patient>> =
-        patientDao.getAllPatients()
-            .map(List<PatientEntity>::toDto)
-            .flowOn(Dispatchers.Default)
-
     override suspend fun getAllPatientsWithAdmissionStatus(
         status: PatientStatusEnum
-    ): List<Patient> = makeRequest(
-        request = { PatientApi.service.getAllPatientsWithAdmissionStatus(status) },
-        onSuccess = { body ->
-            patientDao.insert(body.map { it.toEntity() })
-            body
-        }
-    )
+    ): Flow<List<Patient>> = flow {
+        makeRequest(
+            request = { PatientApi.service.getAllPatientsWithAdmissionStatus(status) },
+            onSuccess = { body ->
+                patientDao.insert(body.toEntity())
+                emit(body)
+            }
+        )
+    }
 
     override suspend fun getPatientById(patientId: Int): Patient = makeRequest(
         request = { PatientApi.service.getPatientById(patientId) },
@@ -52,12 +37,12 @@ class PatientRepositoryImp(
     )
 
     override suspend fun savePatient(patient: Patient): Patient = makeRequest(
-            request = { PatientApi.service.savePatient(patient) },
-            onSuccess = { body ->
-                patientDao.insert(body.toEntity())
-                body
-            }
-        )
+        request = { PatientApi.service.savePatient(patient) },
+        onSuccess = { body ->
+            patientDao.insert(body.toEntity())
+            body
+        }
+    )
 
     override suspend fun editPatient(patient: Patient): Patient = makeRequest(
         request = { PatientApi.service.updatePatient(patient) },

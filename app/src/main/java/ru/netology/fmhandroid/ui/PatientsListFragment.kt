@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.OnInteractionListener
 import ru.netology.fmhandroid.adapter.PatientListAdapter
@@ -18,13 +21,13 @@ import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 class PatientsListFragment : Fragment() {
     private val viewModel: PatientViewModel by viewModels(
-            ownerProducer = ::requireParentFragment
+        ownerProducer = ::requireParentFragment
     )
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
 
         val binding = FragmentPatientsListBinding.inflate(inflater, container, false)
@@ -35,15 +38,28 @@ class PatientsListFragment : Fragment() {
             }
         })
 
-        viewModel.data.observe(viewLifecycleOwner
-        ) { state ->
-            adapter.submitList(state)
-            binding.emptyText.isVisible = state.isEmpty()
+        lifecycleScope.launchWhenCreated {
+            viewModel.data().collectLatest { state ->
+                adapter.submitList(state)
+                binding.emptyText.isVisible = state.isEmpty()
+            }
         }
 
         binding.addPatient.setOnClickListener {
             AddPatientFragment().show(parentFragmentManager, "AddPatientFragment")
         }
+
+        viewModel.loadPatientExceptionEvent.observe(viewLifecycleOwner, {
+            val dialog = activity?.let { activity ->
+                AlertDialog.Builder(activity)
+            }
+            dialog?.setMessage(R.string.error_loading)
+                ?.setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                    dialog.cancel()
+                }
+                ?.create()
+                ?.show()
+        })
 
         binding.topAppBar.setNavigationOnClickListener { view ->
             PopupMenu(view.context, view).apply {

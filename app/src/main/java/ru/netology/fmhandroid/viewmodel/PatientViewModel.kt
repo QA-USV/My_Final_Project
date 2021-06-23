@@ -1,11 +1,11 @@
 package ru.netology.fmhandroid.viewmodel
 
 import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.PatientStatusEnum
@@ -13,16 +13,7 @@ import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
-val EMPTY_PATIENT = Patient(
-    id = 0,
-    firstName = "",
-    lastName = "",
-    middleName = "",
-    birthDate = "",
-    currentAdmissionId = 0,
-    deleted = false,
-    status = PatientStatusEnum.ACTIVE
-)
+private var PATIENT = Patient()
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,25 +24,31 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
             AppDb.getInstance(context = application).noteDao()
         )
 
-    val data: LiveData<List<Patient>> = patientRepository.data
-        .asLiveData(Dispatchers.Default)
+    suspend fun data(): Flow<List<Patient>> =
+        patientRepository.getAllPatientsWithAdmissionStatus(PatientStatusEnum.ACTIVE)
 
-    private val edited = MutableLiveData(EMPTY_PATIENT)
     private val _patientCreatedEvent = SingleLiveEvent<Unit>()
     val patientCreatedEvent: LiveData<Unit>
         get() = _patientCreatedEvent
+
+    private val _loadPatientExceptionEvent = SingleLiveEvent<Unit>()
+    val loadPatientExceptionEvent: LiveData<Unit>
+        get() = _loadPatientExceptionEvent
+
+    private val _savePatientExceptionEvent = SingleLiveEvent<Unit>()
+    val savePatientExceptionEvent: LiveData<Unit>
+        get() = _savePatientExceptionEvent
 
     init {
         loadPatientsList()
     }
 
     fun loadPatientsList() {
-        val it = edited.value ?: return
         viewModelScope.launch {
             try {
-                patientRepository.getAllPatientsWithAdmissionStatus(it.status)
+                patientRepository.getAllPatientsWithAdmissionStatus(PatientStatusEnum.ACTIVE)
             } catch (e: Exception) {
-                Toast.makeText(getApplication(), R.string.error_loading, Toast.LENGTH_LONG).show()
+                e.printStackTrace()
             }
         }
     }
@@ -61,22 +58,24 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
             try {
                 patientRepository.getAllPatientsWithAdmissionStatus(status)
             } catch (e: Exception) {
-                Toast.makeText(getApplication(), R.string.error_loading, Toast.LENGTH_LONG).show()
-
+                _loadPatientExceptionEvent.call()
             }
         }
 
     fun save() {
-        val it = edited.value ?: return
-        viewModelScope.launch {
-            try {
-                patientRepository.savePatient(it)
-                loadPatientsList()
-            } catch (e: Exception) {
-                Toast.makeText(getApplication(), R.string.error_saving, Toast.LENGTH_LONG).show()
+        PATIENT.let {
+            viewModelScope.launch {
+                try {
+                    patientRepository.savePatient(it)
+                    loadPatientsList()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _savePatientExceptionEvent.call()
+                }
             }
             _patientCreatedEvent.call()
         }
+        PATIENT = Patient()
     }
 
     fun changePatientData(
@@ -85,15 +84,11 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         middleName: String,
         birthDate: String
     ) {
-        val lastNameText = lastName.trim()
-        val firstNameText = firstName.trim()
-        val middleNameText = middleName.trim()
-        val birthDateText = birthDate.trim()
-        edited.value = edited.value?.copy(
-            lastName = lastNameText,
-            firstName = firstNameText,
-            middleName = middleNameText,
-            birthDate = birthDateText
+        PATIENT = PATIENT.copy(
+            lastName = lastName.trim(),
+            firstName = firstName.trim(),
+            middleName = middleName.trim(),
+            birthDate = birthDate.trim()
         )
     }
 }

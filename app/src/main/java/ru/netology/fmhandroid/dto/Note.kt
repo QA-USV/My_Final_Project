@@ -1,21 +1,21 @@
 package ru.netology.fmhandroid.dto
 
 data class Note(
-    val id: Int,
-    val patientId: Int,
-    var description: String,
-    val creatorId: Int,
-    val executorId: Int,
-    val createDate: String,
-    val planeExecuteDate: String,
-    val factExecuteDate: String,
-    val statusId: Int,
-    val status: Status,
-    var comment: String,
-    val deleted: Boolean
+    val id: Int = 0,
+    val patientId: Int = 0,
+    var description: String = "",
+    val creatorId: Int = 0,
+    val executorId: Int = 0,
+    val createDate: String = "",
+    val planeExecuteDate: String = "",
+    val factExecuteDate: String = "",
+    val statusId: Int = 0,
+    val status: NoteStatus = NoteStatus.ACTIVE,
+    var comment: String = "",
+    val deleted: Boolean = false
 )
 
-enum class Status {
+enum class NoteStatus {
     ACTIVE,
     CANCELED,
     EXECUTE

@@ -1,45 +1,38 @@
 package ru.netology.fmhandroid.viewmodel
 
 import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.Status
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepository
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
-private val EMPTY_NOTE = Note(
-    id = 0,
-    patientId = 0,
-    description = "",
-    creatorId = 0,
-    executorId = 0,
-    createDate = "",
-    planeExecuteDate = "",
-    factExecuteDate = "",
-    statusId = 0,
-    status = Status.ACTIVE,
-    comment = "",
-    deleted = false
-)
+private var NOTE = Note()
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val noteRepository: NoteRepository =
         NoteRepositoryImp(AppDb.getInstance(context = application).noteDao())
 
-    val data: LiveData<List<Note>> = noteRepository.data
-        .asLiveData(Dispatchers.Default)
+    suspend fun data(): Flow<List<Note>> =
+        noteRepository.getAllNotes()
 
-    private val edited = MutableLiveData(EMPTY_NOTE)
     private val _noteCreatedEvent = SingleLiveEvent<Unit>()
     val noteCreatedEvent: LiveData<Unit>
         get() = _noteCreatedEvent
+
+    private val _loadNoteExceptionEvent = SingleLiveEvent<Unit>()
+    val loadNoteExceptionEvent: LiveData<Unit>
+        get() = _loadNoteExceptionEvent
+
+    private val _saveNoteExceptionEvent = SingleLiveEvent<Unit>()
+    val saveNoteExceptionEvent: LiveData<Unit>
+        get() = _saveNoteExceptionEvent
 
     init {
         loadNotesList()
@@ -49,25 +42,37 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         try {
             noteRepository.getAllNotes()
         } catch (e: Exception) {
-            Toast.makeText(getApplication(), R.string.error_loading, Toast.LENGTH_LONG).show()
+            e.printStackTrace()
         }
     }
 
-    fun save() {
-        val it = edited.value ?: return
+    fun getAllNotes() =
         viewModelScope.launch {
             try {
-                noteRepository.saveNote(it)
-                loadNotesList()
+                noteRepository.getAllNotes()
             } catch (e: Exception) {
-                Toast.makeText(getApplication(), R.string.error_saving, Toast.LENGTH_LONG).show()
+                _loadNoteExceptionEvent.call()
             }
-            _noteCreatedEvent.call()
+        }
+
+    fun save() {
+        NOTE.let {
+            viewModelScope.launch {
+                try {
+                    noteRepository.saveNote(it)
+                    loadNotesList()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _saveNoteExceptionEvent.call()
+                }
+                _noteCreatedEvent.call()
+            }
+            NOTE = Note()
         }
     }
 
     fun editNote(note: Note) {
-        edited.value = note
+        NOTE = note
     }
 
     fun getNoteById(id: Int) {
@@ -81,23 +86,25 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveNoteCommentById() {
-        val it = edited.value ?: return
-        viewModelScope.launch {
-            try {
-                noteRepository.saveNoteCommentById(it.id, it.comment)
-            } catch (e: Exception) {
-                e.printStackTrace()
+        NOTE.let {
+            viewModelScope.launch {
+                try {
+                    noteRepository.saveNoteCommentById(it.id, it.comment)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
 
     fun setNoteStatusById() {
-        val it = edited.value ?: return
-        viewModelScope.launch {
-            try {
-                noteRepository.setNoteStatusById(it.id, it.status)
-            } catch (e: Exception) {
-                e.printStackTrace()
+        NOTE.let {
+            viewModelScope.launch {
+                try {
+                    noteRepository.setNoteStatusById(it.id, it.status)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

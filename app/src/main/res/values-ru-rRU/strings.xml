@@ -20,7 +20,7 @@
     <string name="cancel_button">ОТМЕНА</string>
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
-    <string name="add_patient_fragment_negative_button">ОТМЕНА</string>
+    <string name="fragment_negative_button">ОТМЕНА</string>
     <string name="error_loading">Что-то пошло не так. Попробуйте позднее.</string>
     <string name="retry_loading">Повторить</string>
     <string name="empty_patients_list">Пациентов нет.\nЕсли создадите нового пациента, то он появится здесь</string>

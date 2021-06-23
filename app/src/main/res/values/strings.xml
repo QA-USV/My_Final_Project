@@ -19,8 +19,8 @@
     <string name="cancel_button" tools:ignore="ButtonCase">CANCEL</string>
     <string name="save_button" tools:ignore="ButtonCase">SAVE</string>
     <string name="cancellation">The changes won\'t be saved, do you really want to log out?</string>
-    <string name="add_patient_fragment_positive_button" translatable="false">OK</string>
-    <string name="add_patient_fragment_negative_button">CANCEL</string>
+    <string name="fragment_positive_button" translatable="false">OK</string>
+    <string name="fragment_negative_button" tools:ignore="ButtonCase">CANCEL</string>
     <string name="error_loading">Something went wrong. Try again later.</string>
     <string name="retry_loading">Retry</string>
     <string name="empty_patients_list">There are no patients.\nIf you create a new patient, it will appear here</string>

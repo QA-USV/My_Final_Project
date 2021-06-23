@@ -4,7 +4,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.fmhandroid.api.RetrofitBuilder.Companion.retrofit
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatusEnum
+import ru.netology.fmhandroid.dto.NoteStatus
 
 interface NoteApiService {
     @GET("note")
@@ -28,7 +28,7 @@ interface NoteApiService {
     @POST("note/status/{noteId}")
     suspend fun setNoteStatusById(
         @Path("noteId") noteId: Int,
-        @Query("status") status: NoteStatusEnum
+        @Query("status") status: NoteStatus
     ): Response<Note>
 }
 

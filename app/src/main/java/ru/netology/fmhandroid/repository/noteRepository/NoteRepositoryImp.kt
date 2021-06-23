@@ -1,26 +1,25 @@
 package ru.netology.fmhandroid.repository.noteRepository
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import ru.netology.fmhandroid.api.NoteApi
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.Status
-import ru.netology.fmhandroid.entity.*
+import ru.netology.fmhandroid.dto.NoteStatus
+import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.util.makeRequest
 
 class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
-    override val data = dao.getAllNotes()
-        .map(List<NoteEntity>::toDto)
-        .flowOn(Dispatchers.Default)
 
-    override suspend fun getAllNotes(): List<Note> = makeRequest(
-        request = { NoteApi.service.getAllNotes() },
-        onSuccess = { body ->
-            dao.insert(body.toEntity())
-            body
-        }
-    )
+    override suspend fun getAllNotes(): Flow<List<Note>> = flow {
+        makeRequest(
+            request = { NoteApi.service.getAllNotes() },
+            onSuccess = { body ->
+                dao.insert(body.toEntity())
+                emit(body)
+            }
+        )
+    }
 
     override suspend fun saveNote(note: Note): Note = makeRequest(
         request = { NoteApi.service.saveNote(note) },
@@ -54,7 +53,7 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
         }
     )
 
-    override suspend fun setNoteStatusById(noteId: Int, status: Status): Note = makeRequest(
+    override suspend fun setNoteStatusById(noteId: Int, status: NoteStatus): Note = makeRequest(
         request = { NoteApi.service.setNoteStatusById(noteId, status)},
         onSuccess = { body ->
             dao.insert(body.toEntity())
