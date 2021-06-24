@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.flow
 import ru.netology.fmhandroid.api.NoteApi
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.NoteStatus
+import ru.netology.fmhandroid.dto.Note.Status
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.util.makeRequest
 
@@ -53,7 +53,7 @@ class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
         }
     )
 
-    override suspend fun setNoteStatusById(noteId: Int, status: NoteStatus): Note = makeRequest(
+    override suspend fun setNoteStatusById(noteId: Int, status: Status): Note = makeRequest(
         request = { NoteApi.service.setNoteStatusById(noteId, status)},
         onSuccess = { body ->
             dao.insert(body.toEntity())

@@ -56,10 +56,10 @@ class PatientListAdapter(
 
 class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
     override fun areItemsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 }

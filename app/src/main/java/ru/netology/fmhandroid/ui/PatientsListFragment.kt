@@ -50,15 +50,16 @@ class PatientsListFragment : Fragment() {
         }
 
         viewModel.loadPatientExceptionEvent.observe(viewLifecycleOwner, {
-            val dialog = activity?.let { activity ->
+            val activity = activity ?: return@observe
+            val dialog = activity.let { activity ->
                 AlertDialog.Builder(activity)
             }
-            dialog?.setMessage(R.string.error_loading)
-                ?.setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+            dialog.setMessage(R.string.error_loading)
+                .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
                     dialog.cancel()
                 }
-                ?.create()
-                ?.show()
+                .create()
+                .show()
         })
 
         binding.topAppBar.setNavigationOnClickListener { view ->

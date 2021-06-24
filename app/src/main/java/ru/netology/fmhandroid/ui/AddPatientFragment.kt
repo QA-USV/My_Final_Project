@@ -50,20 +50,20 @@ class AddPatientFragment : DialogFragment() {
         }
 
         binding.cancelButton.setOnClickListener {
-            val dialog = activity?.let { activity ->
+            val activity = activity ?: return@setOnClickListener
+            val dialog = activity.let { activity ->
                 AlertDialog.Builder(activity)
             }
 
-            dialog
-                ?.setMessage(R.string.cancellation)
-                ?.setPositiveButton(R.string.fragment_positive_button) { dialog, int ->
+            dialog.setMessage(R.string.cancellation)
+                .setPositiveButton(R.string.fragment_positive_button) { dialog, int ->
                     dismiss()
                 }
-                ?.setNegativeButton(R.string.fragment_negative_button) { dialog, int ->
+                .setNegativeButton(R.string.fragment_negative_button) { dialog, int ->
                     isCancelable
                 }
-                ?.create()
-                ?.show()
+                .create()
+                .show()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().popBackStack()
@@ -80,15 +80,16 @@ class AddPatientFragment : DialogFragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             viewModel.savePatientExceptionEvent.observe(viewLifecycleOwner, {
-                val dialog = activity?.let { activity ->
+                val activity = activity ?: return@observe
+                val dialog = activity.let { activity ->
                     AlertDialog.Builder(activity)
                 }
-                dialog?.setMessage(R.string.error_saving)
-                    ?.setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                dialog.setMessage(R.string.error_saving)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
                         dialog.cancel()
                     }
-                    ?.create()
-                    ?.show()
+                    .create()
+                    .show()
             })
         }
     }
