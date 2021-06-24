@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
+import ru.netology.fmhandroid.dto.Patient.Status
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
@@ -25,7 +25,7 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         )
 
     suspend fun data(): Flow<List<Patient>> =
-        patientRepository.getAllPatientsWithAdmissionStatus(PatientStatusEnum.ACTIVE)
+        patientRepository.getAllPatientsWithAdmissionStatus(Status.ACTIVE)
 
     private val _patientCreatedEvent = SingleLiveEvent<Unit>()
     val patientCreatedEvent: LiveData<Unit>
@@ -46,14 +46,14 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
     fun loadPatientsList() {
         viewModelScope.launch {
             try {
-                patientRepository.getAllPatientsWithAdmissionStatus(PatientStatusEnum.ACTIVE)
+                patientRepository.getAllPatientsWithAdmissionStatus(Status.ACTIVE)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    fun getAllPatientsWithAdmissionStatus(status: PatientStatusEnum) =
+    fun getAllPatientsWithAdmissionStatus(status: Status) =
         viewModelScope.launch {
             try {
                 patientRepository.getAllPatientsWithAdmissionStatus(status)

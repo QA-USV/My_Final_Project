@@ -8,11 +8,12 @@ data class Patient(
     val birthDate: String = "",
     val currentAdmissionId: Int = 0,
     val deleted: Boolean = false,
-    val status: PatientStatusEnum = PatientStatusEnum.ACTIVE
-)
+    val status: Status = Status.ACTIVE
+) {
 
-enum class PatientStatusEnum {
-    ACTIVE,
-    EXPECTED,
-    DISCHARGED
+    enum class Status {
+        ACTIVE,
+        EXPECTED,
+        DISCHARGED
+    }
 }

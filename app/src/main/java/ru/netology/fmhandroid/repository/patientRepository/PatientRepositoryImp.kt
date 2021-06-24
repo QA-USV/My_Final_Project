@@ -17,7 +17,7 @@ class PatientRepositoryImp(
 ) : PatientRepository {
 
     override suspend fun getAllPatientsWithAdmissionStatus(
-        status: PatientStatusEnum
+        status: Patient.Status
     ): Flow<List<Patient>> = flow {
         makeRequest(
             request = { PatientApi.service.getAllPatientsWithAdmissionStatus(status) },

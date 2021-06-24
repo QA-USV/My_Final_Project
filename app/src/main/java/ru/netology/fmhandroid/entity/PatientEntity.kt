@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
+import ru.netology.fmhandroid.dto.Patient.Status
 
 @Entity(tableName = "PatientEntity")
 data class PatientEntity(
@@ -24,7 +24,7 @@ data class PatientEntity(
     @ColumnInfo(name = "deleted")
     val deleted: Boolean,
     @ColumnInfo(name = "status")
-    val status: PatientStatusEnum,
+    val status: Status,
 ) {
     fun toDto() = Patient(
         id = id,

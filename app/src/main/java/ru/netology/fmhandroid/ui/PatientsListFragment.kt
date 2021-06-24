@@ -16,7 +16,7 @@ import ru.netology.fmhandroid.adapter.OnInteractionListener
 import ru.netology.fmhandroid.adapter.PatientListAdapter
 import ru.netology.fmhandroid.databinding.FragmentPatientsListBinding
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
+import ru.netology.fmhandroid.dto.Patient.Status
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 class PatientsListFragment : Fragment() {
@@ -69,19 +69,19 @@ class PatientsListFragment : Fragment() {
                     when (menuItem.itemId) {
                         R.id.active -> {
                             viewModel.getAllPatientsWithAdmissionStatus(
-                                PatientStatusEnum.ACTIVE
+                                Status.ACTIVE
                             )
                             true
                         }
                         R.id.expected -> {
                             viewModel.getAllPatientsWithAdmissionStatus(
-                                PatientStatusEnum.EXPECTED
+                                Status.EXPECTED
                             )
                             true
                         }
                         R.id.discharged -> {
                             viewModel.getAllPatientsWithAdmissionStatus(
-                                PatientStatusEnum.DISCHARGED
+                                Status.DISCHARGED
                             )
                             true
                         }

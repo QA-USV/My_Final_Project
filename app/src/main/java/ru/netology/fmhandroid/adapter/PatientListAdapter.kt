@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.PatientsListCardBinding
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
+import ru.netology.fmhandroid.dto.Patient.Status
 
 interface OnInteractionListener {
     fun onOpenCard(patient: Patient) {}
@@ -41,9 +41,9 @@ class PatientListAdapter(
             )
 
             val patientStatusResId = when (patient.status) {
-                PatientStatusEnum.ACTIVE -> R.string.patients_status_active
-                PatientStatusEnum.EXPECTED -> R.string.patients_status_expected
-                PatientStatusEnum.DISCHARGED -> R.string.patients_status_discharged
+                Status.ACTIVE -> R.string.patients_status_active
+                Status.EXPECTED -> R.string.patients_status_expected
+                Status.DISCHARGED -> R.string.patients_status_discharged
             }
             patientStatus.text = itemView.context.getString(patientStatusResId)
 

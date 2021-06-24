@@ -6,7 +6,6 @@ import ru.netology.fmhandroid.api.RetrofitBuilder.getRetrofit
 import ru.netology.fmhandroid.dto.Admission
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
 
 
 interface PatientApiService {
@@ -15,7 +14,7 @@ interface PatientApiService {
 
     @GET("patient")
     suspend fun getAllPatientsWithAdmissionStatus(
-        @Query("patients_status_list") status: PatientStatusEnum
+        @Query("patients_status_list") status: Patient.Status
     ): Response<List<Patient>>
 
     @GET("patient/{id}")
