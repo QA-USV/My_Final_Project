@@ -26,7 +26,7 @@ class NoteListFragment : Fragment() {
 
         val adapter = NoteListAdapter()
 
-        binding.rvNotesList.adapter = adapter
+        binding.notesListRecyclerView.adapter = adapter
         viewModel.data.observe(
             viewLifecycleOwner
         ) { state ->
@@ -36,5 +36,4 @@ class NoteListFragment : Fragment() {
 
         return binding.root
     }
-
 }

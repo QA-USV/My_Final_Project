@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
             false
         )
 
-        binding.toAddPAtientFragmentButton.setOnClickListener {
+        binding.toAddPatientFragmentButton.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_addPatientFragment)
         }
 
@@ -49,7 +49,7 @@ class MainFragment : Fragment() {
 
         binding.btnToNoteCard.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_noteCardFragment)
-
+        }
         binding.toListOfNotesFragmentButton.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_fragment_list_notes)
         }
