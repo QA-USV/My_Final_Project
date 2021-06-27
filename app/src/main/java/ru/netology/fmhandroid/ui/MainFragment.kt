@@ -5,11 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.FragmentFeedBinding
+import ru.netology.fmhandroid.databinding.FragmentMainBinding
+import ru.netology.fmhandroid.viewmodel.NoteViewModel
 
-class FeedFragment : Fragment() {
+class MainFragment : Fragment() {
+
+    private val noteViewModel: NoteViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +29,7 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = FragmentFeedBinding.inflate(
+        val binding = FragmentMainBinding.inflate(
             inflater,
             container,
             false
@@ -42,6 +49,9 @@ class FeedFragment : Fragment() {
 
         binding.btnToNoteCard.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_noteCardFragment)
+
+        binding.toListOfNotesFragmentButton.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_fragment_list_notes)
         }
 
         return binding.root

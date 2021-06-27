@@ -52,4 +52,18 @@
     <string name="patient_selection">Patient selection</string>
     <string name="responsible_selection">Responsible selection</string>
     <string name="description">Description</string>
+    <string name="menu_button_description" translatable="false">Menu Button</string>
+    <string name="line_divider_description">Divider Line</string>
+    <string name="note_patient_label" translatable="false">Patient:</string>
+    <string name="note_executor_label" translatable="false">Executor:</string>
+    <string name="note_plan_date_label" translatable="false">Plan date:</string>
+    <string name="note_fact_date_label" translatable="false">Fact date:</string>
+    <string name="empty_fact_date" translatable="false">Not yet accepted for work</string>
+    <string name="patient_status_active" translatable="false">In hospice</string>
+    <string name="patient_status_expected" translatable="false">Expected</string>
+    <string name="patient_status_discharged" translatable="false">Discharged</string>
+    <string name="list_of_notes_fragment_label">Notes</string>
+    <string name="empty_notes_list">There is not a single note here. You can create a new one or update the list.</string>
+    <string name="date_not_set">Date not set</string>
+    <string name="patient_status_is_not_determined"> --- </string>
 </resources>

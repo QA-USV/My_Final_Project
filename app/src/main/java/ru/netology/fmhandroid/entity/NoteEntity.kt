@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Note
+import java.time.LocalDateTime
 
 @Entity(tableName = "NoteEntity")
 data class NoteEntity(
@@ -11,25 +12,35 @@ data class NoteEntity(
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "patientId")
-    val patientId: Int,
+    val patientId: Int? = null,
     @ColumnInfo(name = "description")
     var description: String,
     @ColumnInfo(name = "creatorId")
-    val creatorId: Int,
+    val creatorId: Int? = null,
     @ColumnInfo(name = "executorId")
-    val executorId: Int,
+    val executorId: Int? = null,
     @ColumnInfo(name = "createDate")
-    val createDate: String,
+    val createDate: String? = null,
     @ColumnInfo(name = "planeExecuteDate")
-    val planeExecuteDate: String,
+    val planeExecuteDate: LocalDateTime? = null,
     @ColumnInfo(name = "factExecuteDate")
-    val factExecuteDate: String,
+    val factExecuteDate: LocalDateTime? = null,
     @ColumnInfo(name = "statusId")
-    val statusId: Int,
+    val noteStatus: Note.Status? = null,
     @ColumnInfo(name = "comment")
-    var comment: String,
+    var comment: String? = null,
     @ColumnInfo(name = "deleted")
-    val deleted: Boolean
+    val deleted: Boolean = false,
+    /*
+    Вопрос по данному полю остается отркрытым, стоит или не стоит его хранить в локальной БД?
+     */
+    @ColumnInfo(name = "shortExecutorName")
+    val shortExecutorName: String,
+    /*
+    Вопрос по данному полю остается отркрытым, стоит или не стоит его хранить в локальной БД?
+    */
+    @ColumnInfo(name = "shortPatientName")
+    val shortPatientName: String
 ) {
     fun toDto() = Note(
         id = id,
@@ -40,9 +51,11 @@ data class NoteEntity(
         createDate = createDate,
         planeExecuteDate = planeExecuteDate,
         factExecuteDate = factExecuteDate,
-        statusId = statusId,
+        noteStatus = noteStatus,
         comment = comment,
-        deleted = deleted
+        deleted = deleted,
+        shortExecutorName = shortExecutorName,
+        shortPatientName = shortPatientName
     )
 }
 
@@ -57,7 +70,9 @@ fun Note.toEntity() = NoteEntity(
     createDate = createDate,
     planeExecuteDate = planeExecuteDate,
     factExecuteDate = factExecuteDate,
-    statusId = statusId,
+    noteStatus = noteStatus,
     comment = comment,
-    deleted = deleted
+    deleted = deleted,
+    shortExecutorName = shortExecutorName,
+    shortPatientName = shortPatientName
 )

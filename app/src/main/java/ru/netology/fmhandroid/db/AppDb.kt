@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import ru.netology.fmhandroid.dao.AdmissionDao
-import ru.netology.fmhandroid.dao.NoteDao
-import ru.netology.fmhandroid.dao.PatientDao
-import ru.netology.fmhandroid.dao.UserDao
+import androidx.room.TypeConverters
+import ru.netology.fmhandroid.dao.*
 import ru.netology.fmhandroid.entity.AdmissionEntity
 import ru.netology.fmhandroid.entity.NoteEntity
 import ru.netology.fmhandroid.entity.PatientEntity
@@ -19,6 +17,7 @@ import ru.netology.fmhandroid.entity.UserEntity
     exportSchema = false
 )
 
+@TypeConverters(Converters::class)
 abstract class AppDb: RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun patientDao(): PatientDao

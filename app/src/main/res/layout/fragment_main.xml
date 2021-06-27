@@ -7,35 +7,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".ui.FeedFragment">
+    tools:context=".ui.MainFragment">
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
         android:id="@+id/toPatientListFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="to List ofPatient Fragment"
-        />
+        android:text="to List of Patients Fragment" />
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
     android:id="@+id/toAddPAtientFragmentButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:text="to Add Patient Fragment"/>
+    android:text="to Add Patient Fragment" />
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
-        android:id="@+id/btnToAddNote"
+        android:id="@+id/toListOfNotesFragmentButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="to Add Note"/>
-
-    <Button
-        android:id="@+id/btnToNoteCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Note Card"/>
+        android:text="to List of Notes Fragment" />
 
 </LinearLayout>
