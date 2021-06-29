@@ -12,29 +12,29 @@ data class PatientEntity(
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "firstName")
-    val firstName: String,
+    val firstName: String?,
     @ColumnInfo(name = "lastName")
-    val lastName: String,
+    val lastName: String?,
     @ColumnInfo(name = "middleName")
-    val middleName: String,
+    val middleName: String?,
     @ColumnInfo(name = "birthDate")
-    val birthDate: String,
+    val birthday: String?,
     @ColumnInfo(name = "currentAdmissionId")
     val currentAdmissionId: Int,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean,
     @ColumnInfo(name = "status")
-    val status: Status,
+    val admissionsStatus: Status,
 ) {
     fun toDto() = Patient(
         id = id,
         firstName = firstName,
         lastName = lastName,
         middleName = middleName,
-        birthDate = birthDate,
+        birthday = birthday,
         currentAdmissionId = currentAdmissionId,
         deleted = deleted,
-        status = status
+        admissionsStatus = admissionsStatus
     )
 }
 
@@ -45,8 +45,8 @@ fun Patient.toEntity(): PatientEntity = PatientEntity(
     firstName = firstName,
     lastName = lastName,
     middleName = middleName,
-    birthDate = birthDate,
+    birthday = birthday,
     currentAdmissionId = currentAdmissionId,
     deleted = deleted,
-    status = status
+    admissionsStatus = admissionsStatus
 )

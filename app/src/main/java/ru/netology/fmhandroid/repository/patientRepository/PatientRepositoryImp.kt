@@ -1,12 +1,18 @@
 package ru.netology.fmhandroid.repository.patientRepository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.PatientApi
 import ru.netology.fmhandroid.dao.AdmissionDao
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dao.PatientDao
-import ru.netology.fmhandroid.dto.*
+import ru.netology.fmhandroid.dto.Admission
+import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.Patient
+import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.util.makeRequest
 
@@ -15,6 +21,11 @@ class PatientRepositoryImp(
     private val admissionDao: AdmissionDao,
     private val noteDao: NoteDao
 ) : PatientRepository {
+
+    override val data: Flow<List<Patient>>
+        get() = patientDao.getAllPatients()
+            .map { it.toDto() }
+            .flowOn(Dispatchers.Default)
 
     override suspend fun getAllPatientsWithAdmissionStatus(
         status: Patient.Status

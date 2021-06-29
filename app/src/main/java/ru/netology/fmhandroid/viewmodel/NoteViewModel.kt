@@ -12,7 +12,7 @@ import ru.netology.fmhandroid.repository.noteRepository.NoteRepository
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
-private var NOTE = Note()
+private var emptyNote = Note()
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -35,28 +35,27 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         get() = _saveNoteExceptionEvent
 
     init {
-        loadNotesList()
-    }
-
-    fun loadNotesList() = viewModelScope.launch {
-        try {
-            noteRepository.getAllNotes()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        viewModelScope.launch {
+            loadNotesList()
         }
     }
 
-    fun getAllNotes() =
+    suspend fun loadNotesList() =
+        noteRepository.getAllNotes()
+
+    suspend fun getAllNotes() {
         viewModelScope.launch {
             try {
                 noteRepository.getAllNotes()
             } catch (e: Exception) {
-                _loadNoteExceptionEvent.call()
+                e.printStackTrace()
+                _noteCreatedEvent.call()
             }
         }
+    }
 
     fun save() {
-        NOTE.let {
+        emptyNote.let {
             viewModelScope.launch {
                 try {
                     noteRepository.saveNote(it)
@@ -67,12 +66,12 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 _noteCreatedEvent.call()
             }
-            NOTE = Note()
+            emptyNote = Note()
         }
     }
 
     fun editNote(note: Note) {
-        NOTE = note
+        emptyNote = note
     }
 
     fun getNoteById(id: Int) {
@@ -86,7 +85,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveNoteCommentById() {
-        NOTE.let {
+        emptyNote.let {
             viewModelScope.launch {
                 try {
                     noteRepository.saveNoteCommentById(it.id, it.comment)
@@ -98,7 +97,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setNoteStatusById() {
-        NOTE.let {
+        emptyNote.let {
             viewModelScope.launch {
                 try {
                     noteRepository.setNoteStatusById(it.id, it.status)

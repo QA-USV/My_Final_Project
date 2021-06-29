@@ -41,19 +41,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            manifestPlaceholders.usesCleartextTraffic = false
-            buildConfigField "String", "BASE_URL", '"https://nmedia.herokuapp.com"'
-        }
-        debug {
-            manifestPlaceholders.usesCleartextTraffic = true
-            buildConfigField "String", "BASE_URL", '"http://130.193.44.96:8080"'
-        }
-    }
 }
 
 dependencies {

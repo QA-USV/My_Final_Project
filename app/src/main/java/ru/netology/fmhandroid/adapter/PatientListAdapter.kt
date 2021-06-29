@@ -40,7 +40,7 @@ class PatientListAdapter(
                 patient.lastName, patient.firstName, patient.middleName
             )
 
-            val patientStatusResId = when (patient.status) {
+            val patientStatusResId = when (patient.admissionsStatus) {
                 Status.ACTIVE -> R.string.patients_status_active
                 Status.EXPECTED -> R.string.patients_status_expected
                 Status.DISCHARGED -> R.string.patients_status_discharged
@@ -60,6 +60,6 @@ class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
     }
 
     override fun areContentsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

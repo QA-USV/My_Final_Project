@@ -9,12 +9,12 @@ import ru.netology.fmhandroid.dto.Patient
 
 
 interface PatientApiService {
-    @GET("patient?patients_status_list=ACTIVE")
+    @GET("patient?patients_status_list=EXPECTED")
     suspend fun getAllPatients(): Response<List<Patient>>
 
     @GET("patient")
     suspend fun getAllPatientsWithAdmissionStatus(
-        @Query("patients_status_list") status: Patient.Status
+        @Query("patients_status_list") admissionsStatus: Patient.Status
     ): Response<List<Patient>>
 
     @GET("patient/{id}")
@@ -26,7 +26,7 @@ interface PatientApiService {
     @GET("patient/{id}/note")
     suspend fun getPatientNotes(@Path("id") id: Int): Response<List<Note>>
 
-    @POST("patient/create")
+    @POST("patient")
     suspend fun savePatient(@Body patient: Patient): Response<Patient>
 
     @PATCH("patient/update")

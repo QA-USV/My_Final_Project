@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Patient
@@ -13,7 +14,7 @@ import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepositoryImp
 import ru.netology.fmhandroid.util.SingleLiveEvent
 
-private var PATIENT = Patient()
+private var emptyPatient = Patient()
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -24,8 +25,8 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
             AppDb.getInstance(context = application).noteDao()
         )
 
-    suspend fun data(): Flow<List<Patient>> =
-        patientRepository.getAllPatientsWithAdmissionStatus(Status.ACTIVE)
+    val data: Flow<List<Patient>>
+        get() = patientRepository.data
 
     private val _patientCreatedEvent = SingleLiveEvent<Unit>()
     val patientCreatedEvent: LiveData<Unit>
@@ -40,34 +41,28 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         get() = _savePatientExceptionEvent
 
     init {
-        loadPatientsList()
-    }
-
-    fun loadPatientsList() {
         viewModelScope.launch {
-            try {
-                patientRepository.getAllPatientsWithAdmissionStatus(Status.ACTIVE)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            patientRepository.getAllPatientsWithAdmissionStatus(Status.EXPECTED)
+                .collect()
         }
     }
 
-    fun getAllPatientsWithAdmissionStatus(status: Status) =
+    fun getAllPatientsWithAdmissionStatus(status: Status) {
         viewModelScope.launch {
             try {
                 patientRepository.getAllPatientsWithAdmissionStatus(status)
             } catch (e: Exception) {
+                e.printStackTrace()
                 _loadPatientExceptionEvent.call()
             }
         }
+    }
 
     fun save() {
-        PATIENT.let {
+        emptyPatient.let {
             viewModelScope.launch {
                 try {
                     patientRepository.savePatient(it)
-                    loadPatientsList()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _savePatientExceptionEvent.call()
@@ -75,7 +70,7 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
             }
             _patientCreatedEvent.call()
         }
-        PATIENT = Patient()
+        emptyPatient = Patient()
     }
 
     fun changePatientData(
@@ -84,11 +79,11 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         middleName: String,
         birthDate: String
     ) {
-        PATIENT = PATIENT.copy(
+        emptyPatient = emptyPatient.copy(
             lastName = lastName.trim(),
             firstName = firstName.trim(),
             middleName = middleName.trim(),
-            birthDate = birthDate.trim()
+            birthday = birthDate.trim()
         )
     }
 }

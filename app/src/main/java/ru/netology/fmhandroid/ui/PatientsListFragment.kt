@@ -10,7 +10,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.OnInteractionListener
 import ru.netology.fmhandroid.adapter.PatientListAdapter
@@ -39,11 +41,14 @@ class PatientsListFragment : Fragment() {
         })
 
         lifecycleScope.launchWhenCreated {
-            viewModel.data().collectLatest { state ->
-                adapter.submitList(state)
-                binding.emptyText.isVisible = state.isEmpty()
-            }
+            viewModel.data
+                .collectLatest { state ->
+                    adapter.submitList(state)
+                    binding.emptyText.isVisible = state.isEmpty()
+                }
         }
+
+        binding.recyclerPatientsList.adapter = adapter
 
         binding.addPatient.setOnClickListener {
             AddPatientFragment().show(parentFragmentManager, "AddPatientFragment")
