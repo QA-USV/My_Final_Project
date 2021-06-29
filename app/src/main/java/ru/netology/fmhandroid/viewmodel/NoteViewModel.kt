@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Note
@@ -19,8 +20,8 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val noteRepository: NoteRepository =
         NoteRepositoryImp(AppDb.getInstance(context = application).noteDao())
 
-    suspend fun data(): Flow<List<Note>> =
-        noteRepository.getAllNotes()
+    val data: Flow<List<Note>>
+        get() = noteRepository.data
 
     private val _noteCreatedEvent = SingleLiveEvent<Unit>()
     val noteCreatedEvent: LiveData<Unit>
@@ -36,12 +37,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch {
-            loadNotesList()
+            noteRepository.getAllNotes().collect()
         }
     }
-
-    suspend fun loadNotesList() =
-        noteRepository.getAllNotes()
 
     suspend fun getAllNotes() {
         viewModelScope.launch {
@@ -59,7 +57,6 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 try {
                     noteRepository.saveNote(it)
-                    loadNotesList()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _saveNoteExceptionEvent.call()
