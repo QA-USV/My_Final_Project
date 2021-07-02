@@ -2,10 +2,9 @@ package ru.netology.fmhandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
-import ru.netology.fmhandroid.api.RetrofitBuilder.getRetrofit
 import ru.netology.fmhandroid.dto.User
 
-interface UserApiService {
+interface UserApi {
     @GET("user")
     suspend fun getAllUsers(): Response<List<User>>
 
@@ -17,10 +16,4 @@ interface UserApiService {
 
     @GET("user/{id}")
     suspend fun getUserById(@Path("id") id: Long): Response<User>
-}
-
-object UserApi {
-    val service: UserApiService by lazy {
-        getRetrofit.create(UserApiService::class.java)
-    }
 }

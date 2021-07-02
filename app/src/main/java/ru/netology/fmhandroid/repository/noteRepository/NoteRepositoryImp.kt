@@ -12,17 +12,23 @@ import ru.netology.fmhandroid.dto.Note.Status
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.util.makeRequest
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NoteRepositoryImp(private val noteDao: NoteDao) : NoteRepository {
+@Singleton
+class NoteRepositoryImp @Inject constructor(
+    private val noteDao: NoteDao,
+    private val noteApi: NoteApi
+) : NoteRepository {
 
     override val data: Flow<List<Note>>
         get() = noteDao.getAllNotes()
-            .map{it.toDto()}
+            .map { it.toDto() }
             .flowOn(Dispatchers.Default)
 
     override suspend fun getAllNotes(): Flow<List<Note>> = flow {
         makeRequest(
-            request = { NoteApi.service.getAllNotes() },
+            request = { noteApi.getAllNotes() },
             onSuccess = { body ->
                 noteDao.insert(body.toEntity())
                 emit(body)
@@ -31,7 +37,7 @@ class NoteRepositoryImp(private val noteDao: NoteDao) : NoteRepository {
     }
 
     override suspend fun saveNote(note: Note): Note = makeRequest(
-        request = { NoteApi.service.saveNote(note) },
+        request = { noteApi.saveNote(note) },
         onSuccess = { body ->
             noteDao.insert(body.toEntity())
             body
@@ -39,7 +45,7 @@ class NoteRepositoryImp(private val noteDao: NoteDao) : NoteRepository {
     )
 
     override suspend fun editNote(note: Note) = makeRequest(
-        request = { NoteApi.service.editNote(note) },
+        request = { noteApi.editNote(note) },
         onSuccess = { body ->
             noteDao.insert(body.toEntity())
             body
@@ -47,7 +53,7 @@ class NoteRepositoryImp(private val noteDao: NoteDao) : NoteRepository {
     )
 
     override suspend fun getNoteById(id: Int): Note = makeRequest(
-        request = { NoteApi.service.getNoteById(id) },
+        request = { noteApi.getNoteById(id) },
         onSuccess = { body ->
             noteDao.insert(body.toEntity())
             body
@@ -55,7 +61,7 @@ class NoteRepositoryImp(private val noteDao: NoteDao) : NoteRepository {
     )
 
     override suspend fun saveNoteCommentById(noteId: Int, comment: String): Note = makeRequest(
-        request = { NoteApi.service.saveNoteCommentById(noteId, comment) },
+        request = { noteApi.saveNoteCommentById(noteId, comment) },
         onSuccess = { body ->
             noteDao.insert(body.toEntity())
             body
@@ -63,7 +69,7 @@ class NoteRepositoryImp(private val noteDao: NoteDao) : NoteRepository {
     )
 
     override suspend fun setNoteStatusById(noteId: Int, status: Status): Note = makeRequest(
-        request = { NoteApi.service.setNoteStatusById(noteId, status)},
+        request = { noteApi.setNoteStatusById(noteId, status) },
         onSuccess = { body ->
             noteDao.insert(body.toEntity())
             body

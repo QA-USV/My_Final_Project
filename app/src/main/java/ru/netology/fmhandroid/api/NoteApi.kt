@@ -2,11 +2,10 @@ package ru.netology.fmhandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
-import ru.netology.fmhandroid.api.RetrofitBuilder.getRetrofit
 import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Note.Status
 
-interface NoteApiService {
+interface NoteApi {
     @GET("note")
     suspend fun getAllNotes(): Response<List<Note>>
 
@@ -30,10 +29,4 @@ interface NoteApiService {
         @Path("noteId") noteId: Int,
         @Query("status") status: Status
     ): Response<Note>
-}
-
-object NoteApi {
-    val service: NoteApiService by lazy {
-        getRetrofit.create(NoteApiService::class.java)
-    }
 }

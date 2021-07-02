@@ -15,11 +15,15 @@ import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.util.makeRequest
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PatientRepositoryImp(
+@Singleton
+class PatientRepositoryImp @Inject constructor(
     private val patientDao: PatientDao,
     private val admissionDao: AdmissionDao,
-    private val noteDao: NoteDao
+    private val noteDao: NoteDao,
+    private val patientApi: PatientApi
 ) : PatientRepository {
 
     override val data: Flow<List<Patient>>
@@ -31,7 +35,7 @@ class PatientRepositoryImp(
         status: Patient.Status
     ): Flow<List<Patient>> = flow {
         makeRequest(
-            request = { PatientApi.service.getAllPatientsWithAdmissionStatus(status) },
+            request = { patientApi.getAllPatientsWithAdmissionStatus(status) },
             onSuccess = { body ->
                 patientDao.insert(body.toEntity())
                 emit(body)
@@ -40,7 +44,7 @@ class PatientRepositoryImp(
     }
 
     override suspend fun getPatientById(patientId: Int): Patient = makeRequest(
-        request = { PatientApi.service.getPatientById(patientId) },
+        request = { patientApi.getPatientById(patientId) },
         onSuccess = { body ->
             patientDao.insert(body.toEntity())
             body
@@ -48,7 +52,7 @@ class PatientRepositoryImp(
     )
 
     override suspend fun savePatient(patient: Patient): Patient = makeRequest(
-        request = { PatientApi.service.savePatient(patient) },
+        request = { patientApi.savePatient(patient) },
         onSuccess = { body ->
             patientDao.insert(body.toEntity())
             body
@@ -56,7 +60,7 @@ class PatientRepositoryImp(
     )
 
     override suspend fun editPatient(patient: Patient): Patient = makeRequest(
-        request = { PatientApi.service.updatePatient(patient) },
+        request = { patientApi.updatePatient(patient) },
         onSuccess = { body ->
             patientDao.insert(body.toEntity())
             body
@@ -65,7 +69,7 @@ class PatientRepositoryImp(
 
     override suspend fun getPatientAdmissions(patientId: Int): List<Admission> =
         makeRequest(
-            request = { PatientApi.service.getPatientAdmissions(patientId) },
+            request = { patientApi.getPatientAdmissions(patientId) },
             onSuccess = { body ->
                 admissionDao.insert(body.map { it.toEntity() })
                 body
@@ -73,7 +77,7 @@ class PatientRepositoryImp(
         )
 
     override suspend fun getPatientNotes(patientId: Int): List<Note> = makeRequest(
-        request = { PatientApi.service.getPatientNotes(patientId) },
+        request = { patientApi.getPatientNotes(patientId) },
         onSuccess = { body ->
             noteDao.insert(body.map { it.toEntity() })
             body

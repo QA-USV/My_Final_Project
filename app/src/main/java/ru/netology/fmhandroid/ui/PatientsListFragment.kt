@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.Patient.Status
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
+@AndroidEntryPoint
 class PatientsListFragment : Fragment() {
     private val viewModel: PatientViewModel by viewModels(
         ownerProducer = ::requireParentFragment
