@@ -1,90 +1,78 @@
 package ru.netology.fmhandroid.repository.noteRepository
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import ru.netology.fmhandroid.api.NoteApi
 import ru.netology.fmhandroid.dao.NoteDao
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.entity.*
-import ru.netology.fmhandroid.exceptions.*
-import java.time.LocalDateTime
+import ru.netology.fmhandroid.dto.Note.Status
+import ru.netology.fmhandroid.entity.toDto
+import ru.netology.fmhandroid.entity.toEntity
+import ru.netology.fmhandroid.util.makeRequest
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NoteRepositoryImp(private val dao: NoteDao) : NoteRepository {
-    override val data = dao.getAllNotes()
-        .map(List<NoteEntity>::toDto)
-        .flowOn(Dispatchers.Default)
+@Singleton
+class NoteRepositoryImp @Inject constructor(
+    private val noteDao: NoteDao,
+    private val noteApi: NoteApi
+) : NoteRepository {
 
-    override suspend fun getAllNotes(): List<Note> {
-        try {
-            val listOfNotes = mutableListOf<Note>()
-            listOfNotes.add(
-                Note(
-                    id = 1,
-                    description = "Выполнение внутримышечной инъекции Мельдоний, милдронат",
-                    planeExecuteDate = LocalDateTime.of(
-                        2021,
-                        6,
-                        10,
-                        20,
-                        10
-                    ),
-                    factExecuteDate = null,
-                    noteStatus = Note.Status.ACTIVE,
-                    shortPatientName = "Салтыков-Щедрин Е.В.",
-                    shortExecutorName = "Североморская Е.В."
-                )
-            )
+    override val data: Flow<List<Note>>
+        get() = noteDao.getAllNotes()
+            .map { it.toDto() }
+            .flowOn(Dispatchers.Default)
 
-            listOfNotes.add(
-                Note(
-                    id = 2,
-                    description = "Осмотр пациента.",
-                    planeExecuteDate = LocalDateTime.of(
-                        2021,
-                        6,
-                        10,
-                        23,
-                        10
-                    ),
-                    factExecuteDate = null,
-                    noteStatus = Note.Status.ACTIVE,
-                    shortPatientName = "Ложкин П.В",
-                    shortExecutorName = "Gregory House M.D."
-                )
-            )
-            listOfNotes.add(
-                Note(
-                    id = 3,
-                    description = "Восполнение водного баланса организма посредством капельцы с физ.раствором",
-                    planeExecuteDate = LocalDateTime.of(
-                        2021,
-                        7,
-                        10,
-                        20,
-                        10
-                    ),
-                    factExecuteDate = null,
-                    noteStatus = Note.Status.ACTIVE,
-                    shortPatientName = "Североморская Е.В.",
-                    shortExecutorName = "Аброськин Н.Г."
-                )
-            )
-            dao.insert(listOfNotes.map(Note::toEntity))
-            return listOfNotes
+    override suspend fun getAllNotes(): Flow<List<Note>> = flow {
+        makeRequest(
+            request = { noteApi.getAllNotes() },
+            onSuccess = { body ->
+                noteDao.insert(body.toEntity())
+                emit(body)
+            }
+        )
+    }
 
-        } catch (e: Exception) {
-            throw UnknownException
+    override suspend fun saveNote(note: Note): Note = makeRequest(
+        request = { noteApi.saveNote(note) },
+        onSuccess = { body ->
+            noteDao.insert(body.toEntity())
+            body
         }
-    }
+    )
 
-    override suspend fun saveNote(note: Note) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun editNote(note: Note) = makeRequest(
+        request = { noteApi.editNote(note) },
+        onSuccess = { body ->
+            noteDao.insert(body.toEntity())
+            body
+        }
+    )
 
-    override suspend fun updateNote(note: Note) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getNoteById(id: Int): Note = makeRequest(
+        request = { noteApi.getNoteById(id) },
+        onSuccess = { body ->
+            noteDao.insert(body.toEntity())
+            body
+        }
+    )
 
-    override suspend fun getNoteById(id: Long): Note {
-        TODO("Not yet implemented")
-    }
+    override suspend fun saveNoteCommentById(noteId: Int, comment: String): Note = makeRequest(
+        request = { noteApi.saveNoteCommentById(noteId, comment) },
+        onSuccess = { body ->
+            noteDao.insert(body.toEntity())
+            body
+        }
+    )
+
+    override suspend fun setNoteStatusById(noteId: Int, status: Status): Note = makeRequest(
+        request = { noteApi.setNoteStatusById(noteId, status) },
+        onSuccess = { body ->
+            noteDao.insert(body.toEntity())
+            body
+        }
+    )
 }

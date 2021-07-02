@@ -1,71 +1,115 @@
 package ru.netology.fmhandroid.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.db.AppDb
-import ru.netology.fmhandroid.dto.PatientStatusEnum
-import ru.netology.fmhandroid.model.FeedModelState
-import ru.netology.fmhandroid.model.NoteModel
-import ru.netology.fmhandroid.model.PatientModel
-import ru.netology.fmhandroid.repository.PatientRepositoryImpl
+import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepository
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepositoryImp
-import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
-import ru.netology.fmhandroid.utils.SingleLiveEvent
-import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.util.SingleLiveEvent
+import javax.inject.Inject
 
-class NoteViewModel(application: Application) : AndroidViewModel(application) {
+private var emptyNote = Note()
+
+@HiltViewModel
+class NoteViewModel @Inject constructor(
+    private val noteRepository: NoteRepository
+) : ViewModel() {
+
+    val data: Flow<List<Note>>
+        get() = noteRepository.data
+
+    private val _noteCreatedEvent = SingleLiveEvent<Unit>()
+    val noteCreatedEvent: LiveData<Unit>
+        get() = _noteCreatedEvent
+
+    private val _loadNoteExceptionEvent = SingleLiveEvent<Unit>()
+    val loadNoteExceptionEvent: LiveData<Unit>
+        get() = _loadNoteExceptionEvent
+
+    private val _saveNoteExceptionEvent = SingleLiveEvent<Unit>()
+    val saveNoteExceptionEvent: LiveData<Unit>
+        get() = _saveNoteExceptionEvent
+
+    init {
+        viewModelScope.launch {
+            noteRepository.getAllNotes().collect()
+        }
+    }
 
     private val noteRepository: NoteRepository =
         NoteRepositoryImp(
             AppDb.getInstance(context = application).noteDao()
         )
 
-    val data: LiveData<NoteModel> = noteRepository.data
-        .map(::NoteModel)
-        .asLiveData(Dispatchers.Default)
-
-    private val _dataState = MutableLiveData<FeedModelState>()
-    val dataState: LiveData<FeedModelState>
-        get() = _dataState
-
-    private val edited = MutableLiveData(Utils.emptyNote)
-    private val _noteCreated = SingleLiveEvent<Unit>()
-    val noteCreated: LiveData<Unit>
-        get() = _noteCreated
-
-    init {
-        loadNotesList()
-    }
-
-    fun loadNotesList() {
+    suspend fun getAllNotes() {
         viewModelScope.launch {
             try {
-                _dataState.value = FeedModelState(loading = true)
                 noteRepository.getAllNotes()
-                _dataState.value = FeedModelState()
             } catch (e: Exception) {
-                _dataState.value = FeedModelState(errorLoading = true)
+                e.printStackTrace()
+                _noteCreatedEvent.call()
             }
         }
     }
 
-    suspend fun getAllNotes() {
-        TODO("Not yet implemented")
+    fun save() {
+        emptyNote.let {
+            viewModelScope.launch {
+                try {
+                    noteRepository.saveNote(it)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _saveNoteExceptionEvent.call()
+                }
+                _noteCreatedEvent.call()
+            }
+            emptyNote = Note()
+        }
     }
 
-    suspend fun saveNote() {
-        TODO("Not yet implemented")
+    fun editNote(note: Note) {
+        emptyNote = note
     }
 
-    suspend fun updateNote() {
-        TODO("Not yet implemented")
+    fun getNoteById(id: Int) {
+        viewModelScope.launch {
+            try {
+                noteRepository.getNoteById(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
-    suspend fun getNoteById() {
-        TODO("Not yet implemented")
+    fun saveNoteCommentById() {
+        emptyNote.let {
+            viewModelScope.launch {
+                try {
+                    noteRepository.saveNoteCommentById(it.id, it.comment)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    fun setNoteStatusById() {
+        emptyNote.let {
+            viewModelScope.launch {
+                try {
+                    noteRepository.setNoteStatusById(it.id, it.status)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }

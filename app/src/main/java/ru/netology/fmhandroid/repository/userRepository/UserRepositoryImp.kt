@@ -2,14 +2,18 @@ package ru.netology.fmhandroid.repository.userRepository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import ru.netology.fmhandroid.api.UserApi
 import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.entity.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepositoryImp(private val dao: UserDao) : UserRepository {
-    override val data = dao.getAllUsers()
-            .map(List<UserEntity>::toDto)
-            .flowOn(Dispatchers.Default)
+@Singleton
+class UserRepositoryImp @Inject constructor(
+    private val userDao: UserDao,
+    private val userApi: UserApi
+) : UserRepository {
 
     override suspend fun getAllUsers() {
         TODO("Not yet implemented")

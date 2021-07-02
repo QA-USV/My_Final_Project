@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.PatientsListCardBinding
 import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
+import ru.netology.fmhandroid.dto.Patient.Status
 
-interface OnInterractionListener {
+interface OnInteractionListener {
     fun onOpenCard(patient: Patient) {}
 }
 
 class PatientListAdapter(
-    private val onInterractionListener: OnInterractionListener,
+    private val onInteractionListener: OnInteractionListener
 ) : ListAdapter<Patient, PatientListAdapter.PatientViewHolder>(PatientDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientViewHolder {
@@ -25,7 +25,7 @@ class PatientListAdapter(
             false
         )
 
-        return PatientViewHolder(binding, onInterractionListener)
+        return PatientViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: PatientViewHolder, position: Int) {
@@ -36,26 +36,23 @@ class PatientListAdapter(
 
     class PatientViewHolder(
         private val binding: PatientsListCardBinding,
-        private val onInterractionListener: OnInterractionListener,
+        private val onInteractionListener: OnInteractionListener,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(patient: Patient) {
-            binding.apply {
+        fun bind(patient: Patient) = with(binding) {
+            patientName.text = itemView.resources.getString(
+                R.string.patient_full_name_format,
+                patient.lastName, patient.firstName, patient.middleName
+            )
 
-                (patient.lastName + " " + patient.firstName + " " + patient.middleName).also {
-                    patientName.text = it
-                }
+            val patientStatusResId = when (patient.admissionsStatus) {
+                Status.ACTIVE -> R.string.patients_status_active
+                Status.EXPECTED -> R.string.patients_status_expected
+                Status.DISCHARGED -> R.string.patients_status_discharged
+            }
+            patientStatus.text = itemView.context.getString(patientStatusResId)
 
-                patientLocation.setText(
-                    if (patient.status != null) {
-                        patient.status.textResId
-                    } else {
-                        R.string.patient_status_is_not_determined
-                    }
-                )
-
-                patientName.setOnClickListener {
-                    onInterractionListener.onOpenCard(patient)
-                }
+            patientName.setOnClickListener {
+                onInteractionListener.onOpenCard(patient)
             }
         }
 
@@ -66,14 +63,14 @@ class PatientListAdapter(
                 PatientStatusEnum.DISCHARGED -> R.string.patient_status_discharged
             }
     }
+}
 
-    class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
-        override fun areItemsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-            return oldItem == newItem
-        }
+class PatientDiffCallBack : DiffUtil.ItemCallback<Patient>() {
+    override fun areItemsTheSame(oldItem: Patient, newItem: Patient): Boolean {
+        return oldItem.id == newItem.id
+    }
 
-        override fun areContentsTheSame(oldItem: Patient, newItem: Patient): Boolean {
-            return oldItem == newItem
-        }
+    override fun areContentsTheSame(oldItem: Patient, newItem: Patient): Boolean {
+        return oldItem == newItem
     }
 }

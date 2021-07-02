@@ -1,9 +1,15 @@
 package ru.netology.fmhandroid.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.netology.fmhandroid.repository.admissionRepository.AdmissionRepository
+import javax.inject.Inject
 
-class AdmissionViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class AdmissionViewModel @Inject constructor(
+    private val admissionRepository: AdmissionRepository
+) : ViewModel() {
 
     suspend fun saveAdmission() {
         TODO("Not yet implemented")

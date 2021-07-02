@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -16,47 +17,54 @@ import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 class AddPatientFragment : DialogFragment() {
     private val viewModel: PatientViewModel by viewModels(
-            ownerProducer = ::requireParentFragment
+        ownerProducer = ::requireParentFragment
     )
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
         val binding = AddPatientCardBinding.inflate(inflater, container, false)
 
         binding.saveButton.setOnClickListener {
-            val patient = Utils.emptyPatient.copy(
-                    lastName = binding.setLastName.text.toString(),
-                    firstName = binding.setName.text.toString(),
-                    middleName = binding.setMiddleName.text.toString(),
-                    birthDate = binding.setBirthDate.text.toString())
-                viewModel.changePatientData(
-                        patient.lastName,
-                        patient.firstName,
-                        patient.middleName,
-                        patient.birthDate)
+            val lastName = binding.setLastName.text.toString()
+            val firstName = binding.setName.text.toString()
+            val middleName = binding.setMiddleName.text.toString()
+            val birthDate = binding.setBirthDate.text.toString()
+
+            viewModel.changePatientData(
+                lastName,
+                firstName,
+                middleName,
+                birthDate
+            )
+            if (lastName.isNotBlank() &&
+                firstName.isNotBlank() &&
+                middleName.isNotBlank()
+            ) {
                 viewModel.save()
+            } else {
+                Toast.makeText(activity, R.string.toast_empty_field, Toast.LENGTH_LONG).show()
+            }
             patientCreatedObserver()
         }
 
         binding.cancelButton.setOnClickListener {
-            val dialog = activity?.let { activity ->
+            val activity = activity ?: return@setOnClickListener
+            val dialog = activity.let { activity ->
                 AlertDialog.Builder(activity)
             }
 
-            dialog
-                    ?.setMessage(R.string.cancellation)
-                    ?.setPositiveButton(R.string.add_patient_fragment_positive_button) { dialog, int ->
-                        dismiss()
-                        findNavController().navigateUp()
-                    }
-                    ?.setNegativeButton(R.string.add_patient_fragment_negative_button) { dialog, int ->
-                        isCancelable
-                    }
-                    ?.create()
-                    ?.show()
+            dialog.setMessage(R.string.cancellation)
+                .setPositiveButton(R.string.fragment_positive_button) { dialog, int ->
+                    dismiss()
+                }
+                .setNegativeButton(R.string.fragment_negative_button) { dialog, int ->
+                    isCancelable
+                }
+                .create()
+                .show()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().popBackStack()
@@ -67,12 +75,24 @@ class AddPatientFragment : DialogFragment() {
 
     private fun patientCreatedObserver() {
         try {
-            viewModel.patientCreated.observe(viewLifecycleOwner, {
+            viewModel.patientCreatedEvent.observe(viewLifecycleOwner, {
                 dismiss()
                 findNavController().navigateUp()
             })
         } catch (e: Exception) {
             e.printStackTrace()
+            viewModel.savePatientExceptionEvent.observe(viewLifecycleOwner, {
+                val activity = activity ?: return@observe
+                val dialog = activity.let { activity ->
+                    AlertDialog.Builder(activity)
+                }
+                dialog.setMessage(R.string.error_saving)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
+            })
         }
     }
 

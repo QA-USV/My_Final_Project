@@ -1,48 +1,26 @@
 package ru.netology.fmhandroid.utils
 
-import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.Patient
-import ru.netology.fmhandroid.dto.PatientStatusEnum
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
+import retrofit2.Response
+import ru.netology.fmhandroid.exceptions.ApiException
+import ru.netology.fmhandroid.exceptions.ServerException
+import ru.netology.fmhandroid.exceptions.UnknownException
+import java.io.IOException
 
-object Utils {
-    val emptyPatient = Patient(
-        id = 0,
-        firstName = "",
-        lastName = "",
-        middleName = "",
-        birthDate = "",
-        currentAdmissionId = 0,
-        deleted = false,
-        status = PatientStatusEnum.EXPECTED,
-        shortPatientName = ""
-    )
-
-    val emptyNote = Note(
-        id = 0,
-        patientId = null,
-        description = "",
-        creatorId = null,
-        executorId = null,
-        createDate = null,
-        planeExecuteDate = null,
-        factExecuteDate = null,
-        noteStatus = null,
-        comment = null,
-        deleted = false,
-        shortExecutorName = "",
-        shortPatientName = ""
-    )
-
-    fun convertDate(dateTime: LocalDateTime): String {
-
-        val localDateTime = LocalDateTime.parse(dateTime.toString())
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "dd MMMM yyyy HH:mm",
-            Locale.getDefault()
-        )
-        return formatter.format(localDateTime)
+suspend fun <T, R> makeRequest(
+    request: suspend () -> Response<T>,
+    onSuccess: suspend (body: T) -> R
+): R {
+    try {
+        val response = request()
+        if (!response.isSuccessful) {
+            throw ApiException(response.code(), response.message())
+        }
+        val body =
+            response.body() ?: throw ApiException(response.code(), response.message())
+        return onSuccess(body)
+    } catch (e: IOException) {
+        throw ServerException
+    } catch (e: Exception) {
+        throw UnknownException
     }
 }

@@ -25,7 +25,7 @@ data class NoteEntity(
     val planeExecuteDate: LocalDateTime? = null,
     @ColumnInfo(name = "factExecuteDate")
     val factExecuteDate: LocalDateTime? = null,
-    @ColumnInfo(name = "statusId")
+    @ColumnInfo(name = "status")
     val noteStatus: Note.Status? = null,
     @ColumnInfo(name = "comment")
     var comment: String? = null,

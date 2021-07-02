@@ -1,75 +1,69 @@
 package ru.netology.fmhandroid.viewmodel
 
-import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.db.AppDb
-import ru.netology.fmhandroid.dto.PatientStatusEnum
-import ru.netology.fmhandroid.model.PatientModel
-import ru.netology.fmhandroid.model.FeedModelState
-import ru.netology.fmhandroid.repository.PatientRepositoryImpl
+import ru.netology.fmhandroid.dto.Patient
+import ru.netology.fmhandroid.dto.Patient.Status
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
-import ru.netology.fmhandroid.utils.SingleLiveEvent
-import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.util.SingleLiveEvent
+import javax.inject.Inject
 
+private var emptyPatient = Patient()
 
-class PatientViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class PatientViewModel @Inject constructor(
+    private val patientRepository: PatientRepository
+) : ViewModel() {
+    val data: Flow<List<Patient>>
+        get() = patientRepository.data
 
-    private val patientRepository: PatientRepository =
-        PatientRepositoryImpl(
-            AppDb.getInstance(context = application).patientDao(),
-            AppDb.getInstance(context = application).admissionDao(),
-            AppDb.getInstance(context = application).noteDao(),
-        )
+    private val _patientCreatedEvent = SingleLiveEvent<Unit>()
+    val patientCreatedEvent: LiveData<Unit>
+        get() = _patientCreatedEvent
 
-    val data: LiveData<PatientModel> = patientRepository.data()
-        .map(::PatientModel)
-        .asLiveData(Dispatchers.Default)
+    private val _loadPatientExceptionEvent = SingleLiveEvent<Unit>()
+    val loadPatientExceptionEvent: LiveData<Unit>
+        get() = _loadPatientExceptionEvent
 
-    private val _dataState = MutableLiveData<FeedModelState>()
-    val dataState: LiveData<FeedModelState>
-        get() = _dataState
-    private val edited = MutableLiveData(Utils.emptyPatient)
-    private val _patientCreated = SingleLiveEvent<Unit>()
-    val patientCreated: LiveData<Unit>
-        get() = _patientCreated
+    private val _savePatientExceptionEvent = SingleLiveEvent<Unit>()
+    val savePatientExceptionEvent: LiveData<Unit>
+        get() = _savePatientExceptionEvent
 
     init {
-        loadPatientsList()
+        viewModelScope.launch {
+            patientRepository.getAllPatientsWithAdmissionStatus(Status.EXPECTED)
+                .collect()
+        }
     }
-
-    fun loadPatientsList() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            patientRepository.getAllPatientsWithAdmissionStatus(PatientStatusEnum.ACTIVE)
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(errorLoading = true)
+    fun getAllPatientsWithAdmissionStatus(status: Status) {
+        viewModelScope.launch {
+            try {
+                patientRepository.getAllPatientsWithAdmissionStatus(status)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _loadPatientExceptionEvent.call()
+            }
         }
     }
 
     fun save() {
-        edited.value?.let {
+        emptyPatient.let {
             viewModelScope.launch {
-                if (it.lastName.isNotBlank() && it.firstName.isNotBlank() && it.middleName.isNotBlank()) {
-                    try {
-                        patientRepository.savePatient(it)
-                        _dataState.value = FeedModelState()
-                        loadPatientsList()
-                    } catch (e: Exception) {
-                        _dataState.value = FeedModelState(errorSaving = true)
-                    }
-                    _patientCreated.value = Unit
-                } else {
-                    Toast.makeText(getApplication(), R.string.toast_empty_field, Toast.LENGTH_LONG)
-                        .show()
+                try {
+                    patientRepository.savePatient(it)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _savePatientExceptionEvent.call()
                 }
             }
+            _patientCreatedEvent.call()
         }
+        emptyPatient = Patient()
     }
 
     fun changePatientData(
@@ -78,22 +72,11 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         middleName: String,
         birthDate: String
     ) {
-        val lastNameText = lastName.trim()
-        val firstNameText = firstName.trim()
-        val middleNameText = middleName.trim()
-        val birthDateText = birthDate.trim()
-        val shortPatientName =
-            "${lastName.trim()} ${firstNameText.first()}.${middleNameText.first()}."
-        edited.value = edited.value?.copy(
-            lastName = lastNameText,
-            firstName = firstNameText,
-            middleName = middleNameText,
-            birthDate = birthDateText,
-            shortPatientName = shortPatientName
+        emptyPatient = emptyPatient.copy(
+            lastName = lastName.trim(),
+            firstName = firstName.trim(),
+            middleName = middleName.trim(),
+            birthday = birthDate.trim()
         )
-    }
-
-    suspend fun getAllPatients() {
-        TODO("Not yet implemented")
     }
 }
