@@ -15,7 +15,7 @@ import ru.netology.fmhandroid.entity.UserEntity
     exportSchema = false
 )
 
-@TypeConverters(NoteDao.Converters::class)
+@TypeConverters(Converters::class)
 abstract class AppDb: RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun patientDao(): PatientDao

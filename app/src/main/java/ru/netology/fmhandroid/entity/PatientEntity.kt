@@ -26,7 +26,7 @@ data class PatientEntity(
     @ColumnInfo(name = "status")
     val admissionsStatus: Status?,
     @ColumnInfo(name = "shortPatientName")
-    val shortPatientName: String,
+    val shortPatientName: String?,
 
 ) {
     fun toDto() = Patient(

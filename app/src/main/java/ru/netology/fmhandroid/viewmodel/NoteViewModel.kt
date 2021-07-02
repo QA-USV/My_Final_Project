@@ -13,7 +13,7 @@ import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepository
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepositoryImp
-import ru.netology.fmhandroid.util.SingleLiveEvent
+import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
 
 private var emptyNote = Note()
@@ -43,11 +43,6 @@ class NoteViewModel @Inject constructor(
             noteRepository.getAllNotes().collect()
         }
     }
-
-    private val noteRepository: NoteRepository =
-        NoteRepositoryImp(
-            AppDb.getInstance(context = application).noteDao()
-        )
 
     suspend fun getAllNotes() {
         viewModelScope.launch {
@@ -93,7 +88,7 @@ class NoteViewModel @Inject constructor(
         emptyNote.let {
             viewModelScope.launch {
                 try {
-                    noteRepository.saveNoteCommentById(it.id, it.comment)
+                    it.comment?.let { it1 -> noteRepository.saveNoteCommentById(it.id, it1) }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -105,7 +100,7 @@ class NoteViewModel @Inject constructor(
         emptyNote.let {
             viewModelScope.launch {
                 try {
-                    noteRepository.setNoteStatusById(it.id, it.status)
+                    it.noteStatus?.let { it1 -> noteRepository.setNoteStatusById(it.id, it1) }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

@@ -11,7 +11,7 @@ import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.dto.Note.Status
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
-import ru.netology.fmhandroid.util.makeRequest
+import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 

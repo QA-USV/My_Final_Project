@@ -3,9 +3,9 @@ package ru.netology.fmhandroid.dto
 import java.time.LocalDateTime
 
 data class Note(
-    val id: Int,
+    val id: Int = 0,
     val patientId: Int? = null,
-    var description: String,
+    var description: String = "",
     val creatorId: Int? = null,
     val executorId: Int? = null,
     val createDate: String? = null,
@@ -14,8 +14,8 @@ data class Note(
     val noteStatus: Status? = null,
     var comment: String? = null,
     val deleted: Boolean = false,
-    val shortExecutorName: String,
-    val shortPatientName: String
+    val shortExecutorName: String = "",
+    val shortPatientName: String = ""
 ) {
     enum class Status {
         ACTIVE,

@@ -14,3 +14,4 @@ interface AdmissionApi {
 
     @GET("patient/{id}")
     suspend fun getAdmissionById(@Path("id") id: Long): Response<Admission>
+}

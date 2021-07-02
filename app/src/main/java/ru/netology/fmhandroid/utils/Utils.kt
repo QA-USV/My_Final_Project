@@ -5,22 +5,38 @@ import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
 import java.io.IOException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-suspend fun <T, R> makeRequest(
-    request: suspend () -> Response<T>,
-    onSuccess: suspend (body: T) -> R
-): R {
-    try {
-        val response = request()
-        if (!response.isSuccessful) {
-            throw ApiException(response.code(), response.message())
+object Utils {
+
+    fun convertDate(dateTime: LocalDateTime): String {
+
+        val localDateTime = LocalDateTime.parse(dateTime.toString())
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+            "dd MMMM yyyy HH:mm",
+            Locale.getDefault()
+        )
+        return formatter.format(localDateTime)
+    }
+
+    suspend fun <T, R> makeRequest(
+        request: suspend () -> Response<T>,
+        onSuccess: suspend (body: T) -> R
+    ): R {
+        try {
+            val response = request()
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
+            }
+            val body =
+                response.body() ?: throw ApiException(response.code(), response.message())
+            return onSuccess(body)
+        } catch (e: IOException) {
+            throw ServerException
+        } catch (e: Exception) {
+            throw UnknownException
         }
-        val body =
-            response.body() ?: throw ApiException(response.code(), response.message())
-        return onSuccess(body)
-    } catch (e: IOException) {
-        throw ServerException
-    } catch (e: Exception) {
-        throw UnknownException
     }
 }

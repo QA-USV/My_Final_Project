@@ -48,19 +48,20 @@ class PatientListAdapter(
                 Status.ACTIVE -> R.string.patients_status_active
                 Status.EXPECTED -> R.string.patients_status_expected
                 Status.DISCHARGED -> R.string.patients_status_discharged
+                else -> null
             }
-            patientStatus.text = itemView.context.getString(patientStatusResId)
+            patientStatus.text = patientStatusResId?.let { itemView.context.getString(it) }
 
             patientName.setOnClickListener {
                 onInteractionListener.onOpenCard(patient)
             }
         }
 
-        private val PatientStatusEnum.textResId
+        private val Status.textResId
             get() = when (this) {
-                PatientStatusEnum.ACTIVE -> R.string.patient_status_active
-                PatientStatusEnum.EXPECTED -> R.string.patient_status_expected
-                PatientStatusEnum.DISCHARGED -> R.string.patient_status_discharged
+                Status.ACTIVE -> R.string.patient_status_active
+                Status.EXPECTED -> R.string.patient_status_expected
+                Status.DISCHARGED -> R.string.patient_status_discharged
             }
     }
 }

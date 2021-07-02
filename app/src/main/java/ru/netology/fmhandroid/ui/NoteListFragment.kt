@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.adapter.NoteListAdapter
 import ru.netology.fmhandroid.databinding.FragmentListNoteBinding
 import ru.netology.fmhandroid.viewmodel.NoteViewModel
@@ -27,11 +29,11 @@ class NoteListFragment : Fragment() {
         val adapter = NoteListAdapter()
 
         binding.notesListRecyclerView.adapter = adapter
-        viewModel.data.observe(
-            viewLifecycleOwner
-        ) { state ->
-            adapter.submitList(state.notes)
-            binding.emptyNotesListText.isVisible = state.notes.isEmpty()
+        lifecycleScope.launchWhenCreated {
+            viewModel.data.collectLatest { state ->
+                adapter.submitList(state)
+                binding.emptyNotesListText.isVisible = state.isEmpty()
+            }
         }
 
         return binding.root

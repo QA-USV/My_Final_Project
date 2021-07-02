@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.dto.Patient.Status
 import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
-import ru.netology.fmhandroid.util.SingleLiveEvent
+import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
 
 private var emptyPatient = Patient()
