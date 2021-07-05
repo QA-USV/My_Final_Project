@@ -8,11 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.db.AppDb
 import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.repository.noteRepository.NoteRepository
-import ru.netology.fmhandroid.repository.noteRepository.NoteRepositoryImp
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
 
