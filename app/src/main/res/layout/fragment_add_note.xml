@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/topAppBar"
+        android:id="@+id/top_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_menu_24"
-            app:title="Создание записки" />
+            app:title="@string/creating_a_note" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
         android:padding="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vDateInPlan"
+            android:id="@+id/date_in_plan_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,42 +32,44 @@
             android:hint="@string/completion_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/vTimeInPlan"
+            app:layout_constraintEnd_toStartOf="@+id/time_in_plan_text_input_layout"
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/vDateInPlanField"
+                android:id="@+id/date_in_plan_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vTimeInPlan"
+            android:id="@+id/time_in_plan_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/completion_time"
-            app:layout_constraintStart_toEndOf="@+id/vDateInPlan"
+            app:layout_constraintStart_toEndOf="@+id/date_in_plan_text_input_layout"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/vTimeInPlanField"
+                android:id="@+id/time_in_plan_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="datetime" />
+                android:focusableInTouchMode="false"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vPatientDropMenu"
+            android:id="@+id/patient_drop_menu_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/patient_selection"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vDateInPlan">
+            app:layout_constraintTop_toBottomOf="@+id/date_in_plan_text_input_layout">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -76,14 +78,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vExecutorDropMenu"
+            android:id="@+id/executor_drop_menu_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/responsible_selection"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vPatientDropMenu">
+            app:layout_constraintTop_toBottomOf="@+id/patient_drop_menu_text_input_layout">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -92,14 +94,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vContent"
+            android:id="@+id/description_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/description"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vExecutorDropMenu">
+            app:layout_constraintTop_toBottomOf="@+id/executor_drop_menu_text_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -108,17 +110,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/save_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/save"
             android:text="@string/save"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vContent" />
+            app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout" />
 
         <Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/cancel_button"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +128,7 @@
             android:text="@string/cancel"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+            app:layout_constraintTop_toBottomOf="@+id/save_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

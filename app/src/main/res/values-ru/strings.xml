@@ -71,4 +71,5 @@
     <string name="empty_notes_list">Здесь нет ни одной записки. Вы можете создать новую или обновить список.</string>
     <string name="date_not_set">Дата не установлена</string>
     <string name="patient_status_is_not_determined"> --- </string>
+    <string name="creating_a_note">Создание записки</string>
 </resources>

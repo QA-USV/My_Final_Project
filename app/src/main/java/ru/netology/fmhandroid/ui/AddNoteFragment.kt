@@ -3,9 +3,7 @@ package ru.netology.fmhandroid.ui
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
@@ -15,41 +13,33 @@ import ru.netology.fmhandroid.databinding.FragmentAddNoteBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddNoteFragment : Fragment() {
+class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
     private lateinit var vDatePicker : TextInputEditText
     private lateinit var vTimePicker : TextInputEditText
+    private lateinit var binding: FragmentAddNoteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        val binding = FragmentAddNoteBinding.inflate(
-            inflater,
-            container,
-            false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentAddNoteBinding.bind(view)
 
         /* DropMenuPatient */
         val patientDropMenuItems = listOf("Иванов Иван Иванович", "Петров Пётр Петрович", "Сидоров Сидор Сидорович",)
         val patientArrayAdapter = ArrayAdapter(requireContext(), R.layout.menu_item, patientDropMenuItems)
-        (binding.vPatientDropMenu.editText as? AutoCompleteTextView)?.setAdapter(patientArrayAdapter)
+        (binding.patientDropMenuTextInputLayout.editText as? AutoCompleteTextView)?.setAdapter(patientArrayAdapter)
 
         /* DropMenuExecutor */
         val executorDropMenuItems = listOf("Иван Арнольдович Борменталь", "Грегори Хаус", "Персиваль Улисс Кокс", "Джон Дориан",)
         val executorArrayAdapter = ArrayAdapter(requireContext(), R.layout.menu_item, executorDropMenuItems)
-        (binding.vExecutorDropMenu.editText as? AutoCompleteTextView)?.setAdapter(executorArrayAdapter)
+        (binding.executorDropMenuTextInputLayout.editText as? AutoCompleteTextView)?.setAdapter(executorArrayAdapter)
 
         val myCalendar = Calendar.getInstance()
-        vDatePicker = binding.vDateInPlanField
-        vTimePicker = binding.vTimeInPlanField
-
+        vDatePicker = binding.dateInPlanTextInputEditText
+        vTimePicker = binding.timeInPlanTextInputEditText
 
         /* DatePickerDialog */
         val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
@@ -75,9 +65,6 @@ class AddNoteFragment : Fragment() {
             TimePickerDialog(this.requireContext(), timePicker, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(
                 Calendar.MINUTE), true).show()
         }
-
-
-        return binding.root
     }
 
     private fun updateDateLabel(myCalendar: Calendar) {

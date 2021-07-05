@@ -71,4 +71,5 @@
     <string name="empty_notes_list">There is not a single note here. You can create a new one or update the list.</string>
     <string name="date_not_set">Date not set</string>
     <string name="patient_status_is_not_determined"> --- </string>
+    <string name="creating_a_note">Creating a note</string>
 </resources>
