@@ -85,7 +85,7 @@ class NoteViewModel @Inject constructor(
         emptyNote.let {
             viewModelScope.launch {
                 try {
-                    it.comment?.let { it1 -> noteRepository.saveNoteCommentById(it.id, it1) }
+                    it.comment?.let { comment -> noteRepository.saveNoteCommentById(it.id, comment) }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -97,7 +97,7 @@ class NoteViewModel @Inject constructor(
         emptyNote.let {
             viewModelScope.launch {
                 try {
-                    it.noteStatus?.let { it1 -> noteRepository.setNoteStatusById(it.id, it1) }
+                    it.noteStatus?.let { noteStatus -> noteRepository.setNoteStatusById(it.id, noteStatus) }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
