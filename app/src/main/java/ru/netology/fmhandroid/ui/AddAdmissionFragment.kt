@@ -6,17 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.fmhandroid.databinding.FragmentAddAdmissionCardBinding
+import ru.netology.fmhandroid.databinding.FragmentAddAdmissionBinding
 
 @AndroidEntryPoint
-class AddAdmissionCardFragment : Fragment() {
+class AddAdmissionFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val binding = FragmentAddAdmissionCardBinding.inflate(
+        val binding = FragmentAddAdmissionBinding.inflate(
             inflater,
             container,
             false
