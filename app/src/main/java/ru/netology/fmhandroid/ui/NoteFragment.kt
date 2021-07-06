@@ -5,4 +5,4 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 
 @AndroidEntryPoint
-class NoteCardFragment : Fragment(R.layout.fragment_note_card)
+class NoteFragment : Fragment(R.layout.fragment_note)

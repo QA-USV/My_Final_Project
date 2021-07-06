@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/patientProfileCardFragment"
-        android:name="ru.netology.fmhandroid.ui.PatientProfileCardFragment"
+        android:name="ru.netology.fmhandroid.ui.PatientFragment"
         android:label="PatientProfileCardFragment" />
 
     <fragment
@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/noteCardFragment"
-        android:name="ru.netology.fmhandroid.ui.NoteCardFragment"
+        android:name="ru.netology.fmhandroid.ui.NoteFragment"
         android:label="NoteCardFragment" />
 
 </navigation>

@@ -8,7 +8,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/patients"
+        android:id="@+id/patients_text_view"
         android:title="Patients"
         app:showAsAction="never" />
 
