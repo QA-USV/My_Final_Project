@@ -40,6 +40,7 @@ class PatientViewModel @Inject constructor(
                 .collect()
         }
     }
+
     fun getAllPatientsWithAdmissionStatus(status: Status) {
         viewModelScope.launch {
             try {

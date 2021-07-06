@@ -10,11 +10,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.AddPatientCardBinding
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
+@AndroidEntryPoint
 class AddPatientFragment : DialogFragment() {
     private val viewModel: PatientViewModel by viewModels(
         ownerProducer = ::requireParentFragment

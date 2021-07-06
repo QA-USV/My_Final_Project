@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.viewmodel.NoteViewModel
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val noteViewModel: NoteViewModel by viewModels(

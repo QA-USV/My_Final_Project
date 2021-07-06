@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentAddNoteBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
     private lateinit var vDatePicker : TextInputEditText
     private lateinit var vTimePicker : TextInputEditText

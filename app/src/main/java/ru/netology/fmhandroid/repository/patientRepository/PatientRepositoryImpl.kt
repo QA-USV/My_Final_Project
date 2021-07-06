@@ -18,6 +18,7 @@ import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class PatientRepositoryImp @Inject constructor(
     private val patientDao: PatientDao,
@@ -25,6 +26,7 @@ class PatientRepositoryImp @Inject constructor(
     private val noteDao: NoteDao,
     private val patientApi: PatientApi
 ) : PatientRepository {
+
     override val data: Flow<List<Patient>>
         get() = patientDao.getAllPatients()
             .map { it.toDto() }
