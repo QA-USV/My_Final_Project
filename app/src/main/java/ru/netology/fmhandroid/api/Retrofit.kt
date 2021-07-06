@@ -30,20 +30,3 @@ fun retrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .client(client)
     .build()
-
-//object Retrofit {
-//
-//    private val okhttp = OkHttpClient.Builder()
-//        .connectTimeout(30, TimeUnit.SECONDS)
-//        .build()
-//
-//    private val retrofit = Retrofit.Builder()
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .baseUrl(BuildConfig.BASE_URL)
-//        .client(okhttp)
-//        .build()
-//
-//    fun build(): Retrofit {
-//        return retrofit
-//    }
-//}
