@@ -43,7 +43,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/dutySchedules"
+        android:id="@+id/duty_schedules"
         android:title="Duty schedules"
         app:showAsAction="never" />
 
@@ -53,7 +53,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/aboutUs"
+        android:id="@+id/about_us"
         android:title="About us"
         app:showAsAction="never" />
 </menu>

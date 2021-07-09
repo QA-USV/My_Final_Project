@@ -59,9 +59,9 @@ class PatientListAdapter(
 
         private val Status.textResId
             get() = when (this) {
-                Status.ACTIVE -> R.string.patient_status_active
-                Status.EXPECTED -> R.string.patient_status_expected
-                Status.DISCHARGED -> R.string.patient_status_discharged
+                Status.ACTIVE -> R.string.in_hospis
+                Status.EXPECTED -> R.string.expected
+                Status.DISCHARGED -> R.string.discharged
             }
     }
 }

@@ -55,7 +55,7 @@
             android:id="@+id/patient_last_name_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_patient_last_name" />
+            android:hint="@string/last_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +80,7 @@
             android:id="@+id/patient_first_name_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_patient_name" />
+            android:hint="@string/first_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -105,7 +105,7 @@
             android:id="@+id/patient_middle_name_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_patient_middle_name" />
+            android:hint="@string/middle_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -132,7 +132,7 @@
             android:id="@+id/patient_birth_date_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_patient_birth_date"
+            android:hint="@string/birth_date"
             android:inputType="date" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -150,7 +150,7 @@
         android:backgroundTint="@android:color/white"
         android:gravity="center_horizontal|center_vertical"
         android:lineSpacingExtra="8sp"
-        android:text="@string/cancel_button"
+        android:text="@string/cancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,7 +167,7 @@
         android:layout_marginEnd="44dp"
         android:gravity="center_horizontal|center_vertical"
         android:lineSpacingExtra="8sp"
-        android:text="@string/save_button"
+        android:text="@string/save"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

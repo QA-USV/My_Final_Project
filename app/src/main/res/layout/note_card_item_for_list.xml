@@ -16,15 +16,15 @@
         android:padding="@dimen/padding_between_elements">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/note_card_item_for_list_priority_indicator"
+            android:id="@+id/note_priority_indicator_shapeable_image_view"
             android:layout_width="24dp"
             android:layout_height="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/note_card_item_for_list_expand_menu"
+            app:layout_constraintTop_toTopOf="@+id/note_card_item_menu_image_view"
             app:shapeAppearanceOverlay="@style/circleImageView" />
 
         <ImageButton
-            android:id="@+id/note_card_item_for_list_expand_menu"
+            android:id="@+id/note_card_item_menu_image_view"
             style="@style/AppNormalButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_description"
+            android:id="@+id/description_material_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_between_elements"
@@ -45,13 +45,13 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textAlignment="textStart"
-            app:layout_constraintEnd_toStartOf="@+id/note_card_item_for_list_expand_menu"
-            app:layout_constraintStart_toEndOf="@+id/note_card_item_for_list_priority_indicator"
+            app:layout_constraintEnd_toStartOf="@+id/note_card_item_menu_image_view"
+            app:layout_constraintStart_toEndOf="@+id/note_priority_indicator_shapeable_image_view"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@sample/posts.json/data/description" />
 
         <ImageView
-            android:id="@+id/line_divider_image_view"
+            android:id="@+id/divider_image_view"
             android:layout_width="@dimen/line_divider_width"
             android:layout_height="@dimen/line_divider_height"
             android:layout_marginTop="@dimen/padding_between_elements"
@@ -59,11 +59,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_description"
+            app:layout_constraintTop_toBottomOf="@+id/description_material_text_view"
             android:contentDescription="@string/line_divider_description" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_patient_name_label"
+            android:id="@+id/patient_name_label_material_text_view"
             style="@style/SmallLightGreyTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
@@ -72,22 +72,22 @@
             android:text="@string/note_patient_label"
             android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_divider_image_view" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_image_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_patient_name"
+            android:id="@+id/patient_name_material_text_view"
             style="@style/SmallBlackTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAlignment="viewStart"
-            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_patient_name_label"
-            app:layout_constraintTop_toBottomOf="@id/note_card_item_for_list_patient_name_label"
+            app:layout_constraintStart_toStartOf="@+id/patient_name_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@id/patient_name_label_material_text_view"
             tools:text="@sample/posts.json/data/patient" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_executor_name_label"
+            android:id="@+id/executor_name_label_material_text_view"
             style="@style/SmallLightGreyTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
@@ -95,34 +95,34 @@
             android:text="@string/note_executor_label"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_divider_image_view" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_image_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_executor_name"
+            android:id="@+id/executor_name_material_text_view"
             style="@style/SmallBlackTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAlignment="viewStart"
-            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_executor_name_label"
-            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_executor_name_label"
+            app:layout_constraintStart_toStartOf="@+id/executor_name_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/executor_name_label_material_text_view"
             tools:text="@sample/posts.json/data/executor" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_plan_date_label"
+            android:id="@+id/plan_date_label_material_text_view"
             style="@style/SmallLightGreyTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
             android:layout_marginTop="@dimen/padding_between_elements"
             android:layout_marginStart="@dimen/padding_between_elements"
-            android:text="@string/note_plan_date_label"
+            android:text="@string/plan_date"
             android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_executor_name" />
+            app:layout_constraintTop_toBottomOf="@+id/executor_name_material_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_plan_date"
+            android:id="@+id/plan_date_material_text_view"
             style="@style/SmallBlackTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
@@ -131,32 +131,32 @@
             android:ellipsize="end"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_plan_date_label"
-            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_plan_date_label"
+            app:layout_constraintStart_toStartOf="@+id/plan_date_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/plan_date_label_material_text_view"
             tools:text="@sample/posts.json/data/edited" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_fact_date_label"
+            android:id="@+id/fact_date_label_material_text_view"
             style="@style/SmallLightGreyTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/note_fact_date_label"
+            android:text="@string/fact_date"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_executor_name" />
+            app:layout_constraintTop_toBottomOf="@+id/executor_name_material_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/note_card_item_for_list_fact_date"
+            android:id="@+id/fact_date_material_text_view"
             style="@style/SmallBlackTextStyle"
             android:layout_width="120dp"
             android:layout_height="16dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="@string/empty_fact_date"
+            android:text="@string/patient_status_is_not_determined"
             android:textAlignment="viewStart"
-            app:layout_constraintStart_toStartOf="@+id/note_card_item_for_list_fact_date_label"
-            app:layout_constraintTop_toBottomOf="@+id/note_card_item_for_list_fact_date_label" />
+            app:layout_constraintStart_toStartOf="@+id/fact_date_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/fact_date_label_material_text_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

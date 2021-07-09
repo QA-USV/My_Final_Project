@@ -12,18 +12,12 @@
     <string name="patient_full_name_format">%s %s %s</string>
     <string name="more">Еще</string>
     <string name="all_patients">Все пациенты</string>
-    <string name="patients_status_active">В хосписе</string>
-    <string name="patients_status_expected">Ожидается</string>
-    <string name="patients_status_discharged">Выписан</string>
     <string name="new_patient">Новый пациент</string>
-    <string name="new_patient_last_name">Фамилия</string>
-    <string name="new_patient_name">Имя</string>
-    <string name="new_patient_middle_name">Отчество</string>
-    <string name="new_patient_birth_date">Дата рождения</string>
-    <string name="cancel_button">ОТМЕНА</string>
-    <string name="save_button">СОХРАНИТЬ</string>
+    <string name="last_name">Фамилия</string>
+    <string name="first_name">Имя</string>
+    <string name="middle_name">Отчество</string>
+    <string name="birth_date">Дата рождения</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
-    <string name="fragment_negative_button">ОТМЕНА</string>
     <string name="error_loading">Что-то пошло не так. Попробуйте позднее.</string>
     <string name="retry_loading">Повторить</string>
     <string name="empty_patients_list">Пациентов нет.\nЕсли создадите нового пациента, то он появится здесь</string>
@@ -36,7 +30,6 @@
     <string name="date">Дата</string>
     <string name="date_in">Дата поступления</string>
     <string name="date_out">Дата выписки</string>
-    <string name="notes">Записки</string>
     <string name="add">Добавить</string>
     <string name="note_status">Статус записки</string>
     <string name="note">Записка</string>
@@ -57,19 +50,22 @@
     <string name="patient_selection">Выбор пациента</string>
     <string name="responsible_selection">Выбор ответственного</string>
     <string name="description">Описание</string>
-    <string name="menu_button_description" translatable="false">Кнопка Меню</string>
+    <string name="menu_button_description">Кнопка Меню</string>
     <string name="line_divider_description">Разделительная линия</string>
-    <string name="note_patient_label" translatable="false">Пациент:</string>
-    <string name="note_executor_label" translatable="false">Исполнитель:</string>
-    <string name="note_plan_date_label" translatable="false">Плановая дата:</string>
-    <string name="note_fact_date_label" translatable="false">Фактическая дата:</string>
-    <string name="empty_fact_date" translatable="false">Не взята в работу</string>
-    <string name="patient_status_active" translatable="false">В хосписе</string>
-    <string name="patient_status_expected" translatable="false">Ожидание</string>
-    <string name="patient_status_discharged" translatable="false">Выписан</string>
-    <string name="list_of_notes_fragment_label">Записки</string>
+    <string name="note_patient_label">Пациент:</string>
+    <string name="note_executor_label">Исполнитель:</string>
+    <string name="plan_date">Плановая дата:</string>
+    <string name="fact_date">Фактическая дата:</string>
+    <string name="outwork">Не взята в работу</string>
+    <string name="in_hospis">В хосписе</string>
+    <string name="expected">Ожидание</string>
+    <string name="discharged">Выписан</string>
+    <string name="notes">Записки</string>
     <string name="empty_notes_list">Здесь нет ни одной записки. Вы можете создать новую или обновить список.</string>
     <string name="date_not_set">Дата не установлена</string>
     <string name="patient_status_is_not_determined"> --- </string>
     <string name="creating_a_note">Создание записки</string>
+    <string name="planned_hospitalization">Плановая госпитализация</string>
+    <string name="room_number">Номер палаты</string>
+    <string name="actual_date_of_hospitalization">Фактическая дата госпитализации</string>
 </resources>

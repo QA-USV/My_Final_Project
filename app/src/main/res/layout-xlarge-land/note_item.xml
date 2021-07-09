@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewNoteItem"
+    android:id="@+id/note_item_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/viewNoteItemStatus"
+        android:id="@+id/note_priority_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/note_status"
@@ -18,48 +18,47 @@
         app:tint="@color/green" />
 
     <TextView
-        android:id="@+id/viewNoteItemText"
+        android:id="@+id/description_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:maxWidth="500dp"
-        android:text="Передать подарки"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/viewNoteItemStatus"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toEndOf="@+id/note_priority_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Передать подарки" />
 
     <TextView
-        android:id="@+id/view_note_item_responsible_officer"
+        android:id="@+id/responsible_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="255dp"
         android:layout_marginBottom="14dp"
-        android:text="Иванов И.И."
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Иванов И.И." />
 
     <TextView
-        android:id="@+id/view_note_item_term_of_execution"
+        android:id="@+id/date_of_execution_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="14dp"
-        android:text="08.04.2020"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="08.04.2020" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/viewNoteItemButtonMore"
+        android:id="@+id/horizontal_dots_material_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

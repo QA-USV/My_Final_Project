@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.AddPatientCardBinding
-import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 @AndroidEntryPoint
@@ -59,7 +58,7 @@ class AddPatientFragment : DialogFragment() {
             }
 
             dialog.setMessage(R.string.cancellation)
-                .setPositiveButton(R.string.fragment_positive_button) { dialog, int ->
+                .setPositiveButton(R.string.ok) { dialog, int ->
                     dismiss()
                 }
                 .setNegativeButton(R.string.fragment_negative_button) { dialog, int ->
@@ -89,7 +88,7 @@ class AddPatientFragment : DialogFragment() {
                     AlertDialog.Builder(activity)
                 }
                 dialog.setMessage(R.string.error_saving)
-                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
                         dialog.cancel()
                     }
                     .create()

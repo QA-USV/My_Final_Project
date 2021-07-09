@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/active"
-        android:title="@string/patients_status_active"/>
+        android:title="@string/in_hospis"/>
 
     <item
         android:id="@+id/expected"
-        android:title="@string/patients_status_expected"/>
+        android:title="@string/expected"/>
 
     <item
         android:id="@+id/discharged"
-        android:title="@string/patients_status_discharged"/>
+        android:title="@string/discharged"/>
 </menu>
