@@ -18,7 +18,7 @@
         app:tint="@color/green" />
 
     <TextView
-        android:id="@+id/description_text_view"
+        android:id="@+id/description_material_text_view"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

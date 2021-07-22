@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
-    app:cardElevation="@dimen/elevation_patient_card"
+    app:cardElevation="@dimen/card_item_elevation"
     android:layout_margin="@dimen/padding_between_elements"
     android:id="@+id/note_card_item_for_list">
 

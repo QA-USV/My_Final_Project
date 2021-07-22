@@ -68,4 +68,8 @@
     <string name="planned_hospitalization">Плановая госпитализация</string>
     <string name="room_number">Номер палаты</string>
     <string name="actual_date_of_hospitalization">Фактическая дата госпитализации</string>
+    <string name="claim_description">Содержание заявки</string>
+    <string name="title">Заголовок</string>
+    <string name="status_open">Открыта</string>
+    <string name="plan_date_example">2 ноября 2021 19:15</string>
 </resources>
