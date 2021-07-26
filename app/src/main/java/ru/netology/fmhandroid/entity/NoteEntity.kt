@@ -14,7 +14,7 @@ data class NoteEntity(
     @ColumnInfo(name = "patientId")
     val patientId: Int? = null,
     @ColumnInfo(name = "description")
-    var description: String,
+    val description: String,
     @ColumnInfo(name = "creatorId")
     val creatorId: Int? = null,
     @ColumnInfo(name = "executorId")
@@ -28,7 +28,7 @@ data class NoteEntity(
     @ColumnInfo(name = "status")
     val noteStatus: Note.Status? = null,
     @ColumnInfo(name = "comment")
-    var comment: String? = null,
+    val comment: String? = null,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean = false,
     /*

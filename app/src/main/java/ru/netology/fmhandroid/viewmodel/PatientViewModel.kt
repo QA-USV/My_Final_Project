@@ -1,6 +1,7 @@
 package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,12 +14,14 @@ import ru.netology.fmhandroid.repository.patientRepository.PatientRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
 
-private var emptyPatient = Patient()
-
 @HiltViewModel
 class PatientViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val patientRepository: PatientRepository
 ) : ViewModel() {
+
+    private var emptyPatient = Patient()
+
     val data: Flow<List<Patient>>
         get() = patientRepository.data
 
@@ -36,7 +39,7 @@ class PatientViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            patientRepository.getAllPatientsWithAdmissionStatus(Status.EXPECTED)
+            patientRepository.getAllPatients(Status.EXPECTED)
                 .collect()
         }
     }
@@ -44,7 +47,7 @@ class PatientViewModel @Inject constructor(
     fun getAllPatientsWithAdmissionStatus(status: Status) {
         viewModelScope.launch {
             try {
-                patientRepository.getAllPatientsWithAdmissionStatus(status)
+                patientRepository.getAllPatients(status)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _loadPatientExceptionEvent.call()
@@ -57,14 +60,14 @@ class PatientViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     patientRepository.savePatient(it)
+                    emptyPatient = Patient()
+                    _patientCreatedEvent.call()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _savePatientExceptionEvent.call()
                 }
             }
-            _patientCreatedEvent.call()
         }
-        emptyPatient = Patient()
     }
 
     fun changePatientData(

@@ -47,7 +47,7 @@ class NoteViewModel @Inject constructor(
                 noteRepository.getAllNotes()
             } catch (e: Exception) {
                 e.printStackTrace()
-                _noteCreatedEvent.call()
+                _loadNoteExceptionEvent.call()
             }
         }
     }
