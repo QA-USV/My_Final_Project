@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/claim_list_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_between_elements"
+    android:checkable="true"
+    android:focusable="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="@dimen/card_item_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_between_elements">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description_material_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:text="@string/claim_description"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/status_material_text_view" />
+
+        <ImageView
+            android:id="@+id/divider_image_view"
+            android:layout_width="@dimen/line_divider_width"
+            android:layout_height="@dimen/line_divider_height"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:background="@color/half_light_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_material_text_view"
+            android:contentDescription="@string/line_divider_description" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status_label_material_text_view"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginEnd="@dimen/padding_between_elements"
+            android:text="@string/status"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toStartOf="@+id/status_material_text_view"
+            app:layout_constraintBottom_toBottomOf="@id/status_material_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status_material_text_view"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/status_open" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/plan_date_label_material_text_view"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:text="@string/plan_date"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_image_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/plan_date_material_text_view"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/plan_date_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/plan_date_label_material_text_view"
+            tools:text="@string/plan_date_example" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fact_date_label_material_text_view"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:text="@string/fact_date"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_image_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fact_date_material_text_view"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/patient_status_is_not_determined"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/fact_date_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/fact_date_label_material_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/executor_name_label_material_text_view"
+            style="@style/SmallLightGreyTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/note_executor_label"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plan_date_material_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/executor_name_material_text_view"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/executor_name_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/executor_name_label_material_text_view"
+            tools:text="@sample/posts.json/data/executor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
