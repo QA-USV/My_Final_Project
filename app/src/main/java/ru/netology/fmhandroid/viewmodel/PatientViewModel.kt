@@ -39,7 +39,7 @@ class PatientViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            patientRepository.getAllPatients(Status.EXPECTED)
+            patientRepository.getAllPatientsWithAdmissionStatus(Status.EXPECTED)
                 .collect()
         }
     }
@@ -47,7 +47,7 @@ class PatientViewModel @Inject constructor(
     fun getAllPatientsWithAdmissionStatus(status: Status) {
         viewModelScope.launch {
             try {
-                patientRepository.getAllPatients(status)
+                patientRepository.getAllPatientsWithAdmissionStatus(status)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _loadPatientExceptionEvent.call()

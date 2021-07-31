@@ -29,10 +29,10 @@ class AddPatientFragment : DialogFragment() {
         val binding = AddPatientCardBinding.inflate(inflater, container, false)
 
         binding.saveButton.setOnClickListener {
-            val lastName = binding.setLastName.text.toString()
-            val firstName = binding.setName.text.toString()
-            val middleName = binding.setMiddleName.text.toString()
-            val birthDate = binding.setBirthDate.text.toString()
+            val lastName = binding.patientLastNameTextInputEditText.text.toString()
+            val firstName = binding.patientFirstNameTextInputEditText.text.toString()
+            val middleName = binding.patientMiddleNameTextInputEditText.text.toString()
+            val birthDate = binding.patientBirthDateTextInputEditText.text.toString()
 
             viewModel.changePatientData(
                 lastName,
@@ -61,7 +61,7 @@ class AddPatientFragment : DialogFragment() {
                 .setPositiveButton(R.string.ok) { dialog, int ->
                     dismiss()
                 }
-                .setNegativeButton(R.string.fragment_negative_button) { dialog, int ->
+                .setNegativeButton(R.string.cancel) { dialog, int ->
                     isCancelable
                 }
                 .create()

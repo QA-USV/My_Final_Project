@@ -39,20 +39,20 @@ class PatientListAdapter(
         private val onInteractionListener: OnInteractionListener,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(patient: Patient) = with(binding) {
-            patientName.text = itemView.resources.getString(
+            nameTextView.text = itemView.resources.getString(
                 R.string.patient_full_name_format,
                 patient.lastName, patient.firstName, patient.middleName
             )
 
             val patientStatusResId = when (patient.admissionsStatus) {
-                Status.ACTIVE -> R.string.patients_status_active
-                Status.EXPECTED -> R.string.patients_status_expected
-                Status.DISCHARGED -> R.string.patients_status_discharged
+                Status.ACTIVE -> R.string.in_hospis
+                Status.EXPECTED -> R.string.expected
+                Status.DISCHARGED -> R.string.discharged
                 else -> null
             }
-            patientStatus.text = patientStatusResId?.let { itemView.context.getString(it) }
+            statusTextView.text = patientStatusResId?.let { itemView.context.getString(it) }
 
-            patientName.setOnClickListener {
+            nameTextView.setOnClickListener {
                 onInteractionListener.onOpenCard(patient)
             }
         }

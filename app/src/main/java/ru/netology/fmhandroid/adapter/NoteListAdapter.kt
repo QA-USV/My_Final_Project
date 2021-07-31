@@ -37,16 +37,16 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
 
             binding.apply {
                 prioritization(note)
-                noteCardItemForListPatientName.text = note.shortPatientName
-                noteCardItemForListExecutorName.text = note.shortExecutorName
-                noteCardItemForListPlanDate.text = Utils.convertDate(note.planeExecuteDate!!)
+                patientNameMaterialTextView.text = note.shortPatientName
+                executorNameMaterialTextView.text = note.shortExecutorName
+                planDateMaterialTextView.text = Utils.convertDate(note.planeExecuteDate!!)
 
                 if (note.factExecuteDate == null) {
-                    noteCardItemForListFactDate.setText(R.string.date_not_set)
+                    factDateMaterialTextView.setText(R.string.date_not_set)
                 } else {
-                    noteCardItemForListFactDate.text = Utils.convertDate(note.factExecuteDate)
+                    factDateMaterialTextView.text = Utils.convertDate(note.factExecuteDate)
                 }
-                noteCardItemForListDescription.text = note.description
+                descriptionMaterialTextView.text = note.description
             }
         }
 
@@ -61,11 +61,11 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
 
             when (executionPriority) {
                 ExecutionPriority.HIGH ->
-                    this.noteCardItemForListPriorityIndicator.setImageResource(R.color.red)
+                    this.notePriorityIndicatorShapeableImageView.setImageResource(R.color.red)
                 ExecutionPriority.MEDIUM ->
-                    this.noteCardItemForListPriorityIndicator.setImageResource(R.color.yellow)
+                    this.notePriorityIndicatorShapeableImageView.setImageResource(R.color.yellow)
                 ExecutionPriority.LOW ->
-                    this.noteCardItemForListPriorityIndicator.setImageResource(R.color.green)
+                    this.notePriorityIndicatorShapeableImageView.setImageResource(R.color.green)
             }
         }
     }

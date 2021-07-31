@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -43,13 +44,13 @@ class PatientsListFragment : Fragment() {
             viewModel.data
                 .collectLatest { state ->
                     adapter.submitList(state)
-                    binding.emptyText.isVisible = state.isEmpty()
+                    binding.emptyListTextView.isVisible = state.isEmpty()
                 }
         }
 
-        binding.recyclerPatientsList.adapter = adapter
+        binding.patientsListRecyclerView.adapter = adapter
 
-        binding.addPatient.setOnClickListener {
+        binding.addPatientMaterialButton.setOnClickListener {
             AddPatientFragment().show(parentFragmentManager, "AddPatientFragment")
         }
 
