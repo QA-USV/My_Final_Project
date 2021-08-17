@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.NoteListAdapter
+import ru.netology.fmhandroid.adapter.OnItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListNoteBinding
+import ru.netology.fmhandroid.dto.Note
 import ru.netology.fmhandroid.viewmodel.NoteViewModel
 
 @AndroidEntryPoint
@@ -28,7 +32,20 @@ class NoteListFragment : Fragment() {
         val binding = FragmentListNoteBinding.inflate(inflater, container, false)
 
 
-        val adapter = NoteListAdapter()
+        val adapter = NoteListAdapter(object : OnItemClickListener {
+            override fun onDescription(note: Note) {
+                val activity = activity ?: return
+                val dialog = activity.let { activity ->
+                    AlertDialog.Builder(activity)
+                }
+                dialog.setMessage(note.description)
+                    .setPositiveButton(R.string.close) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
+            }
+        })
 
         binding.notesListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {

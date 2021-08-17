@@ -2,6 +2,7 @@ package ru.netology.fmhandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,13 @@ import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
-class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffCallback) {
+interface OnItemClickListener {
+    fun onDescription(note: Note) {}
+}
+
+class NoteListAdapter(
+    private val onItemClickListener: OnItemClickListener
+) : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NoteCardItemForListBinding.inflate(
@@ -21,7 +28,7 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
             parent,
             false
         )
-        return NoteViewHolder(binding)
+        return NoteViewHolder(binding, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
@@ -31,7 +38,8 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
     }
 
     class NoteViewHolder(
-        private val binding: NoteCardItemForListBinding
+        private val binding: NoteCardItemForListBinding,
+        private val onItemClickListener: OnItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note) {
 
@@ -40,13 +48,11 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
                 patientNameMaterialTextView.text = note.shortPatientName
                 executorNameMaterialTextView.text = note.shortExecutorName
                 planDateMaterialTextView.text = Utils.convertDate(note.planeExecuteDate!!)
-
-                if (note.factExecuteDate == null) {
-                    factDateMaterialTextView.setText(R.string.date_not_set)
-                } else {
-                    factDateMaterialTextView.text = Utils.convertDate(note.factExecuteDate)
-                }
                 descriptionMaterialTextView.text = note.description
+
+                descriptionMaterialTextView.setOnClickListener {
+                    onItemClickListener.onDescription(note)
+                }
             }
         }
 
@@ -60,12 +66,24 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
             }
 
             when (executionPriority) {
+
                 ExecutionPriority.HIGH ->
-                    this.notePriorityIndicatorShapeableImageView.setImageResource(R.color.red)
+                    this.noteCardItemForList.strokeColor = ContextCompat.getColor(
+                        itemView.context,
+                        R.color.execution_priority_medium
+                    )
+
                 ExecutionPriority.MEDIUM ->
-                    this.notePriorityIndicatorShapeableImageView.setImageResource(R.color.yellow)
+                    this.noteCardItemForList.strokeColor = ContextCompat.getColor(
+                        itemView.context,
+                        R.color.execution_priority_medium
+                    )
+
                 ExecutionPriority.LOW ->
-                    this.notePriorityIndicatorShapeableImageView.setImageResource(R.color.green)
+                    this.noteCardItemForList.strokeColor = ContextCompat.getColor(
+                        itemView.context,
+                        R.color.execution_priority_medium
+                    )
             }
         }
     }

@@ -73,4 +73,6 @@
     <string name="status_open">Open</string>
     <string name="plan_date_example">2 November 2021 19:15</string>
     <string name="ok" />
+    <string name="topic">topic</string>
+    <string name="close">Close</string>
 </resources>
