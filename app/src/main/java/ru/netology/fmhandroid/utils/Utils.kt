@@ -15,7 +15,17 @@ object Utils {
 
         val localDateTime = LocalDateTime.parse(dateTime.toString())
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "dd MMMM yyyy HH:mm",
+            "dd.MM.yyy",
+            Locale.getDefault()
+        )
+        return formatter.format(localDateTime)
+    }
+
+    fun convertTime(dateTime: LocalDateTime): String {
+
+        val localDateTime = LocalDateTime.parse(dateTime.toString())
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+            "HH-mm",
             Locale.getDefault()
         )
         return formatter.format(localDateTime)

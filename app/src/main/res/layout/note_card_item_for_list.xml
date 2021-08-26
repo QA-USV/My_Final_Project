@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="134dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="@dimen/card_item_elevation"
-    android:layout_margin="@dimen/padding_between_elements"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:layout_margin="12dp"
     app:strokeColor="#01A19F"
     app:strokeWidth="2dp"
     android:id="@+id/note_card_item_for_list">
@@ -15,13 +15,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/card_view_padding">
+        android:paddingTop="@dimen/card_view_padding"
+        android:paddingStart="@dimen/card_view_padding"
+        android:paddingEnd="@dimen/card_view_padding"
+        android:paddingBottom="12dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title_material_text_view"
             style="@style/NoteLabelTextStyle"
             android:layout_width="68dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:text="@string/topic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,14 +32,15 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/description_material_text_view"
             style="@style/NotePatientAndExecutorTextSize"
-            android:layout_width="200dp"
-            android:layout_height="18dp"
-            android:textAlignment="viewStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textAlignment="viewEnd"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title_material_text_view"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@sample/note.json/data/description"/>
+            tools:text="@sample/posts.json/data/description" />
 
         <ImageView
             android:id="@+id/top_divider_image_view"
@@ -53,7 +57,7 @@
             android:id="@+id/patient_name_label_material_text_view"
             style="@style/NoteLabelTextStyle"
             android:layout_width="59dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/note_card_divider_margin"
             android:text="@string/note_patient_label"
             android:textAlignment="viewStart"
@@ -64,7 +68,7 @@
             android:id="@+id/patient_name_material_text_view"
             style="@style/NotePatientAndExecutorTextSize"
             android:layout_width="200dp"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/note_card_divider_margin"
             android:ellipsize="end"
             android:maxLines="1"
@@ -88,7 +92,7 @@
             android:id="@+id/executor_name_label_material_text_view"
             style="@style/NoteLabelTextStyle"
             android:layout_width="91dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/note_executor_label"
             android:textAlignment="viewStart"
@@ -99,7 +103,7 @@
             android:id="@+id/executor_name_material_text_view"
             style="@style/NotePatientAndExecutorTextSize"
             android:layout_width="200dp"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -123,7 +127,7 @@
             android:id="@+id/plan_date_label_material_text_view"
             style="@style/NoteLabelTextStyle"
             android:layout_width="97dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/plan_date"
             android:textAlignment="viewStart"
@@ -134,7 +138,7 @@
             android:id="@+id/plan_date_material_text_view"
             style="@style/NotePatientAndExecutorTextSize"
             android:layout_width="84dp"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -148,10 +152,32 @@
             style="@style/NotePlanTimeTextStyle"
             android:textAlignment="center"
             android:layout_width="41dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/plan_date_material_text_view"
             app:layout_constraintEnd_toStartOf="@+id/plan_date_material_text_view"
             tools:text="21-00"/>
+
+        <ImageView
+            android:id="@+id/second_bottom_divider_image_view"
+            android:layout_width="@dimen/line_divider_width"
+            android:layout_height="@dimen/line_divider_height"
+            android:layout_marginTop="@dimen/note_card_divider_margin"
+            android:background="@color/half_light_grey"
+            android:contentDescription="@string/line_divider_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plan_date_material_text_view" />
+
+        <ImageView
+            android:id="@+id/green_triangle_arrow_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_green_triangle_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/second_bottom_divider_image_view" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

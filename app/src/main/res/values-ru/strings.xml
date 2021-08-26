@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Первый московский хоспис</string>
-    <string name="patient_with_colon">Пациент:</string>
+    <string name="patient_with_colon">Пациент</string>
     <string name="patients">Пациенты</string>
     <string name="claims">Заявки</string>
     <string name="FLN">ФИО</string>
@@ -42,7 +42,7 @@
     <string name="cancel">Отмена</string>
     <string name="admission">Госпитализация</string>
     <string name="helper_text_date">В формате: ГГГГ-ММ-ДД</string>
-    <string name="plan_data_colon">Плановая дата:</string>
+    <string name="plan_data_colon">Плановая дата</string>
     <string name="write_a_comment">Напишете комментарий…</string>
     <string name="add_comment">Комментировать</string>
     <string name="completion_date">Дата выполнения</string>
@@ -52,10 +52,10 @@
     <string name="description">Описание</string>
     <string name="menu_button_description">Кнопка Меню</string>
     <string name="line_divider_description">Разделительная линия</string>
-    <string name="note_patient_label">Пациент:</string>
-    <string name="note_executor_label">Исполнитель:</string>
-    <string name="plan_date">Плановая дата:</string>
-    <string name="fact_date">Фактическая дата:</string>
+    <string name="note_patient_label">Пациент</string>
+    <string name="note_executor_label">Исполнитель</string>
+    <string name="plan_date">Плановая дата</string>
+    <string name="fact_date">Фактическая дата</string>
     <string name="outwork">Не взята в работу</string>
     <string name="in_hospis">В хосписе</string>
     <string name="expected">Ожидание</string>
@@ -71,7 +71,8 @@
     <string name="claim_description">Содержание заявки</string>
     <string name="title">Заголовок</string>
     <string name="status_open">Открыта</string>
-    <string name="plan_date_example">2 ноября 2021 19:15</string>
+    <string name="plan_date_example">20.11.2021</string>
+    <string name="plan_date_time_example">20–15</string>
     <string name="ok" />
     <string name="topic">тема</string>
     <string name="close">Закрыть</string>

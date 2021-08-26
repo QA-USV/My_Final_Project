@@ -1,4 +1,4 @@
-package ru.netology.fmhandroid.repository.noteRepository
+package ru.netology.fmhandroid.repository.claimRepository
 
 import dagger.Binds
 import dagger.Module
@@ -8,8 +8,8 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class NoteRepositoryModule {
+abstract class ClaimRepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindNoteRepository(imp: NoteRepositoryImp): NoteRepository
+    abstract fun bindClaimRepository(imp: ClaimRepositoryImpl): ClaimRepository
 }

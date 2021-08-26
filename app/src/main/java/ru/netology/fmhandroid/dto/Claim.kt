@@ -14,6 +14,13 @@ data class Claim(
     val createDate: LocalDateTime,
     val planExecuteDate: LocalDateTime,
     val factExecuteDate: LocalDateTime,
-    val statusId: Int,
+    val status: ClaimStatus,
     val deleted: Boolean
 ) : Parcelable
+
+enum class ClaimStatus {
+    CANCELLED,
+    EXECUTED,
+    IN_PROGRESS,
+    OPEN
+}

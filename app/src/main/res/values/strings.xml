@@ -53,8 +53,8 @@
     <string name="line_divider_description">Divider Line</string>
     <string name="note_patient_label">Patient:</string>
     <string name="note_executor_label">Executor:</string>
-    <string name="plan_date">Plan date:</string>
-    <string name="fact_date">Fact date:</string>
+    <string name="plan_date">Plan date</string>
+    <string name="fact_date">Fact date</string>
     <string name="outwork">Outwork</string>
     <string name="in_hospis">In hospice</string>
     <string name="expected">Expected</string>
@@ -71,7 +71,8 @@
     <string name="claim_description">Claim description</string>
     <string name="title">Title</string>
     <string name="status_open">Open</string>
-    <string name="plan_date_example">2 November 2021 19:15</string>
+    <string name="plan_date_example">20.11.2021</string>
+    <string name="plan_date_time_example">20–15</string>
     <string name="ok" />
     <string name="topic">topic</string>
     <string name="close">Close</string>

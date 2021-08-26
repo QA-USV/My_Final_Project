@@ -70,7 +70,7 @@ class NoteListAdapter(
                 ExecutionPriority.HIGH ->
                     this.noteCardItemForList.strokeColor = ContextCompat.getColor(
                         itemView.context,
-                        R.color.execution_priority_medium
+                        R.color.execution_priority_high
                     )
 
                 ExecutionPriority.MEDIUM ->
@@ -82,7 +82,7 @@ class NoteListAdapter(
                 ExecutionPriority.LOW ->
                     this.noteCardItemForList.strokeColor = ContextCompat.getColor(
                         itemView.context,
-                        R.color.execution_priority_medium
+                        R.color.execution_priority_low
                     )
             }
         }
