@@ -14,6 +14,7 @@ interface ClaimRepository {
     suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment>
     suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): Int
     suspend fun changeClaimStatus(claimId: Int, newStatus: ClaimStatus): Claim
+    // Вопрос по возвращаемому значению.
     suspend fun changeClaimComment()
     suspend fun getClaimCommentById(id: Int): ClaimComment
     suspend fun getAllClaimsWithOpenAndInProgressStatus(): Flow<List<Claim>>
