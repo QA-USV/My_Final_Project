@@ -129,24 +129,43 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="NoteLabelTextStyle">
-        <item name="android:textSize"> 13sp </item>
-        <item name="android:textColor"> #535353 </item>
+    <style name="card_label_style">
+        <item name="android:textSize">
+            14sp
+        </item>
+        <item name="android:textColor">
+            #535353
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
     </style>
 
-    <style name="NotePatientAndExecutorTextSize">
-        <item name="android:textSize"> 14sp </item>
-        <item name="android:textColor"> @color/half_black </item>
+    <style name="card_text_style">
+        <item name="android:textSize">
+            16sp
+        </item>
+        <item name="android:textColor">
+            #DE000000
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
     </style>
 
-    <style name="NotePlanTimeTextStyle">
-        <item name="android:textSize"> 12sp </item>
-        <item name="android:textColor"> #878787 </item>
-    </style>
-
-    <style name="ClaimPlanTimeTextStyle">
-        <item name="android:textSize"> 16sp </item>
-        <item name="android:textColor"> #878787 </item>
+    <style name="card_divider_style">
+        <item name="android:background">
+            #14000000
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
     </style>
 
 </resources>
