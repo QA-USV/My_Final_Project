@@ -1,5 +1,6 @@
 package ru.netology.fmhandroid.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -14,13 +15,14 @@ import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
-interface OnItemClickListener {
+interface OnNoteItemClickListener {
+    fun onCard(note: Note) {}
     fun onDescription(note: Note) {}
 }
 
-class NoteListAdapter(
-    private val onItemClickListener: OnItemClickListener
-) : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffCallback) {
+class NoteAdapter(
+    private val onNoteItemClickListener: OnNoteItemClickListener
+) : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NoteDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NoteCardItemForListBinding.inflate(
@@ -28,7 +30,7 @@ class NoteListAdapter(
             parent,
             false
         )
-        return NoteViewHolder(binding, onItemClickListener)
+        return NoteViewHolder(binding, onNoteItemClickListener)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
@@ -39,62 +41,91 @@ class NoteListAdapter(
 
     class NoteViewHolder(
         private val binding: NoteCardItemForListBinding,
-        private val onItemClickListener: OnItemClickListener
+        private val onNoteItemClickListener: OnNoteItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(note: Note) {
 
+        fun bind(note: Note) {
             binding.apply {
                 prioritization(note)
                 patientNameMaterialTextView.text = note.shortPatientName
                 executorNameMaterialTextView.text = note.shortExecutorName
-                planDateMaterialTextView.text = Utils.convertDate(note.planeExecuteDate!!)
+                planTimeMaterialTextView.text = note.planeExecuteDate?.let { Utils.convertTime(it) }
+                planDateMaterialTextView.text = note.planeExecuteDate?.let { Utils.convertDate(it) }
                 descriptionMaterialTextView.text = note.description
 
                 descriptionMaterialTextView.setOnClickListener {
-                    onItemClickListener.onDescription(note)
+                    onNoteItemClickListener.onDescription(note)
                 }
             }
         }
 
         private fun NoteCardItemForListBinding.prioritization(note: Note) {
 
-            val executionPriority = note.planeExecuteDate?.let {
+            val executionPriority = note.planeExecuteDate.let {
                 BusinessRules.determiningPriorityLevelOfNote(
                     LocalDateTime.now(),
-                    it
+                    it ?: LocalDateTime.now()
+                // TODO ("Продумать, что сделать если плановой даты нет или она null")
                 )
             }
 
             when (executionPriority) {
 
                 ExecutionPriority.HIGH ->
-                    this.noteCardItemForList.strokeColor = ContextCompat.getColor(
-                        itemView.context,
-                        R.color.execution_priority_high
-                    )
+                    this.noteCardItemForList.apply {
+                        this.strokeColor = ContextCompat.getColor(
+                            itemView.context,
+                            R.color.execution_priority_high
+                        )
+                        greenTriangleArrowImageView.setImageResource(R.drawable.ic_red_triangle_arrow)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            outlineSpotShadowColor = ContextCompat.getColor(
+                                itemView.context,
+                                R.color.execution_priority_high
+                            )
+                        }
+                    }
 
                 ExecutionPriority.MEDIUM ->
-                    this.noteCardItemForList.strokeColor = ContextCompat.getColor(
-                        itemView.context,
-                        R.color.execution_priority_medium
-                    )
+                    this.noteCardItemForList.apply {
+                        strokeColor = ContextCompat.getColor(
+                            itemView.context,
+                            R.color.execution_priority_medium
+                        )
+                        greenTriangleArrowImageView.setImageResource(R.drawable.ic_yellow_triangle_arrow)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            outlineSpotShadowColor = ContextCompat.getColor(
+                                itemView.context,
+                                R.color.execution_priority_medium
+                            )
+                        }
+                    }
 
                 ExecutionPriority.LOW ->
-                    this.noteCardItemForList.strokeColor = ContextCompat.getColor(
-                        itemView.context,
-                        R.color.execution_priority_low
-                    )
+                    this.noteCardItemForList.apply {
+                        strokeColor = ContextCompat.getColor(
+                            itemView.context,
+                            R.color.execution_priority_low
+                        )
+                        greenTriangleArrowImageView.setImageResource(R.drawable.ic_green_triangle_arrow)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            outlineSpotShadowColor = ContextCompat.getColor(
+                                itemView.context,
+                                R.color.execution_priority_low
+                            )
+                        }
+                    }
             }
         }
     }
 
-    private object NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
+    class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
     }
 }

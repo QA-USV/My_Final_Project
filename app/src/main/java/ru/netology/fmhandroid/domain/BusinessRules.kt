@@ -30,7 +30,7 @@ object BusinessRules {
         }
 
         // Ближайшие 6.00 (утра), если сейчас меньше 6ти, выставляем текущий день 6ть утра
-        val nextSixOClock = LocalDateTime.of(
+        var nextSixOClock = LocalDateTime.of(
             currentDateTime.year,
             currentDateTime.monthValue,
             currentDateTime.dayOfMonth,
@@ -40,7 +40,7 @@ object BusinessRules {
 
         // Если сегодня уже больше 6ти утра, то выставляем на 6ть утра следующего дня
         if (currentDateTime.hour > 6) {
-            nextSixOClock.plusDays(1)
+            nextSixOClock = nextSixOClock.plusDays(1)
         }
 
         /*
