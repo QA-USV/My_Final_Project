@@ -5,4 +5,4 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 
 @AndroidEntryPoint
-class NoteFragment : Fragment(R.layout.fragment_note)
+class WishFragment : Fragment(R.layout.fragment_wish)

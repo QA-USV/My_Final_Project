@@ -18,9 +18,9 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideNoteApi(): NoteApi {
+    fun provideWishApi(): WishApi {
         return retrofit(okhttp(loggingInterceptor()))
-            .create(NoteApi::class.java)
+            .create(WishApi::class.java)
     }
 
     @Provides

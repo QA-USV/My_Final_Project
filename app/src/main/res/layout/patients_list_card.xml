@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toStartOf="@+id/status_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@sample/note.json/data/patientName" />
+        tools:text="@sample/wish.json/data/patientName" />
 
     <TextView
         android:id="@+id/status_text_view"
@@ -36,7 +36,7 @@
         android:textAppearance="@style/patientsListLocationStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/in_hospis" />
+        tools:text="@string/in_hospice" />
 
     <View
         android:id="@+id/divider_view"

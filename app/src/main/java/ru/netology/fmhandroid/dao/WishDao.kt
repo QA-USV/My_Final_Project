@@ -2,27 +2,27 @@ package ru.netology.fmhandroid.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import ru.netology.fmhandroid.entity.NoteEntity
+import ru.netology.fmhandroid.entity.WishEntity
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Dao
-interface NoteDao {
-    @Query("SELECT * FROM NoteEntity ORDER BY id DESC")
-    fun getAllNotes(): Flow<List<NoteEntity>>
+interface WishDao {
+    @Query("SELECT * FROM WishEntity ORDER BY id DESC")
+    fun getAllWishes(): Flow<List<WishEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(note: NoteEntity)
+    suspend fun insert(wish: WishEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(notes: List<NoteEntity>)
+    suspend fun insert(wishes: List<WishEntity>)
 
-    @Query("SELECT * FROM NoteEntity WHERE id = :id")
-    suspend fun getNoteById(id: Int): NoteEntity
+    @Query("SELECT * FROM WishEntity WHERE id = :id")
+    suspend fun getWishById(id: Int): WishEntity
 
-    @Query("UPDATE NoteEntity Set deleted = 1 WHERE id = :id")
-    suspend fun deleteNoteById(id: Int)
+    @Query("UPDATE WishEntity Set deleted = 1 WHERE id = :id")
+    suspend fun deleteWishById(id: Int)
 }
 
 class Converters {

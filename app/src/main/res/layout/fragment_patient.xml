@@ -248,7 +248,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- notes card -->
+        <!-- wishes card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/notes_material_card_view"
             android:layout_width="match_parent"
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:backgroundTint="@color/grey"
-                    android:text="@string/notes"
+                    android:text="@string/wishes"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@+id/notes_card_barrier"
@@ -316,7 +316,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
                             android:layout_marginBottom="16dp"
-                            android:text="@string/note"
+                            android:text="@string/wish"
                             android:textColor="#8A000000"
                             android:textSize="15sp" />
 
@@ -326,7 +326,7 @@
                             android:background="#14000000" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/notes_list_recycler_view"
+                            android:id="@+id/wish_list_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:itemCount="3"

@@ -30,7 +30,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title_material_text_view"
-                style="@style/NoteLabelTextStyle"
+                style="@style/WishLabelTextStyle"
                 android:layout_width="68dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/card_view_padding"
@@ -41,7 +41,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/description_material_text_view"
-                style="@style/NotePatientAndExecutorTextSize"
+                style="@style/WishPatientAndExecutorTextSize"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/card_view_padding"
@@ -69,7 +69,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/plan_date_label_material_text_view"
-            style="@style/NoteLabelTextStyle"
+            style="@style/WishLabelTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginTop="@dimen/padding_between_elements"
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginEnd="@dimen/card_view_padding"
-            style="@style/NotePlanTimeTextStyle"
+            style="@style/WishPlanTimeTextStyle"
             app:layout_constraintEnd_toStartOf="@id/plan_date_material_text_view"
             app:layout_constraintTop_toTopOf="@id/plan_date_material_text_view"
             tools:text="21-00"/>
@@ -115,7 +115,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/executor_name_label_material_text_view"
-            style="@style/NoteLabelTextStyle"
+            style="@style/WishLabelTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginTop="@dimen/padding_between_elements"

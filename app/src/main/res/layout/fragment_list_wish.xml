@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.NoteListFragment">
+    tools:context=".ui.WishListFragment">
 
     <TextView
-        android:id="@+id/empty_notes_list_text"
+        android:id="@+id/empty_wish_list_text"
         style="@style/LargeBlackTextStyle"
         android:layout_width="300dp"
         android:layout_height="150dp"
@@ -18,12 +18,12 @@
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notes_list_recycler_view"
+        android:id="@+id/wish_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:clipToPadding="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/note_card_item_for_list" />
+        tools:listitem="@layout/item_wish" />
 
 </LinearLayout>

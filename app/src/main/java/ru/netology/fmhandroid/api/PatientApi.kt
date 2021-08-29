@@ -3,7 +3,7 @@ package ru.netology.fmhandroid.api
 import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.fmhandroid.dto.Admission
-import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.Patient
 
 interface PatientApi {
@@ -22,7 +22,7 @@ interface PatientApi {
     suspend fun getPatientAdmissions(@Path("id") id: Int): Response<List<Admission>>
 
     @GET("patient/{id}/note")
-    suspend fun getPatientNotes(@Path("id") id: Int): Response<List<Note>>
+    suspend fun getPatientNotes(@Path("id") id: Int): Response<List<Wish>>
 
     @POST("patient")
     suspend fun savePatient(@Body patient: Patient): Response<Patient>

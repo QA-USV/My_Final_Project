@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.entity.AdmissionEntity
-import ru.netology.fmhandroid.entity.NoteEntity
+import ru.netology.fmhandroid.entity.WishEntity
 import ru.netology.fmhandroid.entity.PatientEntity
 
 @Dao
@@ -23,8 +23,8 @@ interface PatientDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(patients: List<PatientEntity>)
 
-    @Query("SELECT * FROM NoteEntity WHERE patientId = :id")
-    suspend fun getNotesByPatientId(id: Int): List<NoteEntity>
+    @Query("SELECT * FROM WishEntity WHERE patientId = :id")
+    suspend fun getNotesByPatientId(id: Int): List<WishEntity>
 
     @Query("SELECT * FROM AdmissionEntity WHERE patientId == :id")
     suspend fun getAdmissionsByPatientId(id: Int): List<AdmissionEntity>

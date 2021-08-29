@@ -168,4 +168,19 @@
         </item>
     </style>
 
+    <style name="WishLabelTextStyle">
+        <item name="android:textSize"> 13sp </item>
+        <item name="android:textColor"> #535353 </item>
+    </style>
+
+    <style name="WishPatientAndExecutorTextSize">
+        <item name="android:textSize"> 16sp </item>
+        <item name="android:textColor"> @color/half_black </item>
+    </style>
+
+    <style name="WishPlanTimeTextStyle">
+        <item name="android:textSize"> 12sp </item>
+        <item name="android:textColor"> #878787 </item>
+    </style>
+
 </resources>

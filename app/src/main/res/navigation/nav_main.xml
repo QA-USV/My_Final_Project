@@ -25,8 +25,8 @@
 
     <fragment
         android:id="@+id/fragment_list_notes"
-        android:name="ru.netology.fmhandroid.ui.NoteListFragment"
-        android:label="@string/list_of_notes_fragment_label" />
+        android:name="ru.netology.fmhandroid.ui.WishListFragment"
+        android:label="@string/list_of_wishes_fragment_label" />
 
     <fragment
         android:id="@+id/mainFragment"
@@ -41,7 +41,7 @@
             app:destination="@id/patientsListFragment" />
         <action
             android:id="@+id/action_feedFragment_to_addNoteFragment"
-            app:destination="@id/addNoteFragment" />
+            app:destination="@id/addWishFragment" />
         <action
             android:id="@+id/action_feedFragment_to_noteCardFragment"
             app:destination="@id/noteCardFragment" />
@@ -55,13 +55,13 @@
         android:label="PatientProfileCardFragment" />
 
     <fragment
-        android:id="@+id/addNoteFragment"
-        android:name="ru.netology.fmhandroid.ui.AddNoteFragment"
+        android:id="@+id/addWishFragment"
+        android:name="ru.netology.fmhandroid.ui.AddWishFragment"
         android:label="AddNoteFragment" />
 
     <fragment
         android:id="@+id/noteCardFragment"
-        android:name="ru.netology.fmhandroid.ui.NoteFragment"
+        android:name="ru.netology.fmhandroid.ui.WishFragment"
         android:label="NoteCardFragment" />
 
 </navigation>

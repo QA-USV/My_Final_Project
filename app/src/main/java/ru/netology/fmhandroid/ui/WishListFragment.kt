@@ -12,15 +12,15 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.adapter.NoteListAdapter
-import ru.netology.fmhandroid.adapter.OnItemClickListener
-import ru.netology.fmhandroid.databinding.FragmentListNoteBinding
-import ru.netology.fmhandroid.dto.Note
-import ru.netology.fmhandroid.viewmodel.NoteViewModel
+import ru.netology.fmhandroid.adapter.OnWishItemClickListener
+import ru.netology.fmhandroid.adapter.WishListAdapter
+import ru.netology.fmhandroid.databinding.FragmentListWishBinding
+import ru.netology.fmhandroid.dto.Wish
+import ru.netology.fmhandroid.viewmodel.WishViewModel
 
 @AndroidEntryPoint
-class NoteListFragment : Fragment() {
-    private val viewModel: NoteViewModel by viewModels(
+class WishListFragment : Fragment() {
+    private val viewModel: WishViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -29,16 +29,15 @@ class NoteListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val binding = FragmentListNoteBinding.inflate(inflater, container, false)
+        val binding = FragmentListWishBinding.inflate(inflater, container, false)
 
-
-        val adapter = NoteListAdapter(object : OnItemClickListener {
-            override fun onDescription(note: Note) {
+        val adapter = WishListAdapter(object : OnWishItemClickListener {
+            override fun onDescription(wish: Wish) {
                 val activity = activity ?: return
                 val dialog = activity.let { activity ->
                     AlertDialog.Builder(activity)
                 }
-                dialog.setMessage(note.description)
+                dialog.setMessage(wish.description)
                     .setPositiveButton(R.string.close) { dialog, _ ->
                         dialog.cancel()
                     }
@@ -47,11 +46,11 @@ class NoteListFragment : Fragment() {
             }
         })
 
-        binding.notesListRecyclerView.adapter = adapter
+        binding.wishListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
-                binding.emptyNotesListText.isVisible = state.isEmpty()
+                binding.emptyWishListText.isVisible = state.isEmpty()
             }
         }
 

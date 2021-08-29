@@ -8,60 +8,59 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.NoteCardItemForListBinding
+import ru.netology.fmhandroid.databinding.ItemWishBinding
 import ru.netology.fmhandroid.domain.BusinessRules
-import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
-interface OnNoteItemClickListener {
-    fun onCard(note: Note) {}
-    fun onDescription(note: Note) {}
+interface OnWishItemClickListener {
+    fun onCard(wish: Wish) {}
+    fun onDescription(wish: Wish) {}
 }
 
-class NoteAdapter(
-    private val onNoteItemClickListener: OnNoteItemClickListener
-) : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NoteDiffCallback()) {
+class WishListAdapter(
+    private val onWishItemClickListener: OnWishItemClickListener
+) : ListAdapter<Wish, WishListAdapter.WishViewHolder>(WishDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val binding = NoteCardItemForListBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishViewHolder {
+        val binding = ItemWishBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return NoteViewHolder(binding, onNoteItemClickListener)
+        return WishViewHolder(binding, onWishItemClickListener)
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WishViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
         }
     }
 
-    class NoteViewHolder(
-        private val binding: NoteCardItemForListBinding,
-        private val onNoteItemClickListener: OnNoteItemClickListener
+    class WishViewHolder(
+        private val binding: ItemWishBinding,
+        private val onWishItemClickListener: OnWishItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note) {
+        fun bind(wish: Wish) {
             binding.apply {
-                prioritization(note)
-                patientNameMaterialTextView.text = note.shortPatientName
-                executorNameMaterialTextView.text = note.shortExecutorName
-                planTimeMaterialTextView.text = note.planeExecuteDate?.let { Utils.convertTime(it) }
-                planDateMaterialTextView.text = note.planeExecuteDate?.let { Utils.convertDate(it) }
-                descriptionMaterialTextView.text = note.description
+                prioritization(wish)
+                patientNameMaterialTextView.text = wish.shortPatientName
+                executorNameMaterialTextView.text = wish.shortExecutorName
+                planTimeMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertTime(it) }
+                planDateMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertDate(it) }
+                descriptionMaterialTextView.text = wish.description
 
                 descriptionMaterialTextView.setOnClickListener {
-                    onNoteItemClickListener.onDescription(note)
+                    onWishItemClickListener.onDescription(wish)
                 }
             }
         }
 
-        private fun NoteCardItemForListBinding.prioritization(note: Note) {
-
-            val executionPriority = note.planeExecuteDate.let {
+        private fun ItemWishBinding.prioritization(wish: Wish) {
+            val executionPriority = wish.planeExecuteDate.let {
                 BusinessRules.determiningPriorityLevelOfNote(
                     LocalDateTime.now(),
                     it ?: LocalDateTime.now()
@@ -70,9 +69,8 @@ class NoteAdapter(
             }
 
             when (executionPriority) {
-
                 ExecutionPriority.HIGH ->
-                    this.noteCardItemForList.apply {
+                    itemWish.apply {
                         this.strokeColor = ContextCompat.getColor(
                             itemView.context,
                             R.color.execution_priority_high
@@ -87,7 +85,7 @@ class NoteAdapter(
                     }
 
                 ExecutionPriority.MEDIUM ->
-                    this.noteCardItemForList.apply {
+                    this.itemWish.apply {
                         strokeColor = ContextCompat.getColor(
                             itemView.context,
                             R.color.execution_priority_medium
@@ -102,7 +100,7 @@ class NoteAdapter(
                     }
 
                 ExecutionPriority.LOW ->
-                    this.noteCardItemForList.apply {
+                    this.itemWish.apply {
                         strokeColor = ContextCompat.getColor(
                             itemView.context,
                             R.color.execution_priority_low
@@ -119,12 +117,12 @@ class NoteAdapter(
         }
     }
 
-    class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
-        override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+    class WishDiffCallback : DiffUtil.ItemCallback<Wish>() {
+        override fun areItemsTheSame(oldItem: Wish, newItem: Wish): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+        override fun areContentsTheSame(oldItem: Wish, newItem: Wish): Boolean {
             return oldItem == newItem
         }
     }

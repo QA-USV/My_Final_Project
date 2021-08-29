@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/active"
-        android:title="@string/in_hospis"/>
+        android:title="@string/in_hospice"/>
 
     <item
         android:id="@+id/expected"

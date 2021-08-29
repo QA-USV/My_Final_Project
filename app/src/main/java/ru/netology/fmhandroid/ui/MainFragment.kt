@@ -10,12 +10,12 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
-import ru.netology.fmhandroid.viewmodel.NoteViewModel
+import ru.netology.fmhandroid.viewmodel.WishViewModel
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private val noteViewModel: NoteViewModel by viewModels(
+    private val wishViewModel: WishViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 

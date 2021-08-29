@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.PatientApi
 import ru.netology.fmhandroid.dao.AdmissionDao
-import ru.netology.fmhandroid.dao.NoteDao
+import ru.netology.fmhandroid.dao.WishDao
 import ru.netology.fmhandroid.dao.PatientDao
 import ru.netology.fmhandroid.dto.Admission
-import ru.netology.fmhandroid.dto.Note
+import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 class PatientRepositoryImp @Inject constructor(
     private val patientDao: PatientDao,
     private val admissionDao: AdmissionDao,
-    private val noteDao: NoteDao,
+    private val wishDao: WishDao,
     private val patientApi: PatientApi
 ) : PatientRepository {
 
@@ -77,10 +77,10 @@ class PatientRepositoryImp @Inject constructor(
             }
         )
 
-    override suspend fun getPatientNotes(patientId: Int): List<Note> = makeRequest(
+    override suspend fun getPatientNotes(patientId: Int): List<Wish> = makeRequest(
         request = { patientApi.getPatientNotes(patientId) },
         onSuccess = { body ->
-            noteDao.insert(body.map { it.toEntity() })
+            wishDao.insert(body.map { it.toEntity() })
             body
         }
     )
