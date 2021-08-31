@@ -120,7 +120,7 @@
             android:layout_height="16dp"
             android:layout_marginTop="@dimen/padding_between_elements"
             android:layout_marginStart="@dimen/card_view_padding"
-            android:text="@string/note_executor_label"
+            android:text="@string/wish_executor_label"
             android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/claim_top_divider_image_view" />

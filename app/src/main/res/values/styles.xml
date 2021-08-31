@@ -182,5 +182,10 @@
         <item name="android:textSize"> 12sp </item>
         <item name="android:textColor"> #878787 </item>
     </style>
+    
+    <style name="BottomToolbarTextStyle">
+        <item name="android:textSize"> 18sp </item>
+        <item name="android:textColor"> @color/black </item>
+    </style>
 
 </resources>

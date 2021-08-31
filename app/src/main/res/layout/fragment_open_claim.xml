@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_menu_24"
+            app:titleCentered="true"
             app:title="Записка" />
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -76,4 +76,5 @@
     <string name="ok" />
     <string name="topic">Тема</string>
     <string name="close">Закрыть</string>
+    <string name="authorization">Авторизация</string>
 </resources>

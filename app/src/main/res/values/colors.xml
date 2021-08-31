@@ -17,6 +17,7 @@
     <color name="execution_priority_high">#CE2846</color>
     <color name="full_medium_grey">#a59a9a</color>
     <color name="half_light_grey">#ccc9c9</color>
+    <color name="bottom_toolbar_background">#EAEAEA</color>
     <color name="claim_header_background">#FFECE0</color>
     <color name="claim_stroke_color">#868686</color>
 </resources>
