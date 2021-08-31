@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
-    val claimRepository: ClaimRepository
+    private val claimRepository: ClaimRepository
 ): ViewModel() {
 
     val data: Flow<List<Claim>>
