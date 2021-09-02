@@ -77,4 +77,32 @@
     <string name="topic">Topic</string>
     <string name="close">Close</string>
     <string name="authorization">Authorization</string>
+    <string name="news_item_title">Title</string>
+    <string name="news_item_description">Description</string>
+    <string name="news_item_date">Date</string>
+    <string name="news_item_category">Category</string>
+    <string name="news">News</string>
+    <string name="information" translatable="false">Information</string>
+    <string name="news_category_advertisement">Advertisement</string>
+    <string name="news_category_birthday">Bithday</string>
+    <string name="news_category_salary">Salary</string>
+    <string name="news_category_union">Union</string>
+    <string name="news_category_holiday">Holiday</string>
+    <string name="news_category_massage">Massage</string>
+    <string name="news_category_gratitude">Gratitude</string>
+    <string name="news_category_need_help">Need help</string>
+    <string name="news_item_published">Published</string>
+    <string name="news_item_time">Time</string>
+    <string name="news_item_publication">Publication date</string>
+    <string name="news_item_creation">Creation date</string>
+    <string name="news_item_author">Author</string>
+    <string name="news_item_date_format">DD.MM.YYYY</string>
+    <string name="news_control_panel_published">PUBLISHED</string>
+    <string name="news_control_panel_not_published">NOT PUBLISHED</string>
+    <string name="news_control_panel">News control panel</string>
+    <string name="edit_news_helper">Тo the news \n control panel</string>
+    <string name="filter_news_helper">Filter \n news</string>
+    <string name="sort_news_helper">Sort \n news</string>
+    <string name="info_news_helper">Information</string>
+    <string name="view_news_item_helper">Show/hide \n description</string>
 </resources>

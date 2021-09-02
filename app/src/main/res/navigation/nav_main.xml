@@ -48,6 +48,15 @@
         <action
             android:id="@+id/action_feedFragment_to_fragment_list_notes"
             app:destination="@id/fragment_list_notes" />
+        <action
+            android:id="@+id/action_mainFragment_to_addNewsItemFragment"
+            app:destination="@id/addNewsItemFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newsControlPanelFragment"
+            app:destination="@id/newsControlPanelFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileCardFragment"
@@ -63,5 +72,17 @@
         android:id="@+id/noteCardFragment"
         android:name="ru.netology.fmhandroid.ui.WishFragment"
         android:label="NoteCardFragment" />
+    <fragment
+        android:id="@+id/addNewsItemFragment"
+        android:name="ru.netology.fmhandroid.ui.AddNewsItemFragment"
+        android:label="AddNewsItemFragment" />
+    <fragment
+        android:id="@+id/newsListFragment"
+        android:name="ru.netology.fmhandroid.ui.NewsListFragment"
+        android:label="NewsListFragment" />
+    <fragment
+        android:id="@+id/newsControlPanelFragment"
+        android:name="ru.netology.fmhandroid.ui.NewsControlPanelFragment"
+        android:label="NewsControlPanelFragment" />
 
 </navigation>

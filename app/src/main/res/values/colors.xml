@@ -15,9 +15,12 @@
     <color name="execution_priority_low">#01A19F</color>
     <color name="execution_priority_medium">#ECAA01</color>
     <color name="execution_priority_high">#CE2846</color>
+    <color name="yellow">#FCD46E</color>
     <color name="full_medium_grey">#a59a9a</color>
     <color name="half_light_grey">#ccc9c9</color>
     <color name="bottom_toolbar_background">#EAEAEA</color>
     <color name="claim_header_background">#FFECE0</color>
     <color name="claim_stroke_color">#868686</color>
+    <color name="news_helper_title_background">#1A000000</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>

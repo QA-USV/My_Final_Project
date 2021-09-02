@@ -11,9 +11,9 @@ data class UserEntity(
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "login")
-    var login: String,
+    var login: String?,
     @ColumnInfo(name = "password")
-    var password: String,
+    var password: String?,
     @ColumnInfo(name = "firstName")
     var firstName: String,
     @ColumnInfo(name = "lastName")
@@ -21,9 +21,9 @@ data class UserEntity(
     @ColumnInfo(name = "middleName")
     var middleName: String,
     @ColumnInfo(name = "phoneNumber")
-    var phoneNumber: String,
+    var phoneNumber: String?,
     @ColumnInfo(name = "email")
-    var email: String,
+    var email: String?,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean
 ) {
