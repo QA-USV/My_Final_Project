@@ -77,4 +77,6 @@
     <string name="topic">Тема</string>
     <string name="close">Закрыть</string>
     <string name="authorization">Авторизация</string>
+    <string name="empty_claim_list_text">Здесь пока ничего нет…</string>
+    <string name="refresh">Обновить</string>
 </resources>

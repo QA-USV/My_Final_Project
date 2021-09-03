@@ -71,23 +71,67 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/empty_wish_list_text"
-        style="@style/LargeBlackTextStyle"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:text="@string/empty_wishes_list"
-        android:textAlignment="center"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/wish_list_recycler_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:clipToPadding="true"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_wish" />
+        android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/empty_list_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_list_image"
+            app:layout_constraintBottom_toTopOf="@+id/empty_list_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/empty_list_text_view"
+            style="@style/EmptyListTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/empty_claim_list_text"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/retry_text_view"
+            app:layout_constraintEnd_toEndOf="@id/empty_list_image_view"
+
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/empty_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_list_image_view"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retry_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/refresh"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/empty_list_image_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/empty_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_list_text_view" />
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/empty_list_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="empty_list_image_view, empty_list_text_view, retry_text_view" />
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rv_notes_cards"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:clipToPadding="true"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            tools:listitem="@layout/item_wish" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

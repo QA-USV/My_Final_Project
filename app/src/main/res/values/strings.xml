@@ -77,4 +77,6 @@
     <string name="topic">Topic</string>
     <string name="close">Close</string>
     <string name="authorization">Authorization</string>
+    <string name="empty_claim_list_text">There is nothing here yet…</string>
+    <string name="refresh">Refresh</string>
 </resources>
