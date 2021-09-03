@@ -56,6 +56,18 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_fragment_list_notes)
         }
 
+        binding.btnToNewsList.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_newsListFragment)
+        }
+
+        binding.btnToAddNewsItem.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_addNewsItemFragment)
+        }
+
+        binding.btnToNewsControlPanel.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_newsControlPanelFragment)
+        }
+
         return binding.root
     }
 }

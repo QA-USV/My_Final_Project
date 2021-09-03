@@ -25,6 +25,13 @@ object ApiModule {
 
     @Provides
     @Singleton
+    fun provideClaimApi(): ClaimApi {
+        return retrofit(okhttp(loggingInterceptor()))
+            .create(ClaimApi::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideAdmissionApi(): AdmissionApi {
         return retrofit(okhttp(loggingInterceptor()))
             .create(AdmissionApi::class.java)

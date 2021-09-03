@@ -2,12 +2,12 @@ package ru.netology.fmhandroid.dto
 
 data class User(
     val id: Int,
-    var login: String,
-    var password: String,
+    var login: String? = null,
+    var password: String? = null,
     var firstName: String,
     var lastName: String,
     var middleName: String,
-    var phoneNumber: String,
-    var email: String,
+    var phoneNumber: String? = null,
+    var email: String? = null,
     val deleted: Boolean
 )

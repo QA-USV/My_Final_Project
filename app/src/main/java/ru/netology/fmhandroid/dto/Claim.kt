@@ -1,10 +1,7 @@
 package ru.netology.fmhandroid.dto
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 
-@Parcelize
 data class Claim(
     val id: Int,
     val title: String,
@@ -16,7 +13,7 @@ data class Claim(
     val factExecuteDate: LocalDateTime,
     val status: ClaimStatus,
     val deleted: Boolean
-) : Parcelable
+)
 
 enum class ClaimStatus {
     CANCELLED,

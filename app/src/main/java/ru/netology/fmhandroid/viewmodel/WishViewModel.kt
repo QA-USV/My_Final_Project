@@ -81,17 +81,17 @@ class WishViewModel @Inject constructor(
         }
     }
 
-    fun saveWishCommentById() {
-        emptyWish.let {
-            viewModelScope.launch {
-                try {
-                    it.comment?.let { comment -> wishRepository.saveWishCommentById(it.id, comment) }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
+//    fun saveWishCommentById() {
+//        emptyWish.let {
+//            viewModelScope.launch {
+//                try {
+//                    it.comment?.let { comment -> wishRepository.saveWishCommentById(it.id, comment) }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+//        }
+//    }
 
     fun setWishStatusById() {
         emptyWish.let {
