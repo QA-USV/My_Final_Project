@@ -19,12 +19,14 @@ interface WishApi {
     @GET("wishes/{id}")
     suspend fun getWishById(@Path("id") id: Int): Response<Wish>
 
+    // Исправить
     @POST("wishes/comments/{wishId}")
     suspend fun saveWishCommentById(
         @Path("wishId") wishId: Int,
         @Query("comments") comment: String
     ): Response<Wish>
 
+    // Исправить
     @POST("wishes/status/{wishId}")
     suspend fun setWishStatusById(
         @Path("wishId") wishId: Int,
