@@ -12,7 +12,8 @@ import ru.netology.fmhandroid.entity.*
         PatientEntity::class,
         WishEntity::class,
         AdmissionEntity::class,
-        ClaimEntity::class
+        ClaimEntity::class,
+        ClaimCommentEntity::class
     ],
     version = 1,
     exportSchema = false
