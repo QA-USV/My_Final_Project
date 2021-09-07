@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.entity.ClaimEntity
-import ru.netology.fmhandroid.entity.WishEntity
 
 @Dao
 interface ClaimDao {
@@ -14,10 +13,10 @@ interface ClaimDao {
     fun getAllClaims(): Flow<List<ClaimEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(claim: ClaimEntity)
+    suspend fun insertClaim(claim: ClaimEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(claims: List<ClaimEntity>)
+    suspend fun insertClaim(claims: List<ClaimEntity>)
 
     @Query("SELECT * FROM ClaimEntity WHERE id = :id")
     suspend fun getClaimById(id: Int): ClaimEntity

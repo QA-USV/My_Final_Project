@@ -26,10 +26,9 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- wish card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
@@ -45,26 +44,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="16dp"
-                    android:text="тема"
+                    android:text="@string/them"
                     app:layout_constraintBottom_toTopOf="@+id/divider1_image_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
                     android:id="@+id/title_text_view"
                     style="@style/card_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
                     android:maxWidth="220dp"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="починить кровать починить кровать починить кровать"
                     android:textAlignment="viewEnd"
                     app:layout_constraintBottom_toTopOf="@+id/divider1_image_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/title_label_text_view"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="починить кровать починить кровать починить кровать" />
 
                 <ImageView
                     android:id="@+id/divider1_image_view"
@@ -72,7 +69,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/title_text_view"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/patient_name_label_text_view"
@@ -80,23 +78,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="16dp"
-                    android:text="пациент"
+                    android:text="@string/patient"
+                    app:layout_constraintBottom_toTopOf="@+id/divider2_image_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider1_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider1_image_view"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
                     android:id="@+id/patient_name_text_view"
                     style="@style/card_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="А. И. Бачидзе-Длиннофамилидзе"
                     android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/patient_name_label_text_view"
-                    app:layout_constraintTop_toBottomOf="@id/divider1_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider1_image_view"
+                    tools:text="А. И. Бачидзе-Длиннофамилидзе" />
 
                 <ImageView
                     android:id="@+id/divider2_image_view"
@@ -104,7 +101,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/patient_name_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/patient_name_text_view"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -113,22 +111,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="16dp"
-                    android:text="исполнитель"
+                    android:text="@string/executor"
+                    app:layout_constraintBottom_toTopOf="@+id/divider3_image_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
                     android:id="@+id/executor_name_text_view"
                     style="@style/card_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="НЕ НАЗНАЧЕН"
                     android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/executor_name_label_text_view"
-                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view"
+                    tools:text="НЕ НАЗНАЧЕН" />
 
                 <ImageView
                     android:id="@+id/divider3_image_view"
@@ -136,14 +134,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/executor_name_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/executor_name_text_view"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/plane_date_label_text_view"
                     style="@style/card_label_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="плановая дата"
+                    android:text="@string/plan_date_lowercase"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider3_image_view" />
 
@@ -152,9 +151,9 @@
                     style="@style/card_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12:00 21.12.2021"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider3_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider3_image_view"
+                    tools:text="12:00 21.12.2021" />
 
                 <ImageView
                     android:id="@+id/divider4_image_view"
@@ -162,7 +161,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/plane_date_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/plane_date_text_view"
+                    tools:ignore="ContentDescription" />
 
 
                 <ImageView
@@ -175,7 +175,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider4_image_view"
-                    app:tint="#D1FFFE" />
+                    app:tint="#D1FFFE"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/status_label_text_view"
@@ -188,7 +189,8 @@
                     app:layout_constraintEnd_toEndOf="@id/status_icon_image_view"
                     app:layout_constraintStart_toStartOf="@id/status_icon_image_view"
                     app:layout_constraintTop_toTopOf="@id/status_icon_image_view"
-                    app:layout_constraintVertical_bias="0.3" />
+                    app:layout_constraintVertical_bias="0.3"
+                    tools:ignore="HardcodedText" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/description_material_card_view"
@@ -207,12 +209,12 @@
                         android:id="@+id/description_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Когда перекладывали больного, повредилась ножка кровати.
-Нужно срочно починить."
                         android:textColor="#DE000000"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Когда перекладывали больного, повредилась ножка кровати.
+Нужно срочно починить." />
                 </com.google.android.material.card.MaterialCardView>
 
                 <ImageView
@@ -222,7 +224,8 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="14dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/description_material_card_view" />
+                    app:layout_constraintTop_toBottomOf="@id/description_material_card_view"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/author_label_text_view"
@@ -230,22 +233,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="16dp"
-                    android:text="автор"
+                    android:text="@string/author"
+                    app:layout_constraintBottom_toTopOf="@+id/divider6_image_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
                     android:id="@+id/author_name_text_view"
                     style="@style/card_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="В. Б. Перова"
                     android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/author_label_text_view"
-                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view"
+                    tools:text="Иванов-Длиннофамильский Иван Иванович" />
 
                 <ImageView
                     android:id="@+id/divider6_image_view"
@@ -253,14 +256,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/author_name_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/author_name_text_view"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/create_data_label_text_view"
                     style="@style/card_label_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="создана"
+                    android:text="@string/created"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider6_image_view" />
 
@@ -269,9 +273,9 @@
                     style="@style/card_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="19:30 17.09.2021"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider6_image_view" />
+                    app:layout_constraintTop_toBottomOf="@id/divider6_image_view"
+                    tools:text="19:30 17.09.2021" />
 
                 <ImageView
                     android:id="@+id/divider7_image_view"
@@ -279,14 +283,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/create_data_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/create_data_text_view"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/room_label_text_view"
                     style="@style/card_label_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="палата "
+                    android:text="@string/room_lowercase"
                     app:layout_constraintBottom_toTopOf="@+id/divider8_image_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider7_image_view" />
@@ -296,10 +301,10 @@
                     style="@style/card_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="№8"
                     app:layout_constraintBottom_toTopOf="@+id/divider8_image_view"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider7_image_view" />
+                    app:layout_constraintTop_toBottomOf="@+id/divider7_image_view"
+                    tools:text="№8" />
 
                 <ImageView
                     android:id="@+id/divider8_image_view"
@@ -307,7 +312,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/room_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/room_text_view"
+                    tools:ignore="ContentDescription" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/comments_material_card_view"
@@ -331,7 +337,7 @@
                             style="@style/card_label_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="добавить комментарий"
+                            android:text="@string/add_comment_lowercase"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -340,6 +346,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@android:color/transparent"
+                            android:contentDescription="@string/button_add_comment"
                             android:src="@drawable/ic_add"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -353,6 +360,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_close"
                     android:src="@drawable/ic_close_2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/visibility_image_button"
@@ -366,6 +374,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_visibility"
                     android:src="@drawable/ic_visibility"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/status_processing_image_button"
@@ -379,6 +388,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_change_status"
                     android:src="@drawable/ic_status_processing"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/edit_processing_image_button"
@@ -392,6 +402,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_settings"
                     android:src="@drawable/ic_edit"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
