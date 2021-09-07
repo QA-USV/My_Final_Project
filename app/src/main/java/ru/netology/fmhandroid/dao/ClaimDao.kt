@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import ru.netology.fmhandroid.entity.ClaimCommentEntity
 import ru.netology.fmhandroid.entity.ClaimEntity
 
 @Dao
@@ -14,6 +15,12 @@ interface ClaimDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claim: ClaimEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertComment(comments: List<ClaimCommentEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertComment(comment: ClaimCommentEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claims: List<ClaimEntity>)
