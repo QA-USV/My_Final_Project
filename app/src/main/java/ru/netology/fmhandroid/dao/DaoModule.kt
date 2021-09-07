@@ -13,7 +13,10 @@ object DaoModule {
     fun providePatientDao(db: AppDb): PatientDao = db.patientDao()
 
     @Provides
-    fun provideNoteDao(db: AppDb): WishDao = db.wishDao()
+    fun provideWishDao(db: AppDb): WishDao = db.wishDao()
+
+    @Provides
+    fun provideClaimDao(db: AppDb): ClaimDao = db.claimDao()
 
     @Provides
     fun provideAdmissionDao(db: AppDb): AdmissionDao = db.admissionDao()
