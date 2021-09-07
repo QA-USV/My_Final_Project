@@ -89,7 +89,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/news_control_panel_card" />
+            tools:listitem="@layout/item_news_control_panel" />
 
         <TextView
             android:id="@+id/retry_loading_title_text_view"

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class AddNewsItemFragment : Fragment(R.layout.fragment_add_news_item) {
+class AddNewsItemFragment : Fragment(R.layout.fragment_create_edit_news) {
     private lateinit var vDatePicker: TextInputEditText
     private lateinit var vTimePicker: TextInputEditText
     private lateinit var binding: FragmentAddNewsItemBinding

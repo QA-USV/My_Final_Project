@@ -226,7 +226,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/news_list_card" />
+            tools:listitem="@layout/item_news" />
 
         <TextView
             android:id="@+id/retry_loading_title_text_view"

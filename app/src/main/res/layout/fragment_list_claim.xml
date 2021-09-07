@@ -88,6 +88,6 @@
         android:layout_gravity="center"
         android:clipToPadding="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/claims_list_card" />
+        tools:listitem="@layout/item_claim" />
 
 </LinearLayout>
