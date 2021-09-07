@@ -4,15 +4,15 @@ import ru.netology.fmhandroid.R
 import java.time.LocalDateTime
 
 data class News (
-    val id: Int,
-    val newsCategoryId: Category,
-    val title: String,
-    val description: String,
-    val creator: User,
-    val createDate: LocalDateTime,
-    val publishDate: LocalDateTime,
-    val publishEnabled: Boolean,
-    val deleted: Boolean,
+    val id: Int? = null,
+    val newsCategoryId: Category? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val creator: User? = null,
+    val createDate: LocalDateTime? = null,
+    val publishDate: LocalDateTime? = null,
+    val publishEnabled: Boolean = false,
+    val deleted: Boolean = false,
 ) {
     sealed class Category (val name: Int, val icon: Int) {
         class Advertisement :

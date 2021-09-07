@@ -1,7 +1,7 @@
 package ru.netology.fmhandroid.dto
 
 data class Patient(
-    val id: Int = 0,
+    val id: Int? = null,
     var firstName: String? = null,
     var lastName: String? = null,
     var middleName: String? = null,

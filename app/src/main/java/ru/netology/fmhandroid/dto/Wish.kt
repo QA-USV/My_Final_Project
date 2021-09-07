@@ -3,10 +3,10 @@ package ru.netology.fmhandroid.dto
 import java.time.LocalDateTime
 
 data class Wish(
-    val id: Int = 0,
+    val id: Int? = null,
     val patientId: Int? = null,
-    val title: String = "",
-    var description: String = "",
+    val title: String? = null,
+    var description: String? = null,
     val creatorId: Int? = null,
     val executorId: Int? = null,
     val createDate: LocalDateTime? = null,
@@ -14,8 +14,8 @@ data class Wish(
     val factExecuteDate: LocalDateTime? = null,
     val wishStatus: Status? = null,
     val deleted: Boolean = false,
-    val shortExecutorName: String = "",
-    val shortPatientName: String = ""
+    val shortExecutorName: String? = null,
+    val shortPatientName: String? = null
 ) {
     enum class Status {
         CANCELLED,

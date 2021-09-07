@@ -4,29 +4,29 @@ package ru.netology.fmhandroid.dto
  * Госпитализация
  */
 data class Admission(
-    val id: Int,
-    val patientId: Int,
+    val id: Int? = null,
+    val patientId: Int? = null,
     /**
      * Дата залпанированной госпитализации
      */
-    val planDateIn: String,
+    val planDateIn: String? = null,
     /**
      * Дата запланированной выписки
      */
-    val planDateOut: String,
+    val planDateOut: String? = null,
     /**
      * Фактическая дата госпитализации
      */
-    val factDateIn: String,
+    val factDateIn: String? = null,
     /**
      * Фактическая дата выписки
      */
-    val factDateOut: String,
+    val factDateOut: String? = null,
     /**
      * Идентификатор статуса госпитализации
      */
-    val statusId: Int,
-    val roomId: Int,
-    val comment: String,
+    val statusId: Int? = null,
+    val roomId: Int? = null,
+    val comment: String? = null,
     val deleted: Boolean = false,
 )
