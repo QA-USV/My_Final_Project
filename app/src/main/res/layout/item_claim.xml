@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/claim_top_divider_image_view"
             android:background="@color/claim_header_background"
-            />
+            tools:ignore="ContentDescription" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title_material_text_view"
@@ -156,10 +156,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_between_elements"
-            android:src="@drawable/ic_green_triangle_arrow"
+            android:src="@drawable/ic_gray_triangle_arrow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/claim_bottom_divider_image_view" />
+            app:layout_constraintTop_toBottomOf="@id/claim_bottom_divider_image_view"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

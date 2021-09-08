@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.fmhandroid.databinding.ClaimsListCardBinding
+import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.utils.Utils
 
@@ -18,7 +18,7 @@ class ClaimListAdapter (
     ) : ListAdapter<Claim, ClaimListAdapter.NoteViewHolder>(NoteDiffCallback()) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-            val binding = ClaimsListCardBinding.inflate(
+            val binding = ItemClaimBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -33,15 +33,23 @@ class ClaimListAdapter (
         }
 
         class NoteViewHolder(
-            private val binding: ClaimsListCardBinding,
+            private val binding: ItemClaimBinding,
             private val onClaimItemClickListener: OnClaimItemClickListener
         ) : RecyclerView.ViewHolder(binding.root) {
 
             fun bind(claim: Claim) {
                 binding.apply {
-                    executorNameMaterialTextView.text = TODO("Додумать как здесь получить исполнителя")
-                    planTimeMaterialTextView.text = Utils.convertTime(claim.planExecuteDate)
-                    planDateMaterialTextView.text = Utils.convertDate(claim.planExecuteDate)
+                    // executorNameMaterialTextView.text = TODO("Додумать как здесь получить исполнителя")
+                    planTimeMaterialTextView.text = claim.planExecuteDate?.let {
+                        Utils.convertTime(
+                            it
+                        )
+                    }
+                    planDateMaterialTextView.text = claim.planExecuteDate?.let {
+                        Utils.convertDate(
+                            it
+                        )
+                    }
                     descriptionMaterialTextView.text = claim.description
 
                     claimListCard.setOnClickListener {

@@ -15,4 +15,5 @@ class ClaimViewModel @Inject constructor(
     val data: Flow<List<Claim>>
         get() = claimRepository.data
 
+
 }

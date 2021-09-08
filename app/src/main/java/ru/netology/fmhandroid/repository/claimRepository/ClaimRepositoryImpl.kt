@@ -13,7 +13,7 @@ class ClaimRepositoryImpl @Inject constructor() : ClaimRepository {
     override val data: Flow<List<Claim>> = TODO()
 
     override suspend fun getAllClaims(): Flow<List<Claim>> {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun editClaim(claim: Claim): Claim {
@@ -36,7 +36,7 @@ class ClaimRepositoryImpl @Inject constructor() : ClaimRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun changeClaimStatus(claimId: Int, newStatus: ClaimStatus): Claim {
+    override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim {
         TODO("Not yet implemented")
     }
 
