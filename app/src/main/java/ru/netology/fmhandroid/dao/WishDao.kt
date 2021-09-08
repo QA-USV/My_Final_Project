@@ -2,6 +2,7 @@ package ru.netology.fmhandroid.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.entity.WishEntity
 import java.time.Instant
 import java.time.LocalDateTime
@@ -25,7 +26,7 @@ interface WishDao {
     suspend fun deleteWishById(id: Int)
 }
 
-class Converters {
+class LocalDateTimeConverters {
     @TypeConverter
     fun fromTimestamp(value: Long?): LocalDateTime? {
         return value?.let { LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneOffset.UTC) }

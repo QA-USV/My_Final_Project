@@ -4,30 +4,29 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimStatus
 import java.time.LocalDateTime
 
 @Entity(tableName = "ClaimEntity")
 data class ClaimEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Int?,
     @ColumnInfo(name = "title")
-    val title: String,
+    val title: String?,
     @ColumnInfo(name = "description")
-    val description: String,
+    val description: String?,
     @ColumnInfo(name = "creatorId")
-    val creatorId: Int,
+    val creatorId: Int?,
     @ColumnInfo(name = "executorId")
-    val executorId: Int,
+    val executorId: Int?,
     @ColumnInfo(name = "createDate")
-    val createDate: LocalDateTime,
+    val createDate: LocalDateTime?,
     @ColumnInfo(name = "planExecuteDate")
-    val planExecuteDate: LocalDateTime,
+    val planExecuteDate: LocalDateTime?,
     @ColumnInfo(name = "factExecuteDate")
-    val factExecuteDate: LocalDateTime,
+    val factExecuteDate: LocalDateTime?,
     @ColumnInfo(name = "status")
-    val status: ClaimStatus,
+    val status: Claim.Status?,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean
 ) {

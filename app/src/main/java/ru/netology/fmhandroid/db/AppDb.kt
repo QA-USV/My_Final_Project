@@ -19,7 +19,7 @@ import ru.netology.fmhandroid.entity.*
     exportSchema = false
 )
 
-@TypeConverters(Converters::class)
+@TypeConverters(LocalDateTimeConverters::class, ClaimStatusConverter::class)
 abstract class AppDb : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun patientDao(): PatientDao
