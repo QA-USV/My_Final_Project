@@ -131,4 +131,9 @@
     <string name="button_settings">button settings</string>
     <string name="room_lowercase">room</string>
     <string name="button_edit_comment">button edit comment</string>
+    <string name="last_name_lowercase">last name</string>
+    <string name="first_name_lowercase">first name</string>
+    <string name="middle_name_lowercase">middle name</string>
+    <string name="birth_date_lowercase">birth date</string>
+    <string name="fact_date_lowercase">fact date</string>
 </resources>
