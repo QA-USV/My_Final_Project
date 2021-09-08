@@ -2,14 +2,12 @@ package ru.netology.fmhandroid.dto
 
 data class Patient(
     val id: Int? = null,
-    var firstName: String? = null,
-    var lastName: String? = null,
-    var middleName: String? = null,
-    val birthday: String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val middleName: String? = null,
+    val birthDate: String? = null,
     val currentAdmissionId: Int? = null,
     val deleted: Boolean = false,
-    val admissionsStatus: Status? = null,
-    val shortPatientName: String? = null
 ){
     enum class Status {
         ACTIVE,
