@@ -130,4 +130,9 @@
     <string name="button_settings">кнопка настройки</string>
     <string name="room_lowercase">палата</string>
     <string name="button_edit_comment">кнопка редактирования комментария</string>
+    <string name="last_name_lowercase">фамилия</string>
+    <string name="first_name_lowercase">имя</string>
+    <string name="middle_name_lowercase">отчество</string>
+    <string name="birth_date_lowercase">дата рождения</string>
+    <string name="fact_date_lowercase">фактическая дата</string>
 </resources>
