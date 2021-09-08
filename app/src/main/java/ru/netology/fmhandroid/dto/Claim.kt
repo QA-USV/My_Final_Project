@@ -12,7 +12,7 @@ data class Claim(
     val planExecuteDate: LocalDateTime? = null,
     val factExecuteDate: LocalDateTime? = null,
     val status: Status? = null,
-    val deleted: Boolean = false
+    val deleted: Boolean = false,
 ) {
     enum class Status {
         CANCELLED,

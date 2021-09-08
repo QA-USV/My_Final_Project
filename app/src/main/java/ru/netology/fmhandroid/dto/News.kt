@@ -8,7 +8,7 @@ data class News (
     val newsCategoryId: Category? = null,
     val title: String? = null,
     val description: String? = null,
-    val creator: User? = null,
+    val creatorId: Int? = null,
     val createDate: LocalDateTime? = null,
     val publishDate: LocalDateTime? = null,
     val publishEnabled: Boolean = false,
