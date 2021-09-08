@@ -11,7 +11,11 @@ interface ClaimDao {
     @Query("SELECT * FROM ClaimEntity ORDER BY id DESC")
     fun getAllClaims(): Flow<List<ClaimEntity>>
 
-    @Query("SELECT * FROM ClaimEntity WHERE status = :OPEN AND :IN_PROGRESS")
+    @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus")
+    fun getClaimsOpenAndInProgressStatuses(
+        firstStatus: Claim.Status,
+        secondStatus: Claim.Status
+    ): Flow<List<ClaimEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claim: ClaimEntity)
@@ -32,7 +36,7 @@ interface ClaimDao {
     suspend fun deleteClaimById(id: Int)
 }
 
-class ClaimStatusConverter {
+class WishClaimStatusConverter {
 
     @TypeConverter
     fun toClaimStatus(status: String): Claim.Status = Claim.Status.valueOf(status)
