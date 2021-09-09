@@ -49,4 +49,8 @@ object Utils {
             throw UnknownException
         }
     }
+
+    fun shortUserNameGenerator(firstName: String, lastName: String, middleName: String): String {
+        return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
+    }
 }
