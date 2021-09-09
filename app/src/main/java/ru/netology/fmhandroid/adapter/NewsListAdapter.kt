@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.NewsListCardBinding
+import ru.netology.fmhandroid.databinding.ItemNewsBinding
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.utils.Utils
 
@@ -18,7 +18,7 @@ interface NewsOnInteractionListener {
 class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val binding = NewsListCardBinding.inflate(
+        val binding = ItemNewsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -34,14 +34,14 @@ class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDi
     }
 
     class NewsViewHolder(
-        private val binding: NewsListCardBinding,
+        private val binding: ItemNewsBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: News) = binding.apply {
             newsItemTitleTextView.text = newsItem.title
             newsItemDescriptionTextView.text = newsItem.description
-            newsItemDateTextView.text = Utils.convertDate(newsItem.publishDate)
+            newsItemDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
 
-            setCategory(newsItem.newsCategoryId)
+            newsItem.newsCategoryId?.let { setCategory(it) }
 
             newsItemMaterialCardView.setOnClickListener {
                 when (newsItemGroup.visibility) {

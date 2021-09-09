@@ -72,4 +72,12 @@
         android:layout_gravity="center"
         android:text="to News Control Panel" />
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
+    <Button
+        android:id="@+id/btnToClaimListFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="to Claim list fragment" />
+
 </LinearLayout>

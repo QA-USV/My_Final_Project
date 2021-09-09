@@ -10,13 +10,13 @@ import java.time.LocalDateTime
 data class WishEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Int?,
     @ColumnInfo(name = "patientId")
     val patientId: Int? = null,
     @ColumnInfo(name = "title")
-    val title: String,
+    val title: String?,
     @ColumnInfo(name = "description")
-    val description: String,
+    val description: String?,
     @ColumnInfo(name = "creatorId")
     val creatorId: Int? = null,
     @ColumnInfo(name = "executorId")
@@ -28,13 +28,9 @@ data class WishEntity(
     @ColumnInfo(name = "factExecuteDate")
     val factExecuteDate: LocalDateTime? = null,
     @ColumnInfo(name = "status")
-    val wishStatus: Wish.Status? = null,
+    val status: Wish.Status? = null,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean = false,
-    @ColumnInfo(name = "shortExecutorName")
-    val shortExecutorName: String,
-    @ColumnInfo(name = "shortPatientName")
-    val shortPatientName: String
 ) {
     fun toDto() = Wish(
         id = id,
@@ -46,10 +42,8 @@ data class WishEntity(
         createDate = createDate,
         planeExecuteDate = planeExecuteDate,
         factExecuteDate = factExecuteDate,
-        wishStatus = wishStatus,
+        status = status,
         deleted = deleted,
-        shortExecutorName = shortExecutorName,
-        shortPatientName = shortPatientName
     )
 }
 
@@ -65,8 +59,6 @@ fun Wish.toEntity() = WishEntity(
     createDate = createDate,
     planeExecuteDate = planeExecuteDate,
     factExecuteDate = factExecuteDate,
-    wishStatus = wishStatus,
+    status = status,
     deleted = deleted,
-    shortExecutorName = shortExecutorName,
-    shortPatientName = shortPatientName
 )

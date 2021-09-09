@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_mainFragment_to_newsControlPanelFragment"
             app:destination="@id/newsControlPanelFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileCardFragment"
@@ -84,5 +87,9 @@
         android:id="@+id/newsControlPanelFragment"
         android:name="ru.netology.fmhandroid.ui.NewsControlPanelFragment"
         android:label="NewsControlPanelFragment" />
+    <fragment
+        android:id="@+id/claimListFragment"
+        android:name="ru.netology.fmhandroid.ui.ClaimListFragment"
+        android:label="ClaimListFragment" />
 
 </navigation>

@@ -80,7 +80,7 @@ class PatientViewModel @Inject constructor(
             lastName = lastName.trim(),
             firstName = firstName.trim(),
             middleName = middleName.trim(),
-            birthday = birthDate.trim()
+            birthDate = TODO("Дописать")
         )
     }
 }

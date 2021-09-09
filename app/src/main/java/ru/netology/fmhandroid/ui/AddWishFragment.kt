@@ -10,15 +10,15 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.FragmentAddWishBinding
+import ru.netology.fmhandroid.databinding.FragmentCreateEditWishBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class AddWishFragment : Fragment(R.layout.fragment_add_wish) {
+class AddWishFragment : Fragment(R.layout.fragment_create_edit_wish) {
     private lateinit var vDatePicker : TextInputEditText
     private lateinit var vTimePicker : TextInputEditText
-    private lateinit var binding: FragmentAddWishBinding
+    private lateinit var binding: FragmentCreateEditWishBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class AddWishFragment : Fragment(R.layout.fragment_add_wish) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentAddWishBinding.bind(view)
+        binding = FragmentCreateEditWishBinding.bind(view)
 
         /* DropMenuPatient */
         val patientDropMenuItems = listOf("Иванов Иван Иванович", "Петров Пётр Петрович", "Сидоров Сидор Сидорович",)

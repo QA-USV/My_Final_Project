@@ -123,7 +123,7 @@
             app:constraint_referenced_ids="empty_list_image_view, empty_list_text_view, retry_text_view" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_notes_cards"
+            android:id="@+id/wish_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

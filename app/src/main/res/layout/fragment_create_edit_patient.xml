@@ -88,7 +88,7 @@
                     android:layout_marginTop="20dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/date_in_plan_text_input_edit_text"
+                        android:id="@+id/birth_date_text_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusableInTouchMode="false"

@@ -6,16 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.NewsControlPanelCardBinding
+import ru.netology.fmhandroid.databinding.ItemNewsControlPanelBinding
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.utils.Utils
 
 class NewsControlPanelListAdapter : ListAdapter<News, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(NewsControlPanelDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsControlPanelViewHolder {
-        val binding = NewsControlPanelCardBinding.inflate(
+        val binding = ItemNewsControlPanelBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -31,22 +30,22 @@ class NewsControlPanelListAdapter : ListAdapter<News, NewsControlPanelListAdapte
     }
 
     class NewsControlPanelViewHolder(
-        private val binding: NewsControlPanelCardBinding,
+        private val binding: ItemNewsControlPanelBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(newsItem: News) = binding.apply {
             newsItemTitleTextView.text = newsItem.title
             newsItemDescriptionTextView.text = newsItem.description
-            newsItemPublicationDateTextView.text = Utils.convertDate(newsItem.publishDate)
-            newsItemCreateDateTextView.text = Utils.convertDate(newsItem.createDate)
-            newsItemAuthorNameTextView.text = itemView.resources.getString(
-                R.string.patient_full_name_format,
-                newsItem.creator.lastName,
-                newsItem.creator.firstName.first() + ".",
-                newsItem.creator.middleName.first() + "."
-            )
+            newsItemPublicationDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
+            newsItemCreateDateTextView.text = newsItem.createDate?.let { Utils.convertDate(it) }
+//            newsItemAuthorNameTextView.text = itemView.resources.getString(
+//                R.string.patient_full_name_format,
+//                newsItem.creator.lastName,
+//                newsItem.creator.firstName.first() + ".",
+//                newsItem.creator.middleName.first() + "."
+//            )
 
-            setCategoryIcon(newsItem.newsCategoryId)
+            newsItem.newsCategoryId?.let { setCategoryIcon(it) }
 
             newsItemMaterialCardView.setOnClickListener {
                 when (newsItemDescriptionTextView.visibility) {

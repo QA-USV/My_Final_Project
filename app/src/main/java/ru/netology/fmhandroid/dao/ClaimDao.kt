@@ -9,7 +9,7 @@ import ru.netology.fmhandroid.entity.ClaimEntity
 @Dao
 interface ClaimDao {
     @Query("SELECT * FROM ClaimEntity ORDER BY id DESC")
-    fun getAllClaims(): Flow<List<ClaimEntity>>
+    fun getAllClaims(): Flow<List<Claim.ClaimWithCreatorAndExecutor>>
 
     @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus")
     fun getClaimsOpenAndInProgressStatuses(

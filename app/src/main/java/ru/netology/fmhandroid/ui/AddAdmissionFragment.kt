@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.fmhandroid.databinding.FragmentAddAdmissionBinding
+import ru.netology.fmhandroid.databinding.FragmentCreateEditAdmissionBinding
 
 @AndroidEntryPoint
 class AddAdmissionFragment : Fragment() {
@@ -16,7 +16,7 @@ class AddAdmissionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val binding = FragmentAddAdmissionBinding.inflate(
+        val binding = FragmentCreateEditAdmissionBinding.inflate(
             inflater,
             container,
             false

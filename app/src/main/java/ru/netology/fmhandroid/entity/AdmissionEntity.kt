@@ -4,28 +4,29 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Admission
+import java.time.LocalDateTime
 
 @Entity(tableName = "AdmissionEntity")
 data class AdmissionEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Int?,
     @ColumnInfo(name = "patientId")
-    val patientId: Int,
+    val patientId: Int?,
     @ColumnInfo(name = "planDateIn")
-    val planDateIn: String,
+    val planDateIn: LocalDateTime?,
     @ColumnInfo(name = "planDateOut")
-    val planDateOut: String,
+    val planDateOut: LocalDateTime?,
     @ColumnInfo(name = "factDateIn")
-    val factDateIn: String,
+    val factDateIn: LocalDateTime?,
     @ColumnInfo(name = "factDateOut")
-    val factDateOut: String,
+    val factDateOut: LocalDateTime?,
     @ColumnInfo(name = "admStatusId")
-    val admStatusId: Int,
+    val status: Admission.Status?,
     @ColumnInfo(name = "roomId")
-    val roomId: Int,
+    val roomId: Int?,
     @ColumnInfo(name = "comment")
-    val comment: String,
+    val comment: String?,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean = false,
 ) {
@@ -36,7 +37,7 @@ data class AdmissionEntity(
         planDateOut = planDateOut,
         factDateIn = factDateIn,
         factDateOut = factDateOut,
-        statusId = admStatusId,
+        status = status,
         roomId = roomId,
         comment = comment,
         deleted = deleted
@@ -52,7 +53,7 @@ fun Admission.toEntity() = AdmissionEntity(
     planDateOut = planDateOut,
     factDateIn = factDateIn,
     factDateOut = factDateOut,
-    admStatusId = statusId,
+    status = status,
     roomId = roomId,
     comment = comment,
     deleted = deleted

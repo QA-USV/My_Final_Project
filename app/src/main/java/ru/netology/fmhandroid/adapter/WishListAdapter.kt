@@ -47,8 +47,8 @@ class WishListAdapter(
         fun bind(wish: Wish) {
             binding.apply {
                 prioritization(wish)
-                patientNameMaterialTextView.text = wish.shortPatientName
-                executorNameMaterialTextView.text = wish.shortExecutorName
+//                patientNameMaterialTextView.text = wish.shortPatientName
+//                executorNameMaterialTextView.text = wish.shortExecutorName
                 planTimeMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertTime(it) }
                 planDateMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertDate(it) }
                 descriptionMaterialTextView.text = wish.description

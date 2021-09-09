@@ -97,7 +97,10 @@ class WishViewModel @Inject constructor(
         emptyWish.let {
             viewModelScope.launch {
                 try {
-                    it.wishStatus?.let { noteStatus -> wishRepository.setWishStatusById(it.id, noteStatus) }
+                    it.status?.let { wishStatus -> it.id?.let { it1 ->
+                        wishRepository.setWishStatusById(
+                            it1, wishStatus)
+                    } }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

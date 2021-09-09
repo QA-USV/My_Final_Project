@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.AddPatientCardBinding
+import ru.netology.fmhandroid.databinding.FragmentCreateEditPatientBinding
 import ru.netology.fmhandroid.viewmodel.PatientViewModel
 
 @AndroidEntryPoint
@@ -26,13 +26,13 @@ class AddPatientFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val binding = AddPatientCardBinding.inflate(inflater, container, false)
+        val binding = FragmentCreateEditPatientBinding.inflate(inflater, container, false)
 
         binding.saveButton.setOnClickListener {
-            val lastName = binding.patientLastNameTextInputEditText.text.toString()
-            val firstName = binding.patientFirstNameTextInputEditText.text.toString()
-            val middleName = binding.patientMiddleNameTextInputEditText.text.toString()
-            val birthDate = binding.patientBirthDateTextInputEditText.text.toString()
+            val lastName = binding.patientLastNameTextInputLayout.toString()
+            val firstName = binding.patientFirstNameTextInputLayout.toString()
+            val middleName = binding.patientMiddleNameTextInputLayout.toString()
+            val birthDate = binding.birthDateTextInputEditText.text.toString()
 
             viewModel.changePatientData(
                 lastName,

@@ -50,7 +50,7 @@ class WishListFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
-                binding.emptyWishListText.isVisible = state.isEmpty()
+                binding.emptyListGroup.isVisible = state.isEmpty()
             }
         }
 

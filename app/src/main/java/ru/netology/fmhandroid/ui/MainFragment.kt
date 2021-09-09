@@ -68,6 +68,10 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_newsControlPanelFragment)
         }
 
+        binding.btnToClaimListFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
+        }
+
         return binding.root
     }
 }

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.databinding.FragmentAddNewsItemBinding
+import ru.netology.fmhandroid.databinding.FragmentCreateEditNewsBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,7 +19,7 @@ import java.util.*
 class AddNewsItemFragment : Fragment(R.layout.fragment_create_edit_news) {
     private lateinit var vDatePicker: TextInputEditText
     private lateinit var vTimePicker: TextInputEditText
-    private lateinit var binding: FragmentAddNewsItemBinding
+    private lateinit var binding: FragmentCreateEditNewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class AddNewsItemFragment : Fragment(R.layout.fragment_create_edit_news) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentAddNewsItemBinding.bind(view)
+        binding = FragmentCreateEditNewsBinding.bind(view)
 
         val newsCategoryItems = listOf(
             "Объявление",
