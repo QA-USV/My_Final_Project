@@ -47,18 +47,10 @@ class ClaimListAdapter(
                     claimWithCreatorAndExecutor.executor.lastName.toString(),
                     claimWithCreatorAndExecutor.executor.middleName.toString()
                 )
-                planTimeMaterialTextView.text = claimWithCreatorAndExecutor
-                    .claim.planExecuteDate?.let {
-                        Utils.convertTime(
-                            it
-                        )
-                    }
-                planDateMaterialTextView.text = claimWithCreatorAndExecutor
-                    .claim.planExecuteDate?.let {
-                        Utils.convertDate(
-                            it
-                        )
-                    }
+                planTimeMaterialTextView.text = Utils.convertTime(claimWithCreatorAndExecutor
+                    .claim.planExecuteDate.toString())
+                planDateMaterialTextView.text = Utils.convertDate(claimWithCreatorAndExecutor
+                    .claim.planExecuteDate.toString())
                 descriptionMaterialTextView.text = claimWithCreatorAndExecutor.claim.description
 
                 claimListCard.setOnClickListener {

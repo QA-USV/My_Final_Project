@@ -11,7 +11,7 @@ import java.util.*
 
 object Utils {
 
-    fun convertDate(dateTime: LocalDateTime): String {
+    fun convertDate(dateTime: String): String {
 
         val localDateTime = LocalDateTime.parse(dateTime.toString())
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
@@ -21,7 +21,7 @@ object Utils {
         return formatter.format(localDateTime)
     }
 
-    fun convertTime(dateTime: LocalDateTime): String {
+    fun convertTime(dateTime: String): String {
 
         val localDateTime = LocalDateTime.parse(dateTime.toString())
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
@@ -46,6 +46,7 @@ object Utils {
         } catch (e: IOException) {
             throw ServerException
         } catch (e: Exception) {
+            e.printStackTrace()
             throw UnknownException
         }
     }

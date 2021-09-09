@@ -36,8 +36,8 @@ class NewsControlPanelListAdapter : ListAdapter<News, NewsControlPanelListAdapte
         fun bind(newsItem: News) = binding.apply {
             newsItemTitleTextView.text = newsItem.title
             newsItemDescriptionTextView.text = newsItem.description
-            newsItemPublicationDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
-            newsItemCreateDateTextView.text = newsItem.createDate?.let { Utils.convertDate(it) }
+//            newsItemPublicationDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
+//            newsItemCreateDateTextView.text = newsItem.createDate?.let { Utils.convertDate(it) }
 //            newsItemAuthorNameTextView.text = itemView.resources.getString(
 //                R.string.patient_full_name_format,
 //                newsItem.creator.lastName,

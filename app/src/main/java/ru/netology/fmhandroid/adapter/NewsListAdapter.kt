@@ -39,7 +39,7 @@ class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDi
         fun bind(newsItem: News) = binding.apply {
             newsItemTitleTextView.text = newsItem.title
             newsItemDescriptionTextView.text = newsItem.description
-            newsItemDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
+//            newsItemDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
 
             newsItem.newsCategoryId?.let { setCategory(it) }
 

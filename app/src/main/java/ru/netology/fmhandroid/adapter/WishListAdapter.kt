@@ -49,8 +49,8 @@ class WishListAdapter(
                 prioritization(wish)
 //                patientNameMaterialTextView.text = wish.shortPatientName
 //                executorNameMaterialTextView.text = wish.shortExecutorName
-                planTimeMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertTime(it) }
-                planDateMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertDate(it) }
+//                planTimeMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertTime(it) }
+//                planDateMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertDate(it) }
                 descriptionMaterialTextView.text = wish.description
 
                 descriptionMaterialTextView.setOnClickListener {

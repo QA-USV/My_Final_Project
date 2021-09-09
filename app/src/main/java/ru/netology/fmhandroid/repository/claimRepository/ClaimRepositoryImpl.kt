@@ -6,33 +6,38 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimDao
+import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.makeRequest
+import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ClaimRepositoryImpl @Inject constructor(
     private val claimApi: ClaimApi,
-    private val claimDao: ClaimDao
+    private val claimDao: ClaimDao,
+    private val userDao: UserDao
 ) : ClaimRepository {
 
     override val data: Flow<List<Claim.ClaimWithCreatorAndExecutor>>
         get() = claimDao.getAllClaims()
             .flowOn(Dispatchers.Default)
 
-
-    override suspend fun getAllClaims(): List<Claim> = makeRequest(
-        request = { claimApi.getAllClaims() },
-        onSuccess = { body ->
-            claimDao.insertClaim(body.toEntity())
-            body
-        }
-    )
+    override suspend fun getAllClaims(): List<Claim> {
+        return makeRequest(
+            request = { claimApi.getAllClaims() },
+            onSuccess = { body ->
+                claimDao.insertClaim(body.toEntity())
+                body
+            }
+        )
+    }
 
     override suspend fun editClaim(claim: Claim): Claim {
         TODO("Not yet implemented")

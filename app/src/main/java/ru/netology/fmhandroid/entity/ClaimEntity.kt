@@ -20,11 +20,11 @@ data class ClaimEntity(
     @ColumnInfo(name = "executorId")
     val executorId: Int?,
     @ColumnInfo(name = "createDate")
-    val createDate: LocalDateTime?,
+    val createDate: String?,
     @ColumnInfo(name = "planExecuteDate")
-    val planExecuteDate: LocalDateTime?,
+    val planExecuteDate: String?,
     @ColumnInfo(name = "factExecuteDate")
-    val factExecuteDate: LocalDateTime?,
+    val factExecuteDate: String?,
     @ColumnInfo(name = "status")
     val status: Claim.Status?,
     @ColumnInfo(name = "deleted")

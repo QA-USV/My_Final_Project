@@ -15,9 +15,9 @@ data class Claim(
     val description: String? = null,
     val creatorId: Int? = null,
     val executorId: Int? = null,
-    val createDate: LocalDateTime? = null,
-    val planExecuteDate: LocalDateTime? = null,
-    val factExecuteDate: LocalDateTime? = null,
+    val createDate: String? = null,
+    val planExecuteDate: String? = null,
+    val factExecuteDate: String? = null,
     val status: Status? = null,
     val deleted: Boolean = false,
 ) : Parcelable {
