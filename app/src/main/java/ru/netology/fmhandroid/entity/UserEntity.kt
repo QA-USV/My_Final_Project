@@ -9,17 +9,17 @@ import ru.netology.fmhandroid.dto.User
 data class UserEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Int?,
     @ColumnInfo(name = "login")
     var login: String?,
     @ColumnInfo(name = "password")
     var password: String?,
     @ColumnInfo(name = "firstName")
-    var firstName: String,
+    var firstName: String?,
     @ColumnInfo(name = "lastName")
-    var lastName: String,
+    var lastName: String?,
     @ColumnInfo(name = "middleName")
-    var middleName: String,
+    var middleName: String?,
     @ColumnInfo(name = "phoneNumber")
     var phoneNumber: String?,
     @ColumnInfo(name = "email")

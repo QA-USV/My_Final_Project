@@ -1,5 +1,9 @@
 package ru.netology.fmhandroid.dto
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@kotlinx.parcelize.Parcelize
 data class User(
     val id: Int? = null,
     val login: String? = null,
@@ -10,4 +14,4 @@ data class User(
     val phoneNumber: String? = null,
     val email: String? = null,
     val deleted: Boolean = false,
-)
+) : Parcelable
