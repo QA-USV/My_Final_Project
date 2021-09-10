@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditWishBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class CreateEditWishFragment : Fragment(R.layout.fragment_create_edit_wish) {
     private lateinit var vDatePicker : TextInputEditText
     private lateinit var vTimePicker : TextInputEditText

@@ -10,8 +10,8 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.utils.Utils
 
 interface OnClaimItemClickListener {
-    fun onCard(claim: Claim) {}
-    fun onDescription(claim: Claim) {}
+    fun onCard(claimWithCreatorAndExecutor: Claim.ClaimWithCreatorAndExecutor) {}
+    fun onDescription(claimWithCreatorAndExecutor: Claim.ClaimWithCreatorAndExecutor) {}
 }
 
 class ClaimListAdapter(
@@ -54,7 +54,7 @@ class ClaimListAdapter(
                 descriptionMaterialTextView.text = claimWithCreatorAndExecutor.claim.description
 
                 claimListCard.setOnClickListener {
-                    onClaimItemClickListener.onCard(claimWithCreatorAndExecutor.claim)
+                    onClaimItemClickListener.onCard(claimWithCreatorAndExecutor)
                 }
             }
         }

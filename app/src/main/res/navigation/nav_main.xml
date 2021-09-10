@@ -61,6 +61,7 @@
             android:id="@+id/action_mainFragment_to_claimListFragment"
             app:destination="@id/claimListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/patientProfileCardFragment"
         android:name="ru.netology.fmhandroid.ui.PatientFragment"
@@ -68,28 +69,46 @@
 
     <fragment
         android:id="@+id/addWishFragment"
-        android:name="ru.netology.fmhandroid.ui.AddWishFragment"
+        android:name="ru.netology.fmhandroid.ui.CreateEditWishFragment"
         android:label="AddNoteFragment" />
 
     <fragment
         android:id="@+id/noteCardFragment"
         android:name="ru.netology.fmhandroid.ui.WishFragment"
         android:label="NoteCardFragment" />
+
     <fragment
         android:id="@+id/addNewsItemFragment"
         android:name="ru.netology.fmhandroid.ui.AddNewsItemFragment"
         android:label="AddNewsItemFragment" />
+
     <fragment
         android:id="@+id/newsListFragment"
         android:name="ru.netology.fmhandroid.ui.NewsListFragment"
         android:label="NewsListFragment" />
+
     <fragment
         android:id="@+id/newsControlPanelFragment"
         android:name="ru.netology.fmhandroid.ui.NewsControlPanelFragment"
         android:label="NewsControlPanelFragment" />
+
     <fragment
         android:id="@+id/claimListFragment"
         android:name="ru.netology.fmhandroid.ui.ClaimListFragment"
-        android:label="ClaimListFragment" />
+        android:label="ClaimListFragment" >
+        <action
+            android:id="@+id/action_claimListFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment">
+            <argument
+                android:name="claim"
+                app:argType="ru.netology.fmhandroid.dto.Claim$ClaimWithCreatorAndExecutor" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/openClaimFragment"
+        android:name="ru.netology.fmhandroid.ui.OpenClaimFragment"
+        android:label="openClaimFragment" />
 
 </navigation>
