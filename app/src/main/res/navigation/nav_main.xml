@@ -9,7 +9,7 @@
         android:id="@+id/patientsListFragment"
         android:name="ru.netology.fmhandroid.ui.PatientsListFragment"
         android:label="fragment_patients_list"
-        tools:layout="@layout/fragment_patients_list" >
+        tools:layout="@layout/fragment_patients_list">
         <action
             android:id="@+id/action_patientsListFragment_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />
@@ -95,20 +95,20 @@
     <fragment
         android:id="@+id/claimListFragment"
         android:name="ru.netology.fmhandroid.ui.ClaimListFragment"
-        android:label="ClaimListFragment" >
+        android:label="ClaimListFragment">
         <action
             android:id="@+id/action_claimListFragment_to_openClaimFragment"
-            app:destination="@id/openClaimFragment">
-            <argument
-                android:name="claim"
-                app:argType="ru.netology.fmhandroid.dto.Claim$ClaimWithCreatorAndExecutor" />
-        </action>
+            app:destination="@id/openClaimFragment"/>
 
     </fragment>
 
     <fragment
         android:id="@+id/openClaimFragment"
         android:name="ru.netology.fmhandroid.ui.OpenClaimFragment"
-        android:label="openClaimFragment" />
+        android:label="openClaimFragment">
+        <argument
+            android:name="claimItemArg"
+            app:argType="ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor" />
+    </fragment>
 
 </navigation>

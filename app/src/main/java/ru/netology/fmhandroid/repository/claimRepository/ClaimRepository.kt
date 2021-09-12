@@ -3,9 +3,10 @@ package ru.netology.fmhandroid.repository.claimRepository
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 
 interface ClaimRepository {
-    val data: Flow<List<Claim.ClaimWithCreatorAndExecutor>>
+    val data: Flow<List<ClaimWithCreatorAndExecutor>>
     suspend fun getAllClaims(): List<Claim>
     suspend fun editClaim(claim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim

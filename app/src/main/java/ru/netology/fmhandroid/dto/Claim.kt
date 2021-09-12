@@ -22,30 +22,6 @@ data class Claim(
     val deleted: Boolean = false,
 ) : Parcelable {
 
-    @kotlinx.parcelize.Parcelize
-    data class ClaimWithCreator(
-        @Embedded
-        val claim: Claim,
-        @Relation(
-            entity = UserEntity::class,
-            parentColumn = "creatorId",
-            entityColumn = "id"
-        )
-        val creator: User
-    ) : Parcelable
-
-    @kotlinx.parcelize.Parcelize
-    data class ClaimWithCreatorAndExecutor(
-        @Embedded
-        val claim: Claim,
-        @Relation(
-            entity = UserEntity::class,
-            parentColumn = "executorId",
-            entityColumn = "id"
-        )
-        val executor: User
-    ) : Parcelable
-
     enum class Status {
         CANCELLED,
         EXECUTED,
@@ -53,3 +29,47 @@ data class Claim(
         OPEN
     }
 }
+
+@kotlinx.parcelize.Parcelize
+data class ClaimWithCreatorAndExecutor(
+    @Embedded
+    val claim: Claim,
+
+    @Relation(
+        entity = UserEntity::class,
+        parentColumn = "creatorId",
+        entityColumn = "id"
+    )
+    val creator: User,
+
+    @Relation(
+        entity = UserEntity::class,
+        parentColumn = "executorId",
+        entityColumn = "id"
+    )
+    val executor: User
+) : Parcelable
+
+//    @kotlinx.parcelize.Parcelize
+//    data class ClaimWithCreator(
+//        @Embedded
+//        val claim: Claim,
+//        @Relation(
+//            entity = UserEntity::class,
+//            parentColumn = "creatorId",
+//            entityColumn = "id"
+//        )
+//        val creator: User
+//    ) : Parcelable
+//
+//    @kotlinx.parcelize.Parcelize
+//    data class ClaimWithCreatorAndExecutor(
+//        @Embedded
+//        val claim: ClaimWithCreator,
+//        @Relation(
+//            entity = UserEntity::class,
+//            parentColumn = "executorId",
+//            entityColumn = "id"
+//        )
+//        val executor: User
+//    ) : Parcelable

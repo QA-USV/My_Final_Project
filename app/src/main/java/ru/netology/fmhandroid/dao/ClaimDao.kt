@@ -3,13 +3,14 @@ package ru.netology.fmhandroid.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.entity.ClaimCommentEntity
 import ru.netology.fmhandroid.entity.ClaimEntity
 
 @Dao
 interface ClaimDao {
     @Query("SELECT * FROM ClaimEntity ORDER BY id DESC")
-    fun getAllClaims(): Flow<List<Claim.ClaimWithCreatorAndExecutor>>
+    fun getAllClaims(): Flow<List<ClaimWithCreatorAndExecutor>>
 
     @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus")
     fun getClaimsOpenAndInProgressStatuses(
