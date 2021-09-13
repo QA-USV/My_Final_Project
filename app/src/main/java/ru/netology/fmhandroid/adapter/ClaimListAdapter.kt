@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
-import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.utils.Utils
 
@@ -48,8 +47,9 @@ class ClaimListAdapter(
                     claimWithCreatorAndExecutor.executor.lastName.toString(),
                     claimWithCreatorAndExecutor.executor.middleName.toString()
                 )
-                planTimeMaterialTextView.text = Utils.convertTime(claimWithCreatorAndExecutor
-                    .claim.planExecuteDate.toString())
+                planTimeMaterialTextView.text = Utils.convertTime(
+                    claimWithCreatorAndExecutor.claim.planExecuteDate.toString()
+                )
                 planDateMaterialTextView.text = Utils.convertDate(claimWithCreatorAndExecutor
                     .claim.planExecuteDate.toString())
                 descriptionMaterialTextView.text = claimWithCreatorAndExecutor.claim.description

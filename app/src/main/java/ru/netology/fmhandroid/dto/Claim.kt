@@ -5,7 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
 import ru.netology.fmhandroid.entity.UserEntity
-import java.time.LocalDateTime
 
 @Parcelize
 data class Claim(
@@ -33,16 +32,19 @@ data class Claim(
 data class ClaimWithCreatorAndExecutor(
     @Embedded
     val claim: Claim,
+
     @Relation(
         entity = UserEntity::class,
         parentColumn = "creatorId",
         entityColumn = "id"
     )
     val creator: User,
+
     @Relation(
         entity = UserEntity::class,
         parentColumn = "executorId",
         entityColumn = "id"
     )
     val executor: User
+
 ) : Parcelable

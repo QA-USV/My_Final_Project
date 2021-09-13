@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
-import ru.netology.fmhandroid.dto.Patient
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
