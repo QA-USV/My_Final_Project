@@ -45,6 +45,6 @@ data class ClaimWithCreatorAndExecutor(
         parentColumn = "executorId",
         entityColumn = "id"
     )
-    val executor: User
+    val executor: User?
 
 ) : Parcelable

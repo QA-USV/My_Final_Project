@@ -43,16 +43,16 @@ class ClaimListAdapter(
         fun bind(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
             binding.apply {
                 executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
-                    claimWithCreatorAndExecutor.executor.firstName.toString(),
-                    claimWithCreatorAndExecutor.executor.lastName.toString(),
-                    claimWithCreatorAndExecutor.executor.middleName.toString()
+                    claimWithCreatorAndExecutor.executor?.firstName.toString(),
+                    claimWithCreatorAndExecutor.executor?.lastName.toString(),
+                    claimWithCreatorAndExecutor.executor?.middleName.toString()
                 )
                 planTimeMaterialTextView.text = Utils.convertTime(
                     claimWithCreatorAndExecutor.claim.planExecuteDate.toString()
                 )
                 planDateMaterialTextView.text = Utils.convertDate(claimWithCreatorAndExecutor
                     .claim.planExecuteDate.toString())
-                descriptionMaterialTextView.text = claimWithCreatorAndExecutor.claim.description
+                themeMaterialTextView.text = claimWithCreatorAndExecutor.claim.title
 
                 claimListCard.setOnClickListener {
                     onClaimItemClickListener.onCard(claimWithCreatorAndExecutor)

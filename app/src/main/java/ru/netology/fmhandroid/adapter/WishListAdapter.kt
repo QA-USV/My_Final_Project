@@ -51,9 +51,9 @@ class WishListAdapter(
 //                executorNameMaterialTextView.text = wish.shortExecutorName
 //                planTimeMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertTime(it) }
 //                planDateMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertDate(it) }
-                descriptionMaterialTextView.text = wish.description
+                themeMaterialTextView.text = wish.description
 
-                descriptionMaterialTextView.setOnClickListener {
+                themeMaterialTextView.setOnClickListener {
                     onWishItemClickListener.onDescription(wish)
                 }
             }

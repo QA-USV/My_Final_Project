@@ -139,4 +139,7 @@
     <string name="in_progress">In progress</string>
     <string name="executed">Executed</string>
     <string name="full_name_format">%s %s %s</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="executes">Executes</string>
+    <string name="open">Open</string>
 </resources>

@@ -32,7 +32,7 @@ class OpenClaimFragment: Fragment() {
         binding.apply {
             titleTextView.text = claim.claim.title
             executorNameTextView.text =
-                getString(R.string.full_name_format, claim.executor.firstName, claim.executor.middleName, claim.executor.lastName)
+                getString(R.string.full_name_format, claim.executor?.firstName, claim.executor?.middleName, claim.executor?.lastName)
             planeDateTextView.text = claim.claim.planExecuteDate
             statusLabelTextView.text = when(claim.claim.status) {
                 Claim.Status.CANCELLED -> getString(R.string.cancel)

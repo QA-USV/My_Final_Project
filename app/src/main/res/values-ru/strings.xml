@@ -138,4 +138,7 @@
     <string name="in_progress">В работе</string>
     <string name="executed">Выполнена</string>
     <string name="full_name_format">%s %s %s</string>
+    <string name="cancelled">Отмененные</string>
+    <string name="executes">Выполненные</string>
+    <string name="open">Открыты</string>
 </resources>

@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/description_material_text_view"
+            android:id="@+id/theme_material_text_view"
             style="@style/WishPatientAndExecutorTextSize"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:contentDescription="@string/line_divider_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_material_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/theme_material_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/patient_name_label_material_text_view"

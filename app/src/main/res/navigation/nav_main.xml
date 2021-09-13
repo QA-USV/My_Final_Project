@@ -116,6 +116,7 @@
             android:name="argClaim"
             app:argType="ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor" />
     </fragment>
+
     <fragment
         android:id="@+id/createEditClaimFragment"
         android:name="ru.netology.fmhandroid.ui.CreateEditClaimFragment"

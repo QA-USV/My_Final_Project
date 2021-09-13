@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Claim
@@ -35,7 +37,7 @@ class ClaimViewModel @Inject constructor(
     // Обсудить где лучше трансформировать дату!!!
         get() = claimRepository.data.transform { list ->
             // Изменить параметры сортировки в соответствии с ТЗ!
-            this.emit(list.sortedWith(compareBy({it.executor.lastName}, {it.claim.title})))
+            this.emit(list.sortedWith(compareBy({it.executor?.lastName}, {it.claim.title})))
         }
 
     init {
@@ -72,5 +74,17 @@ class ClaimViewModel @Inject constructor(
             planExecuteDate = "$planExecuteDate-$planExecuteTime",
             description = description.trim()
         )
+    }
+
+    fun changeFilteringMethod(newFilteringMethod: Claim.Status) {
+        when (newFilteringMethod) {
+            Claim.Status.CANCELLED -> data.filter { it1 ->
+                it1.any { it.claim.status == Claim.Status.CANCELLED }
+            }
+            Claim.Status.EXECUTED -> data.filter { it2 ->
+                it2.any { it.claim.status == Claim.Status.EXECUTED }
+            }
+            else -> false
+        }
     }
 }
