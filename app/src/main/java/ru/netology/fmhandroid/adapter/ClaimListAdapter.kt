@@ -7,16 +7,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.utils.Utils
 
 interface OnClaimItemClickListener {
-    fun onCard(claimWithCreatorAndExecutor: Claim.ClaimWithCreatorAndExecutor) {}
-    fun onDescription(claimWithCreatorAndExecutor: Claim.ClaimWithCreatorAndExecutor) {}
+    fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {}
+    fun onDescription(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {}
 }
 
 class ClaimListAdapter(
     private val onClaimItemClickListener: OnClaimItemClickListener
-) : ListAdapter<Claim.ClaimWithCreatorAndExecutor, ClaimListAdapter.ClaimViewHolder>(
+) : ListAdapter<ClaimWithCreatorAndExecutor, ClaimListAdapter.ClaimViewHolder>(
     ClaimDiffCallback()
 ) {
 
@@ -40,7 +41,7 @@ class ClaimListAdapter(
         private val onClaimItemClickListener: OnClaimItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(claimWithCreatorAndExecutor: Claim.ClaimWithCreatorAndExecutor) {
+        fun bind(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
             binding.apply {
                 executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
                     claimWithCreatorAndExecutor.executor.firstName.toString(),
@@ -60,17 +61,17 @@ class ClaimListAdapter(
         }
     }
 
-    class ClaimDiffCallback : DiffUtil.ItemCallback<Claim.ClaimWithCreatorAndExecutor>() {
+    class ClaimDiffCallback : DiffUtil.ItemCallback<ClaimWithCreatorAndExecutor>() {
         override fun areItemsTheSame(
-            oldItem: Claim.ClaimWithCreatorAndExecutor,
-            newItem: Claim.ClaimWithCreatorAndExecutor
+            oldItem: ClaimWithCreatorAndExecutor,
+            newItem: ClaimWithCreatorAndExecutor
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: Claim.ClaimWithCreatorAndExecutor,
-            newItem: Claim.ClaimWithCreatorAndExecutor
+            oldItem: ClaimWithCreatorAndExecutor,
+            newItem: ClaimWithCreatorAndExecutor
         ): Boolean {
             return oldItem == newItem
         }

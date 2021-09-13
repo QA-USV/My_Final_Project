@@ -135,4 +135,7 @@
     <string name="middle_name_lowercase">отчество</string>
     <string name="birth_date_lowercase">дата рождения</string>
     <string name="fact_date_lowercase">фактическая дата</string>
+    <string name="in_progress">В работе</string>
+    <string name="executed">Выполнена</string>
+    <string name="full_name_format">%s %s %s</string>
 </resources>

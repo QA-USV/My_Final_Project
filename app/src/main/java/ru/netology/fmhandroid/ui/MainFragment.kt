@@ -72,6 +72,14 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
         }
 
+        binding.btnToOpenClaimFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_openClaimFragment)
+        }
+
+        binding.btnToCreateEditClaimFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)
+        }
+
         return binding.root
     }
 }

@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
@@ -25,7 +26,7 @@ class ClaimRepositoryImpl @Inject constructor(
     private val userDao: UserDao
 ) : ClaimRepository {
 
-    override val data: Flow<List<Claim.ClaimWithCreatorAndExecutor>>
+    override val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimDao.getAllClaims()
             .flowOn(Dispatchers.Default)
 
@@ -43,9 +44,13 @@ class ClaimRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveClaim(claim: Claim): Claim {
-        TODO("Not yet implemented")
-    }
+    override suspend fun saveClaim(claim: Claim): Claim = makeRequest(
+        request = { claimApi.saveClaim(claim) },
+        onSuccess = { body ->
+            claimDao.insertClaim(body.toEntity())
+            body
+        }
+    )
 
     override suspend fun getClaimById(id: Int): Claim {
         TODO("Not yet implemented")

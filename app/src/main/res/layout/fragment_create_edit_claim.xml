@@ -139,31 +139,31 @@
                         android:text="@string/visibility_lowercase" />
 
                     <CheckBox
-                        android:id="@+id/checkbox1"
+                        android:id="@+id/medical_staff_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/medical_staff" />
 
                     <CheckBox
-                        android:id="@+id/checkbox2"
+                        android:id="@+id/volunteers_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/volunteers" />
 
                     <CheckBox
-                        android:id="@+id/checkbox3"
+                        android:id="@+id/coordinators_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/coordinators" />
 
                     <CheckBox
-                        android:id="@+id/checkbox4"
+                        android:id="@+id/employees_of_the_maintenance_department_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/employees_of_the_maintenance_department" />
 
                     <CheckBox
-                        android:id="@+id/checkbox5"
+                        android:id="@+id/managers_of_the_maintenance_department_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/managers_of_the_maintenance_department" />

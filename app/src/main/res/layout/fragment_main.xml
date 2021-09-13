@@ -80,4 +80,20 @@
         android:layout_gravity="center"
         android:text="to Claim list fragment" />
 
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
+    <Button
+        android:id="@+id/btnToOpenClaimFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="to Open Claim fragment" />
+
+    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
+    <Button
+        android:id="@+id/btnToCreateEditClaimFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="to Create/Edit Claim fragment" />
+
 </LinearLayout>

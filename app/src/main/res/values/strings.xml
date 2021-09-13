@@ -136,4 +136,7 @@
     <string name="middle_name_lowercase">middle name</string>
     <string name="birth_date_lowercase">birth date</string>
     <string name="fact_date_lowercase">fact date</string>
+    <string name="in_progress">In progress</string>
+    <string name="executed">Executed</string>
+    <string name="full_name_format">%s %s %s</string>
 </resources>

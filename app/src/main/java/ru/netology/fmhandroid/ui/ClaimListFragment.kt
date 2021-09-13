@@ -19,6 +19,7 @@ import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
@@ -37,8 +38,9 @@ class ClaimListFragment : Fragment() {
 
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
-            override fun onCard(claimWithCreatorAndExecutor: Claim.ClaimWithCreatorAndExecutor) {
-                findNavController().navigate(R.id.action_claimListFragment_to_openClaimFragment)
+            override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
+                val action = ClaimListFragmentDirections.actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
+                findNavController().navigate(action)
             }
         })
 
