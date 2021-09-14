@@ -2,22 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/open_list_item"
-        android:checkable="true"
-        android:checked="true"
         android:title="@string/open" />
     <item
         android:id="@+id/in_progress_list_item"
-        android:checkable="true"
-        android:checked="true"
         android:title="@string/in_progress" />
     <item
         android:id="@+id/canceled_list_item"
-        android:checkable="true"
-        android:checked="false"
         android:title="@string/cancelled" />
     <item
         android:id="@+id/executes_list_item"
-        android:checkable="true"
-        android:checked="false"
         android:title="@string/executes" />
 </menu>
