@@ -7,5 +7,5 @@ data class ClaimComment(
     val claimId: Int? = null,
     val description: String? = null,
     val creatorId: Int? = null,
-    val createDate: LocalDateTime? = null,
+    val createDate: String? = null,
 )

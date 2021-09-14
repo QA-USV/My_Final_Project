@@ -18,7 +18,7 @@ data class ClaimCommentEntity(
     @ColumnInfo(name = "creatorId")
     val creatorId: Int?,
     @ColumnInfo(name = "createDate")
-    val createDate: LocalDateTime?
+    val createDate: String?
 ) {
     fun toDto() = ClaimComment(
         id = id,
