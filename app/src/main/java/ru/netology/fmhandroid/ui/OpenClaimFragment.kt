@@ -4,16 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.R
+import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
+import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
 class OpenClaimFragment: Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
+    private val viewModel: ClaimViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +39,7 @@ class OpenClaimFragment: Fragment() {
         binding = FragmentOpenClaimBinding.bind(view)
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
+        val adapter = ClaimCommentListAdapter(object: OnCommentItemClickListener {})
 
         binding.apply {
             titleTextView.text = claim.claim.title
@@ -46,5 +58,11 @@ class OpenClaimFragment: Fragment() {
                 getString(R.string.full_name_format, claim.creator.firstName, claim.creator.middleName, claim.creator.lastName)
             createDataTextView.text = claim.claim.createDate
         }
+
+        binding.claimCommentsRecyclerView.adapter = adapter
+        lifecycleScope.launchWhenCreated {
+            adapter.submitList(viewModel.commentsData)
+        }
+
     }
 }

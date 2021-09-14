@@ -41,6 +41,8 @@ class ClaimViewModel @Inject constructor(
             this.emit(list.sortedWith(compareBy({it.executor?.lastName}, {it.claim.title})))
         }
 
+    var commentsData = emptyList<ClaimComment>()
+
     init {
         viewModelScope.launch {
             claimRepository.getAllClaims()
@@ -80,7 +82,7 @@ class ClaimViewModel @Inject constructor(
     fun getAllClaimComments(id: Int) {
         viewModelScope.launch {
             try {
-               listOfComments = claimRepository.getAllCommentsForClaim(id)
+              commentsData = claimRepository.getAllCommentsForClaim(id)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _loadClaimExceptionEvent.call()

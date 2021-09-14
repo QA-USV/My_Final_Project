@@ -12,7 +12,14 @@ import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.utils.Utils
 
-class ClaimCommentListAdapter() :
+
+interface OnCommentItemClickListener {
+    fun onCard(claimComment: ClaimComment) {}
+}
+
+class ClaimCommentListAdapter(
+    private val onCommentItemClickListener: OnCommentItemClickListener
+) :
     ListAdapter<ClaimComment, ClaimCommentListAdapter.ClaimCommentViewHolder>(
         ClaimCommentDiffCallback()
     ) {
