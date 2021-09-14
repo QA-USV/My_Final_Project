@@ -142,4 +142,6 @@
     <string name="cancelled">Cancelled</string>
     <string name="executes">Executes</string>
     <string name="open">Open</string>
+    <string name="not_assigned">NOT ASSIGNED</string>
+    <string name="our_mission">Our Mission</string>
 </resources>

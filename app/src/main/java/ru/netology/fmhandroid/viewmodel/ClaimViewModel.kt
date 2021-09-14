@@ -75,16 +75,4 @@ class ClaimViewModel @Inject constructor(
             description = description.trim()
         )
     }
-
-    fun changeFilteringMethod(newFilteringMethod: Claim.Status) {
-        when (newFilteringMethod) {
-            Claim.Status.CANCELLED -> data.filter { it1 ->
-                it1.any { it.claim.status == Claim.Status.CANCELLED }
-            }
-            Claim.Status.EXECUTED -> data.filter { it2 ->
-                it2.any { it.claim.status == Claim.Status.EXECUTED }
-            }
-            else -> false
-        }
-    }
 }

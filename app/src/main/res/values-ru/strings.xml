@@ -141,4 +141,6 @@
     <string name="cancelled">Отмененные</string>
     <string name="executes">Выполненные</string>
     <string name="open">Открыты</string>
+    <string name="not_assigned">НЕ НАЗНАЧЕН</string>
+    <string name="our_mission">Наша Миссия</string>
 </resources>

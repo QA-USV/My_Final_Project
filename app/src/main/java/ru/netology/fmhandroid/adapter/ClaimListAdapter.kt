@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.utils.Utils
@@ -42,16 +43,22 @@ class ClaimListAdapter(
 
         fun bind(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
             binding.apply {
-                executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
-                    claimWithCreatorAndExecutor.executor?.firstName.toString(),
-                    claimWithCreatorAndExecutor.executor?.lastName.toString(),
-                    claimWithCreatorAndExecutor.executor?.middleName.toString()
-                )
+                if (claimWithCreatorAndExecutor.claim.executorId == null) {
+                    executorNameMaterialTextView.setText(R.string.not_assigned)
+                } else {
+                    executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
+                        claimWithCreatorAndExecutor.executor?.firstName.toString(),
+                        claimWithCreatorAndExecutor.executor?.lastName.toString(),
+                        claimWithCreatorAndExecutor.executor?.middleName.toString()
+                    )
+                }
                 planTimeMaterialTextView.text = Utils.convertTime(
                     claimWithCreatorAndExecutor.claim.planExecuteDate.toString()
                 )
-                planDateMaterialTextView.text = Utils.convertDate(claimWithCreatorAndExecutor
-                    .claim.planExecuteDate.toString())
+                planDateMaterialTextView.text = Utils.convertDate(
+                    claimWithCreatorAndExecutor
+                        .claim.planExecuteDate.toString()
+                )
                 themeMaterialTextView.text = claimWithCreatorAndExecutor.claim.title
 
                 claimListCard.setOnClickListener {
