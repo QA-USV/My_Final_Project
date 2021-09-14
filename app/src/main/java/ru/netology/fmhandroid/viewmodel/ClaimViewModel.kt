@@ -1,6 +1,7 @@
 package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,14 @@ class ClaimViewModel @Inject constructor(
     val claimCreatedEvent: LiveData<Unit>
         get() = _claimCreatedEvent
 
+    private val _claimCommentsLoadedEvent = SingleLiveEvent<Unit>()
+    val claimCommentsLoadedEvent: LiveData<Unit>
+        get() = _claimCommentsLoadedEvent
+
+    private val _claimCommentsLoadExceptionEvent = SingleLiveEvent<Unit>()
+    val claimCommentsLoadExceptionEvent: LiveData<Unit>
+        get() = _claimCommentsLoadExceptionEvent
+
     private val _loadClaimExceptionEvent = SingleLiveEvent<Unit>()
     val loadClaimExceptionEvent: LiveData<Unit>
         get() = _loadClaimExceptionEvent
@@ -42,6 +51,7 @@ class ClaimViewModel @Inject constructor(
         }
 
     var commentsData = emptyList<ClaimComment>()
+
 
     init {
         viewModelScope.launch {
@@ -82,10 +92,11 @@ class ClaimViewModel @Inject constructor(
     fun getAllClaimComments(id: Int) {
         viewModelScope.launch {
             try {
-              commentsData = claimRepository.getAllCommentsForClaim(id)
+                commentsData = claimRepository.getAllCommentsForClaim(id)
+                _claimCommentsLoadedEvent.call()
             } catch (e: Exception) {
                 e.printStackTrace()
-                _loadClaimExceptionEvent.call()
+                _claimCommentsLoadExceptionEvent.call()
             }
         }
     }

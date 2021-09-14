@@ -43,9 +43,12 @@ class ClaimListFragment : Fragment() {
 
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
                 claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }
-                val action = ClaimListFragmentDirections
-                    .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
-                findNavController().navigate(action)
+
+                viewModel.claimCommentsLoadedEvent.observe(viewLifecycleOwner, {
+                    val action = ClaimListFragmentDirections
+                        .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
+                    findNavController().navigate(action)
+                })
             }
         })
 

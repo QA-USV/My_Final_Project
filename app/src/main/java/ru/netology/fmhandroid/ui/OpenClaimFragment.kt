@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.R
@@ -59,7 +61,11 @@ class OpenClaimFragment: Fragment() {
             createDataTextView.text = claim.claim.createDate
         }
 
-        binding.claimCommentsRecyclerView.adapter = adapter
+        val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
+        binding.claimCommentsListRecyclerView.layoutManager = mLayoutManager
+        binding.claimCommentsListRecyclerView.adapter = adapter
+
+        binding.claimCommentsListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {
             adapter.submitList(viewModel.commentsData)
         }
