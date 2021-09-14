@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
@@ -74,5 +75,16 @@ class ClaimViewModel @Inject constructor(
             planExecuteDate = "$planExecuteDate-$planExecuteTime",
             description = description.trim()
         )
+    }
+
+    fun getAllClaimComments(id: Int) {
+        viewModelScope.launch {
+            try {
+               listOfComments = claimRepository.getAllCommentsForClaim(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _loadClaimExceptionEvent.call()
+            }
+        }
     }
 }

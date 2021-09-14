@@ -40,7 +40,9 @@ class ClaimListFragment : Fragment() {
         menuFiltering.inflate(R.menu.menu_claim_list_filtering)
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
+
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
+                claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }
                 val action = ClaimListFragmentDirections
                     .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
                 findNavController().navigate(action)
