@@ -144,4 +144,5 @@
     <string name="open">Open</string>
     <string name="not_assigned">NOT ASSIGNED</string>
     <string name="our_mission">Our Mission</string>
+    <string name="not_found">USER NOT FOUND</string>
 </resources>

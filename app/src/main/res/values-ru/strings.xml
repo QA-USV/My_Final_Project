@@ -143,4 +143,5 @@
     <string name="open">Открыты</string>
     <string name="not_assigned">НЕ НАЗНАЧЕН</string>
     <string name="our_mission">Наша Миссия</string>
+    <string name="not_found">USER NOT FOUND</string>
 </resources>

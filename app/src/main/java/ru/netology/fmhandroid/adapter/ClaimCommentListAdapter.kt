@@ -2,15 +2,11 @@ package ru.netology.fmhandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.databinding.ItemCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
-import ru.netology.fmhandroid.utils.Utils
 
 
 interface OnCommentItemClickListener {
@@ -30,7 +26,7 @@ class ClaimCommentListAdapter(
             parent,
             false
         )
-        return ClaimCommentViewHolder(binding)
+        return ClaimCommentViewHolder(binding, onCommentItemClickListener)
     }
 
     override fun onBindViewHolder(holder: ClaimCommentViewHolder, position: Int) {
@@ -40,7 +36,8 @@ class ClaimCommentListAdapter(
     }
 
     class ClaimCommentViewHolder(
-        private val binding: ItemCommentBinding
+        private val binding: ItemCommentBinding,
+        private val onCommentItemClickListener: OnCommentItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(claimComment: ClaimComment) {
@@ -48,8 +45,9 @@ class ClaimCommentListAdapter(
                 commentTextView.text = claimComment.description
                 commentatorNameTextView.text = claimComment.creatorId.toString()
                 commentTimeTextView.text = claimComment.createDate.toString()
+
                 editLightImageButton.setOnClickListener {
-                    Toast.makeText(it.context, "This work!", Toast.LENGTH_SHORT). show()
+                    onCommentItemClickListener.onCard(claimComment)
                 }
             }
         }
