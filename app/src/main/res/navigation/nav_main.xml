@@ -105,6 +105,9 @@
         <action
             android:id="@+id/action_claimListFragment_to_openClaimFragment"
             app:destination="@id/openClaimFragment"/>
+        <action
+            android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
+            app:destination="@id/createEditClaimFragment" />
 
     </fragment>
 

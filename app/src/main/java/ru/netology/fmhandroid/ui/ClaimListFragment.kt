@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.annotation.NonNull
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -62,6 +61,10 @@ class ClaimListFragment : Fragment() {
 
         binding.filtersImageButton.setOnClickListener {
             menuFiltering.show()
+        }
+
+        binding.addNewClaimImageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
         }
 
         return binding.root
