@@ -76,7 +76,9 @@ class ClaimViewModel @Inject constructor(
 
     fun saveEditedClaimComment(comment: ClaimComment) {
         viewModelScope.launch {
-            TODO("Доделать")
+            try {
+                claimRepository.saveClaimComment(comment.claimId!!, comment)
+            }
         }
 
     }

@@ -62,9 +62,20 @@ class ClaimRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment {
-        TODO("Not yet implemented")
-    }
+    override suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment = makeRequest(
+        request = { claimApi.saveClaimComment(claimId, comment) },
+        onSuccess = { body ->
+            claimDao.insertComment(body.toEntity())
+            dataComments.map {
+                if (it.id != comment.id) {
+                    it
+                } else{
+                    it.copy(description = comment.description)
+                }
+            }
+            body
+        }
+    )
 
     override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim {
         TODO("Not yet implemented")
