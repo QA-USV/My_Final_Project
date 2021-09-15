@@ -57,6 +57,5 @@ object BusinessRules {
          * приоритета выполнения записки
          */
         return ExecutionPriority.LOW
-
     }
 }
