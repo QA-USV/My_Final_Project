@@ -47,8 +47,8 @@ class ClaimListAdapter(
                     executorNameMaterialTextView.setText(R.string.not_assigned)
                 } else {
                     executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
-                        claimWithCreatorAndExecutor.executor?.firstName.toString(),
                         claimWithCreatorAndExecutor.executor?.lastName.toString(),
+                        claimWithCreatorAndExecutor.executor?.firstName.toString(),
                         claimWithCreatorAndExecutor.executor?.middleName.toString()
                     )
                 }

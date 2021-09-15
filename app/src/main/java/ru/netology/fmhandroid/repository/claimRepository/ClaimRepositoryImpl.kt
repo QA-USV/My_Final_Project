@@ -25,6 +25,8 @@ class ClaimRepositoryImpl @Inject constructor(
         get() = claimDao.getAllClaims()
             .flowOn(Dispatchers.Default)
 
+    override var dataComments: List<ClaimComment> = emptyList()
+
     override suspend fun getAllClaims(): List<Claim> {
         return makeRequest(
             request = { claimApi.getAllClaims() },
@@ -55,6 +57,7 @@ class ClaimRepositoryImpl @Inject constructor(
         request = { claimApi.getAllClaimComments(id) },
         onSuccess = { body ->
             claimDao.insertComment(body.toEntity())
+            dataComments = body
             body
         }
     )

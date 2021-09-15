@@ -128,7 +128,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/executor_name_material_text_view"
             style="@style/SmallBlackTextStyle"
-            android:layout_width="200dp"
+            android:layout_width="240dp"
             android:layout_height="16dp"
             android:ellipsize="end"
             android:maxLines="1"

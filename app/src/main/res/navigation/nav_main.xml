@@ -104,7 +104,7 @@
         android:label="ClaimListFragment">
         <action
             android:id="@+id/action_claimListFragment_to_openClaimFragment"
-            app:destination="@id/openClaimFragment"/>
+            app:destination="@id/openClaimFragment" />
         <action
             android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
@@ -114,14 +114,26 @@
     <fragment
         android:id="@+id/openClaimFragment"
         android:name="ru.netology.fmhandroid.ui.OpenClaimFragment"
-        android:label="openClaimFragment" >
+        android:label="openClaimFragment">
         <argument
             android:name="argClaim"
             app:argType="ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_createEditClaimCommentFragment"
+            app:destination="@id/createEditClaimCommentFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/createEditClaimFragment"
         android:name="ru.netology.fmhandroid.ui.CreateEditClaimFragment"
         android:label="CreateEditClaimFragment" />
+
+    <fragment
+        android:id="@+id/createEditClaimCommentFragment"
+        android:name="ru.netology.fmhandroid.ui.CreateEditCommentFragment"
+        android:label="CreateEditClaimCommentFragment">
+        <argument
+            android:name="argComment"
+            app:argType="ru.netology.fmhandroid.dto.ClaimComment"/>
+    </fragment>
 </navigation>

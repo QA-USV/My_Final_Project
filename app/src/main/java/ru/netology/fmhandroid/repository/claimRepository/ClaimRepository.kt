@@ -7,6 +7,7 @@ import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 
 interface ClaimRepository {
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
+    val dataComments: List<ClaimComment>
     suspend fun getAllClaims(): List<Claim>
     suspend fun editClaim(claim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim

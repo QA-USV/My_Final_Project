@@ -51,7 +51,11 @@ object Utils {
         }
     }
 
-    fun shortUserNameGenerator(firstName: String, lastName: String, middleName: String): String {
+    fun shortUserNameGenerator(lastName: String, firstName: String, middleName: String): String {
         return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
+    }
+
+    fun fullUserNameGenerator(lastName: String, firstName: String, middleName: String): String {
+        return "$lastName $firstName $middleName"
     }
 }

@@ -1,11 +1,13 @@
 package ru.netology.fmhandroid.dto
 
-import java.time.LocalDateTime
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ClaimComment(
     val id: Int? = null,
     val claimId: Int? = null,
     val description: String? = null,
     val creatorId: Int? = null,
     val createDate: String? = null,
-)
+): Parcelable

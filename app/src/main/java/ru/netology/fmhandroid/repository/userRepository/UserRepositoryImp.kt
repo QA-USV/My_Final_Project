@@ -44,8 +44,8 @@ class UserRepositoryImp @Inject constructor(
                 login = "User-3",
                 password = "abcd",
                 firstName = "Валентина",
-                lastName = "Вениаминовна",
-                middleName = "Скоморохова-Преображенская",
+                lastName = "Скоморохова-Преображенская",
+                middleName = "Вениаминовна",
                 phoneNumber = "+79001237645",
                 email = "VVS-P@yandex.ru",
                 deleted = false
