@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
-): ViewModel() {
+) : ViewModel() {
     private var emptyClaim = Claim()
 
     private val _claimCreatedEvent = SingleLiveEvent<Unit>()
@@ -44,10 +44,10 @@ class ClaimViewModel @Inject constructor(
         get() = _saveClaimExceptionEvent
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
-    // Обсудить где лучше трансформировать дату!!!
+        // Обсудить где лучше трансформировать дату!!!
         get() = claimRepository.data.transform { list ->
             // Изменить параметры сортировки в соответствии с ТЗ!
-            this.emit(list.sortedWith(compareBy({it.executor?.lastName}, {it.claim.title})))
+            this.emit(list.sortedWith(compareBy({ it.executor?.lastName }, { it.claim.title })))
         }
 
     val commentsData: List<ClaimComment>
@@ -72,6 +72,13 @@ class ClaimViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun saveEditedClaimComment(comment: ClaimComment) {
+        viewModelScope.launch {
+            TODO("Доделать")
+        }
+
     }
 
     fun changeClaimData(

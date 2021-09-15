@@ -77,6 +77,9 @@ class OpenClaimFragment : Fragment() {
                 claim.creator.middleName.toString()
             )
             createDataTextView.text = claim.claim.createDate
+            closeImageButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
 
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
