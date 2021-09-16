@@ -8,11 +8,48 @@ import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
 import java.io.IOException
-import java.time.LocalDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 object Utils {
+
+    //Save date and time from pickers, and convert it to String in fragment
+
+    fun saveDateTime(date: String, time: String): Long {
+        val dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val timeFormatter = DateTimeFormatter.ofPattern("HH-mm")
+        val localDate = LocalDate.parse(date, dateFormatter)
+        val localTime = LocalTime.parse(time, timeFormatter)
+        return LocalDateTime.of(localDate, localTime)
+            .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(Instant.now()))
+    }
+
+    fun showDate(date: Long): String {
+        val localDateTime = LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(date),
+            ZoneId.systemDefault()
+        )
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+            "dd.MM.yyy",
+            Locale.getDefault()
+        )
+        return formatter.format(localDateTime)
+    }
+
+    fun showTime(date: Long): String {
+        val localDateTime = LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(date),
+            ZoneId.systemDefault()
+        )
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+            "HH-mm",
+            Locale.getDefault()
+        )
+        return formatter.format(localDateTime)
+    }
+
+    //-----------------------------------------------------------------------------------------------
 
     fun convertDate(dateTime: String): String {
 
