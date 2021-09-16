@@ -1,18 +1,19 @@
 package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.model.ClaimCommentModel
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
@@ -35,6 +36,14 @@ class ClaimViewModel @Inject constructor(
     val claimCommentsLoadExceptionEvent: LiveData<Unit>
         get() = _claimCommentsLoadExceptionEvent
 
+    private val _claimCommentUpdatedEvent = SingleLiveEvent<Unit>()
+    val claimCommentUpdatedEvent: LiveData<Unit>
+        get() = _claimCommentsLoadedEvent
+
+    private val _updateClaimCommentExceptionEvent = SingleLiveEvent<Unit>()
+    val updateClaimCommentExceptionEvent: LiveData<Unit>
+        get() = _loadClaimExceptionEvent
+
     private val _loadClaimExceptionEvent = SingleLiveEvent<Unit>()
     val loadClaimExceptionEvent: LiveData<Unit>
         get() = _loadClaimExceptionEvent
@@ -50,8 +59,7 @@ class ClaimViewModel @Inject constructor(
             this.emit(list.sortedWith(compareBy({ it.executor?.lastName }, { it.claim.title })))
         }
 
-    val commentsData: List<ClaimComment>
-        get() = claimRepository.dataComments
+    lateinit var commentsData: LiveData<ClaimCommentModel>
 
     init {
         viewModelScope.launch {
@@ -74,9 +82,15 @@ class ClaimViewModel @Inject constructor(
         }
     }
 
-    fun saveEditedClaimComment(comment: ClaimComment) {
+    fun updateClaimComment(comment: ClaimComment) {
         viewModelScope.launch {
-            TODO("Доделать")
+            try {
+                claimRepository.changeClaimComment(comment)
+                _claimCommentUpdatedEvent.call()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _updateClaimCommentExceptionEvent.call()
+            }
         }
 
     }
@@ -101,6 +115,8 @@ class ClaimViewModel @Inject constructor(
             try {
                 claimRepository.getAllCommentsForClaim(id)
                 _claimCommentsLoadedEvent.call()
+                commentsData = claimRepository.dataComments.map(::ClaimCommentModel)
+                    .asLiveData(Dispatchers.Default)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _claimCommentsLoadExceptionEvent.call()

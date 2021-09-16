@@ -19,7 +19,7 @@ interface ClaimDao {
     ): Flow<List<ClaimEntity>>
 
     @Query("SELECT * FROM ClaimCommentEntity WHERE id = :id")
-    suspend fun getClaimComments(id: Int): List<ClaimCommentEntity>
+    fun getClaimComments(id: Int): Flow<List<ClaimCommentEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claim: ClaimEntity)

@@ -53,6 +53,13 @@ class ClaimCommentListAdapter(
         }
     }
 
+    override fun onCurrentListChanged(
+        previousList: MutableList<ClaimComment>,
+        currentList: MutableList<ClaimComment>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+    }
+
     class ClaimCommentDiffCallback : DiffUtil.ItemCallback<ClaimComment>() {
         override fun areItemsTheSame(
             oldItem: ClaimComment,

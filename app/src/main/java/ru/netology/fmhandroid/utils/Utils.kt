@@ -1,5 +1,8 @@
 package ru.netology.fmhandroid.utils
 
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import retrofit2.Response
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
@@ -57,5 +60,11 @@ object Utils {
 
     fun fullUserNameGenerator(lastName: String, firstName: String, middleName: String): String {
         return "$lastName $firstName $middleName"
+    }
+
+    fun hideKeyboard(view: View) {
+        val imm =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

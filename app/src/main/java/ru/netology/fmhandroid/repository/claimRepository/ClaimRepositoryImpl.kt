@@ -1,14 +1,19 @@
 package ru.netology.fmhandroid.repository.claimRepository
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.entity.ClaimCommentEntity
+import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
@@ -25,7 +30,8 @@ class ClaimRepositoryImpl @Inject constructor(
         get() = claimDao.getAllClaims()
             .flowOn(Dispatchers.Default)
 
-    override var dataComments: List<ClaimComment> = emptyList()
+    override lateinit var dataComments: Flow<List<ClaimComment>>
+
 
     override suspend fun getAllClaims(): List<Claim> {
         return makeRequest(
@@ -57,7 +63,7 @@ class ClaimRepositoryImpl @Inject constructor(
         request = { claimApi.getAllClaimComments(id) },
         onSuccess = { body ->
             claimDao.insertComment(body.toEntity())
-            dataComments = body
+            dataComments = claimDao.getClaimComments(id).map(List<ClaimCommentEntity>::toDto).flowOn(Dispatchers.Default)
             body
         }
     )
@@ -70,9 +76,18 @@ class ClaimRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun changeClaimComment(): ClaimComment {
-        TODO("Not yet implemented")
-    }
+    override suspend fun changeClaimComment(comment: ClaimComment): ClaimComment = makeRequest(
+        request = { claimApi.updateClaimComment(comment)},
+        onSuccess = { body ->
+            claimDao.insertComment(body.toEntity())
+            dataComments.map { list ->
+                list.map {
+                    if (it.id == comment.id) it.copy(description = comment.description) else it
+                }
+            }
+            body
+        }
+    )
 
     override suspend fun getClaimCommentById(id: Int): ClaimComment {
         TODO("Not yet implemented")
