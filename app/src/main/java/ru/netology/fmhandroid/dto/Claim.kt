@@ -13,9 +13,9 @@ data class Claim(
     val description: String? = null,
     val creatorId: Int? = null,
     val executorId: Int? = null,
-    val createDate: String? = null,
-    val planExecuteDate: String? = null,
-    val factExecuteDate: String? = null,
+    val createDate: Long? = null,
+    val planExecuteDate: Long? = null,
+    val factExecuteDate: Long? = null,
     val status: Status? = null,
     val deleted: Boolean = false,
 ) : Parcelable {
@@ -38,7 +38,7 @@ data class ClaimWithCreatorAndExecutor(
         parentColumn = "creatorId",
         entityColumn = "id"
     )
-    val creator: User,
+    val creator: User?,
 
     @Relation(
         entity = UserEntity::class,

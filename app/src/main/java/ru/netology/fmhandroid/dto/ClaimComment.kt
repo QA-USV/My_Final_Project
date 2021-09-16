@@ -9,5 +9,5 @@ data class ClaimComment(
     val claimId: Int? = null,
     val description: String? = null,
     val creatorId: Int? = null,
-    val createDate: String? = null,
+    val createDate: Long? = null,
 ): Parcelable

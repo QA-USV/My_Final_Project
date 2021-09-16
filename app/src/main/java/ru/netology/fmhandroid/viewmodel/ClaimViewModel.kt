@@ -1,9 +1,6 @@
 package ru.netology.fmhandroid.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +19,8 @@ import javax.inject.Inject
 class ClaimViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
 ) : ViewModel() {
+
+    lateinit var commentsData: Flow<List<ClaimComment>>
     private var emptyClaim = Claim()
 
     private val _claimCreatedEvent = SingleLiveEvent<Unit>()
@@ -58,8 +57,6 @@ class ClaimViewModel @Inject constructor(
             // Изменить параметры сортировки в соответствии с ТЗ!
             this.emit(list.sortedWith(compareBy({ it.executor?.lastName }, { it.claim.title })))
         }
-
-    lateinit var commentsData: LiveData<ClaimCommentModel>
 
     init {
         viewModelScope.launch {
@@ -105,7 +102,7 @@ class ClaimViewModel @Inject constructor(
         emptyClaim = emptyClaim.copy(
             title = title.trim(),
             executorId = executor.toInt(), // временно
-            planExecuteDate = "$planExecuteDate-$planExecuteTime",
+//            planExecuteDate = "$planExecuteDate-$planExecuteTime",
             description = description.trim()
         )
     }
@@ -114,9 +111,10 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getAllCommentsForClaim(id)
+                commentsData = claimRepository.dataComments
+
+                println(commentsData)
                 _claimCommentsLoadedEvent.call()
-                commentsData = claimRepository.dataComments.map(::ClaimCommentModel)
-                    .asLiveData(Dispatchers.Default)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _claimCommentsLoadExceptionEvent.call()

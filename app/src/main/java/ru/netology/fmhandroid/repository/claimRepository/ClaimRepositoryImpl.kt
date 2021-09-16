@@ -63,32 +63,36 @@ class ClaimRepositoryImpl @Inject constructor(
         request = { claimApi.getAllClaimComments(id) },
         onSuccess = { body ->
             claimDao.insertComment(body.toEntity())
-            dataComments = claimDao.getClaimComments(id).map(List<ClaimCommentEntity>::toDto).flowOn(Dispatchers.Default)
+            dataComments = claimDao.getClaimComments(id).map(List<ClaimCommentEntity>::toDto)
+                .flowOn(Dispatchers.Default)
             body
         }
     )
 
-    override suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment = makeRequest(
-        request = { claimApi.saveClaimComment(claimId, comment) },
-        onSuccess = { body ->
-            claimDao.insertComment(body.toEntity())
-            dataComments.map {
-                if (it.id != comment.id) {
-                    it
-                } else{
-                    it.copy(description = comment.description)
+    override suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment =
+        makeRequest(
+            request = { claimApi.saveClaimComment(claimId, comment) },
+            onSuccess = { body ->
+                claimDao.insertComment(body.toEntity())
+                dataComments.map { list ->
+                    list.map {
+                        if (it.id != comment.id) {
+                            it
+                        } else {
+                            it.copy(description = comment.description)
+                        }
+                    }
                 }
+                body
             }
-            body
-        }
-    )
+        )
 
     override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim {
         TODO("Not yet implemented")
     }
 
     override suspend fun changeClaimComment(comment: ClaimComment): ClaimComment = makeRequest(
-        request = { claimApi.updateClaimComment(comment)},
+        request = { claimApi.updateClaimComment(comment) },
         onSuccess = { body ->
             claimDao.insertComment(body.toEntity())
             dataComments.map { list ->

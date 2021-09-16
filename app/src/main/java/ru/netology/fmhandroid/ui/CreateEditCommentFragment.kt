@@ -44,12 +44,6 @@ class CreateEditCommentFragment : Fragment() {
                             description = binding.commentTextInputLayout.editText?.text.toString()
                         )
                     )
-                    comment.claimId?.let { it1 -> viewModel.getAllClaimComments(it1) }
-                    lifecycleScope.launchWhenStarted {
-                        viewModel.commentsData.observe(viewLifecycleOwner) {
-                            findNavController().navigateUp()
-                        }
-                    }
                     findNavController().navigateUp()
                 } else {
                     Toast.makeText(

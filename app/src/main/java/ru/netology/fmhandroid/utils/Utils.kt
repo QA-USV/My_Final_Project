@@ -24,7 +24,7 @@ object Utils {
         return formatter.format(localDateTime)
     }
 
-    fun convertTime(dateTime: String): String {
+    fun convertTime(dateTime: Long): String {
 
         val localDateTime = LocalDateTime.parse(dateTime.toString())
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(

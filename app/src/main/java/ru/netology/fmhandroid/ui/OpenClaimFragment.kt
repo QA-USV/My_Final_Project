@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.toCollection
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
@@ -70,7 +73,7 @@ class OpenClaimFragment : Fragment() {
             } else {
                 getText(R.string.not_assigned)
             }
-            planeDateTextView.text = claim.claim.planExecuteDate
+            planeDateTextView.text = claim.claim.planExecuteDate.toString()
             statusLabelTextView.text = when (claim.claim.status) {
                 Claim.Status.CANCELLED -> getString(R.string.cancel)
                 Claim.Status.EXECUTED -> getString(R.string.executed)
@@ -80,11 +83,11 @@ class OpenClaimFragment : Fragment() {
             }
             descriptionTextView.text = claim.claim.description
             authorNameTextView.text = Utils.fullUserNameGenerator(
-                claim.creator.lastName.toString(),
-                claim.creator.firstName.toString(),
-                claim.creator.middleName.toString()
+                claim.creator?.lastName.toString(),
+                claim.creator?.firstName.toString(),
+                claim.creator?.middleName.toString()
             )
-            createDataTextView.text = claim.claim.createDate
+            createDataTextView.text = claim.claim.createDate.toString()
 
             addImageButton.setOnClickListener {
                 findNavController()
@@ -101,11 +104,14 @@ class OpenClaimFragment : Fragment() {
         binding.claimCommentsListRecyclerView.adapter = adapter
 
 //        viewModel.claimCommentUpdatedEvent.observe(viewLifecycleOwner) {
-//            adapter.submitList(viewModel.commentsData.value)
+//            adapter.submitList(viewModel.commentsData.value?.comments)
 //        }
 
-        viewModel.commentsData.observe(viewLifecycleOwner, {state ->
-            adapter.submitList(state.comments)
-        })
+        lifecycleScope.launch {
+            viewModel.commentsData.collectLatest {
+                adapter.submitList(it)
+            }
+        }
+
     }
 }
