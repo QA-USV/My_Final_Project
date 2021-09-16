@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.entity.ClaimEntity
 
 @Dao
 interface ClaimDao {
+    // Сортируй тут по датам дурачок :)
     @Query("SELECT * FROM ClaimEntity ORDER BY id DESC")
     fun getAllClaims(): Flow<List<ClaimWithCreatorAndExecutor>>
 
@@ -18,8 +19,8 @@ interface ClaimDao {
         secondStatus: Claim.Status
     ): Flow<List<ClaimEntity>>
 
-    @Query("SELECT * FROM ClaimCommentEntity WHERE id = :id")
-    fun getClaimComments(id: Int): Flow<List<ClaimCommentEntity>>
+    @Query("SELECT * FROM ClaimCommentEntity WHERE claimId = :claimId")
+    fun getClaimComments(claimId: Int): Flow<List<ClaimCommentEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claim: ClaimEntity)

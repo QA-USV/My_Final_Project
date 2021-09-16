@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.model.ClaimCommentModel
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
@@ -52,11 +53,7 @@ class ClaimViewModel @Inject constructor(
         get() = _saveClaimExceptionEvent
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
-        // Обсудить где лучше трансформировать дату!!!
-        get() = claimRepository.data.transform { list ->
-            // Изменить параметры сортировки в соответствии с ТЗ!
-            this.emit(list.sortedWith(compareBy({ it.executor?.lastName }, { it.claim.title })))
-        }
+        get() = claimRepository.data
 
     init {
         viewModelScope.launch {
@@ -89,7 +86,6 @@ class ClaimViewModel @Inject constructor(
                 _updateClaimCommentExceptionEvent.call()
             }
         }
-
     }
 
     fun changeClaimData(
@@ -111,8 +107,7 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getAllCommentsForClaim(id)
-                commentsData = claimRepository.dataComments
-
+                commentsData = claimRepository.dataComments.map { it.toDto() }
                 println(commentsData)
                 _claimCommentsLoadedEvent.call()
             } catch (e: Exception) {

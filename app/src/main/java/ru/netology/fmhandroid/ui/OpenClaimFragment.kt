@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.flow.toList
@@ -99,19 +100,12 @@ class OpenClaimFragment : Fragment() {
             }
         }
 
-        val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
-        binding.claimCommentsListRecyclerView.layoutManager = mLayoutManager
         binding.claimCommentsListRecyclerView.adapter = adapter
 
-//        viewModel.claimCommentUpdatedEvent.observe(viewLifecycleOwner) {
-//            adapter.submitList(viewModel.commentsData.value?.comments)
-//        }
-
         lifecycleScope.launch {
-            viewModel.commentsData.collectLatest {
+            viewModel.commentsData.collect {
                 adapter.submitList(it)
             }
         }
-
     }
 }

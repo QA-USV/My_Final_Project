@@ -1,8 +1,6 @@
 package ru.netology.fmhandroid.repository.claimRepository
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.android.awaitFrame
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -13,7 +11,6 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.entity.ClaimCommentEntity
-import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
@@ -30,7 +27,7 @@ class ClaimRepositoryImpl @Inject constructor(
         get() = claimDao.getAllClaims()
             .flowOn(Dispatchers.Default)
 
-    override lateinit var dataComments: Flow<List<ClaimComment>>
+    override lateinit var dataComments: Flow<List<ClaimCommentEntity>>
 
 
     override suspend fun getAllClaims(): List<Claim> {
@@ -63,8 +60,7 @@ class ClaimRepositoryImpl @Inject constructor(
         request = { claimApi.getAllClaimComments(id) },
         onSuccess = { body ->
             claimDao.insertComment(body.toEntity())
-            dataComments = claimDao.getClaimComments(id).map(List<ClaimCommentEntity>::toDto)
-                .flowOn(Dispatchers.Default)
+            dataComments = claimDao.getClaimComments(id).flowOn(Dispatchers.Default)
             body
         }
     )

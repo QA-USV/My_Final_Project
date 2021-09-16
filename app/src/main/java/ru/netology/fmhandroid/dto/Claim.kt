@@ -38,7 +38,7 @@ data class ClaimWithCreatorAndExecutor(
         parentColumn = "creatorId",
         entityColumn = "id"
     )
-    val creator: User?,
+    val creator: User,
 
     @Relation(
         entity = UserEntity::class,

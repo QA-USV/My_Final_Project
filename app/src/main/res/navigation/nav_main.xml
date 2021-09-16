@@ -132,8 +132,10 @@
         android:id="@+id/createEditClaimCommentFragment"
         android:name="ru.netology.fmhandroid.ui.CreateEditCommentFragment"
         android:label="CreateEditClaimCommentFragment">
-<!--        <argument-->
-<!--            android:name="argComment"-->
-<!--            app:argType="ru.netology.fmhandroid.dto.ClaimComment"/>-->
+        <argument
+            android:name="argComment"
+            app:argType="ru.netology.fmhandroid.dto.ClaimComment"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

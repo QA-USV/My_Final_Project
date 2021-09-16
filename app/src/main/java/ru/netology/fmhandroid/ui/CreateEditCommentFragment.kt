@@ -25,10 +25,10 @@ class CreateEditCommentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val args: CreateEditCommentFragmentArgs by navArgs()
-//        val comment: ClaimComment = args.argComment
+        val args: CreateEditCommentFragmentArgs by navArgs()
+        val comment: ClaimComment? = args.argComment
 
-        val comment = arguments?.getParcelable<ClaimComment>("comment")
+//        val comment = arguments?.getParcelable<ClaimComment>("comment")
 
         val binding = FragmentCreateEditCommentBinding.inflate(inflater, container, false)
 
