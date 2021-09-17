@@ -4,10 +4,10 @@
         android:id="@+id/open_list_item"
         android:title="@string/open" />
     <item
-        android:id="@+id/in_progress_list_item"
+        android:id="@+id/take_to_work_list_item"
         android:title="@string/in_progress" />
     <item
-        android:id="@+id/canceled_list_item"
+        android:id="@+id/cancel_list_item"
         android:title="@string/cancelled" />
     <item
         android:id="@+id/executes_list_item"

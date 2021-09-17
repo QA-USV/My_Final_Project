@@ -29,6 +29,14 @@ class ClaimViewModel @Inject constructor(
     val claimCreatedEvent: LiveData<Unit>
         get() = _claimCreatedEvent
 
+    private val _claimCommentCreatedEvent = SingleLiveEvent<Unit>()
+    val claimCommentCreatedEvent: LiveData<Unit>
+        get() = _claimCreatedEvent
+
+    private val _claimCommentCreateExceptionEvent = SingleLiveEvent<Unit>()
+    val claimCommentCreateExceptionEvent: LiveData<Unit>
+        get() = _claimCreatedEvent
+
     private val _claimCommentsLoadedEvent = SingleLiveEvent<Unit>()
     val claimCommentsLoadedEvent: LiveData<Unit>
         get() = _claimCommentsLoadedEvent
@@ -44,6 +52,14 @@ class ClaimViewModel @Inject constructor(
     private val _updateClaimCommentExceptionEvent = SingleLiveEvent<Unit>()
     val updateClaimCommentExceptionEvent: LiveData<Unit>
         get() = _loadClaimExceptionEvent
+
+    private val _claimStatusChangedEvent = SingleLiveEvent<Unit>()
+    val claimStatusChangedEvent: LiveData<Unit>
+        get() = _claimStatusChangedEvent
+
+    private val _claimStatusChangeException = SingleLiveEvent<Unit>()
+    val claimStatusChangeException: LiveData<Unit>
+        get() = _claimStatusChangeException
 
     private val _loadClaimExceptionEvent = SingleLiveEvent<Unit>()
     val loadClaimExceptionEvent: LiveData<Unit>
@@ -76,6 +92,18 @@ class ClaimViewModel @Inject constructor(
                     e.printStackTrace()
                     _saveClaimExceptionEvent.call()
                 }
+            }
+        }
+    }
+
+    fun createClaimComment(claimComment: ClaimComment) {
+        viewModelScope.launch {
+            try {
+                claimComment.claimId?.let { claimRepository.saveClaimComment(it, claimComment) }
+                _claimCommentCreatedEvent.call()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _claimCommentCreateExceptionEvent.call()
             }
         }
     }
@@ -117,6 +145,18 @@ class ClaimViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 _claimCommentsLoadExceptionEvent.call()
+            }
+        }
+    }
+
+    fun changeClaimStatus(claimId: Int, newClaimStatus: Claim.Status) {
+        viewModelScope.launch {
+            try {
+                claimRepository.changeClaimStatus(claimId, newClaimStatus)
+                _claimStatusChangedEvent.call()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _claimStatusChangeException.call()
             }
         }
     }

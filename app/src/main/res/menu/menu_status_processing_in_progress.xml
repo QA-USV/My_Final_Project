@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/throw_off_list_item"
+        android:title="@string/throw_off" />
+    <item
+        android:id="@+id/executes_list_item"
+        android:title="@string/to_execute" />
+</menu>

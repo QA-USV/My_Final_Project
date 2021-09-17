@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/take_to_work_list_item"
+        android:title="@string/take_to_work" />
+    <item
+        android:id="@+id/cancel_list_item"
+        android:title="@string/cancel_claim" />
+</menu>

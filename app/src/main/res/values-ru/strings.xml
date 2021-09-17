@@ -18,7 +18,7 @@
     <string name="middle_name">Отчество</string>
     <string name="birth_date">Дата рождения</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
-    <string name="error_loading">Что-то пошло не так. Попробуйте позднее.</string>
+    <string name="error">Что-то пошло не так. Попробуйте позднее.</string>
     <string name="retry_loading">Повторить</string>
     <string name="empty_patients_list">Пациентов нет.\nЕсли создадите нового пациента, то он появится здесь</string>
     <string name="error_saving">Сохранение не удалось. Попробуйте позднее.</string>
@@ -143,5 +143,9 @@
     <string name="open">Открыты</string>
     <string name="not_assigned">НЕ НАЗНАЧЕН</string>
     <string name="our_mission">Наша Миссия</string>
-    <string name="not_found">USER NOT FOUND</string>
+    <string name="not_found">Пользователь не найден</string>
+    <string name="take_to_work">В работу</string>
+    <string name="cancel_claim">Отменить</string>
+    <string name="to_execute">Исполнить</string>
+    <string name="throw_off">Сбросить</string>
 </resources>

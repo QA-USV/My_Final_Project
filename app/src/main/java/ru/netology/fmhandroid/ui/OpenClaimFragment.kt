@@ -4,27 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.toCollection
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
@@ -46,9 +40,12 @@ class OpenClaimFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentOpenClaimBinding.bind(view)
+
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
+
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
                 val action = OpenClaimFragmentDirections
@@ -56,6 +53,75 @@ class OpenClaimFragment : Fragment() {
                 findNavController().navigate(action)
             }
         })
+
+        val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
+        if (claim.claim.status == Claim.Status.OPEN) {
+            statusProcessingMenu.inflate(R.menu.menu_status_processing_open)
+            statusProcessingMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.take_to_work_list_item -> {
+                        TODO(
+                            "Доработать после реализации авторизации пользователь нажимая " +
+                                    "эту кнопку автоматом должен заноситься в executorId данной заявки"
+                        )
+//                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.IN_PROGRESS)
+//                        viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
+//                            binding.statusLabelTextView.setText(R.string.in_progress)
+//                        })
+//                        viewModel.claimStatusChangeException.observe(viewLifecycleOwner, {
+//                            Toast.makeText(
+//                                requireContext(),
+//                                R.string.error,
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                        })
+                    }
+                    R.id.cancel_list_item -> {
+                        // Также перепроверить после внедрения авторизации!!!
+                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
+                        viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
+                            binding.statusLabelTextView.setText(R.string.cancelled)
+                        })
+                        viewModel.claimStatusChangeException.observe(viewLifecycleOwner, {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.error,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        })
+                        true
+                    }
+                    else -> {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.error,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        false
+                    }
+                }
+            }
+        } else if (claim.claim.status == Claim.Status.IN_PROGRESS) {
+            statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
+            statusProcessingMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.throw_off_list_item -> {
+                        TODO("Также доработать после авторизации. В соответствии с ТЗ")
+                    }
+                    R.id.executes_list_item -> {
+                        TODO("Также доработать после авторизации. В соответствии с ТЗ")
+                    }
+                    else -> {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.error,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        false
+                    }
+                }
+            }
+        }
 
         binding.apply {
             titleTextView.text = claim.claim.title
@@ -77,7 +143,7 @@ class OpenClaimFragment : Fragment() {
                 Claim.Status.EXECUTED -> getString(R.string.executed)
                 Claim.Status.IN_PROGRESS -> getString(R.string.in_progress)
                 Claim.Status.OPEN -> getString(R.string.status_open)
-                null -> "?"
+                else -> "?"
             }
 
             descriptionTextView.text = claim.claim.description
@@ -96,6 +162,14 @@ class OpenClaimFragment : Fragment() {
             closeImageButton.setOnClickListener {
                 findNavController().navigateUp()
             }
+
+            statusProcessingImageButton.setOnClickListener {
+                statusProcessingMenu.show()
+            }
+
+            editProcessingImageButton.setOnClickListener {
+                TODO("Доделать переход на фрагмент редактирования заявки!")
+            }
         }
 
         binding.claimCommentsListRecyclerView.adapter = adapter
@@ -106,6 +180,14 @@ class OpenClaimFragment : Fragment() {
                     adapter.submitList(it)
                 }
             }
+        })
+
+        viewModel.claimCommentCreateExceptionEvent.observe(viewLifecycleOwner, {
+            Toast.makeText(
+                requireContext(),
+                R.string.error,
+                Toast.LENGTH_LONG
+            ).show()
         })
 
         lifecycleScope.launch {

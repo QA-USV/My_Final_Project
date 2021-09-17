@@ -234,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@color/white"
-            android:text="@string/error_loading"
+            android:text="@string/error"
             app:layout_constraintBottom_toTopOf="@+id/retry_loading_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

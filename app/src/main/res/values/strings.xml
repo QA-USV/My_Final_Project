@@ -17,7 +17,7 @@
     <string name="middle_name">Middle name</string>
     <string name="birth_date">Birth date</string>
     <string name="cancellation">The changes won\'t be saved, do you really want to log out?</string>
-    <string name="error_loading">Something went wrong. Try again later.</string>
+    <string name="error">Something went wrong. Try again later.</string>
     <string name="retry_loading">Retry</string>
     <string name="empty_patients_list">There are no patients.\nIf you create a new patient, it will appear here</string>
     <string name="error_saving">Saving failed. Try again later.</string>
@@ -145,4 +145,8 @@
     <string name="not_assigned">NOT ASSIGNED</string>
     <string name="our_mission">Our Mission</string>
     <string name="not_found">USER NOT FOUND</string>
+    <string name="take_to_work">take to work</string>
+    <string name="cancel_claim">Cancel</string>
+    <string name="to_execute">To execute</string>
+    <string name="throw_off">Throw off</string>
 </resources>

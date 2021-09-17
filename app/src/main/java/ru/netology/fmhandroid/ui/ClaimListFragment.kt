@@ -91,7 +91,7 @@ class ClaimListFragment : Fragment() {
             true
         }
 
-        R.id.in_progress_list_item -> {
+        R.id.take_to_work_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.IN_PROGRESS })
@@ -101,7 +101,7 @@ class ClaimListFragment : Fragment() {
             true
         }
 
-        R.id.canceled_list_item -> {
+        R.id.cancel_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.CANCELLED })

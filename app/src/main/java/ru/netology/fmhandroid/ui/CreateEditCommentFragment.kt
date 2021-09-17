@@ -57,7 +57,7 @@ class CreateEditCommentFragment : Fragment() {
             }
         } else {
             binding.saveButton.setOnClickListener {
-                TODO("Дописать после авторизации сохранение коммента с id автора")
+                TODO("Доработать когда будет реализована авторизация")
             }
         }
 

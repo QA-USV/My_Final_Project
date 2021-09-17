@@ -16,7 +16,7 @@ interface ClaimDao {
     )
     fun getAllClaims(): Flow<List<ClaimWithCreatorAndExecutor>>
 
-    @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate DESC, createDate ASC")
+    @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate ASC, createDate DESC")
     fun getClaimsOpenAndInProgressStatuses(
         firstStatus: Claim.Status,
         secondStatus: Claim.Status
