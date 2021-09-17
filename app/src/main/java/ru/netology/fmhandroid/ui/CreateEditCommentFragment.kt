@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
-import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 class CreateEditCommentFragment : Fragment() {
@@ -25,22 +24,24 @@ class CreateEditCommentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val args: CreateEditCommentFragmentArgs by navArgs()
-        val comment: ClaimComment? = args.argComment
+        val comment: ClaimCommentWithCreator? = args.argComment
 
-//        val comment = arguments?.getParcelable<ClaimComment>("comment")
-
-        val binding = FragmentCreateEditCommentBinding.inflate(inflater, container, false)
-
+        val binding = FragmentCreateEditCommentBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         if (comment != null) {
-            binding.commentTextInputLayout.editText?.setText(comment.description)
+            binding.commentTextInputLayout.editText?.setText(comment.claimComment.description)
 
             binding.saveButton.setOnClickListener {
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
                 if (newCommentDescription.isNotBlank()) {
                     viewModel.updateClaimComment(
-                        comment.copy(
+                        comment.claimComment.copy(
                             description = binding.commentTextInputLayout.editText?.text.toString()
                         )
                     )

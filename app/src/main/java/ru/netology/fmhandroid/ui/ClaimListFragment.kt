@@ -58,7 +58,7 @@ class ClaimListFragment : Fragment() {
 
         binding.claimListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {
-            viewModel.data.collectLatest { state ->
+            viewModel.dataOpenInProgress.collectLatest { state ->
                 adapter.submitList(state)
                 binding.emptyClaimListText.isVisible = state.isEmpty()
             }
@@ -114,7 +114,7 @@ class ClaimListFragment : Fragment() {
         R.id.executes_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED })
+                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED})
                     binding.emptyClaimListText.isVisible = state.isEmpty()
                 }
             }

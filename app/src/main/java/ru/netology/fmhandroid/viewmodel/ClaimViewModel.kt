@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.model.ClaimCommentModel
@@ -21,7 +22,7 @@ class ClaimViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
 ) : ViewModel() {
 
-    lateinit var commentsData: Flow<List<ClaimComment>>
+    lateinit var commentsData: Flow<List<ClaimCommentWithCreator>>
     private var emptyClaim = Claim()
 
     private val _claimCreatedEvent = SingleLiveEvent<Unit>()
@@ -54,6 +55,9 @@ class ClaimViewModel @Inject constructor(
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.data
+
+    val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
+        get() = claimRepository.dataOpenInProgress
 
     init {
         viewModelScope.launch {
@@ -107,7 +111,7 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getAllCommentsForClaim(id)
-                commentsData = claimRepository.dataComments.map { it.toDto() }
+                commentsData = claimRepository.dataComments.map { it }
                 println(commentsData)
                 _claimCommentsLoadedEvent.call()
             } catch (e: Exception) {

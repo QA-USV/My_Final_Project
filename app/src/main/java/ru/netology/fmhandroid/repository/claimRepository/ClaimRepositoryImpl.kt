@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.entity.ClaimCommentEntity
 import ru.netology.fmhandroid.entity.toEntity
@@ -23,11 +24,17 @@ class ClaimRepositoryImpl @Inject constructor(
     private val userDao: UserDao
 ) : ClaimRepository {
 
+    override val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
+        get() = claimDao.getClaimsOpenAndInProgressStatuses(
+            Claim.Status.OPEN,
+            Claim.Status.IN_PROGRESS
+        ).flowOn(Dispatchers.Default)
+
     override val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimDao.getAllClaims()
             .flowOn(Dispatchers.Default)
 
-    override lateinit var dataComments: Flow<List<ClaimCommentEntity>>
+    override lateinit var dataComments: Flow<List<ClaimCommentWithCreator>>
 
 
     override suspend fun getAllClaims(): List<Claim> {
@@ -72,10 +79,10 @@ class ClaimRepositoryImpl @Inject constructor(
                 claimDao.insertComment(body.toEntity())
                 dataComments.map { list ->
                     list.map {
-                        if (it.id != comment.id) {
+                        if (it.claimComment.id != comment.id) {
                             it
                         } else {
-                            it.copy(description = comment.description)
+                            it.claimComment.copy(description = comment.description)
                         }
                     }
                 }
@@ -83,9 +90,14 @@ class ClaimRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim {
-        TODO("Not yet implemented")
-    }
+    override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim =
+        makeRequest(
+            request = { claimApi.updateClaimStatus(claimId, newStatus) },
+            onSuccess = { body ->
+                claimDao.insertClaim(body.toEntity())
+                body
+            }
+        )
 
     override suspend fun changeClaimComment(comment: ClaimComment): ClaimComment = makeRequest(
         request = { claimApi.updateClaimComment(comment) },
@@ -93,7 +105,11 @@ class ClaimRepositoryImpl @Inject constructor(
             claimDao.insertComment(body.toEntity())
             dataComments.map { list ->
                 list.map {
-                    if (it.id == comment.id) it.copy(description = comment.description) else it
+                    if (it.claimComment.id == comment.id) {
+                        it.claimComment.copy(description = comment.description)
+                    } else {
+                        it
+                    }
                 }
             }
             body
@@ -104,7 +120,13 @@ class ClaimRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllClaimsWithOpenAndInProgressStatus(): Flow<List<Claim>> {
-        TODO("Not yet implemented")
+    override suspend fun getAllClaimsWithOpenAndInProgressStatus(): List<Claim> {
+        return makeRequest(
+            request = { claimApi.getClaimsInOpenAndInProgressStatus() },
+            onSuccess = { body ->
+                claimDao.insertClaim(body.toEntity())
+                body
+            }
+        )
     }
 }

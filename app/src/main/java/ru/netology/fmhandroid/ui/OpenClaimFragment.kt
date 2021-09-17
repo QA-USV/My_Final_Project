@@ -25,6 +25,7 @@ import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
@@ -49,17 +50,10 @@ class OpenClaimFragment : Fragment() {
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
-            override fun onCard(claimComment: ClaimComment) {
-//                val action = OpenClaimFragmentDirections
-//                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(claimComment)
-//                findNavController().navigate(action)
-                val bundle = Bundle().apply {
-                    putParcelable("comment", claimComment)
-                }
-                findNavController().navigate(
-                    R.id.action_openClaimFragment_to_createEditClaimCommentFragment,
-                    bundle
-                )
+            override fun onCard(claimComment: ClaimCommentWithCreator) {
+                val action = OpenClaimFragmentDirections
+                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(claimComment)
+                findNavController().navigate(action)
             }
         })
 
@@ -74,7 +68,10 @@ class OpenClaimFragment : Fragment() {
             } else {
                 getText(R.string.not_assigned)
             }
-            planeDateTextView.text = claim.claim.planExecuteDate.toString()
+
+            planeDateTextView.text =
+                claim.claim.planExecuteDate?.let { Utils.showDateTimeInOne(it) }
+
             statusLabelTextView.text = when (claim.claim.status) {
                 Claim.Status.CANCELLED -> getString(R.string.cancel)
                 Claim.Status.EXECUTED -> getString(R.string.executed)
@@ -82,13 +79,14 @@ class OpenClaimFragment : Fragment() {
                 Claim.Status.OPEN -> getString(R.string.status_open)
                 null -> "?"
             }
+
             descriptionTextView.text = claim.claim.description
             authorNameTextView.text = Utils.fullUserNameGenerator(
-                claim.creator?.lastName.toString(),
-                claim.creator?.firstName.toString(),
-                claim.creator?.middleName.toString()
+                claim.creator.lastName.toString(),
+                claim.creator.firstName.toString(),
+                claim.creator.middleName.toString()
             )
-            createDataTextView.text = claim.claim.createDate.toString()
+            createDataTextView.text = claim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
 
             addImageButton.setOnClickListener {
                 findNavController()
@@ -101,6 +99,14 @@ class OpenClaimFragment : Fragment() {
         }
 
         binding.claimCommentsListRecyclerView.adapter = adapter
+
+        viewModel.claimCommentUpdatedEvent.observe(viewLifecycleOwner, {
+            lifecycleScope.launch {
+                viewModel.commentsData.collect {
+                    adapter.submitList(it)
+                }
+            }
+        })
 
         lifecycleScope.launch {
             viewModel.commentsData.collect {

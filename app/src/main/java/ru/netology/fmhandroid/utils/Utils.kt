@@ -49,6 +49,18 @@ object Utils {
         return formatter.format(localDateTime)
     }
 
+    fun showDateTimeInOne(dateTime: Long): String {
+        val localDateTime = LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(dateTime),
+            ZoneId.systemDefault()
+        )
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+            "HH-mm dd.MM.yyyy",
+            Locale.getDefault()
+        )
+        return formatter.format(localDateTime)
+    }
+
     //-----------------------------------------------------------------------------------------------
 
     fun convertDate(dateTime: String): String {

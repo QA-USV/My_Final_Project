@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.entity.ClaimCommentEntity
 import ru.netology.fmhandroid.entity.ClaimEntity
@@ -10,17 +11,19 @@ import ru.netology.fmhandroid.entity.ClaimEntity
 @Dao
 interface ClaimDao {
     // Сортируй тут по датам дурачок :)
-    @Query("SELECT * FROM ClaimEntity ORDER BY id DESC")
+    @Query(
+        "SELECT * FROM ClaimEntity ORDER BY planExecuteDate ASC, createDate DESC"
+    )
     fun getAllClaims(): Flow<List<ClaimWithCreatorAndExecutor>>
 
-    @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus")
+    @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate DESC, createDate ASC")
     fun getClaimsOpenAndInProgressStatuses(
         firstStatus: Claim.Status,
         secondStatus: Claim.Status
-    ): Flow<List<ClaimEntity>>
+    ): Flow<List<ClaimWithCreatorAndExecutor>>
 
     @Query("SELECT * FROM ClaimCommentEntity WHERE claimId = :claimId")
-    fun getClaimComments(claimId: Int): Flow<List<ClaimCommentEntity>>
+    fun getClaimComments(claimId: Int): Flow<List<ClaimCommentWithCreator>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claim: ClaimEntity)
