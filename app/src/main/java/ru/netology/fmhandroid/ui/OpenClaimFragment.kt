@@ -169,6 +169,7 @@ class OpenClaimFragment : Fragment() {
 
             editProcessingImageButton.setOnClickListener {
                 TODO("Доделать переход на фрагмент редактирования заявки!")
+
             }
         }
 
