@@ -67,15 +67,13 @@ class OpenClaimFragment : Fragment() {
                         // Изменить запрос ниже после авторизации!!! Убрать хардкод executorId!!!
                         viewModel.updateClaim(claim.claim.copy(executorId = 1))
 
-                        viewModel.claimCreatedEvent.observe(viewLifecycleOwner, {
-                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.IN_PROGRESS)
-                            viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
-                                binding.statusLabelTextView.setText(R.string.in_progress)
+                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.IN_PROGRESS)
+                        viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
+                            binding.statusLabelTextView.setText(R.string.in_progress)
 
-                                // Изменить строку ниже. Здесь должен быть исполнитель в соответствии с ТЗ!!!
-                                binding.executorNameTextView.text = "Викторов Иван Петрович"
-                            })
-
+                            // Изменить строку ниже. Здесь должен быть исполнитель в соответствии с ТЗ!!!
+                            binding.executorNameTextView.text = "Викторов Иван Петрович"
+                            statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
                         })
 
                         viewModel.claimStatusChangeException.observe(viewLifecycleOwner, {
@@ -94,6 +92,8 @@ class OpenClaimFragment : Fragment() {
                         viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
                         viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
                             binding.statusLabelTextView.setText(R.string.cancelled)
+                            binding.statusProcessingImageButton.visibility = View.INVISIBLE
+                            binding.editProcessingImageButton.visibility = View.INVISIBLE
                         })
                         viewModel.claimStatusChangeException.observe(viewLifecycleOwner, {
                             Toast.makeText(
@@ -119,10 +119,12 @@ class OpenClaimFragment : Fragment() {
             statusProcessingMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.throw_off_list_item -> {
-                        TODO("Также доработать после авторизации. В соответствии с ТЗ")
+                        TODO("Также доработать после авторизации. В соответствии с ТЗ" +
+                                "Раздел 4")
                     }
                     R.id.executes_list_item -> {
-                        TODO("Также доработать после авторизации. В соответствии с ТЗ")
+                        TODO("Также доработать после авторизации. В соответствии с ТЗ" +
+                                "Раздел 4")
                     }
                     else -> {
                         Toast.makeText(

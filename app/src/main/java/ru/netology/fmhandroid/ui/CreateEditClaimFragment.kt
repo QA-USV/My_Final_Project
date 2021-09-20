@@ -78,13 +78,14 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             val description = binding.descriptionTextInputLayout.toString()
 // добавить обработку чекбоксов
 
-            viewModel.updateClaim(
-                title,
-                executor,
-                planExecuteDate,
-                planExecuteTime,
-                description
-            )
+            // Проработать по цепочке редактирование заявки!!!
+//            viewModel.updateClaim(
+//                title,
+//                executor,
+//                planExecuteDate,
+//                planExecuteTime,
+//                description
+//            )
             if (title.isNotBlank() &&
                 executor.isNotBlank() &&
                 planExecuteDate.isNotBlank() &&
