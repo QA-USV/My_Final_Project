@@ -47,9 +47,13 @@ class ClaimRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun editClaim(claim: Claim): Claim {
-        TODO("Not yet implemented")
-    }
+    override suspend fun editClaim(claim: Claim): Claim = makeRequest(
+        request = { claimApi.updateClaim(claim) },
+        onSuccess = { body ->
+            claimDao.insertClaim(body.toEntity())
+            body
+        }
+    )
 
     override suspend fun saveClaim(claim: Claim): Claim = makeRequest(
         request = { claimApi.saveClaim(claim) },
