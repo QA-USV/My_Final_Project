@@ -9,21 +9,32 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditClaimBinding
+import ru.netology.fmhandroid.utils.Utils.fullUserNameGenerator
+import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
+import ru.netology.fmhandroid.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
-    private lateinit var vDatePicker : TextInputEditText
-    private lateinit var vTimePicker : TextInputEditText
+    private lateinit var vDatePicker: TextInputEditText
+    private lateinit var vTimePicker: TextInputEditText
     private lateinit var binding: FragmentCreateEditClaimBinding
+    private var executorId: Int? = null
 
-    private val viewModel: ClaimViewModel by viewModels(
+    private val viewModelClaim: ClaimViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+    private val viewModelUser: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -36,10 +47,28 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCreateEditClaimBinding.bind(view)
 
-        /* DropMenuExecutor */
-        val executorDropMenuItems = listOf("Иван Арнольдович Борменталь", "Грегори Хаус", "Персиваль Улисс Кокс", "Джон Дориан",)
-        val executorArrayAdapter = ArrayAdapter(requireContext(), R.layout.menu_item, executorDropMenuItems)
-        (binding.executorDropMenuTextInputLayout.editText as? AutoCompleteTextView)?.setAdapter(executorArrayAdapter)
+        lifecycleScope.launchWhenCreated {
+            viewModelUser.dataUser.collectLatest { users ->
+                /* DropMenuExecutor */
+                val executorDropMenuItems = users.map {
+                    fullUserNameGenerator(
+                        it.lastName!!,
+                        it.firstName!!,
+                        it.middleName!!
+                    )
+                }
+                val executorArrayAdapter =
+                    ArrayAdapter(requireContext(), R.layout.menu_item, executorDropMenuItems)
+                binding.executorDropMenuAutoCompleteTextView.setAdapter(executorArrayAdapter)
+                binding.executorDropMenuAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+                    lifecycleScope.launch {
+                        viewModelUser.dataUser.collectLatest {
+                            executorId = it[position].id
+                        }
+                    }
+                }
+            }
+        }
 
         val myCalendar = Calendar.getInstance()
         vDatePicker = binding.dateInPlanTextInputEditText
@@ -54,8 +83,11 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         }
 
         vDatePicker.setOnClickListener {
-            DatePickerDialog(this.requireContext(), datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(
-                Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+            DatePickerDialog(
+                this.requireContext(), datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(
+                    Calendar.MONTH
+                ), myCalendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
 
         /* TimePickerDialog */
@@ -66,34 +98,45 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         }
 
         vTimePicker.setOnClickListener {
-            TimePickerDialog(this.requireContext(), timePicker, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(
-                Calendar.MINUTE), true).show()
+            TimePickerDialog(
+                this.requireContext(),
+                timePicker,
+                myCalendar.get(Calendar.HOUR_OF_DAY),
+                myCalendar.get(
+                    Calendar.MINUTE
+                ),
+                true
+            ).show()
         }
 
         binding.saveButton.setOnClickListener {
-            val title = binding.titleTextInputLayout.toString()
-            val executor = binding.executorDropMenuTextInputLayout.toString()
-            val planExecuteDate = binding.dateInPlanTextInputLayout.toString()
-            val planExecuteTime = binding.timeInPlanTextInputLayout.toString()
-            val description = binding.descriptionTextInputLayout.toString()
-// добавить обработку чекбоксов
+            val title = binding.titleTextInputLayout.editText?.text.toString()
+            val planExecuteDateInPicker =
+                binding.dateInPlanTextInputLayout.editText?.text.toString()
+            val planExecuteTimeInPicker =
+                binding.timeInPlanTextInputLayout.editText?.text.toString()
+            val description = binding.descriptionTextInputLayout.editText?.text.toString()
 
-            viewModel.changeClaimData(
-                title,
-                executor,
-                planExecuteDate,
-                planExecuteTime,
-                description
-            )
+            if (binding.executorDropMenuAutoCompleteTextView.text.isNotBlank() && executorId == null) {
+                Toast.makeText(this.context, "Выбери исполнителя из списка", Toast.LENGTH_LONG)
+                    .show()
+                return@setOnClickListener
+            }
+
             if (title.isNotBlank() &&
-                executor.isNotBlank() &&
-                planExecuteDate.isNotBlank() &&
-                planExecuteTime.isNotBlank() &&
+                planExecuteDateInPicker.isNotBlank() &&
+                planExecuteTimeInPicker.isNotBlank() &&
                 description.isNotBlank()
             ) {
-                viewModel.save()
-            } else {
-                Toast.makeText(this.context, R.string.toast_empty_field, Toast.LENGTH_LONG).show()
+                viewModelClaim.changeClaimData(
+                    title = title,
+                    executor = executorId,
+                    planExecuteDate = saveDateTime(
+                        planExecuteDateInPicker,
+                        planExecuteTimeInPicker
+                    ),
+                    description = description
+                )
             }
         }
 
