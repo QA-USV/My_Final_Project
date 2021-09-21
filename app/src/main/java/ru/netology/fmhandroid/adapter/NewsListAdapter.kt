@@ -8,14 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemNewsBinding
-import ru.netology.fmhandroid.dto.News
+import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.utils.Utils
 
-interface NewsOnInteractionListener {
-    fun onOpenCard(newsItem: News) {}
-}
-
-class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack()) {
+class NewsListAdapter :
+    ListAdapter<NewsWithCreators, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = ItemNewsBinding.inflate(
@@ -27,7 +24,7 @@ class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDi
         return NewsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NewsListAdapter.NewsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -36,12 +33,13 @@ class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDi
     class NewsViewHolder(
         private val binding: ItemNewsBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(newsItem: News) = binding.apply {
-            newsItemTitleTextView.text = newsItem.title
-            newsItemDescriptionTextView.text = newsItem.description
-//            newsItemDateTextView.text = newsItem.publishDate?.let { Utils.convertDate(it) }
+        fun bind(newsItemWithCreator: NewsWithCreators) = binding.apply {
+            newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
+            newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
+            newsItemDateTextView.text =
+                newsItemWithCreator.news.newsItem.publishDate?.let { Utils.showDate(it) }
 
-            newsItem.newsCategoryId?.let { setCategory(it) }
+            setCategory(newsItemWithCreator)
 
             newsItemMaterialCardView.setOnClickListener {
                 when (newsItemGroup.visibility) {
@@ -57,19 +55,31 @@ class NewsListAdapter : ListAdapter<News, NewsListAdapter.NewsViewHolder>(NewsDi
             }
         }
 
-        private fun setCategory(category: News.Category) {
-            binding.newsItemCategoryTextView.text = itemView.context.getString(category.name)
-            binding.categoryIconImageView.setImageResource(category.icon)
+        private fun setCategory(newsItemWithCreator: NewsWithCreators) {
+            binding.newsItemCategoryTextView.text = newsItemWithCreator.news.category.name
+            binding.categoryIconImageView.setImageResource(
+                when (newsItemWithCreator.news.category.id) {
+                    1 -> R.raw.icon_advertisement
+                    2 -> R.raw.icon_bithday
+                    3 -> R.raw.icon_salary
+                    4 -> R.raw.icon_union
+                    5 -> R.raw.icon_holiday
+                    6 -> R.raw.icon_massage
+                    7 -> R.raw.icon_gratitude
+                    8 -> R.raw.icon_help
+                    else -> return
+                }
+            )
         }
     }
 }
 
-class NewsDiffCallBack : DiffUtil.ItemCallback<News>() {
-    override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
-        return oldItem.id == newItem.id
+class NewsDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
+    override fun areItemsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
+        return oldItem.news.newsItem.id == newItem.news.newsItem.id
     }
 
-    override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
+    override fun areContentsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
         return oldItem == newItem
     }
 }

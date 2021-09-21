@@ -23,4 +23,10 @@ object DaoModule {
 
     @Provides
     fun provideUserDao(db: AppDb): UserDao = db.userDao()
+
+    @Provides
+    fun provideNewsDao(db: AppDb): NewsDao = db.newsDao()
+
+    @Provides
+    fun provideNewsCategoryDao(db: AppDb): NewsCategoryDao = db.newsCategoryDao()
 }

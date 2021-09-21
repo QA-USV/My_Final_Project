@@ -43,4 +43,11 @@ object ApiModule {
         return retrofit(okhttp(loggingInterceptor()))
             .create(UserApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideNewsApi(): NewsApi {
+        return retrofit(okhttp(loggingInterceptor()))
+            .create(NewsApi::class.java)
+    }
 }

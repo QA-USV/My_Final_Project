@@ -49,9 +49,6 @@
             android:id="@+id/action_feedFragment_to_fragment_list_notes"
             app:destination="@id/fragment_list_notes" />
         <action
-            android:id="@+id/action_mainFragment_to_addNewsItemFragment"
-            app:destination="@id/addNewsItemFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_newsListFragment"
             app:destination="@id/newsListFragment" />
         <action
@@ -66,6 +63,9 @@
         <action
             android:id="@+id/action_mainFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_createEditNewsFragment"
+            app:destination="@id/createEditNewsFragment" />
     </fragment>
 
     <fragment
@@ -84,31 +84,37 @@
         android:label="NoteCardFragment" />
 
     <fragment
-        android:id="@+id/addNewsItemFragment"
-        android:name="ru.netology.fmhandroid.ui.AddNewsItemFragment"
-        android:label="AddNewsItemFragment" />
-
-    <fragment
         android:id="@+id/newsListFragment"
         android:name="ru.netology.fmhandroid.ui.NewsListFragment"
-        android:label="NewsListFragment" />
+        android:label="NewsListFragment">
+        <action
+            android:id="@+id/action_newsListFragment_to_newsControlPanelFragment"
+            app:destination="@id/newsControlPanelFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_filterNewsFragment"
+            app:destination="@id/filterNewsFragment" />
+        <argument
+            android:name="newsFilterArgs"
+            android:defaultValue="@null"
+            app:argType="ru.netology.fmhandroid.dto.NewsFilterArgs"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/newsControlPanelFragment"
         android:name="ru.netology.fmhandroid.ui.NewsControlPanelFragment"
-        android:label="NewsControlPanelFragment" />
-
-    <fragment
-        android:id="@+id/claimListFragment"
-        android:name="ru.netology.fmhandroid.ui.ClaimListFragment"
-        android:label="ClaimListFragment">
+        android:label="NewsControlPanelFragment">
+        <argument
+            android:name="newsFilterArgs"
+            android:defaultValue="@null"
+            app:argType="ru.netology.fmhandroid.dto.NewsFilterArgs"
+            app:nullable="true" />
         <action
-            android:id="@+id/action_claimListFragment_to_openClaimFragment"
-            app:destination="@id/openClaimFragment" />
+            android:id="@+id/action_newsControlPanelFragment_to_filterNewsFragment"
+            app:destination="@id/filterNewsFragment" />
         <action
-            android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
-            app:destination="@id/createEditClaimFragment" />
-
+            android:id="@+id/action_newsControlPanelFragment_to_createEditNewsFragment"
+            app:destination="@id/createEditNewsFragment" />
     </fragment>
 
     <fragment
@@ -149,5 +155,38 @@
         <argument
             android:name="argClaimId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterNewsFragment"
+        android:name="ru.netology.fmhandroid.ui.FilterNewsListFragment"
+        android:label="FilterNewsFragment">
+        <action
+            android:id="@+id/action_filterNewsFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_filterNewsFragment_to_newsControlPanelFragment"
+            app:destination="@id/newsControlPanelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/claimListFragment"
+        android:name="ru.netology.fmhandroid.ui.ClaimListFragment"
+        android:label="fragment_list_claim"
+        tools:layout="@layout/fragment_list_claim" >
+        <action
+            android:id="@+id/action_claimListFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_createEditClaimCommentFragment"
+            app:destination="@id/createEditClaimCommentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createEditNewsFragment"
+        android:name="ru.netology.fmhandroid.ui.CreateEditNewsFragment"
+        android:label="CreateEditNewsFragment">
+        <argument
+            android:name="newsItemArg"
+            app:argType="ru.netology.fmhandroid.dto.NewsWithCreators"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

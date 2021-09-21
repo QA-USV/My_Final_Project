@@ -3,16 +3,44 @@ package ru.netology.fmhandroid.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import retrofit2.Response
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 object Utils {
+
+    fun convertNewsCategory(category: String): Int {
+        return when (category) {
+            "Объявление" -> 1
+            "День рождения" -> 2
+            "Зарплата" -> 3
+            "Профсоюз" -> 4
+            "Праздник" -> 5
+            "Массаж" -> 6
+            "Благодарность" -> 7
+            "Нужна помощь" -> 8
+            else -> 0
+        }
+    }
+
+    fun updateDateLabel(calendar: Calendar, editText: EditText) {
+        val format = "dd.MM.yyyy"
+        val simpleDateFormat = SimpleDateFormat(format, Locale.getDefault())
+        editText.setText(simpleDateFormat.format(calendar.time))
+    }
+
+    fun updateTimeLabel(calendar: Calendar, editText: EditText) {
+        val format = "HH-mm"
+        val simpleDateFormat = SimpleDateFormat(format, Locale.getDefault())
+        editText.setText(simpleDateFormat.format(calendar.time))
+    }
 
     //Save date and time from pickers, and convert it to String in fragment
 

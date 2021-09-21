@@ -40,29 +40,36 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/sort_news_image_view"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sort_news_material_button"
+            style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@raw/icon_sort"
+            app:icon="@raw/icon_sort"
+            android:checkable="true"
+            android:background="@color/transparent"
             android:layout_marginStart="60dp"
-            app:layout_constraintEnd_toStartOf="@id/filter_news_image_view"
+            app:layout_constraintEnd_toStartOf="@id/filter_news_material_button"
             app:layout_constraintStart_toEndOf="@id/news_control_fragment_title_text_view"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/filter_news_image_view"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filter_news_material_button"
+            style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@raw/icon_filter"
-            app:layout_constraintEnd_toStartOf="@+id/edit_news_image_view"
-            app:layout_constraintStart_toEndOf="@+id/sort_news_image_view"
+            app:icon="@raw/icon_filter"
+            android:background="@color/transparent"
+            android:checkable="true"
+            app:layout_constraintEnd_toStartOf="@+id/add_news_image_view"
+            app:layout_constraintStart_toEndOf="@+id/sort_news_material_button"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
-            android:id="@+id/edit_news_image_view"
+            android:id="@+id/add_news_image_view"
+            style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@raw/icon_add"
@@ -155,7 +162,8 @@
             android:id="@+id/empty_text_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_patients_list"
+            android:text="@string/empty_news_list"
+            android:gravity="center_horizontal"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
