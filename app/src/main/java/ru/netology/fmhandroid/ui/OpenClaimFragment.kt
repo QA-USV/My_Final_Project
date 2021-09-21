@@ -119,12 +119,16 @@ class OpenClaimFragment : Fragment() {
             statusProcessingMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.throw_off_list_item -> {
-                        TODO("Также доработать после авторизации. В соответствии с ТЗ" +
-                                "Раздел 4")
+                        TODO(
+                            "Также доработать после авторизации. В соответствии с ТЗ" +
+                                    "Раздел 4"
+                        )
                     }
                     R.id.executes_list_item -> {
-                        TODO("Также доработать после авторизации. В соответствии с ТЗ" +
-                                "Раздел 4")
+                        TODO(
+                            "Также доработать после авторизации. В соответствии с ТЗ" +
+                                    "Раздел 4"
+                        )
                     }
                     else -> {
                         Toast.makeText(
@@ -139,6 +143,10 @@ class OpenClaimFragment : Fragment() {
         }
 
         binding.apply {
+            if (claim.claim.status == Claim.Status.CANCELLED || claim.claim.status == Claim.Status.EXECUTED) {
+                statusProcessingImageButton.visibility = View.INVISIBLE
+                editProcessingImageButton.visibility = View.INVISIBLE
+            }
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(
