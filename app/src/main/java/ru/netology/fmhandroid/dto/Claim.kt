@@ -12,11 +12,11 @@ data class Claim(
     val title: String? = null,
     val description: String? = null,
     val creatorId: Int? = null,
-    val executorId: Int? = null,
+    var executorId: Int = 0,
     val createDate: Long? = null,
     val planExecuteDate: Long? = null,
     val factExecuteDate: Long? = null,
-    val status: Status? = null,
+    var status: Status? = null,
     val deleted: Boolean = false,
 ) : Parcelable {
 
@@ -45,6 +45,6 @@ data class ClaimWithCreatorAndExecutor(
         parentColumn = "executorId",
         entityColumn = "id"
     )
-    val executor: User?
+    var executor: User?
 
 ) : Parcelable

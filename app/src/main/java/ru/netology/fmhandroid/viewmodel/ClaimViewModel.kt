@@ -5,13 +5,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
@@ -78,6 +76,8 @@ class ClaimViewModel @Inject constructor(
 
     val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.dataOpenInProgress
+
+    val dataClaim: MutableLiveData<Claim>? = null
 
     init {
         viewModelScope.launch {

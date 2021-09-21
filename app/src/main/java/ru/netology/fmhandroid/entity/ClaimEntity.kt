@@ -18,7 +18,7 @@ data class ClaimEntity(
     @ColumnInfo(name = "creatorId")
     val creatorId: Int?,
     @ColumnInfo(name = "executorId")
-    val executorId: Int?,
+    val executorId: Int = 0,
     @ColumnInfo(name = "createDate")
     val createDate: Long?,
     @ColumnInfo(name = "planExecuteDate")

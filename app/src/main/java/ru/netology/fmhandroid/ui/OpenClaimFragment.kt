@@ -20,6 +20,7 @@ import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
@@ -46,6 +47,8 @@ class OpenClaimFragment : Fragment() {
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
 
+        viewModel.dataClaim?.value = claim.claim
+
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
                 val action = OpenClaimFragmentDirections
@@ -69,16 +72,18 @@ class OpenClaimFragment : Fragment() {
 //                                    "эту кнопку автоматом должен заноситься в executorId данной заявки"
 //                        )
                         // Изменить запрос ниже после авторизации!!! Убрать хардкод executorId!!!
+                        viewModel.dataClaim?.value?.status = Claim.Status.IN_PROGRESS
+                        viewModel.dataClaim?.value?.executorId = 1
+
                         viewModel.updateClaim(claim.claim.copy(executorId = 1))
 
                         viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.IN_PROGRESS)
-                        viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
-                            binding.statusLabelTextView.setText(R.string.in_progress)
+                        binding.statusLabelTextView.setText(R.string.in_progress)
 
-                            // Изменить строку ниже. Здесь должен быть исполнитель в соответствии с ТЗ!!!
-                            binding.executorNameTextView.text = "Викторов Иван Петрович"
-                            statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
-                        })
+                        // Изменить строку ниже. Здесь должен быть исполнитель в соответствии с ТЗ!!!
+//                        binding.executorNameTextView.text = "Викторов Иван Петрович"
+                        statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
+
 
                         viewModel.claimStatusChangeException.observe(viewLifecycleOwner, {
                             Toast.makeText(
@@ -129,7 +134,7 @@ class OpenClaimFragment : Fragment() {
 //                            "Также доработать после авторизации. В соответствии с ТЗ" +
 //                                    "Раздел 4"
 //                        )
-                        viewModel.updateClaim(claim.claim.copy(executorId = null))
+                        viewModel.updateClaim(claim.claim.copy(executorId = 0))
                         viewModel.claimUpdatedEvent.observe(viewLifecycleOwner, {
                             viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
                             binding.statusLabelTextView.setText(R.string.open)
@@ -165,6 +170,17 @@ class OpenClaimFragment : Fragment() {
         }
 
         binding.apply {
+
+            viewModel.dataClaim?.observe(viewLifecycleOwner, {
+                statusLabelTextView.text =
+                    viewModel.dataClaim!!.value?.status?.name
+                executorNameTextView.text = if (it.executorId != 0) {
+                    "Васильев Иван Петрович"
+                } else {
+                    getText(R.string.not_assigned)
+                }
+            })
+
             if (claim.claim.status == Claim.Status.CANCELLED || claim.claim.status == Claim.Status.EXECUTED) {
                 statusProcessingImageButton.visibility = View.INVISIBLE
                 editProcessingImageButton.visibility = View.INVISIBLE
@@ -172,9 +188,9 @@ class OpenClaimFragment : Fragment() {
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(
-                    claim.executor.lastName.toString(),
-                    claim.executor.firstName.toString(),
-                    claim.executor.middleName.toString()
+                    claim.executor!!.lastName.toString(),
+                    claim.executor!!.firstName.toString(),
+                    claim.executor!!.middleName.toString()
                 )
             } else {
                 getText(R.string.not_assigned)
@@ -197,7 +213,8 @@ class OpenClaimFragment : Fragment() {
                 claim.creator.firstName.toString(),
                 claim.creator.middleName.toString()
             )
-            createDataTextView.text = claim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
+            createDataTextView.text =
+                claim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
 
             addImageButton.setOnClickListener {
                 val action = OpenClaimFragmentDirections
