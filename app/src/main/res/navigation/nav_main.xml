@@ -146,5 +146,8 @@
             app:argType="ru.netology.fmhandroid.dto.ClaimCommentWithCreator"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="argClaimId"
+            app:argType="integer" />
     </fragment>
 </navigation>

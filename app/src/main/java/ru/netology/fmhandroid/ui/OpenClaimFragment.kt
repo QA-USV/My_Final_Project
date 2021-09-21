@@ -49,7 +49,10 @@ class OpenClaimFragment : Fragment() {
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
                 val action = OpenClaimFragmentDirections
-                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(claimComment)
+                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                        claimComment,
+                        claim.claim.id!!
+                    )
                 findNavController().navigate(action)
             }
         })
@@ -59,6 +62,7 @@ class OpenClaimFragment : Fragment() {
             statusProcessingMenu.inflate(R.menu.menu_status_processing_open)
             statusProcessingMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
+
                     R.id.take_to_work_list_item -> {
 //                        TODO(
 //                            "Доработать после реализации авторизации пользователь нажимая " +
@@ -85,6 +89,7 @@ class OpenClaimFragment : Fragment() {
                         })
                         true
                     }
+
                     R.id.cancel_list_item -> {
                         // TODO("Также перепроверить после внедрения авторизации!!!
                         //  В частности прописать условие, что отменять заявку может только ее автор или Администратор")
@@ -118,12 +123,29 @@ class OpenClaimFragment : Fragment() {
             statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
             statusProcessingMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
+
                     R.id.throw_off_list_item -> {
-                        TODO(
-                            "Также доработать после авторизации. В соответствии с ТЗ" +
-                                    "Раздел 4"
-                        )
+//                        TODO(
+//                            "Также доработать после авторизации. В соответствии с ТЗ" +
+//                                    "Раздел 4"
+//                        )
+                        viewModel.updateClaim(claim.claim.copy(executorId = null))
+                        viewModel.claimUpdatedEvent.observe(viewLifecycleOwner, {
+                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
+                            binding.statusLabelTextView.setText(R.string.open)
+                            statusProcessingMenu.inflate(R.menu.menu_status_processing_open)
+
+                            val action = OpenClaimFragmentDirections
+                                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                                    argComment = null,
+                                    argClaimId = claim.claim.id
+                                )
+                            findNavController().navigate(action)
+                        })
+
+                        true
                     }
+
                     R.id.executes_list_item -> {
                         TODO(
                             "Также доработать после авторизации. В соответствии с ТЗ" +
@@ -178,8 +200,12 @@ class OpenClaimFragment : Fragment() {
             createDataTextView.text = claim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
 
             addImageButton.setOnClickListener {
-                findNavController()
-                    .navigate(R.id.action_openClaimFragment_to_createEditClaimCommentFragment)
+                val action = OpenClaimFragmentDirections
+                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                        argComment = null,
+                        argClaimId = claim.claim.id!!
+                    )
+                findNavController().navigate(action)
             }
 
             closeImageButton.setOnClickListener {

@@ -65,6 +65,14 @@ class ClaimViewModel @Inject constructor(
     val createClaimExceptionEvent: LiveData<Unit>
         get() = _createClaimExceptionEvent
 
+    private val _claimUpdatedEvent = SingleLiveEvent<Unit>()
+    val claimUpdatedEvent: LiveData<Unit>
+        get() = _claimUpdatedEvent
+
+    private val _claimUpdateExceptionEvent = SingleLiveEvent<Unit>()
+    val claimUpdateExceptionEvent: LiveData<Unit>
+    get() = _claimUpdateExceptionEvent
+
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.data
 
@@ -120,10 +128,10 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.editClaim(claim)
-                _claimCreatedEvent.call()
+                _claimUpdatedEvent.call()
             } catch (e: Exception) {
                 e.printStackTrace()
-                _createClaimExceptionEvent.call()
+                _claimUpdateExceptionEvent.call()
             }
         }
     }
