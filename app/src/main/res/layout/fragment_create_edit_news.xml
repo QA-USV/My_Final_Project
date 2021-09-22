@@ -44,6 +44,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
+                android:id="@+id/news_item_category_text_auto_complete_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -81,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@id/news_item_title_text_input_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/news_item_date_text_input_layout"
+            android:id="@+id/news_item_create_date_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -89,20 +90,20 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center_vertical"
-            app:layout_constraintEnd_toStartOf="@+id/news_item_time_text_input_layout"
+            app:layout_constraintEnd_toStartOf="@+id/news_item_publish_time_text_input_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/switcher">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/news_item_date_text_input_edit_text"
+                android:id="@+id/news_item_publish_date_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/news_item_date"
+                android:hint="@string/news_item_publish_date"
                 android:focusableInTouchMode="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/news_item_time_text_input_layout"
+            android:id="@+id/news_item_publish_time_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -111,14 +112,14 @@
             android:layout_marginEnd="16dp"
             android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/news_item_date_text_input_layout"
+            app:layout_constraintStart_toEndOf="@id/news_item_create_date_text_input_layout"
             app:layout_constraintTop_toBottomOf="@id/switcher">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/news_item_time_text_input_edit_text"
+                android:id="@+id/news_item_publish_time_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/news_item_time"
+                android:hint="@string/news_item_publish_time"
                 android:focusableInTouchMode="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +133,7 @@
             android:layout_marginEnd="16dp"
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/news_item_date_text_input_layout">
+            app:layout_constraintTop_toBottomOf="@id/news_item_create_date_text_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/news_item_description_text_input_edit_text"
@@ -167,6 +168,5 @@
             app:layout_constraintTop_toBottomOf="@id/news_item_description_text_input_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </FrameLayout>

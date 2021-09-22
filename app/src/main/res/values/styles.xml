@@ -193,4 +193,11 @@
         <item name="android:textColor"> #878787 </item>
     </style>
 
+    <style name="materialButtonTheme" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:minWidth">18dp</item>
+        <item name="android:minHeight">18dp</item>
+    </style>
+
 </resources>

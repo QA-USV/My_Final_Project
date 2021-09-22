@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
         }
 
         binding.btnToAddNewsItem.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_addNewsItemFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_createEditNewsFragment)
         }
 
         binding.btnToNewsControlPanel.setOnClickListener {

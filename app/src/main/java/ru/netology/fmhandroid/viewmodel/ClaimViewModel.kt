@@ -2,20 +2,14 @@ package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
-import ru.netology.fmhandroid.entity.toDto
-import ru.netology.fmhandroid.model.ClaimCommentModel
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
@@ -65,15 +59,27 @@ class ClaimViewModel @Inject constructor(
     val loadClaimExceptionEvent: LiveData<Unit>
         get() = _loadClaimExceptionEvent
 
-    private val _saveClaimExceptionEvent = SingleLiveEvent<Unit>()
-    val saveClaimExceptionEvent: LiveData<Unit>
-        get() = _saveClaimExceptionEvent
+    private val _createClaimExceptionEvent = SingleLiveEvent<Unit>()
+    val createClaimExceptionEvent: LiveData<Unit>
+        get() = _createClaimExceptionEvent
+
+    private val _claimUpdatedEvent = SingleLiveEvent<Unit>()
+    val claimUpdatedEvent: LiveData<Unit>
+        get() = _claimUpdatedEvent
+
+    private val _claimUpdateExceptionEvent = SingleLiveEvent<Unit>()
+    val claimUpdateExceptionEvent: LiveData<Unit>
+        get() = _claimUpdateExceptionEvent
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.data
 
     val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.dataOpenInProgress
+
+    val dataClaim: MutableLiveData<Claim>? = null
+
+    val dataExecutor: MutableLiveData<User> = MutableLiveData()
 
     init {
         viewModelScope.launch {
@@ -90,7 +96,7 @@ class ClaimViewModel @Inject constructor(
                     _claimCreatedEvent.call()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    _saveClaimExceptionEvent.call()
+                    _createClaimExceptionEvent.call()
                 }
             }
         }
@@ -120,19 +126,16 @@ class ClaimViewModel @Inject constructor(
         }
     }
 
-    fun changeClaimData(
-        title: String,
-        executor: String,
-        planExecuteDate: String,
-        planExecuteTime: String,
-        description: String
-    ) {
-        emptyClaim = emptyClaim.copy(
-            title = title.trim(),
-            executorId = executor.toInt(), // временно
-//            planExecuteDate = "$planExecuteDate-$planExecuteTime",
-            description = description.trim()
-        )
+    fun updateClaim(claim: Claim) {
+        viewModelScope.launch {
+            try {
+                claimRepository.editClaim(claim)
+                _claimUpdatedEvent.call()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _claimUpdateExceptionEvent.call()
+            }
+        }
     }
 
     fun getAllClaimComments(id: Int) {

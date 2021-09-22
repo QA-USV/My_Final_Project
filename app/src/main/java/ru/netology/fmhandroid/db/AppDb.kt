@@ -13,7 +13,9 @@ import ru.netology.fmhandroid.entity.*
         WishEntity::class,
         AdmissionEntity::class,
         ClaimEntity::class,
-        ClaimCommentEntity::class
+        ClaimCommentEntity::class,
+        NewsEntity::class,
+        NewsCategoryEntity::class,
     ],
     version = 1,
     exportSchema = false
@@ -29,4 +31,6 @@ abstract class AppDb : RoomDatabase() {
     abstract fun wishDao(): WishDao
     abstract fun admissionDao(): AdmissionDao
     abstract fun claimDao(): ClaimDao
+    abstract fun newsDao(): NewsDao
+    abstract fun newsCategoryDao(): NewsCategoryDao
 }
