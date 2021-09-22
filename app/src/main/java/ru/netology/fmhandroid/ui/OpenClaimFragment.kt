@@ -8,6 +8,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -48,17 +49,17 @@ class OpenClaimFragment : Fragment() {
         val claim = args.argClaim
 
         viewModel.dataClaim?.value = claim.claim
-        viewModel.dataExecutor.value = User(
-            id = 0,
-            login = "",
-            password = "",
-            firstName = "",
-            lastName = "",
-            middleName = "",
-            phoneNumber = "",
-            email = "",
-            deleted = false
-        )
+//        viewModel.dataExecutor.value = User(
+//            id = 0,
+//            login = "",
+//            password = "",
+//            firstName = "",
+//            lastName = "",
+//            middleName = "",
+//            phoneNumber = "",
+//            email = "",
+//            deleted = false
+//        )
 
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
@@ -82,9 +83,16 @@ class OpenClaimFragment : Fragment() {
 //                            "Доработать после реализации авторизации пользователь нажимая " +
 //                                    "эту кнопку автоматом должен заноситься в executorId данной заявки"
 //                        )
-                        // Изменить запрос ниже после авторизации!!! Убрать хардкод executorId!!!
+
                         viewModel.dataClaim?.value?.status = Claim.Status.IN_PROGRESS
-                        viewModel.dataExecutor.value = viewModel.dataExecutor.value!!.copy(lastName = "Dolgov", firstName = "Dmitriy", middleName = "Petrovich")
+                        // Изменить запрос ниже после авторизации!!! Убрать хардкод executorId!!!
+                        viewModel.dataExecutor.value =
+                            User(
+                                id = 1,
+                                lastName = "Dolgov",
+                                firstName = "Dmitriy",
+                                middleName = "Petrovich"
+                            )
 
                         viewModel.updateClaim(claim.claim.copy(executorId = 1))
 
@@ -145,7 +153,7 @@ class OpenClaimFragment : Fragment() {
 //                            "Также доработать после авторизации. В соответствии с ТЗ" +
 //                                    "Раздел 4"
 //                        )
-                        viewModel.updateClaim(claim.claim.copy(executorId = 0))
+                        viewModel.updateClaim(claim.claim.copy(executorId = null))
                         viewModel.claimUpdatedEvent.observe(viewLifecycleOwner, {
                             viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
                             binding.statusLabelTextView.setText(R.string.open)
@@ -181,24 +189,6 @@ class OpenClaimFragment : Fragment() {
         }
 
         binding.apply {
-
-            viewModel.dataClaim?.observe(viewLifecycleOwner, {
-                statusLabelTextView.text =
-                    viewModel.dataClaim!!.value?.status?.name
-//                executorNameTextView.text = if (it.executorId != 0) {
-//                    "Васильев Иван Петрович"
-//                } else {
-//                    getText(R.string.not_assigned)
-//                }
-            })
-
-            viewModel.dataExecutor?.observe(viewLifecycleOwner, {
-                executorNameTextView.text = Utils.fullUserNameGenerator(
-                    it.lastName.toString(),
-                    it.firstName.toString(),
-                    it.middleName.toString()
-                )
-            })
 
             if (claim.claim.status == Claim.Status.CANCELLED || claim.claim.status == Claim.Status.EXECUTED) {
                 statusProcessingImageButton.visibility = View.INVISIBLE
@@ -258,6 +248,23 @@ class OpenClaimFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
+
+        viewModel.dataClaim?.observe(viewLifecycleOwner, {
+            binding.statusLabelTextView.text =
+                viewModel.dataClaim!!.value?.status?.name
+        })
+
+        viewModel.dataExecutor.observe(viewLifecycleOwner, {
+            if (it.lastName!! == "") {
+                binding.executorNameTextView.setText(R.string.not_assigned)
+            } else {
+                binding.executorNameTextView.text = Utils.fullUserNameGenerator(
+                    it.lastName.toString(),
+                    it.firstName.toString(),
+                    it.middleName.toString()
+                )
+            }
+        })
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 

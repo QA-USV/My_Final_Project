@@ -12,7 +12,7 @@ data class Claim(
     val title: String? = null,
     val description: String? = null,
     val creatorId: Int? = null,
-    var executorId: Int = 0,
+    var executorId: Int? = null,
     val createDate: Long? = null,
     val planExecuteDate: Long? = null,
     val factExecuteDate: Long? = null,
