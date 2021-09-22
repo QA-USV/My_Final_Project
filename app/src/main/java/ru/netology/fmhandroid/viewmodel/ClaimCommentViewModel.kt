@@ -10,25 +10,25 @@ import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 
 class ClaimCommentViewModel
 @AssistedInject
-constructor(private val repository: ClaimRepository, @Assisted private val claimId: Int) :
+constructor(repository: ClaimRepository, @Assisted private val claimId: Int) :
     ViewModel() {
-    init {
-        repository.claimId = claimId
-    }
-
-    @AssistedInject.Factory
-    interface AssistedFactory {
-        fun create(claimId: Int): ClaimCommentViewModel
-    }
-
-    companion object {
-        fun provideFactory(
-            assistedFactory: AssistedFactory,
-            claimId: Int
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return assistedFactory.create(claimId) as T
-            }
-        }
-    }
+//    init {
+//        repository.claimId = claimId
+//    }
+//
+//    @AssistedInject.Factory
+//    interface AssistedFactory {
+//        fun create(claimId: Int): ClaimCommentViewModel
+//    }
+//
+//    companion object {
+//        fun provideFactory(
+//            assistedFactory: AssistedFactory,
+//            claimId: Int
+//        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+//            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//                return assistedFactory.create(claimId) as T
+//            }
+//        }
+//    }
 }

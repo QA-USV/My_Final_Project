@@ -2,14 +2,16 @@ package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
-import ru.netology.fmhandroid.utils.SingleLiveEvent
+import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
-import kotlin.math.log
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
@@ -19,67 +21,25 @@ class ClaimViewModel @Inject constructor(
     lateinit var commentsData: Flow<List<ClaimCommentWithCreator>>
     private var emptyClaim = Claim()
 
-    private val _claimCreatedEvent = SingleLiveEvent<Unit>()
-    val claimCreatedEvent: LiveData<Unit>
-        get() = _claimCreatedEvent
-
-    private val _claimCommentCreatedEvent = SingleLiveEvent<Unit>()
-    val claimCommentCreatedEvent: LiveData<Unit>
-        get() = _claimCreatedEvent
-
-    private val _claimCommentCreateExceptionEvent = SingleLiveEvent<Unit>()
-    val claimCommentCreateExceptionEvent: LiveData<Unit>
-        get() = _claimCreatedEvent
-
-    private val _claimCommentsLoadedEvent = SingleLiveEvent<Unit>()
-    val claimCommentsLoadedEvent: LiveData<Unit>
-        get() = _claimCommentsLoadedEvent
-
-    private val _claimCommentsLoadExceptionEvent = SingleLiveEvent<Unit>()
-    val claimCommentsLoadExceptionEvent: LiveData<Unit>
-        get() = _claimCommentsLoadExceptionEvent
-
-    private val _claimCommentUpdatedEvent = SingleLiveEvent<Unit>()
-    val claimCommentUpdatedEvent: LiveData<Unit>
-        get() = _claimCommentsLoadedEvent
-
-    private val _updateClaimCommentExceptionEvent = SingleLiveEvent<Unit>()
-    val updateClaimCommentExceptionEvent: LiveData<Unit>
-        get() = _loadClaimExceptionEvent
-
-    private val _claimStatusChangedEvent = SingleLiveEvent<Unit>()
-    val claimStatusChangedEvent: LiveData<Unit>
-        get() = _claimStatusChangedEvent
-
-    private val _claimStatusChangeException = SingleLiveEvent<Unit>()
-    val claimStatusChangeException: LiveData<Unit>
-        get() = _claimStatusChangeException
-
-    private val _loadClaimExceptionEvent = SingleLiveEvent<Unit>()
-    val loadClaimExceptionEvent: LiveData<Unit>
-        get() = _loadClaimExceptionEvent
-
-    private val _createClaimExceptionEvent = SingleLiveEvent<Unit>()
-    val createClaimExceptionEvent: LiveData<Unit>
-        get() = _createClaimExceptionEvent
-
-    private val _claimUpdatedEvent = SingleLiveEvent<Unit>()
-    val claimUpdatedEvent: LiveData<Unit>
-        get() = _claimUpdatedEvent
-
-    private val _claimUpdateExceptionEvent = SingleLiveEvent<Unit>()
-    val claimUpdateExceptionEvent: LiveData<Unit>
-        get() = _claimUpdateExceptionEvent
+    val claimCreatedEvent = Events()
+    val claimCommentCreatedEvent = Events()
+    val claimCommentsLoadedEvent = Events()
+    val claimCommentUpdatedEvent = Events()
+    val claimStatusChangedEvent = Events()
+    val claimUpdatedEvent = Events()
+    val claimCommentsLoadExceptionEvent = Events()
+    val claimCommentCreateExceptionEvent = Events()
+    val updateClaimCommentExceptionEvent = Events()
+    val claimStatusChangeExceptionEvent = Events()
+    val loadClaimExceptionEvent = Events()
+    val createClaimExceptionEvent = Events()
+    val claimUpdateExceptionEvent = Events()
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.data
 
     val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.dataOpenInProgress
-
-    val dataClaim: MutableLiveData<Claim>? = null
-
-    val dataExecutor: MutableLiveData<User> = MutableLiveData()
 
     init {
         viewModelScope.launch {
@@ -93,10 +53,10 @@ class ClaimViewModel @Inject constructor(
                 try {
                     claimRepository.saveClaim(it)
                     emptyClaim = Claim()
-                    _claimCreatedEvent.call()
+                    Events.produceEvents(claimCreatedEvent)
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    _createClaimExceptionEvent.call()
+                    Events.produceEvents(createClaimExceptionEvent)
                 }
             }
         }
@@ -106,10 +66,10 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimComment.claimId?.let { claimRepository.saveClaimComment(it, claimComment) }
-                _claimCommentCreatedEvent.call()
+                Events.produceEvents(claimCommentCreatedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _claimCommentCreateExceptionEvent.call()
+                Events.produceEvents(claimCommentCreateExceptionEvent)
             }
         }
     }
@@ -118,10 +78,10 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.changeClaimComment(comment)
-                _claimCommentUpdatedEvent.call()
+                Events.produceEvents(claimCommentUpdatedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _updateClaimCommentExceptionEvent.call()
+                Events.produceEvents(updateClaimCommentExceptionEvent)
             }
         }
     }
@@ -130,10 +90,10 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.editClaim(claim)
-                _claimUpdatedEvent.call()
+                Events.produceEvents(claimUpdatedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _claimUpdateExceptionEvent.call()
+                Events.produceEvents(claimUpdateExceptionEvent)
             }
         }
     }
@@ -143,24 +103,16 @@ class ClaimViewModel @Inject constructor(
             try {
                 claimRepository.getAllCommentsForClaim(id)
                 commentsData = claimRepository.dataComments.map { it }
-                println(commentsData)
-                _claimCommentsLoadedEvent.call()
+                Events.produceEvents(claimCommentsLoadedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _claimCommentsLoadExceptionEvent.call()
+                Events.produceEvents(claimCommentsLoadExceptionEvent)
             }
         }
     }
 
-    fun changeClaimStatus(claimId: Int, newClaimStatus: Claim.Status) {
-        viewModelScope.launch {
-            try {
-                claimRepository.changeClaimStatus(claimId, newClaimStatus)
-                _claimStatusChangedEvent.call()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _claimStatusChangeException.call()
-            }
-        }
+    suspend fun changeClaimStatus(claimId: Int, newClaimStatus: Claim.Status): Boolean {
+
+        return claimRepository.changeClaimStatus(claimId, newClaimStatus)
     }
 }

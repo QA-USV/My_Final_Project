@@ -158,4 +158,5 @@
     <string name="wrong_news_date_period">Неверно указан период</string>
     <string name="error_removing">Удаление не удалось. Попробуйте позднее.</string>
     <string name="empty_fields">Заполните пустые поля</string>
+    <string name="no_access_rights_to_status_executed">Переместить завявку из статуса "В РАБОТЕ" в статус "ИСПОЛНЕНА" может только ее автор или Администратор</string>
 </resources>
