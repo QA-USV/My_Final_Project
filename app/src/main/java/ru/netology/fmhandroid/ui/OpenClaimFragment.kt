@@ -48,6 +48,17 @@ class OpenClaimFragment : Fragment() {
         val claim = args.argClaim
 
         viewModel.dataClaim?.value = claim.claim
+        viewModel.dataExecutor.value = User(
+            id = 0,
+            login = "",
+            password = "",
+            firstName = "",
+            lastName = "",
+            middleName = "",
+            phoneNumber = "",
+            email = "",
+            deleted = false
+        )
 
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
@@ -73,7 +84,7 @@ class OpenClaimFragment : Fragment() {
 //                        )
                         // Изменить запрос ниже после авторизации!!! Убрать хардкод executorId!!!
                         viewModel.dataClaim?.value?.status = Claim.Status.IN_PROGRESS
-                        viewModel.dataClaim?.value?.executorId = 1
+                        viewModel.dataExecutor.value = viewModel.dataExecutor.value!!.copy(lastName = "Dolgov", firstName = "Dmitriy", middleName = "Petrovich")
 
                         viewModel.updateClaim(claim.claim.copy(executorId = 1))
 
@@ -174,11 +185,19 @@ class OpenClaimFragment : Fragment() {
             viewModel.dataClaim?.observe(viewLifecycleOwner, {
                 statusLabelTextView.text =
                     viewModel.dataClaim!!.value?.status?.name
-                executorNameTextView.text = if (it.executorId != 0) {
-                    "Васильев Иван Петрович"
-                } else {
-                    getText(R.string.not_assigned)
-                }
+//                executorNameTextView.text = if (it.executorId != 0) {
+//                    "Васильев Иван Петрович"
+//                } else {
+//                    getText(R.string.not_assigned)
+//                }
+            })
+
+            viewModel.dataExecutor?.observe(viewLifecycleOwner, {
+                executorNameTextView.text = Utils.fullUserNameGenerator(
+                    it.lastName.toString(),
+                    it.firstName.toString(),
+                    it.middleName.toString()
+                )
             })
 
             if (claim.claim.status == Claim.Status.CANCELLED || claim.claim.status == Claim.Status.EXECUTED) {

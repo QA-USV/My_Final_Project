@@ -69,7 +69,7 @@ class ClaimViewModel @Inject constructor(
 
     private val _claimUpdateExceptionEvent = SingleLiveEvent<Unit>()
     val claimUpdateExceptionEvent: LiveData<Unit>
-    get() = _claimUpdateExceptionEvent
+        get() = _claimUpdateExceptionEvent
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.data
@@ -78,6 +78,8 @@ class ClaimViewModel @Inject constructor(
         get() = claimRepository.dataOpenInProgress
 
     val dataClaim: MutableLiveData<Claim>? = null
+
+    val dataExecutor: MutableLiveData<User> = MutableLiveData()
 
     init {
         viewModelScope.launch {
