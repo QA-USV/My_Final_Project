@@ -49,17 +49,6 @@ class OpenClaimFragment : Fragment() {
         val claim = args.argClaim
 
         viewModel.dataClaim?.value = claim.claim
-//        viewModel.dataExecutor.value = User(
-//            id = 0,
-//            login = "",
-//            password = "",
-//            firstName = "",
-//            lastName = "",
-//            middleName = "",
-//            phoneNumber = "",
-//            email = "",
-//            deleted = false
-//        )
 
         val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
@@ -268,13 +257,11 @@ class OpenClaimFragment : Fragment() {
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
-        viewModel.claimCommentUpdatedEvent.observe(viewLifecycleOwner, {
-            lifecycleScope.launch {
-                viewModel.commentsData.collect {
-                    adapter.submitList(it)
-                }
+        lifecycleScope.launch {
+            viewModel.commentsData.collect {
+                adapter.submitList(it)
             }
-        })
+        }
 
         viewModel.claimCommentCreateExceptionEvent.observe(viewLifecycleOwner, {
             Toast.makeText(
@@ -283,11 +270,5 @@ class OpenClaimFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         })
-
-        lifecycleScope.launch {
-            viewModel.commentsData.collect {
-                adapter.submitList(it)
-            }
-        }
     }
 }
