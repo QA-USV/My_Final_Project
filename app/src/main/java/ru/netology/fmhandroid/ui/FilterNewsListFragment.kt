@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentFilterNewsBinding
 import ru.netology.fmhandroid.dto.NewsFilterArgs
+import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
@@ -46,6 +47,20 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
 
                 val adapter = ArrayAdapter(requireContext(), R.layout.menu_item, newsCategoryItems)
                 binding.newsItemCategoryTextAutoCompleteTextView.setAdapter(adapter)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            Events.events.collect {
+                viewModel.loadNewsCategoriesExceptionEvent
+                val activity = activity ?: return@collect
+                val dialog = android.app.AlertDialog.Builder(activity)
+                dialog.setMessage(R.string.error)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
             }
         }
 

@@ -31,29 +31,6 @@ class NewsRepositoryImpl @Inject constructor(
         get() = newsDao.getAllNews()
 
     //* Тестовые переменные. Подлежат удалению в будущем *
-    val user1 = User(
-        1,
-        "login",
-        "password",
-        "Петр",
-        "Иванов",
-        "Семенович",
-        "999999999999",
-        "email",
-        false
-    )
-
-    val user2 = User(
-        2,
-        "login",
-        "password",
-        "Владимир",
-        "Ленин",
-        "Ильич",
-        "999999999999",
-        "email",
-        false
-    )
 
     val advertisement = News.Category(
         1,
@@ -103,18 +80,11 @@ class NewsRepositoryImpl @Inject constructor(
         false
     )
 
-    val users = listOf(user1, user2)
-
-    val categories =
+    private val categories =
         listOf(advertisement, salary, union, birthday, holiday, massage, gratitude, help)
     //-------------------------------------------------------------//
 
-
     override suspend fun getAllNews(): Flow<List<News>> = flow {
-        //* Тестовый метод. Подлежит удалению в будущем *
-        userDao.insert(users.toEntity())
-        //--------------------------------------------------------------------------------------//
-//        val data = newsDao.getAllNews()
         Utils.makeRequest(
             request = { newsApi.getAllNews() },
             onSuccess = { body ->
@@ -122,7 +92,6 @@ class NewsRepositoryImpl @Inject constructor(
                 emit(body)
             }
         )
-//        return data
     }
 
     override suspend fun editNewsItem(newsItem: News): News =

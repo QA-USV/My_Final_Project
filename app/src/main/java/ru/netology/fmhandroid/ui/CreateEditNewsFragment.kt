@@ -134,6 +134,14 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                             .create()
                             .show()
 
+                    viewModel.loadNewsCategoriesExceptionEvent ->
+                        dialog.setMessage(R.string.error)
+                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                                dialog.cancel()
+                            }
+                            .create()
+                            .show()
+
                     viewModel.newsItemCreatedEvent -> findNavController().navigateUp()
                 }
             }
