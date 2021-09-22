@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,13 +15,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditClaimBinding
+import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.utils.Utils.fullUserNameGenerator
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
@@ -30,6 +29,9 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     private lateinit var vTimePicker: TextInputEditText
     private lateinit var binding: FragmentCreateEditClaimBinding
     private var executorId: Int? = null
+
+    //временно, пока нет авторизации
+    private val creatorId = 1
 
     private val viewModelClaim: ClaimViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -116,6 +118,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             val planExecuteTimeInPicker =
                 binding.timeInPlanTextInputLayout.editText?.text.toString()
             val description = binding.descriptionTextInputLayout.editText?.text.toString()
+            val planExecuteDate =
 
             if (binding.executorDropMenuAutoCompleteTextView.text.isNotBlank() && executorId == null) {
                 Toast.makeText(this.context, "Выбери исполнителя из списка", Toast.LENGTH_LONG)
@@ -128,8 +131,13 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 planExecuteTimeInPicker.isNotBlank() &&
                 description.isNotBlank()
             ) {
-                viewModelClaim.changeClaimData(
+//                val planExecuteDate = saveDateTime(planExecuteDateInPicker, planExecuteTimeInPicker)
+//                val dateNow =
+
+                viewModelClaim.updateClaim(
+                    Claim(
                     title = title,
+                    creator = creatorId,
                     executor = executorId,
                     planExecuteDate = saveDateTime(
                         planExecuteDateInPicker,
@@ -137,7 +145,10 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     ),
                     description = description
                 )
+                )
             }
+
+            TODO("Добавить обработку чекбоксов")
         }
 
         binding.cancelButton.setOnClickListener {

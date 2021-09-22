@@ -48,7 +48,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/title_text_input_edit_Text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine" />
@@ -68,7 +67,9 @@
                         android:id="@+id/executor_drop_menu_auto_complete_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text" />
+                        android:inputType="text"
+
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -119,7 +120,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/time_in_plan_text_input_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/description_text_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine" />
