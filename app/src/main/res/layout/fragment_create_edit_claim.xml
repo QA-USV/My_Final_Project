@@ -125,6 +125,7 @@
                         android:inputType="textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+<!-- блок выбора видимости скрыт до реализации данного функционала -->
                 <LinearLayout
                     android:id="@+id/visibility"
                     android:layout_width="fill_parent"
@@ -134,7 +135,9 @@
                     app:layout_constraintBottom_toTopOf="@+id/save_button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout">
+                    app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout"
+                    android:visibility="gone"
+                    >
 
                     <TextView
                         android:layout_width="match_parent"

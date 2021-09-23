@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.*
 
 interface UserRepository {
+    val data: Flow<List<User>>
     suspend fun getAllUsers()
     suspend fun saveUser(user: User)
     suspend fun updateUser(user: User)

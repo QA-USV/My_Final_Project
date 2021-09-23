@@ -15,6 +15,10 @@ class UserRepositoryImp @Inject constructor(
     private val userDao: UserDao,
     private val userApi: UserApi
 ) : UserRepository {
+    override val data: Flow<List<User>>
+        get() = userDao.getAllUsers()
+            .map { it.toDto() }
+            .flowOn(Dispatchers.Default)
 
     override suspend fun getAllUsers() {
         val temporaryUserList = mutableListOf(User(

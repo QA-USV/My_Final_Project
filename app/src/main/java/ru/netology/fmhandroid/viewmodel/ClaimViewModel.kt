@@ -19,7 +19,6 @@ class ClaimViewModel @Inject constructor(
 ) : ViewModel() {
 
     lateinit var commentsData: Flow<List<ClaimCommentWithCreator>>
-    private var emptyClaim = Claim()
 
     val claimCreatedEvent = Events()
     val claimCommentCreatedEvent = Events()
@@ -47,17 +46,14 @@ class ClaimViewModel @Inject constructor(
         }
     }
 
-    fun save() {
-        emptyClaim.let {
-            viewModelScope.launch {
-                try {
-                    claimRepository.saveClaim(it)
-                    emptyClaim = Claim()
-                    Events.produceEvents(claimCreatedEvent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Events.produceEvents(createClaimExceptionEvent)
-                }
+    fun save(claim: Claim) {
+        viewModelScope.launch {
+            try {
+                claimRepository.saveClaim(claim)
+                Events.produceEvents(claimCreatedEvent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Events.produceEvents(createClaimExceptionEvent)
             }
         }
     }
