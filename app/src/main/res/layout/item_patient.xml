@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/news_item_material_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:outlineSpotShadowColor="@color/execution_priority_low"
+        app:cardElevation="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/news_item_publication_text_view"
+                android:layout_marginBottom="8dp"
+                android:background="@color/claim_header_background"/>
+
+            <TextView
+                android:id="@+id/patient_first_last_name_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/patient_first__middle_last_name"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/patient_birth_date_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_first_last_name_text_view"
+                android:layout_margin="16dp"
+                android:text="@string/birth_date"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <View
+                android:id="@+id/second_separator_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_birth_date_text_view"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/separator"
+                />
+
+            <TextView
+                android:id="@+id/news_item_creation_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_birth_date_text_view"
+                android:layout_margin="16dp"
+                android:text="@string/patient_date_of_receipt"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <View
+                android:id="@+id/third_separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/news_item_creation_text_view"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/separator"
+                />
+
+            <TextView
+                android:id="@+id/patient_date_in_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/news_item_creation_text_view"
+                android:layout_margin="16dp"
+                android:text="@string/patient_date_of_discharge"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/patient_name_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/patient_first_last_name_text_view"
+                android:layout_marginEnd="16dp"
+                tools:text="@string/patient_name"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/birth_date_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/patient_birth_date_text_view"
+                android:layout_marginEnd="16dp"
+                tools:text="@string/news_item_date_format"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/date_in_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/news_item_creation_text_view"
+                android:layout_marginEnd="16dp"
+                tools:text="@string/news_item_date_format"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/date_out_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/patient_date_in_text_view"
+                android:layout_marginEnd="16dp"
+                tools:text="@string/news_item_date_format"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

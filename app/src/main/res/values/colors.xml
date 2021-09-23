@@ -10,7 +10,7 @@
     <color name="grey">#8A000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="medium_grey">#48494B</color>
-    <color name="light_grey">#F5F5F5</color>
+    <color name="light_grey">#E3E3E3</color>
     <color name="blue">#4285F4</color>
     <color name="execution_priority_low">#01A19F</color>
     <color name="execution_priority_medium">#ECAA01</color>

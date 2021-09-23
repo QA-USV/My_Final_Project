@@ -49,7 +49,7 @@ class NewsControlPanelListAdapter(
             newsItemCreateDateTextView.text =
                 newsItemWithCreator.news.newsItem.createDate?.let { Utils.showDate(it) }
             newsItemAuthorNameTextView.text = itemView.resources.getString(
-                R.string.patient_full_name_format,
+                R.string.full_name_format,
                 newsItemWithCreator.user.lastName,
                 newsItemWithCreator.user.firstName?.first()?.plus("."),
                 newsItemWithCreator.user.middleName?.first()?.plus(".")

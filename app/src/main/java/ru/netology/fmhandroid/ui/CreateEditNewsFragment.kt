@@ -97,15 +97,29 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                         else -> viewModel.edit(fillNewsItem())
                     }
                 }
+                viewLifecycleOwner.lifecycleScope.launch {
+                    Events.events.collect {
+                        viewModel.saveNewsItemExceptionEvent
+                        dialog.setMessage(R.string.error_saving)
+                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                                dialog.cancel()
+                            }
+                            .create()
+                            .show()
+                    }
+                }
             }
         }
+
+
 
         lifecycleScope.launch {
             viewModel.getAllNewsCategories().collect {
                 val newsCategoryItems = it
 
                 with(binding) {
-                    val adapter = ArrayAdapter(requireContext(), R.layout.menu_item, newsCategoryItems)
+                    val adapter =
+                        ArrayAdapter(requireContext(), R.layout.menu_item, newsCategoryItems)
                     newsItemCategoryTextAutoCompleteTextView.setAdapter(adapter)
 
                     newsItemCategoryTextAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
@@ -126,14 +140,6 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 val activity = activity ?: return@collect
                 val dialog = android.app.AlertDialog.Builder(activity)
                 when (event) {
-                    viewModel.saveNewsItemExceptionEvent ->
-                        dialog.setMessage(R.string.error_saving)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
-
                     viewModel.loadNewsCategoriesExceptionEvent ->
                         dialog.setMessage(R.string.error)
                             .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
@@ -141,11 +147,11 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                             }
                             .create()
                             .show()
-
                     viewModel.newsItemCreatedEvent -> findNavController().navigateUp()
                 }
             }
         }
+
 
         val calendar = Calendar.getInstance()
 

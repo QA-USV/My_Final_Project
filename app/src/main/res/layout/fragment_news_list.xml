@@ -140,36 +140,6 @@
             app:constraint_referenced_ids="retry_loading_title_text_view,retry_loading_button" />
 
         <TextView
-            android:id="@+id/retry_saving_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@color/white"
-            android:text="@string/error_saving"
-            app:layout_constraintBottom_toTopOf="@+id/retry_saving_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <Button
-            android:id="@+id/retry_saving_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/retry_loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/retry_saving_title_text_view" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/error_saving_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="retry_saving_title_text_view,retry_saving_button" />
-
-        <TextView
             android:id="@+id/empty_text_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

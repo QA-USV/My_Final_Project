@@ -58,7 +58,7 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             filterNews(adapter)
         }
 
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             Events.events.collect {
                 val activity = activity ?: return@collect
                 val dialog = AlertDialog.Builder(activity)
