@@ -19,7 +19,7 @@ data class PatientEntity(
     @ColumnInfo(name = "middleName")
     val middleName: String?,
     @ColumnInfo(name = "birthDate")
-    val birthDate: LocalDateTime?,
+    val birthDate: Long?,
     @ColumnInfo(name = "currentAdmissionId")
     val currentAdmissionId: Int? = null,
     @ColumnInfo(name = "deleted")
