@@ -5,7 +5,6 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
-import ru.netology.fmhandroid.entity.ClaimCommentEntity
 
 interface ClaimRepository {
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
@@ -17,7 +16,7 @@ interface ClaimRepository {
     suspend fun getClaimById(id: Int): Claim
     suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment>
     suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment
-    suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim
+    suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Boolean
     suspend fun changeClaimComment(comment: ClaimComment): ClaimComment
     suspend fun getClaimCommentById(id: Int): ClaimComment
     suspend fun getAllClaimsWithOpenAndInProgressStatus(): List<Claim>

@@ -94,12 +94,12 @@ class ClaimRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim =
+    override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Boolean =
         makeRequest(
             request = { claimApi.updateClaimStatus(claimId, newStatus) },
             onSuccess = { body ->
                 claimDao.insertClaim(body.toEntity())
-                body
+                true
             }
         )
 

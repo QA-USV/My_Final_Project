@@ -12,13 +12,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
@@ -44,11 +47,14 @@ class ClaimListFragment : Fragment() {
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
                 claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }
 
-                viewModel.claimCommentsLoadedEvent.observe(viewLifecycleOwner, {
-                    val action = ClaimListFragmentDirections
-                        .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
-                    findNavController().navigate(action)
-                })
+                viewLifecycleOwner.lifecycleScope.launch {
+                    Events.events.collect {
+                        viewModel.claimCommentsLoadedEvent
+                        val action = ClaimListFragmentDirections
+                            .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
+                        findNavController().navigate(action)
+                    }
+                }
             }
         })
 
