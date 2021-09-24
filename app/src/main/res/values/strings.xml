@@ -161,4 +161,5 @@
     <string name="error_removing">Removing failed. Try again later.</string>
     <string name="empty_fields">Fill empty fields</string>
     <string name="no_access_rights_to_status_executed">Only its author or Administrator can move a claim from the \"IN PROGRESS\" status to the \"EXECUTED\" status.</string>
+    <string name="simple_error">Error</string>
 </resources>

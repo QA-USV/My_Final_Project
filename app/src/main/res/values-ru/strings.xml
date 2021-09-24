@@ -114,7 +114,7 @@
     <string name="full_name_format">%s %s %s</string>
     <string name="cancelled">Отмененные</string>
     <string name="executes">Выполненные</string>
-    <string name="open">Открыты</string>
+    <string name="open">Открыта</string>
     <string name="not_assigned">НЕ НАЗНАЧЕН</string>
     <string name="our_mission">Наша Миссия</string>
     <string name="not_found">Пользователь не найден</string>
@@ -159,4 +159,5 @@
     <string name="error_removing">Удаление не удалось. Попробуйте позднее.</string>
     <string name="empty_fields">Заполните пустые поля</string>
     <string name="no_access_rights_to_status_executed">Переместить завявку из статуса "В РАБОТЕ" в статус "ИСПОЛНЕНА" может только ее автор или Администратор</string>
+    <string name="simple_error">Ошибка</string>
 </resources>
