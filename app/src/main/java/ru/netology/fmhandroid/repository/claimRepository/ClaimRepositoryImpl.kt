@@ -67,13 +67,15 @@ class ClaimRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun getClaimById(id: Int) = makeRequest(
-        request = { claimApi.getClaimById(id) },
+    override suspend fun getClaimById(id: Int): Claim = makeRequest(
+        request = {claimApi.getClaimById(id)},
         onSuccess = { body ->
             claimDao.insertClaim(body.toEntity())
             dataClaim = claimDao.getClaimById(id)
+            body
         }
     )
+
 
     override suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment> = makeRequest(
         request = { claimApi.getAllClaimComments(id) },

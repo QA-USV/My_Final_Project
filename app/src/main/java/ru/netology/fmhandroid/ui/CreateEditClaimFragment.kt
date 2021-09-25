@@ -92,7 +92,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 planExecuteTime.isNotBlank() &&
                 description.isNotBlank()
             ) {
-                viewModel.save()
+//                viewModel.save()
             } else {
                 Toast.makeText(this.context, R.string.toast_empty_field, Toast.LENGTH_LONG).show()
             }

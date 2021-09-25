@@ -1,17 +1,17 @@
 package ru.netology.fmhandroid.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import ru.netology.fmhandroid.dto.*
+import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
@@ -19,7 +19,7 @@ class ClaimViewModel @Inject constructor(
 ) : ViewModel() {
 
     lateinit var commentsData: Flow<List<ClaimCommentWithCreator>>
-    private var emptyClaim = Claim()
+    lateinit var dataClaim:Flow<ClaimWithCreatorAndExecutor>
 
     val claimCreatedEvent = Events()
     val claimCommentCreatedEvent = Events()
@@ -42,26 +42,20 @@ class ClaimViewModel @Inject constructor(
     val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.dataOpenInProgress
 
-    val dataClaim: Flow<ClaimWithCreatorAndExecutor>
-        get() = claimRepository.dataClaim
-
     init {
         viewModelScope.launch {
             claimRepository.getAllClaims()
         }
     }
 
-    fun save() {
-        emptyClaim.let {
-            viewModelScope.launch {
-                try {
-                    claimRepository.saveClaim(it)
-                    emptyClaim = Claim()
-                    Events.produceEvents(claimCreatedEvent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Events.produceEvents(createClaimExceptionEvent)
-                }
+    fun save(claim: Claim) {
+        viewModelScope.launch {
+            try {
+                claimRepository.saveClaim(claim)
+                Events.produceEvents(claimCreatedEvent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Events.produceEvents(createClaimExceptionEvent)
             }
         }
     }
@@ -90,10 +84,10 @@ class ClaimViewModel @Inject constructor(
         }
     }
 
-    fun updateClaim(claim: Claim) {
+    fun updateClaim(updatedClaim: Claim) {
         viewModelScope.launch {
             try {
-                claimRepository.editClaim(claim)
+                claimRepository.editClaim(updatedClaim)
                 Events.produceEvents(claimUpdatedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -106,7 +100,7 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getAllCommentsForClaim(id)
-                commentsData = claimRepository.dataComments.map { it }
+                commentsData = claimRepository.dataComments
                 Events.produceEvents(claimCommentsLoadedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -119,6 +113,7 @@ class ClaimViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getClaimById(claimId)
+                dataClaim = claimRepository.dataClaim
                 Events.produceEvents(claimLoadedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()

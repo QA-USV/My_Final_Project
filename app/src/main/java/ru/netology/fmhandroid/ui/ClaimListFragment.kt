@@ -35,7 +35,7 @@ class ClaimListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
 
         val binding = FragmentListClaimBinding.inflate(inflater, container, false)
 
@@ -46,12 +46,11 @@ class ClaimListFragment : Fragment() {
 
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
                 claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }
-                claimWithCreatorAndExecutor.claim.id?.let {viewModel.getClaimById(it)}
+                claimWithCreatorAndExecutor.claim.id?.let { viewModel.getClaimById(it) }
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     Events.events.collect {
                         viewModel.claimCommentsLoadedEvent
-                        viewModel.claimLoadedEvent
                         val action = ClaimListFragmentDirections
                             .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
                         findNavController().navigate(action)

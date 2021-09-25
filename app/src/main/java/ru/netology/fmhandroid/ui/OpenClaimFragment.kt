@@ -41,6 +41,7 @@ class OpenClaimFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_open_claim, container, false)
     }
 
+    //    TODO("В этом фрагменте после внедрения авторизации требуется изменить хардкод юзера на залогиненного пользователя!!!!")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -85,7 +86,7 @@ class OpenClaimFragment : Fragment() {
 
                 R.id.take_to_work_list_item -> {
                     //Изменить на залогиненного юзера!
-                    viewModel.updateClaim(claim = claim.claim.copy(executorId = user.id))
+                    viewModel.updateClaim(updatedClaim = claim.claim.copy(executorId = user.id))
                     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                         Events.events.collect {
                             viewModel.claimUpdatedEvent
@@ -106,7 +107,6 @@ class OpenClaimFragment : Fragment() {
                                     statusProcessingMenu
                                 )
                             }
-
                         }
                     }
                     true
@@ -174,77 +174,73 @@ class OpenClaimFragment : Fragment() {
                             }
                         }
                     }
-
                     true
                 }
 
+                R.id.executes_list_item -> {
+                    val dialog = CreateCommentDialogFragment.newInstance(
+                        text = "",
+                        hint = "Description",
+                        isMultiline = true
+                    )
+                    dialog.onOk = {
+                        val text = dialog.editText.text
+                        if (text.isNotBlank()) {
+                            viewModel.createClaimComment(
+                                ClaimComment(
+                                    claimId = claim.claim.id,
+                                    description = text.toString(),
+                                    creatorId = user.id,
+                                    createDate = LocalDateTime.now().toEpochSecond(
+                                        ZoneId.of("Europe/Moscow").rules.getOffset(
+                                            Instant.now()
+                                        )
+                                    )
+                                )
+                            )
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.toast_empty_field,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    dialog.show(this.childFragmentManager, "CreateCommentDialog")
+
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        Events.events.collect {
+                            viewModel.claimCommentCreatedEvent
+                            viewModel.updateClaim(
+                                updatedClaim = claim.claim.copy(
+                                    factExecuteDate = LocalDateTime.now().toEpochSecond(
+                                        ZoneId.of("Europe/Moscow").rules.getOffset(
+                                            Instant.now()
+                                        )
+                                    )
+                                )
+                            )
+
+                            viewModel.claimUpdatedEvent
+                            viewModel.changeClaimStatus(
+                                claim.claim.id!!,
+                                Claim.Status.OPEN
+                            )
+
+                            viewModel.claimStatusChangedEvent
+                            viewModel.dataClaim.collect {
+                                binding.statusLabelTextView.setText(R.string.executed)
+                                statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
+                            }
+                        }
+                    }
+                    true
+                }
                 else -> {
                     false
                 }
             }
         }
-//
-//                    R.id.executes_list_item -> {
-////                        TODO(
-////                            "Также доработать после авторизации. В соответствии с ТЗ" +
-////                                    "Раздел 4"
-////                        )
-//                        /* после авторизации: Изменить в условии user на фактически залогиненного
-//                        пользователя и добавить в условие "или администратор"
-//                        */
-//                        if (claim.claim.executorId == user.id) {
-//                            viewModel.updateClaim(
-//                                claim.claim.copy(
-//                                    factExecuteDate = LocalDateTime.now().toEpochSecond(
-//                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-//                                            Instant.now()
-//                                        )
-//                                    )
-//                                )
-//                            )
-//                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.EXECUTED)
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                Events.events.collect {
-//                                    viewModel.claimStatusChangedEvent
-//                                    binding.createDataTextView.text = Utils.showDateTimeInOne(
-//                                        LocalDateTime.now().toEpochSecond(
-//                                            ZoneId.of("Europe/Moscow").rules.getOffset(
-//                                                Instant.now()
-//                                            )
-//                                        )
-//                                    )
-//                                    binding.statusProcessingImageButton.visibility = View.INVISIBLE
-//                                    binding.editProcessingImageButton.visibility = View.INVISIBLE
-//
-//                                    val action = OpenClaimFragmentDirections
-//                                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-//                                            argComment = null,
-//                                            argClaimId = claim.claim.id
-//                                        )
-//                                    findNavController().navigate(action)
-//                                }
-//                            }
-//
-//                        } else {
-//                            Snackbar.make(
-//                                requireView(),
-//                                R.string.no_access_rights_to_status_executed,
-//                                Snackbar.LENGTH_INDEFINITE
-//                            )
-//                        }
-//                        true
-//                    }
-//                    else -> {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            R.string.error,
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                        false
-//                    }
-//                }
-//            }
-//        }
 
         binding.apply {
 
@@ -265,9 +261,9 @@ class OpenClaimFragment : Fragment() {
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(
-                    claim.executor!!.lastName.toString(),
-                    claim.executor!!.firstName.toString(),
-                    claim.executor!!.middleName.toString()
+                    claim.executor.lastName.toString(),
+                    claim.executor.firstName.toString(),
+                    claim.executor.middleName.toString()
                 )
             } else {
                 getText(R.string.not_assigned)
@@ -335,7 +331,6 @@ class OpenClaimFragment : Fragment() {
             Claim.Status.EXECUTED -> getString(R.string.executed)
             Claim.Status.IN_PROGRESS -> getString(R.string.in_progress)
             Claim.Status.OPEN -> getString(R.string.status_open)
-            else -> getString(R.string.simple_error)
         }
 
     private fun statusMenuVisibility(
