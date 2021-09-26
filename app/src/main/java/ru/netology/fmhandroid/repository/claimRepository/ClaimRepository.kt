@@ -14,11 +14,12 @@ interface ClaimRepository {
     suspend fun getAllClaims(): List<Claim>
     suspend fun editClaim(editedClaim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim
-    suspend fun getClaimById(id: Int): Claim
+    suspend fun getClaimById(id: Int)
     suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment>
     suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment
     suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim
     suspend fun changeClaimComment(comment: ClaimComment): ClaimComment
     suspend fun getClaimCommentById(id: Int): ClaimComment
     suspend fun getAllClaimsWithOpenAndInProgressStatus(): List<Claim>
+    fun dataFillingOfClaimData(claimId: Int)
 }

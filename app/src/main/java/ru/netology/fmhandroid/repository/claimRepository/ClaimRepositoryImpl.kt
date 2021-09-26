@@ -1,9 +1,7 @@
 package ru.netology.fmhandroid.repository.claimRepository
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dto.Claim
@@ -12,6 +10,7 @@ import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,11 +48,11 @@ class ClaimRepositoryImpl @Inject constructor(
         onSuccess = { body ->
             claimDao.insertClaim(body.toEntity())
             dataClaim = dataClaim.map {
-                    ClaimWithCreatorAndExecutor(
+                ClaimWithCreatorAndExecutor(
                     claim = editedClaim,
-                        executor = it.executor,
-                        creator = it.creator
-                    )
+                    executor = it.executor,
+                    creator = it.creator
+                )
             }
             body
         }
@@ -67,15 +66,13 @@ class ClaimRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun getClaimById(id: Int): Claim = makeRequest(
-        request = {claimApi.getClaimById(id)},
-        onSuccess = { body ->
-            claimDao.insertClaim(body.toEntity())
+    override suspend fun getClaimById(id: Int) {
+        try {
             dataClaim = claimDao.getClaimById(id)
-            body
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-    )
-
+    }
 
     override suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment> = makeRequest(
         request = { claimApi.getAllClaimComments(id) },
@@ -111,11 +108,11 @@ class ClaimRepositoryImpl @Inject constructor(
                 claimDao.insertClaim(body.toEntity())
                 dataClaim = dataClaim.map {
                     ClaimWithCreatorAndExecutor(
-                    claim = it.claim.copy(status = newStatus),
+                        claim = it.claim.copy(status = newStatus),
                         executor = it.executor,
                         creator = it.creator
                     )
-                 }
+                }
                 body
             }
         )
@@ -149,5 +146,16 @@ class ClaimRepositoryImpl @Inject constructor(
                 body
             }
         )
+    }
+
+    override fun dataFillingOfClaimData(claimId: Int) {
+//        try {
+//            data.collect { list ->
+//                list.map { if (it.claim.id == claimId) {dataClaim = it}}
+//            }
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
     }
 }

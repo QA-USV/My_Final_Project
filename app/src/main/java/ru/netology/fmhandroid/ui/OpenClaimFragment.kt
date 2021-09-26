@@ -1,5 +1,6 @@
 package ru.netology.fmhandroid.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -85,27 +86,54 @@ class OpenClaimFragment : Fragment() {
             when (menuItem.itemId) {
 
                 R.id.take_to_work_list_item -> {
-                    //Изменить на залогиненного юзера!
-                    viewModel.updateClaim(updatedClaim = claim.claim.copy(executorId = user.id))
-                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                        Events.events.collect {
-                            viewModel.claimUpdatedEvent
-                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.IN_PROGRESS)
 
-                            viewModel.claimStatusChangedEvent
-                            viewModel.dataClaim.collect {
-                                binding.executorNameTextView.text =
-                                    Utils.fullUserNameGenerator(
-                                        it.executor?.lastName.toString(),
-                                        it.executor?.firstName.toString(),
-                                        it.executor?.middleName.toString()
+                    lifecycleScope.launchWhenStarted {
+                        //Изменить на залогиненного юзера!
+                        viewModel.updateClaim(updatedClaim = claim.claim.copy(executorId = user.id))
+
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimUpdateExceptionEvent -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.error,
+                                        Toast.LENGTH_LONG
                                     )
-                                binding.statusLabelTextView.text =
-                                    displayingStatusOfClaim(it.claim.status!!)
-                                statusMenuVisibility(
-                                    it.claim.status!!,
-                                    statusProcessingMenu
-                                )
+                                    return@collect
+                                }
+
+                                viewModel.claimStatusChangeExceptionEvent -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.error,
+                                        Toast.LENGTH_LONG
+                                    )
+                                    return@collect
+                                }
+
+                                viewModel.claimUpdatedEvent -> {
+                                    viewModel.changeClaimStatus(
+                                        claim.claim.id!!,
+                                        Claim.Status.IN_PROGRESS
+                                    )
+                                }
+                                viewModel.claimStatusChangedEvent -> {
+                                    binding.executorNameTextView.text =
+                                        Utils.fullUserNameGenerator(
+                                            user.lastName.toString(),
+                                            user.firstName.toString(),
+                                            user.middleName.toString()
+                                        )
+
+                                    viewModel.dataClaim.collect {
+                                        binding.statusLabelTextView.text =
+                                            displayingStatusOfClaim(it.claim.status!!)
+                                        statusMenuVisibility(
+                                            it.claim.status!!,
+                                            statusProcessingMenu
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -113,13 +141,14 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.cancel_list_item -> {
-                    viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
 
                     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
                         Events.events.collect {
                             viewModel.claimStatusChangedEvent
                             viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.setText(R.string.cancelled)
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
                                 statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
                             }
                         }
@@ -128,48 +157,44 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.throw_off_list_item -> {
-                    val dialog = CreateCommentDialogFragment.newInstance(
-                        text = "",
-                        hint = "Description",
-                        isMultiline = true
-                    )
-                    dialog.onOk = {
-                        val text = dialog.editText.text
-                        if (text.isNotBlank()) {
-                            viewModel.createClaimComment(
-                                ClaimComment(
-                                    claimId = claim.claim.id,
-                                    description = text.toString(),
-                                    creatorId = user.id,
-                                    createDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
-                                        )
-                                    )
-                                )
-                            )
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                R.string.toast_empty_field,
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-                    dialog.show(this.childFragmentManager, "CreateCommentDialog")
 
                     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                        Events.events.collect {
-                            viewModel.claimCommentCreatedEvent
-                            viewModel.updateClaim(claim.claim.copy(executorId = null))
+                        createClaimCommentDialog(claim, user)
+                        viewModel.updateClaim(claim.claim.copy(executorId = null))
+                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
 
-                            viewModel.claimUpdatedEvent
-                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimCommentCreateExceptionEvent -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.error,
+                                        Toast.LENGTH_LONG
+                                    )
+                                    return@collect
+                                }
+                                viewModel.claimUpdateExceptionEvent -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.error,
+                                        Toast.LENGTH_LONG
+                                    )
+                                    return@collect
+                                }
+                                viewModel.claimStatusChangeExceptionEvent -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.error,
+                                        Toast.LENGTH_LONG
+                                    )
+                                    return@collect
+                                }
+                            }
 
-                            viewModel.claimStatusChangedEvent
+                            binding.executorNameTextView.setText(R.string.not_assigned)
                             viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.setText(R.string.open)
-                                binding.executorNameTextView.setText(R.string.not_assigned)
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
                                 statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
                             }
                         }
@@ -178,62 +203,44 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.executes_list_item -> {
-                    val dialog = CreateCommentDialogFragment.newInstance(
-                        text = "",
-                        hint = "Description",
-                        isMultiline = true
-                    )
-                    dialog.onOk = {
-                        val text = dialog.editText.text
-                        if (text.isNotBlank()) {
-                            viewModel.createClaimComment(
-                                ClaimComment(
-                                    claimId = claim.claim.id,
-                                    description = text.toString(),
-                                    creatorId = user.id,
-                                    createDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        createClaimCommentDialog(claim, user)
+
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimCommentCreatedEvent -> {
+                                    viewModel.updateClaim(
+                                        updatedClaim = claim.claim.copy(
+                                            factExecuteDate = LocalDateTime.now().toEpochSecond(
+                                                ZoneId.of("Europe/Moscow").rules.getOffset(
+                                                    Instant.now()
+                                                )
+                                            )
                                         )
                                     )
-                                )
-                            )
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                R.string.toast_empty_field,
-                                Toast.LENGTH_LONG
-                            ).show()
+                                }
+                                viewModel.claimUpdatedEvent -> {
+                                    viewModel.changeClaimStatus(
+                                        claim.claim.id!!,
+                                        Claim.Status.EXECUTED
+                                    )
+                                }
+                            }
                         }
                     }
-                    dialog.show(this.childFragmentManager, "CreateCommentDialog")
 
-                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         Events.events.collect {
-                            viewModel.claimCommentCreatedEvent
-                            viewModel.updateClaim(
-                                updatedClaim = claim.claim.copy(
-                                    factExecuteDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
-                                        )
-                                    )
-                                )
-                            )
-
-                            viewModel.claimUpdatedEvent
-                            viewModel.changeClaimStatus(
-                                claim.claim.id!!,
-                                Claim.Status.OPEN
-                            )
-
                             viewModel.claimStatusChangedEvent
                             viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.setText(R.string.executed)
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
                                 statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
                             }
                         }
                     }
+
                     true
                 }
                 else -> {
@@ -325,6 +332,41 @@ class OpenClaimFragment : Fragment() {
         }
     }
 
+    private fun createClaimCommentDialog(
+        claim: ClaimWithCreatorAndExecutor,
+        user: User
+    ) {
+        val dialog = CreateCommentDialogFragment.newInstance(
+            text = "",
+            hint = "Description",
+            isMultiline = true
+        )
+        dialog.onOk = {
+            val text = dialog.editText.text
+            if (text.isNotBlank()) {
+                viewModel.createClaimComment(
+                    ClaimComment(
+                        claimId = claim.claim.id,
+                        description = text.toString(),
+                        creatorId = user.id,
+                        createDate = LocalDateTime.now().toEpochSecond(
+                            ZoneId.of("Europe/Moscow").rules.getOffset(
+                                Instant.now()
+                            )
+                        )
+                    )
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_empty_field,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+        dialog.show(this.childFragmentManager, "CreateCommentDialog")
+    }
+
     private fun displayingStatusOfClaim(claimStatus: Claim.Status) =
         when (claimStatus) {
             Claim.Status.CANCELLED -> getString(R.string.cancel)
@@ -348,6 +390,7 @@ class OpenClaimFragment : Fragment() {
             }
             else -> {
                 binding.statusProcessingImageButton.visibility = View.INVISIBLE
+                binding.editProcessingImageButton.visibility = View.INVISIBLE
             }
         }
     }
