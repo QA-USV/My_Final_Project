@@ -16,6 +16,7 @@ import ru.netology.fmhandroid.adapter.OnWishItemClickListener
 import ru.netology.fmhandroid.adapter.WishListAdapter
 import ru.netology.fmhandroid.databinding.FragmentListWishBinding
 import ru.netology.fmhandroid.dto.Wish
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.viewmodel.WishViewModel
 
 @AndroidEntryPoint
@@ -28,16 +29,16 @@ class WishListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         val binding = FragmentListWishBinding.inflate(inflater, container, false)
 
         val adapter = WishListAdapter(object : OnWishItemClickListener {
-            override fun onDescription(wish: Wish) {
+            override fun onDescription(wishWithAllUsers: WishWithAllUsers) {
                 val activity = activity ?: return
                 val dialog = activity.let { activity ->
                     AlertDialog.Builder(activity)
                 }
-                dialog.setMessage(wish.description)
+                dialog.setMessage(wishWithAllUsers.wish.description)
                     .setPositiveButton(R.string.close) { dialog, _ ->
                         dialog.cancel()
                     }

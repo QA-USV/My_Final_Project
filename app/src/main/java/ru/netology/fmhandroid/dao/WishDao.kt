@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.entity.WishEntity
 import java.time.Instant
 import java.time.LocalDateTime
@@ -11,7 +12,7 @@ import java.time.ZoneOffset
 @Dao
 interface WishDao {
     @Query("SELECT * FROM WishEntity ORDER BY id DESC")
-    fun getAllWishes(): Flow<List<WishEntity>>
+    fun getAllWishes(): Flow<List<WishWithAllUsers>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wish: WishEntity)

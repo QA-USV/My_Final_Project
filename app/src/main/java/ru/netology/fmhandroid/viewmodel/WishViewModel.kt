@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Wish
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.repository.wishRepository.WishRepository
 import ru.netology.fmhandroid.utils.SingleLiveEvent
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class WishViewModel @Inject constructor(
     private val wishRepository: WishRepository
 ) : ViewModel() {
 
-    val data: Flow<List<Wish>>
+    val data: Flow<List<WishWithAllUsers>>
         get() = wishRepository.data
 
     private val _wishCreatedEvent = SingleLiveEvent<Unit>()
@@ -37,7 +38,7 @@ class WishViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            wishRepository.getAllWishes().collect()
+            wishRepository.getAllWishes()
         }
     }
 

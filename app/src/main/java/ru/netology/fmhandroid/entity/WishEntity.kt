@@ -22,11 +22,11 @@ data class WishEntity(
     @ColumnInfo(name = "executorId")
     val executorId: Int? = null,
     @ColumnInfo(name = "createDate")
-    val createDate: LocalDateTime? = null,
+    val createDate: Long? = null,
     @ColumnInfo(name = "planeExecuteDate")
-    val planeExecuteDate: LocalDateTime? = null,
+    val planeExecuteDate: Long? = null,
     @ColumnInfo(name = "factExecuteDate")
-    val factExecuteDate: LocalDateTime? = null,
+    val factExecuteDate: Long? = null,
     @ColumnInfo(name = "status")
     val status: Wish.Status? = null,
     @ColumnInfo(name = "deleted")

@@ -1,6 +1,5 @@
 package ru.netology.fmhandroid.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -94,20 +93,12 @@ class OpenClaimFragment : Fragment() {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimUpdateExceptionEvent -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        R.string.error,
-                                        Toast.LENGTH_LONG
-                                    )
+                                    showErrorToast()
                                     return@collect
                                 }
 
                                 viewModel.claimStatusChangeExceptionEvent -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        R.string.error,
-                                        Toast.LENGTH_LONG
-                                    )
+                                    showErrorToast()
                                     return@collect
                                 }
 
@@ -166,27 +157,15 @@ class OpenClaimFragment : Fragment() {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimCommentCreateExceptionEvent -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        R.string.error,
-                                        Toast.LENGTH_LONG
-                                    )
+                                    showErrorToast()
                                     return@collect
                                 }
                                 viewModel.claimUpdateExceptionEvent -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        R.string.error,
-                                        Toast.LENGTH_LONG
-                                    )
+                                    showErrorToast()
                                     return@collect
                                 }
                                 viewModel.claimStatusChangeExceptionEvent -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        R.string.error,
-                                        Toast.LENGTH_LONG
-                                    )
+                                    showErrorToast()
                                     return@collect
                                 }
                             }
@@ -330,6 +309,14 @@ class OpenClaimFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+    }
+
+    private fun showErrorToast() {
+        Toast.makeText(
+            requireContext(),
+            R.string.error,
+            Toast.LENGTH_LONG
+        )
     }
 
     private fun createClaimCommentDialog(

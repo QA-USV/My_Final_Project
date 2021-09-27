@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.api.WishApi
 import ru.netology.fmhandroid.dao.WishDao
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.Wish.Status
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
@@ -21,9 +22,8 @@ class WishRepositoryImp @Inject constructor(
     private val wishApi: WishApi
 ) : WishRepository {
 
-    override val data: Flow<List<Wish>>
+    override val data: Flow<List<WishWithAllUsers>>
         get() = wishDao.getAllWishes()
-            .map { it.toDto() }
             .flowOn(Dispatchers.Default)
 
     override suspend fun getAllWishes(): Flow<List<Wish>> = flow {
