@@ -17,7 +17,7 @@ data class Wish(
     val creatorId: Int? = null,
     val executorId: Int? = null,
     val createDate: Long? = null,
-    val planeExecuteDate: Long? = null,
+    val planExecuteDate: Long? = null,
     val factExecuteDate: Long? = null,
     val status: Status? = null,
     val deleted: Boolean = false,

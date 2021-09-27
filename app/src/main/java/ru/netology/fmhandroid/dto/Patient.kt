@@ -10,7 +10,7 @@ data class Patient(
     val firstName: String? = null,
     val lastName: String? = null,
     val middleName: String? = null,
-    val birthDate: LocalDateTime? = null,
+    val birthDate: Long? = null,
     val currentAdmissionId: Int? = null,
     val deleted: Boolean = false,
 ): Parcelable {

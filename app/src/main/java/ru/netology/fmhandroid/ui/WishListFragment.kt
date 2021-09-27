@@ -38,7 +38,7 @@ class WishListFragment : Fragment() {
                 val dialog = activity.let { activity ->
                     AlertDialog.Builder(activity)
                 }
-                dialog.setMessage(wishWithAllUsers.wish.description)
+                dialog.setMessage(wishWithAllUsers.wish.title)
                     .setPositiveButton(R.string.close) { dialog, _ ->
                         dialog.cancel()
                     }

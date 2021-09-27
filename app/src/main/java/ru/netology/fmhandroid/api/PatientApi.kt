@@ -7,7 +7,7 @@ import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.Patient
 
 interface PatientApi {
-    @GET("patient?patients_status_list=EXPECTED")
+    @GET("patients?statuses=EXPECTED")
     suspend fun getAllPatients(): Response<List<Patient>>
 
     @GET("patient")

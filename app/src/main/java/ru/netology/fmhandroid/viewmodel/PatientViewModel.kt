@@ -39,8 +39,7 @@ class PatientViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            patientRepository.getAllPatientsWithAdmissionStatus(Status.EXPECTED)
-                .collect()
+            patientRepository.getAllPatients()
         }
     }
 

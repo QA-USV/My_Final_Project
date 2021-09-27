@@ -62,8 +62,8 @@ class WishListAdapter(
                         wishWithAllUsers.executor.middleName.toString()
                     )
                 }
-                planTimeMaterialTextView.text = wishWithAllUsers.wish.planeExecuteDate?.let { Utils.showTime(it) }
-                planDateMaterialTextView.text = wishWithAllUsers.wish.planeExecuteDate?.let { Utils.showDate(it) }
+                planTimeMaterialTextView.text = wishWithAllUsers.wish.planExecuteDate?.let { Utils.showTime(it) }
+                planDateMaterialTextView.text = wishWithAllUsers.wish.planExecuteDate?.let { Utils.showDate(it) }
                 themeMaterialTextView.text = wishWithAllUsers.wish.title
 
                 themeMaterialTextView.setOnClickListener {
@@ -77,8 +77,8 @@ class WishListAdapter(
         }
 
         private fun ItemWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {
-            val executionPriority = wishWithAllUsers.wish.planeExecuteDate.let {
-                BusinessRules.determiningPriorityLevelOfNote(
+            val executionPriority = wishWithAllUsers.wish.planExecuteDate.let {
+                BusinessRules.determiningPriorityLevelOfWish(
                     LocalDateTime.now(),
                     Utils.fromLongToLocalDateTime(it!!)
                 )

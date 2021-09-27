@@ -1,13 +1,12 @@
 package ru.netology.fmhandroid.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.entity.WishEntity
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @Dao
 interface WishDao {
@@ -25,16 +24,4 @@ interface WishDao {
 
     @Query("UPDATE WishEntity Set deleted = 1 WHERE id = :id")
     suspend fun deleteWishById(id: Int)
-}
-
-class LocalDateTimeConverters {
-    @TypeConverter
-    fun fromTimestamp(value: Long?): LocalDateTime? {
-        return value?.let { LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneOffset.UTC) }
-    }
-
-    @TypeConverter
-    fun dateToTimestamp(date: LocalDateTime?): Long? {
-        return date?.atZone(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
-    }
 }

@@ -22,7 +22,6 @@ import ru.netology.fmhandroid.entity.*
 )
 
 @TypeConverters(
-    LocalDateTimeConverters::class,
     WishClaimStatusConverter::class
 )
 abstract class AppDb : RoomDatabase() {

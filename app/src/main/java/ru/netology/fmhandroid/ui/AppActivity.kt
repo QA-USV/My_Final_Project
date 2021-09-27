@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
+import ru.netology.fmhandroid.viewmodel.PatientViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
 
 @AndroidEntryPoint
@@ -15,7 +16,9 @@ class AppActivity : AppCompatActivity() {
 
         // Костыль!!! Убрать!!! (Only for test!)
         val viewModel: UserViewModel by viewModels()
+        val patientViewModel: PatientViewModel by viewModels()
 
         val bla = viewModel
+        val blu = patientViewModel
     }
 }

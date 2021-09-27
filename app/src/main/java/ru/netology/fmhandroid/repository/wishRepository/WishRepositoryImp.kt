@@ -4,13 +4,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.WishApi
 import ru.netology.fmhandroid.dao.WishDao
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.Wish.Status
 import ru.netology.fmhandroid.dto.WishWithAllUsers
-import ru.netology.fmhandroid.entity.toDto
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
@@ -26,15 +24,14 @@ class WishRepositoryImp @Inject constructor(
         get() = wishDao.getAllWishes()
             .flowOn(Dispatchers.Default)
 
-    override suspend fun getAllWishes(): Flow<List<Wish>> = flow {
-        makeRequest(
+    override suspend fun getAllWishes(): List<Wish> = makeRequest(
             request = { wishApi.getAllWishes() },
             onSuccess = { body ->
                 wishDao.insert(body.toEntity())
-                emit(body)
+                body
             }
         )
-    }
+
 
     override suspend fun saveWish(wish: Wish): Wish = makeRequest(
         request = { wishApi.saveWish(wish) },
