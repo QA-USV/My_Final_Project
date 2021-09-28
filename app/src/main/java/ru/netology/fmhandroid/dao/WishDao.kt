@@ -5,6 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.entity.WishEntity
 
@@ -12,6 +15,12 @@ import ru.netology.fmhandroid.entity.WishEntity
 interface WishDao {
     @Query("SELECT * FROM WishEntity ORDER BY id DESC")
     fun getAllWishes(): Flow<List<WishWithAllUsers>>
+
+    @Query("SELECT * FROM WishEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate ASC, createDate DESC")
+    fun getWishesOpenAndInProgressStatuses(
+        firstStatus: Wish.Status,
+        secondStatus: Wish.Status
+    ): Flow<List<WishWithAllUsers>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wish: WishEntity)

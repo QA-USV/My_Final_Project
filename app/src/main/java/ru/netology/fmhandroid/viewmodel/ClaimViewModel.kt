@@ -35,8 +35,6 @@ class ClaimViewModel @Inject constructor(
     val createClaimExceptionEvent = Events()
     val claimUpdateExceptionEvent = Events()
     val claimLoadedEvent = Events()
-    val claimDataIsFilledEvent = Events()
-    val claimDataFillingExceptionEvent = Events()
 
     val data: Flow<List<ClaimWithCreatorAndExecutor>>
         get() = claimRepository.data
@@ -132,18 +130,6 @@ class ClaimViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 Events.produceEvents(claimStatusChangeExceptionEvent)
-            }
-        }
-    }
-
-    fun dataFillingOfClaimData(claimId: Int) {
-        viewModelScope.launch {
-            try {
-                claimRepository.dataFillingOfClaimData(claimId)
-                Events.produceEvents(claimDataIsFilledEvent)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Events.produceEvents(claimDataFillingExceptionEvent)
             }
         }
     }

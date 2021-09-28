@@ -147,15 +147,4 @@ class ClaimRepositoryImpl @Inject constructor(
             }
         )
     }
-
-    override fun dataFillingOfClaimData(claimId: Int) {
-//        try {
-//            data.collect { list ->
-//                list.map { if (it.claim.id == claimId) {dataClaim = it}}
-//            }
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-    }
 }

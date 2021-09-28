@@ -49,9 +49,9 @@ class WishListFragment : Fragment() {
 
         binding.wishListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {
-            viewModel.data.collectLatest { state ->
+            viewModel.dataOpenInProgress.collectLatest { state ->
                 adapter.submitList(state)
-                binding.emptyListGroup.isVisible = state.isEmpty()
+                binding.emptyWishListGroup.isVisible = state.isEmpty()
             }
         }
 

@@ -5,6 +5,7 @@ import ru.netology.fmhandroid.dto.*
 
 interface WishRepository {
     val data: Flow<List<WishWithAllUsers>>
+    val dataOpenInProgress: Flow<List<WishWithAllUsers>>
     suspend fun getAllWishes(): List<Wish>
     suspend fun saveWish(wish: Wish): Wish
     suspend fun editWish(wish: Wish): Wish

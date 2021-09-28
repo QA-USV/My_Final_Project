@@ -75,7 +75,7 @@ class OpenClaimFragment : Fragment() {
         })
 
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
-        statusProcessingMenu.inflate(R.menu.menu_status_processing)
+        statusProcessingMenu.inflate(R.menu.menu_wish_claim_status_processing)
 
         if (claim.claim.creatorId != user.id) {
             statusProcessingMenu.menu.removeItem(R.id.cancel_list_item)

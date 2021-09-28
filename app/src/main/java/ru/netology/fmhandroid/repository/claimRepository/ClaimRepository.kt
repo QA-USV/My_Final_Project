@@ -21,5 +21,4 @@ interface ClaimRepository {
     suspend fun changeClaimComment(comment: ClaimComment): ClaimComment
     suspend fun getClaimCommentById(id: Int): ClaimComment
     suspend fun getAllClaimsWithOpenAndInProgressStatus(): List<Claim>
-    fun dataFillingOfClaimData(claimId: Int)
 }

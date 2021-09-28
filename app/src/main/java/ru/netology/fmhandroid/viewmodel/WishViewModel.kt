@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.repository.wishRepository.WishRepository
@@ -23,6 +24,9 @@ class WishViewModel @Inject constructor(
 
     val data: Flow<List<WishWithAllUsers>>
         get() = wishRepository.data
+
+    val dataOpenInProgress: Flow<List<WishWithAllUsers>>
+        get() = wishRepository.dataOpenInProgress
 
     private val _wishCreatedEvent = SingleLiveEvent<Unit>()
     val wishCreatedEvent: LiveData<Unit>
