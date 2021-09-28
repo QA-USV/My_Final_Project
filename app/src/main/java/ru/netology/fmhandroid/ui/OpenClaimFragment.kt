@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
@@ -307,6 +309,40 @@ class OpenClaimFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.commentsData.collect {
                 adapter.submitList(it)
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            Events.events.collect {
+                viewModel.claimUpdatedEvent
+                viewModel.dataClaim.collect { updated ->
+                    binding.apply {
+                        titleTextView.text = updated.claim.title
+                        executorNameTextView.text = if (updated.executor != null) {
+                            Utils.fullUserNameGenerator(
+                                updated.executor.lastName.toString(),
+                                updated.executor.firstName.toString(),
+                                updated.executor.middleName.toString()
+                            )
+                        } else {
+                            getText(R.string.not_assigned)
+                        }
+
+                        planeDateTextView.text =
+                            updated.claim.planExecuteDate?.let { Utils.showDateTimeInOne(it) }
+
+                        statusLabelTextView.text = displayingStatusOfClaim(updated.claim.status!!)
+
+                        descriptionTextView.text = updated.claim.description
+                        authorNameTextView.text = Utils.fullUserNameGenerator(
+                            updated.creator.lastName.toString(),
+                            updated.creator.firstName.toString(),
+                            updated.creator.middleName.toString()
+                        )
+                        createDataTextView.text =
+                            updated.claim.createDate?.let { Utils.showDateTimeInOne(it) }
+                    }
+                }
             }
         }
     }
