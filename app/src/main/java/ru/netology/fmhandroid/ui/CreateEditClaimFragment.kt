@@ -70,7 +70,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     claim.claim.planExecuteDate?.let { Utils.showDate(it) }
                 )
                 timeInPlanTextInputLayout.editText?.setText(
-                    claim.claim.planExecuteDate?.let { Utils.showDate(it) }
+                    claim.claim.planExecuteDate?.let { Utils.showTime(it) }
                 )
                 descriptionTextInputLayout.editText?.setText(claim.claim.description)
 
@@ -117,7 +117,16 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
 
         lifecycleScope.launch {
             viewModelUser.dataUser.collectLatest {
-                val adapter = ArrayAdapter(requireContext(), R.layout.menu_item, it.map { user -> fullUserNameGenerator(user.lastName!!, user.firstName!!, user.middleName!!) })
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.menu_item,
+                    it.map { user ->
+                        fullUserNameGenerator(
+                            user.lastName!!,
+                            user.firstName!!,
+                            user.middleName!!
+                        )
+                    })
                 binding.executorDropMenuAutoCompleteTextView.apply {
                     setAdapter(adapter)
                     setOnItemClickListener { _, _, position, _ ->
@@ -139,7 +148,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                             }
                             .create()
                             .show()
-                    viewModelClaim.claimCreatedEvent -> findNavController().navigateUp()
+                    viewModelClaim.claimCreatedEvent,
+                    viewModelClaim.claimUpdatedEvent -> findNavController().navigateUp()
                 }
             }
         }
