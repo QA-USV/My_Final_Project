@@ -53,7 +53,10 @@ class WishListFragment : Fragment() {
             }
 
             override fun onCard(wishWithAllUsers: WishWithAllUsers) {
-                TODO("Доделать!!!")
+                val action = WishListFragmentDirections.actionFragmentListWishesToOpenWishFragment(
+                    wishWithAllUsers
+                )
+                findNavController().navigate(action)
             }
         })
 
@@ -119,7 +122,7 @@ class WishListFragment : Fragment() {
         R.id.executes_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.wish.status == Wish.Status.EXECUTED})
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.EXECUTED })
                     binding.emptyWishListGroup.isVisible = state.isEmpty()
                 }
             }
