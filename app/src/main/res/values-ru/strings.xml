@@ -162,4 +162,10 @@
     <string name="empty_fields">Заполните пустые поля</string>
     <string name="no_access_rights_to_status_executed">Переместить завявку из статуса "В РАБОТЕ" в статус "ИСПОЛНЕНА" может только ее автор или Администратор</string>
     <string name="simple_error">Ошибка</string>
+    <string name="main">Главная</string>
+    <string name="users">Пользователи</string>
+    <string name="blocks">Посты</string>
+    <string name="rooms">Палаты</string>
+    <string name="documents">Документы</string>
+    <string name="duty_roster">Графики дежурств</string>
 </resources>

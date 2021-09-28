@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_main"
+        android:title="@string/main" />
+    <item
+        android:id="@+id/menu_item_patients"
+        android:title="@string/patients" />
+    <item
+        android:id="@+id/menu_item_wishes"
+        android:title="@string/wishes" />
+    <item
+        android:id="@+id/menu_item_users"
+        android:title="@string/users" />
+    <item
+        android:id="@+id/menu_item_claims"
+        android:title="@string/claims" />
+    <item
+        android:id="@+id/menu_item_blocks"
+        android:title="@string/blocks" />
+    <item
+        android:id="@+id/menu_item_rooms"
+        android:title="@string/rooms" />
+    <item
+        android:id="@+id/menu_item_news"
+        android:title="@string/news" />
+    <item
+        android:id="@+id/menu_item_documents"
+        android:title="@string/documents" />
+    <item
+        android:id="@+id/menu_item_duty_roster"
+        android:title="@string/duty_roster" />
+</menu>
