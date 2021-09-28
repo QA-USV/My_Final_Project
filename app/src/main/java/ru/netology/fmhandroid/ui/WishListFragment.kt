@@ -2,13 +2,16 @@ package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.R
@@ -32,6 +35,9 @@ class WishListFragment : Fragment() {
     ): View {
         val binding = FragmentListWishBinding.inflate(inflater, container, false)
 
+        val menuFiltering = PopupMenu(context, binding.filtersImageButton)
+        menuFiltering.inflate(R.menu.menu_wish_claim_list_filtering)
+
         val adapter = WishListAdapter(object : OnWishItemClickListener {
             override fun onDescription(wishWithAllUsers: WishWithAllUsers) {
                 val activity = activity ?: return
@@ -45,7 +51,15 @@ class WishListFragment : Fragment() {
                     .create()
                     .show()
             }
+
+            override fun onCard(wishWithAllUsers: WishWithAllUsers) {
+                TODO("Доделать!!!")
+            }
         })
+
+        menuFiltering.setOnMenuItemClickListener { menuItem ->
+            wishListFiltering(menuItem, adapter, binding)
+        }
 
         binding.wishListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {
@@ -55,6 +69,62 @@ class WishListFragment : Fragment() {
             }
         }
 
+        binding.filtersImageButton.setOnClickListener {
+            menuFiltering.show()
+        }
+
+        binding.addNewWishImageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_fragment_list_wishes_to_createEditWishFragment)
+        }
+
         return binding.root
+    }
+
+    private fun wishListFiltering(
+        menuItem: MenuItem,
+        adapter: WishListAdapter,
+        binding: FragmentListWishBinding
+    ) = when (menuItem.itemId) {
+
+        R.id.open_list_item -> {
+            lifecycleScope.launchWhenCreated {
+                viewModel.data.collectLatest { state ->
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.OPEN })
+                    binding.emptyWishListGroup.isVisible = state.isEmpty()
+                }
+            }
+            true
+        }
+
+        R.id.take_to_work_list_item -> {
+            lifecycleScope.launchWhenCreated {
+                viewModel.data.collectLatest { state ->
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.IN_PROGRESS })
+                    binding.emptyWishListGroup.isVisible = state.isEmpty()
+                }
+            }
+            true
+        }
+
+        R.id.cancel_list_item -> {
+            lifecycleScope.launchWhenCreated {
+                viewModel.data.collectLatest { state ->
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.CANCELLED })
+                    binding.emptyWishListGroup.isVisible = state.isEmpty()
+                }
+            }
+            true
+        }
+
+        R.id.executes_list_item -> {
+            lifecycleScope.launchWhenCreated {
+                viewModel.data.collectLatest { state ->
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.EXECUTED})
+                    binding.emptyWishListGroup.isVisible = state.isEmpty()
+                }
+            }
+            true
+        }
+        else -> false
     }
 }

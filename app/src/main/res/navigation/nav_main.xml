@@ -24,9 +24,16 @@
         android:label="AddPatientFragment" />
 
     <fragment
-        android:id="@+id/fragment_list_notes"
+        android:id="@+id/fragment_list_wishes"
         android:name="ru.netology.fmhandroid.ui.WishListFragment"
-        android:label="@string/list_of_wishes_fragment_label" />
+        android:label="@string/list_of_wishes_fragment_label" >
+        <action
+            android:id="@+id/action_fragment_list_wishes_to_createEditWishFragment"
+            app:destination="@id/createEditWishFragment" />
+        <action
+            android:id="@+id/action_fragment_list_wishes_to_openWishFragment"
+            app:destination="@id/openWishFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/mainFragment"
@@ -41,13 +48,13 @@
             app:destination="@id/patientsListFragment" />
         <action
             android:id="@+id/action_feedFragment_to_addNoteFragment"
-            app:destination="@id/addWishFragment" />
+            app:destination="@id/createEditWishFragment" />
         <action
             android:id="@+id/action_feedFragment_to_noteCardFragment"
-            app:destination="@id/noteCardFragment" />
+            app:destination="@id/openWishFragment" />
         <action
             android:id="@+id/action_feedFragment_to_fragment_list_notes"
-            app:destination="@id/fragment_list_notes" />
+            app:destination="@id/fragment_list_wishes" />
         <action
             android:id="@+id/action_mainFragment_to_newsListFragment"
             app:destination="@id/newsListFragment" />
@@ -74,14 +81,26 @@
         android:label="PatientProfileCardFragment" />
 
     <fragment
-        android:id="@+id/addWishFragment"
+        android:id="@+id/createEditWishFragment"
         android:name="ru.netology.fmhandroid.ui.CreateEditWishFragment"
-        android:label="AddNoteFragment" />
+        android:label="CreateEditWishFragment" >
+        <argument
+            android:name="wishArgs"
+            app:argType="ru.netology.fmhandroid.dto.WishWithAllUsers"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
     <fragment
-        android:id="@+id/noteCardFragment"
-        android:name="ru.netology.fmhandroid.ui.WishFragment"
-        android:label="NoteCardFragment" />
+        android:id="@+id/openWishFragment"
+        android:name="ru.netology.fmhandroid.ui.OpenWishFragment"
+        android:label="OpenWishFragment" >
+        <argument
+            android:name="wishArgs"
+            app:argType="ru.netology.fmhandroid.dto.WishWithAllUsers"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
     <fragment
         android:id="@+id/newsListFragment"
