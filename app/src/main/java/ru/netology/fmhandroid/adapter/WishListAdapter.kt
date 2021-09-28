@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemWishBinding
 import ru.netology.fmhandroid.domain.BusinessRules
-import ru.netology.fmhandroid.dto.Wish
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 
 interface OnWishItemClickListener {
-    fun onCard(wish: Wish) {}
-    fun onDescription(wish: Wish) {}
+    fun onCard(wishWithAllUsers: WishWithAllUsers) {}
+    fun onDescription(wishWithAllUsers: WishWithAllUsers) {}
 }
 
 class WishListAdapter(
     private val onWishItemClickListener: OnWishItemClickListener
-) : ListAdapter<Wish, WishListAdapter.WishViewHolder>(WishDiffCallback()) {
+) : ListAdapter<WishWithAllUsers, WishListAdapter.WishViewHolder>(WishDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishViewHolder {
         val binding = ItemWishBinding.inflate(
@@ -44,27 +44,43 @@ class WishListAdapter(
         private val onWishItemClickListener: OnWishItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(wish: Wish) {
+        fun bind(wishWithAllUsers: WishWithAllUsers) {
             binding.apply {
-                prioritization(wish)
-//                patientNameMaterialTextView.text = wish.shortPatientName
-//                executorNameMaterialTextView.text = wish.shortExecutorName
-//                planTimeMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertTime(it) }
-//                planDateMaterialTextView.text = wish.planeExecuteDate?.let { Utils.convertDate(it) }
-                themeMaterialTextView.text = wish.description
+                prioritization(wishWithAllUsers)
+                patientNameMaterialTextView.text = Utils.shortUserNameGenerator(
+                    wishWithAllUsers.patient.lastName.toString(),
+                    wishWithAllUsers.patient.firstName.toString(),
+                    wishWithAllUsers.patient.middleName.toString()
+                )
+                if (wishWithAllUsers.executor == null) {
+                    executorNameMaterialTextView.setText(R.string.not_assigned)
+                } else {
+                    executorNameMaterialTextView.text =
+                    Utils.shortUserNameGenerator(
+                        wishWithAllUsers.executor.lastName.toString(),
+                        wishWithAllUsers.executor.firstName.toString(),
+                        wishWithAllUsers.executor.middleName.toString()
+                    )
+                }
+                planTimeMaterialTextView.text = wishWithAllUsers.wish.planExecuteDate?.let { Utils.showTime(it) }
+                planDateMaterialTextView.text = wishWithAllUsers.wish.planExecuteDate?.let { Utils.showDate(it) }
+                themeMaterialTextView.text = wishWithAllUsers.wish.title
 
                 themeMaterialTextView.setOnClickListener {
-                    onWishItemClickListener.onDescription(wish)
+                    onWishItemClickListener.onDescription(wishWithAllUsers)
+                }
+
+                itemWish.setOnClickListener {
+                    onWishItemClickListener.onCard(wishWithAllUsers)
                 }
             }
         }
 
-        private fun ItemWishBinding.prioritization(wish: Wish) {
-            val executionPriority = wish.planeExecuteDate.let {
-                BusinessRules.determiningPriorityLevelOfNote(
+        private fun ItemWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {
+            val executionPriority = wishWithAllUsers.wish.planExecuteDate.let {
+                BusinessRules.determiningPriorityLevelOfWish(
                     LocalDateTime.now(),
-                    it ?: LocalDateTime.now()
-                // TODO ("Продумать, что сделать если плановой даты нет или она null")
+                    Utils.fromLongToLocalDateTime(it!!)
                 )
             }
 
@@ -117,12 +133,12 @@ class WishListAdapter(
         }
     }
 
-    class WishDiffCallback : DiffUtil.ItemCallback<Wish>() {
-        override fun areItemsTheSame(oldItem: Wish, newItem: Wish): Boolean {
+    class WishDiffCallback : DiffUtil.ItemCallback<WishWithAllUsers>() {
+        override fun areItemsTheSame(oldItem: WishWithAllUsers, newItem: WishWithAllUsers): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Wish, newItem: Wish): Boolean {
+        override fun areContentsTheSame(oldItem: WishWithAllUsers, newItem: WishWithAllUsers): Boolean {
             return oldItem == newItem
         }
     }

@@ -35,17 +35,18 @@ class ClaimListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
 
         val binding = FragmentListClaimBinding.inflate(inflater, container, false)
 
         val menuFiltering = PopupMenu(context, binding.filtersImageButton)
-        menuFiltering.inflate(R.menu.menu_claim_list_filtering)
+        menuFiltering.inflate(R.menu.menu_wish_claim_list_filtering)
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
 
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
                 claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }
+                claimWithCreatorAndExecutor.claim.id?.let { viewModel.getClaimById(it) }
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     Events.events.collect {
@@ -66,7 +67,7 @@ class ClaimListFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.dataOpenInProgress.collectLatest { state ->
                 adapter.submitList(state)
-                binding.emptyClaimListText.isVisible = state.isEmpty()
+                binding.emptyClaimListGroup.isVisible = state.isEmpty()
             }
         }
 
@@ -91,7 +92,7 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.OPEN })
-                    binding.emptyClaimListText.isVisible = state.isEmpty()
+                    binding.emptyClaimListGroup.isVisible = state.isEmpty()
                 }
             }
             true
@@ -101,7 +102,7 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.IN_PROGRESS })
-                    binding.emptyClaimListText.isVisible = state.isEmpty()
+                    binding.emptyClaimListGroup.isVisible = state.isEmpty()
                 }
             }
             true
@@ -111,7 +112,7 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.CANCELLED })
-                    binding.emptyClaimListText.isVisible = state.isEmpty()
+                    binding.emptyClaimListGroup.isVisible = state.isEmpty()
                 }
             }
             true
@@ -121,7 +122,7 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED})
-                    binding.emptyClaimListText.isVisible = state.isEmpty()
+                    binding.emptyClaimListGroup.isVisible = state.isEmpty()
                 }
             }
             true

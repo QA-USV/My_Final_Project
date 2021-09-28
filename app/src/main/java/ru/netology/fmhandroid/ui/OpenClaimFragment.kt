@@ -11,21 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
-import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.User
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
@@ -48,6 +41,7 @@ class OpenClaimFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_open_claim, container, false)
     }
 
+    //    TODO("В этом фрагменте после внедрения авторизации требуется изменить хардкод юзера на залогиненного пользователя!!!!")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,194 +75,155 @@ class OpenClaimFragment : Fragment() {
         })
 
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
-        if (claim.claim.status == Claim.Status.OPEN) {
-            statusProcessingMenu.inflate(R.menu.menu_status_processing_open)
-            statusProcessingMenu.setOnMenuItemClickListener {
-                when (it.itemId) {
+        statusProcessingMenu.inflate(R.menu.menu_wish_claim_status_processing)
 
-                    R.id.take_to_work_list_item -> {
-//                        TODO(
-//                            "Доработать после реализации авторизации пользователь нажимая " +
-//                                    "эту кнопку автоматом должен заноситься в executorId данной заявки"
-//                        )
+        if (claim.claim.creatorId != user.id) {
+            statusProcessingMenu.menu.removeItem(R.id.cancel_list_item)
+        }
+        statusMenuVisibility(claim.claim.status!!, statusProcessingMenu)
+        statusProcessingMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
 
-                        // Изменить запрос ниже после авторизации!!! Убрать хардкод executorId!!!
-                        viewModel.updateClaim(claim.claim.copy(executorId = 1))
-//                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.IN_PROGRESS)
+                R.id.take_to_work_list_item -> {
 
-                        // Изменить после авторизации! Установить ФИО залогиненного юзера!
-                        runBlocking {
-                            val result = async {
-                                viewModel.changeClaimStatus(
-                                    claim.claim.id!!,
-                                    Claim.Status.IN_PROGRESS
-                                )
-                            }.await()
-                            
-                            if (!result) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    R.string.error,
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            } else {
+                    lifecycleScope.launchWhenStarted {
+                        //Изменить на залогиненного юзера!
+                        viewModel.updateClaim(updatedClaim = claim.claim.copy(executorId = user.id))
 
-                                binding.executorNameTextView.text = Utils.fullUserNameGenerator(
-                                    user.lastName!!,
-                                    user.firstName!!,
-                                    user.middleName!!
-                                )
-                                binding.statusLabelTextView.setText(R.string.in_progress)
-                                binding.statusProcessingImageButton.visibility = View.INVISIBLE
-                                binding.editProcessingImageButton.visibility = View.INVISIBLE
-                                statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimUpdateExceptionEvent -> {
+                                    showErrorToast()
+                                    return@collect
+                                }
+
+                                viewModel.claimStatusChangeExceptionEvent -> {
+                                    showErrorToast()
+                                    return@collect
+                                }
+
+                                viewModel.claimUpdatedEvent -> {
+                                    viewModel.changeClaimStatus(
+                                        claim.claim.id!!,
+                                        Claim.Status.IN_PROGRESS
+                                    )
+                                }
+                                viewModel.claimStatusChangedEvent -> {
+                                    binding.executorNameTextView.text =
+                                        Utils.fullUserNameGenerator(
+                                            user.lastName.toString(),
+                                            user.firstName.toString(),
+                                            user.middleName.toString()
+                                        )
+
+                                    viewModel.dataClaim.collect {
+                                        binding.statusLabelTextView.text =
+                                            displayingStatusOfClaim(it.claim.status!!)
+                                        statusMenuVisibility(
+                                            it.claim.status!!,
+                                            statusProcessingMenu
+                                        )
+                                    }
+                                }
                             }
                         }
-                        true
                     }
-
-                    R.id.cancel_list_item -> {
-                        // TODO("Также перепроверить после внедрения авторизации!!!
-                        //  В частности прописать условие, что отменять заявку может только ее автор или Администратор")
-
-                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
-
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            Events.events.collect {
-                                viewModel.claimStatusChangedEvent
-                                binding.statusLabelTextView.setText(R.string.cancelled)
-                                binding.statusProcessingImageButton.visibility = View.INVISIBLE
-                                binding.editProcessingImageButton.visibility = View.INVISIBLE
-                            }
-                        }
-//                        viewModel.claimStatusChangedEvent.observe(viewLifecycleOwner, {
-//                            binding.statusLabelTextView.setText(R.string.cancelled)
-//                            binding.statusProcessingImageButton.visibility = View.INVISIBLE
-//                            binding.editProcessingImageButton.visibility = View.INVISIBLE
-//                        })
-//                        viewModel.claimStatusChangeExceptionEvent.observe(viewLifecycleOwner, {
-//                            Toast.makeText(
-//                                requireContext(),
-//                                R.string.error,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        })
-                        true
-                    }
-                    else -> {
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.error,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        false
-                    }
+                    true
                 }
-            }
-        } else if (claim.claim.status == Claim.Status.IN_PROGRESS) {
 
-            statusProcessingMenu.inflate(R.menu.menu_status_processing_in_progress)
-            statusProcessingMenu.setOnMenuItemClickListener {
-                when (it.itemId) {
+                R.id.cancel_list_item -> {
 
-                    R.id.throw_off_list_item -> {
-//                        TODO(
-//                            "Также доработать после авторизации. В соответствии с ТЗ" +
-//                                    "Раздел 4"
-//                        )
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
+                        Events.events.collect {
+                            viewModel.claimStatusChangedEvent
+                            viewModel.dataClaim.collect {
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
+                                statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
+                            }
+                        }
+                    }
+                    true
+                }
+
+                R.id.throw_off_list_item -> {
+
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        createClaimCommentDialog(claim, user)
                         viewModel.updateClaim(claim.claim.copy(executorId = null))
                         viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
 
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            Events.events.collect {
-                                viewModel.claimStatusChangedEvent
-                                binding.statusLabelTextView.setText(R.string.open)
-                                binding.executorNameTextView.setText(R.string.not_assigned)
-                                statusProcessingMenu.inflate(R.menu.menu_status_processing_open)
-                                val action = OpenClaimFragmentDirections
-                                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                                        argComment = null,
-                                        argClaimId = claim.claim.id
-                                    )
-                                findNavController().navigate(action)
-
-                            }
-                        }
-
-//                        viewModel.claimUpdatedEvent.observe(viewLifecycleOwner, {
-//                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
-//                            binding.statusLabelTextView.setText(R.string.open)
-//                            statusProcessingMenu.inflate(R.menu.menu_status_processing_open)
-//
-//                            val action = OpenClaimFragmentDirections
-//                                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-//                                    argComment = null,
-//                                    argClaimId = claim.claim.id
-//                                )
-//                            findNavController().navigate(action)
-//                        })
-
-                        true
-                    }
-
-                    R.id.executes_list_item -> {
-//                        TODO(
-//                            "Также доработать после авторизации. В соответствии с ТЗ" +
-//                                    "Раздел 4"
-//                        )
-                        /* после авторизации: Изменить в условии user на фактически залогиненного
-                        пользователя и добавить в условие "или администратор"
-                        */
-                        if (claim.claim.executorId == user.id) {
-                            viewModel.updateClaim(
-                                claim.claim.copy(
-                                    factExecuteDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
-                                        )
-                                    )
-                                )
-                            )
-                            viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.EXECUTED)
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                Events.events.collect {
-                                    viewModel.claimStatusChangedEvent
-                                    binding.createDataTextView.text = Utils.showDateTimeInOne(
-                                        LocalDateTime.now().toEpochSecond(
-                                            ZoneId.of("Europe/Moscow").rules.getOffset(
-                                                Instant.now()
-                                            )
-                                        )
-                                    )
-                                    binding.statusProcessingImageButton.visibility = View.INVISIBLE
-                                    binding.editProcessingImageButton.visibility = View.INVISIBLE
-
-                                    val action = OpenClaimFragmentDirections
-                                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                                            argComment = null,
-                                            argClaimId = claim.claim.id
-                                        )
-                                    findNavController().navigate(action)
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimCommentCreateExceptionEvent -> {
+                                    showErrorToast()
+                                    return@collect
+                                }
+                                viewModel.claimUpdateExceptionEvent -> {
+                                    showErrorToast()
+                                    return@collect
+                                }
+                                viewModel.claimStatusChangeExceptionEvent -> {
+                                    showErrorToast()
+                                    return@collect
                                 }
                             }
 
-                        } else {
-                            Snackbar.make(
-                                requireView(),
-                                R.string.no_access_rights_to_status_executed,
-                                Snackbar.LENGTH_INDEFINITE
-                            )
+                            binding.executorNameTextView.setText(R.string.not_assigned)
+                            viewModel.dataClaim.collect {
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
+                                statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
+                            }
                         }
-                        true
                     }
-                    else -> {
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.error,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        false
+                    true
+                }
+
+                R.id.executes_list_item -> {
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        createClaimCommentDialog(claim, user)
+
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimCommentCreatedEvent -> {
+                                    viewModel.updateClaim(
+                                        updatedClaim = claim.claim.copy(
+                                            factExecuteDate = LocalDateTime.now().toEpochSecond(
+                                                ZoneId.of("Europe/Moscow").rules.getOffset(
+                                                    Instant.now()
+                                                )
+                                            )
+                                        )
+                                    )
+                                }
+                                viewModel.claimUpdatedEvent -> {
+                                    viewModel.changeClaimStatus(
+                                        claim.claim.id!!,
+                                        Claim.Status.EXECUTED
+                                    )
+                                }
+                            }
+                        }
                     }
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        Events.events.collect {
+                            viewModel.claimStatusChangedEvent
+                            viewModel.dataClaim.collect {
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
+                                statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
+                            }
+                        }
+                    }
+
+                    true
+                }
+                else -> {
+                    false
                 }
             }
         }
@@ -279,12 +234,22 @@ class OpenClaimFragment : Fragment() {
                 statusProcessingImageButton.visibility = View.INVISIBLE
                 editProcessingImageButton.visibility = View.INVISIBLE
             }
+
+            if (claim.claim.status == Claim.Status.IN_PROGRESS) {
+                editProcessingImageButton.visibility = View.INVISIBLE
+            }
+
+            // Изменить на залогиненного юзера и добавить в условие администратора
+            if (claim.claim.executorId != user.id && claim.claim.status == Claim.Status.IN_PROGRESS) {
+                statusProcessingImageButton.visibility = View.INVISIBLE
+            }
+
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(
-                    claim.executor!!.lastName.toString(),
-                    claim.executor!!.firstName.toString(),
-                    claim.executor!!.middleName.toString()
+                    claim.executor.lastName.toString(),
+                    claim.executor.firstName.toString(),
+                    claim.executor.middleName.toString()
                 )
             } else {
                 getText(R.string.not_assigned)
@@ -293,13 +258,7 @@ class OpenClaimFragment : Fragment() {
             planeDateTextView.text =
                 claim.claim.planExecuteDate?.let { Utils.showDateTimeInOne(it) }
 
-            statusLabelTextView.text = when (claim.claim.status) {
-                Claim.Status.CANCELLED -> getString(R.string.cancel)
-                Claim.Status.EXECUTED -> getString(R.string.executed)
-                Claim.Status.IN_PROGRESS -> getString(R.string.in_progress)
-                Claim.Status.OPEN -> getString(R.string.status_open)
-                else -> "?"
-            }
+            statusLabelTextView.text = displayingStatusOfClaim(claim.claim.status!!)
 
             descriptionTextView.text = claim.claim.description
             authorNameTextView.text = Utils.fullUserNameGenerator(
@@ -336,9 +295,89 @@ class OpenClaimFragment : Fragment() {
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            Events.events.collect {
+                viewModel.claimCommentUpdatedEvent
+                viewModel.commentsData.collect {
+                    adapter.submitList(it)
+                }
+            }
+        }
+
         lifecycleScope.launch {
             viewModel.commentsData.collect {
                 adapter.submitList(it)
+            }
+        }
+    }
+
+    private fun showErrorToast() {
+        Toast.makeText(
+            requireContext(),
+            R.string.error,
+            Toast.LENGTH_LONG
+        )
+    }
+
+    private fun createClaimCommentDialog(
+        claim: ClaimWithCreatorAndExecutor,
+        user: User
+    ) {
+        val dialog = CreateCommentDialogFragment.newInstance(
+            text = "",
+            hint = "Description",
+            isMultiline = true
+        )
+        dialog.onOk = {
+            val text = dialog.editText.text
+            if (text.isNotBlank()) {
+                viewModel.createClaimComment(
+                    ClaimComment(
+                        claimId = claim.claim.id,
+                        description = text.toString(),
+                        creatorId = user.id,
+                        createDate = LocalDateTime.now().toEpochSecond(
+                            ZoneId.of("Europe/Moscow").rules.getOffset(
+                                Instant.now()
+                            )
+                        )
+                    )
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_empty_field,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+        dialog.show(this.childFragmentManager, "CreateCommentDialog")
+    }
+
+    private fun displayingStatusOfClaim(claimStatus: Claim.Status) =
+        when (claimStatus) {
+            Claim.Status.CANCELLED -> getString(R.string.cancel)
+            Claim.Status.EXECUTED -> getString(R.string.executed)
+            Claim.Status.IN_PROGRESS -> getString(R.string.in_progress)
+            Claim.Status.OPEN -> getString(R.string.status_open)
+        }
+
+    private fun statusMenuVisibility(
+        claimStatus: Claim.Status,
+        statusProcessingMenu: PopupMenu
+    ) {
+        when (claimStatus) {
+            Claim.Status.OPEN -> {
+                statusProcessingMenu.menu.setGroupVisible(R.id.open_menu_group, true)
+                statusProcessingMenu.menu.setGroupVisible(R.id.in_progress_menu_group, false)
+            }
+            Claim.Status.IN_PROGRESS -> {
+                statusProcessingMenu.menu.setGroupVisible(R.id.open_menu_group, false)
+                statusProcessingMenu.menu.setGroupVisible(R.id.in_progress_menu_group, true)
+            }
+            else -> {
+                binding.statusProcessingImageButton.visibility = View.INVISIBLE
+                binding.editProcessingImageButton.visibility = View.INVISIBLE
             }
         }
     }

@@ -1,17 +1,26 @@
 package ru.netology.fmhandroid.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.Wish
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.entity.WishEntity
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @Dao
 interface WishDao {
     @Query("SELECT * FROM WishEntity ORDER BY id DESC")
-    fun getAllWishes(): Flow<List<WishEntity>>
+    fun getAllWishes(): Flow<List<WishWithAllUsers>>
+
+    @Query("SELECT * FROM WishEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate ASC, createDate DESC")
+    fun getWishesOpenAndInProgressStatuses(
+        firstStatus: Wish.Status,
+        secondStatus: Wish.Status
+    ): Flow<List<WishWithAllUsers>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wish: WishEntity)
@@ -24,16 +33,4 @@ interface WishDao {
 
     @Query("UPDATE WishEntity Set deleted = 1 WHERE id = :id")
     suspend fun deleteWishById(id: Int)
-}
-
-class LocalDateTimeConverters {
-    @TypeConverter
-    fun fromTimestamp(value: Long?): LocalDateTime? {
-        return value?.let { LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneOffset.UTC) }
-    }
-
-    @TypeConverter
-    fun dateToTimestamp(date: LocalDateTime?): Long? {
-        return date?.atZone(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
-    }
 }

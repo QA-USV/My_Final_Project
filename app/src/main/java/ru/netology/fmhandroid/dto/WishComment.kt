@@ -7,5 +7,5 @@ data class WishComment(
     val wishId: Int? = null,
     val description: String? = null,
     val creatorId: Int? = null,
-    val createDate: LocalDateTime? = null,
+    val createDate: Long? = null,
 )

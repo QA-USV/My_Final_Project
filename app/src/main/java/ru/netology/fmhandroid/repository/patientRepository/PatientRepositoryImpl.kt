@@ -32,6 +32,14 @@ class PatientRepositoryImp @Inject constructor(
             .map { it.toDto() }
             .flowOn(Dispatchers.Default)
 
+    override suspend fun getAllPatients(): List<Patient> = makeRequest(
+        request = {patientApi.getAllPatients()},
+        onSuccess = { body ->
+            patientDao.insert(body.toEntity())
+            body
+        }
+    )
+
     override suspend fun getAllPatientsWithAdmissionStatus(
         status: Patient.Status
     ): Flow<List<Patient>> = flow {

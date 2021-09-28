@@ -76,11 +76,11 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/empty_list_image_view"
+            android:id="@+id/empty_wish_list_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/empty_list_image"
-            app:layout_constraintBottom_toTopOf="@+id/empty_list_text_view"
+            app:layout_constraintBottom_toTopOf="@+id/empty_wish_list_text_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,39 +88,39 @@
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
-            android:id="@+id/empty_list_text_view"
+            android:id="@+id/empty_wish_list_text_view"
             style="@style/EmptyListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_view_padding"
             android:text="@string/empty_claim_list_text"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/retry_text_view"
-            app:layout_constraintEnd_toEndOf="@id/empty_list_image_view"
+            app:layout_constraintBottom_toTopOf="@+id/wish_retry_text_view"
+            app:layout_constraintEnd_toEndOf="@id/empty_wish_list_image_view"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/empty_list_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/empty_list_image_view"
+            app:layout_constraintStart_toStartOf="@id/empty_wish_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_wish_list_image_view"
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/retry_text_view"
+            android:id="@+id/wish_retry_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_view_padding"
             android:text="@string/refresh"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/empty_list_image_view"
+            app:layout_constraintEnd_toEndOf="@id/empty_wish_list_image_view"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/empty_list_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/empty_list_text_view" />
+            app:layout_constraintStart_toStartOf="@id/empty_wish_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_wish_list_text_view" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/empty_list_group"
+            android:id="@+id/empty_wish_list_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="empty_list_image_view, empty_list_text_view, retry_text_view" />
+            app:constraint_referenced_ids="empty_wish_list_image_view, empty_wish_list_text_view, wish_retry_text_view" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/wish_list_recycler_view"

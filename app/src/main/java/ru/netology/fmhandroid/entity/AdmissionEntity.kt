@@ -14,13 +14,13 @@ data class AdmissionEntity(
     @ColumnInfo(name = "patientId")
     val patientId: Int?,
     @ColumnInfo(name = "planDateIn")
-    val planDateIn: LocalDateTime?,
+    val planDateIn: Long?,
     @ColumnInfo(name = "planDateOut")
-    val planDateOut: LocalDateTime?,
+    val planDateOut: Long?,
     @ColumnInfo(name = "factDateIn")
-    val factDateIn: LocalDateTime?,
+    val factDateIn: Long?,
     @ColumnInfo(name = "factDateOut")
-    val factDateOut: LocalDateTime?,
+    val factDateOut: Long?,
     @ColumnInfo(name = "admStatusId")
     val status: Admission.Status?,
     @ColumnInfo(name = "roomId")

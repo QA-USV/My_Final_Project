@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Wish
-import java.time.LocalDateTime
 
 @Entity(tableName = "WishEntity")
 data class WishEntity(
@@ -12,25 +11,25 @@ data class WishEntity(
     @ColumnInfo(name = "id")
     val id: Int?,
     @ColumnInfo(name = "patientId")
-    val patientId: Int? = null,
+    val patientId: Int?,
     @ColumnInfo(name = "title")
     val title: String?,
     @ColumnInfo(name = "description")
     val description: String?,
     @ColumnInfo(name = "creatorId")
-    val creatorId: Int? = null,
+    val creatorId: Int?,
     @ColumnInfo(name = "executorId")
-    val executorId: Int? = null,
+    val executorId: Int?,
     @ColumnInfo(name = "createDate")
-    val createDate: LocalDateTime? = null,
-    @ColumnInfo(name = "planeExecuteDate")
-    val planeExecuteDate: LocalDateTime? = null,
+    val createDate: Long?,
+    @ColumnInfo(name = "planExecuteDate")
+    val planExecuteDate: Long?,
     @ColumnInfo(name = "factExecuteDate")
-    val factExecuteDate: LocalDateTime? = null,
+    val factExecuteDate: Long?,
     @ColumnInfo(name = "status")
-    val status: Wish.Status? = null,
+    val status: Wish.Status?,
     @ColumnInfo(name = "deleted")
-    val deleted: Boolean = false,
+    val deleted: Boolean,
 ) {
     fun toDto() = Wish(
         id = id,
@@ -40,7 +39,7 @@ data class WishEntity(
         creatorId = creatorId,
         executorId = executorId,
         createDate = createDate,
-        planeExecuteDate = planeExecuteDate,
+        planExecuteDate = planExecuteDate,
         factExecuteDate = factExecuteDate,
         status = status,
         deleted = deleted,
@@ -57,7 +56,7 @@ fun Wish.toEntity() = WishEntity(
     creatorId = creatorId,
     executorId = executorId,
     createDate = createDate,
-    planeExecuteDate = planeExecuteDate,
+    planExecuteDate = planExecuteDate,
     factExecuteDate = factExecuteDate,
     status = status,
     deleted = deleted,

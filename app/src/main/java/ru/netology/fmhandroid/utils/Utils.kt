@@ -53,6 +53,12 @@ object Utils {
             .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(Instant.now()))
     }
 
+    fun fromLongToLocalDateTime(value: Long): LocalDateTime {
+        val instant = Instant.ofEpochMilli(value)
+        return instant.atZone(ZoneId.of("Europe/Moscow"))
+            .toLocalDateTime()
+    }
+
     fun showDate(date: Long): String {
         val localDateTime = LocalDateTime.ofInstant(
             Instant.ofEpochSecond(date),

@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit
 object BusinessRules {
 
     // Функция определяющая и возвращающая уровень приоритета выполнения записок
-    fun determiningPriorityLevelOfNote(
+    fun determiningPriorityLevelOfWish(
 
         // Аргумент, текущее время
         currentDateTime: LocalDateTime,
