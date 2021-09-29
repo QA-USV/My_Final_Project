@@ -330,9 +330,7 @@ class OpenClaimFragment : Fragment() {
 
                         planeDateTextView.text =
                             updated.claim.planExecuteDate?.let { Utils.showDateTimeInOne(it) }
-
                         statusLabelTextView.text = displayingStatusOfClaim(updated.claim.status!!)
-
                         descriptionTextView.text = updated.claim.description
                         authorNameTextView.text = Utils.fullUserNameGenerator(
                             updated.creator.lastName.toString(),

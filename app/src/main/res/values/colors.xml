@@ -23,4 +23,7 @@
     <color name="claim_stroke_color">#868686</color>
     <color name="news_helper_title_background">#1A000000</color>
     <color name="transparent">@android:color/transparent</color>
+    <color name="open_wish_fragment_priority_high">#FFCCD5</color>
+    <color name="open_wish_fragment_priority_medium">#FFEFC5</color>
+    <color name="open_wish_fragment_priority_low">#D1FFFE</color>
 </resources>

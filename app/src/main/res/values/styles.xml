@@ -200,4 +200,9 @@
         <item name="android:minHeight">18dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30%</item>
+    </style>
+
 </resources>
