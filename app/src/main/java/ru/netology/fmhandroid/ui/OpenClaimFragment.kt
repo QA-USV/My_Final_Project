@@ -271,7 +271,7 @@ class OpenClaimFragment : Fragment() {
             createDataTextView.text =
                 claim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
 
-            addImageButton.setOnClickListener {
+            addCommentImageButton.setOnClickListener {
                 val action = OpenClaimFragmentDirections
                     .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
                         argComment = null,

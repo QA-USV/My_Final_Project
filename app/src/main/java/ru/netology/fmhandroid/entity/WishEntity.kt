@@ -30,6 +30,8 @@ data class WishEntity(
     val status: Wish.Status?,
     @ColumnInfo(name = "deleted")
     val deleted: Boolean,
+    @ColumnInfo(name = "priority")
+    val priority: Wish.Priority?
 ) {
     fun toDto() = Wish(
         id = id,
@@ -43,6 +45,7 @@ data class WishEntity(
         factExecuteDate = factExecuteDate,
         status = status,
         deleted = deleted,
+        priority = priority
     )
 }
 
@@ -60,4 +63,5 @@ fun Wish.toEntity() = WishEntity(
     factExecuteDate = factExecuteDate,
     status = status,
     deleted = deleted,
+    priority = priority
 )

@@ -41,12 +41,12 @@ class WishListFragment : Fragment() {
         val adapter = WishListAdapter(object : OnWishItemClickListener {
             override fun onDescription(wishWithAllUsers: WishWithAllUsers) {
                 val activity = activity ?: return
-                val dialog = activity.let { activity ->
-                    AlertDialog.Builder(activity)
+                val dialog = activity.let { fragment ->
+                    AlertDialog.Builder(fragment)
                 }
                 dialog.setMessage(wishWithAllUsers.wish.title)
-                    .setPositiveButton(R.string.close) { dialog, _ ->
-                        dialog.cancel()
+                    .setPositiveButton(R.string.close) { dialogFragment, _ ->
+                        dialogFragment.cancel()
                     }
                     .create()
                     .show()
@@ -92,7 +92,10 @@ class WishListFragment : Fragment() {
         R.id.open_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.wish.status == Wish.Status.OPEN })
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.OPEN }
+                        .sortedBy {
+                            it.wish.priority
+                        })
                     binding.emptyWishListGroup.isVisible = state.isEmpty()
                 }
             }
@@ -102,7 +105,10 @@ class WishListFragment : Fragment() {
         R.id.take_to_work_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.wish.status == Wish.Status.IN_PROGRESS })
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.IN_PROGRESS }
+                        .sortedBy {
+                            it.wish.priority
+                        })
                     binding.emptyWishListGroup.isVisible = state.isEmpty()
                 }
             }
@@ -112,7 +118,10 @@ class WishListFragment : Fragment() {
         R.id.cancel_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.wish.status == Wish.Status.CANCELLED })
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.CANCELLED }
+                        .sortedBy {
+                            it.wish.priority
+                        })
                     binding.emptyWishListGroup.isVisible = state.isEmpty()
                 }
             }
@@ -122,7 +131,10 @@ class WishListFragment : Fragment() {
         R.id.executes_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.wish.status == Wish.Status.EXECUTED })
+                    adapter.submitList(state.filter { it.wish.status == Wish.Status.EXECUTED }
+                        .sortedBy {
+                            it.wish.priority
+                        })
                     binding.emptyWishListGroup.isVisible = state.isEmpty()
                 }
             }

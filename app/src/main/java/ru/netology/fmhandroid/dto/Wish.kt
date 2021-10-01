@@ -6,7 +6,6 @@ import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
 import ru.netology.fmhandroid.entity.PatientEntity
 import ru.netology.fmhandroid.entity.UserEntity
-import java.time.LocalDateTime
 
 @Parcelize
 data class Wish(
@@ -21,12 +20,18 @@ data class Wish(
     val factExecuteDate: Long? = null,
     val status: Status? = null,
     val deleted: Boolean = false,
+    var priority: Priority? = null
 ): Parcelable {
     enum class Status {
         CANCELLED,
         EXECUTED,
         IN_PROGRESS,
         OPEN
+    }
+    enum class Priority {
+        HIGH,
+        MEDIUM,
+        LOW
     }
 }
 @kotlinx.parcelize.Parcelize

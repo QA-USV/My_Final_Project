@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemWishBinding
-import ru.netology.fmhandroid.domain.BusinessRules
+import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.WishWithAllUsers
-import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
-import java.time.LocalDateTime
 
 interface OnWishItemClickListener {
     fun onCard(wishWithAllUsers: WishWithAllUsers) {}
@@ -77,15 +75,15 @@ class WishListAdapter(
         }
 
         private fun ItemWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {
-            val executionPriority = wishWithAllUsers.wish.planExecuteDate.let {
-                BusinessRules.determiningPriorityLevelOfWish(
-                    LocalDateTime.now(),
-                    Utils.fromLongToLocalDateTime(it!!)
-                )
-            }
+//            val executionPriority = wishWithAllUsers.wish.planExecuteDate.let {
+//                BusinessRules.determiningPriorityLevelOfWish(
+//                    LocalDateTime.now(),
+//                    Utils.fromLongToLocalDateTime(it!!)
+//                )
+//            }
 
-            when (executionPriority) {
-                ExecutionPriority.HIGH ->
+            when (wishWithAllUsers.wish.priority) {
+                Wish.Priority.HIGH ->
                     itemWish.apply {
                         this.strokeColor = ContextCompat.getColor(
                             itemView.context,
@@ -100,7 +98,7 @@ class WishListAdapter(
                         }
                     }
 
-                ExecutionPriority.MEDIUM ->
+                Wish.Priority.MEDIUM ->
                     this.itemWish.apply {
                         strokeColor = ContextCompat.getColor(
                             itemView.context,
@@ -115,7 +113,7 @@ class WishListAdapter(
                         }
                     }
 
-                ExecutionPriority.LOW ->
+                Wish.Priority.LOW ->
                     this.itemWish.apply {
                         strokeColor = ContextCompat.getColor(
                             itemView.context,

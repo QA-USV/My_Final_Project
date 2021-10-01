@@ -1,6 +1,6 @@
 package ru.netology.fmhandroid.domain
 
-import ru.netology.fmhandroid.enum.ExecutionPriority
+import ru.netology.fmhandroid.dto.Wish
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
@@ -14,7 +14,7 @@ object BusinessRules {
 
         //Аргумент, плановая дата выполнения записки
         planeDateTime: LocalDateTime
-    ): ExecutionPriority {
+    ): Wish.Priority {
 
         val differenceBetweenCurrentAndPlannedTime: Long = ChronoUnit.MINUTES.between(
             currentDateTime,
@@ -26,7 +26,7 @@ object BusinessRules {
          * меньше 120 минут, то возвращаем высокий уровень приоритета
          */
         if (differenceBetweenCurrentAndPlannedTime <= 120) {
-            return ExecutionPriority.HIGH
+            return Wish.Priority.HIGH
         }
 
         // Ближайшие 6.00 (утра), если сейчас меньше 6ти, выставляем текущий день 6ть утра
@@ -49,13 +49,13 @@ object BusinessRules {
          *  средний уровень приоритета выполнения записки
          */
         if (differenceBetweenCurrentAndPlannedTime > 120 && planeDateTime.isBefore(nextSixOClock)) {
-            return ExecutionPriority.MEDIUM
+            return Wish.Priority.MEDIUM
         }
 
         /*
          * Если ни одно из вышеперечисленных условий не выполнено, то выставляем низкий уровень
          * приоритета выполнения записки
          */
-        return ExecutionPriority.LOW
+        return Wish.Priority.LOW
     }
 }

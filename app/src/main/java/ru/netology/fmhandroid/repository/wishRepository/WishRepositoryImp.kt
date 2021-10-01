@@ -5,10 +5,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import ru.netology.fmhandroid.api.WishApi
 import ru.netology.fmhandroid.dao.WishDao
-import ru.netology.fmhandroid.dto.Wish
-import ru.netology.fmhandroid.dto.WishWithAllUsers
+import ru.netology.fmhandroid.domain.BusinessRules
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.entity.toEntity
+import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.makeRequest
+import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,6 +19,8 @@ class WishRepositoryImp @Inject constructor(
     private val wishDao: WishDao,
     private val wishApi: WishApi
 ) : WishRepository {
+
+    lateinit var dataComment: Flow<List<WishCommentWithCreator>>
 
     override val dataOpenInProgress: Flow<List<WishWithAllUsers>>
         get() = wishDao.getWishesOpenAndInProgressStatuses(
@@ -29,12 +33,18 @@ class WishRepositoryImp @Inject constructor(
             .flowOn(Dispatchers.Default)
 
     override suspend fun getAllWishes(): List<Wish> = makeRequest(
-            request = { wishApi.getAllWishes() },
-            onSuccess = { body ->
-                wishDao.insert(body.toEntity())
-                body
+        request = { wishApi.getAllWishes() },
+        onSuccess = { body ->
+            body.map {
+                it.priority = BusinessRules.determiningPriorityLevelOfWish(
+                    LocalDateTime.now(),
+                    Utils.fromLongToLocalDateTime(it.planExecuteDate!!)
+                )
             }
-        )
+            wishDao.insert(body.toEntity())
+            body
+        }
+    )
 
 
     override suspend fun saveWish(wish: Wish): Wish = makeRequest(

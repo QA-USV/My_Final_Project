@@ -13,14 +13,11 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentOpenWishBinding
-import ru.netology.fmhandroid.domain.BusinessRules
 import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.WishWithAllUsers
-import ru.netology.fmhandroid.enum.ExecutionPriority
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.WishViewModel
-import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
@@ -93,15 +90,18 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                     it
                 )
             }
+
             if (wishWithAllUsers != null) {
                 prioritization(wishWithAllUsers)
             }
+
             descriptionTextView.text = wishWithAllUsers?.wish?.description
             authorNameTextView.text = Utils.fullUserNameGenerator(
                 wishWithAllUsers?.creator?.lastName.toString(),
                 wishWithAllUsers?.creator?.firstName.toString(),
                 wishWithAllUsers?.creator?.middleName.toString()
             )
+
             createDataTextView.text = wishWithAllUsers?.wish?.createDate?.let {
                 Utils.showDateTimeInOne(
                     it
@@ -115,22 +115,17 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                     .actionOpenWishFragmentToCreateEditWishFragment(wishWithAllUsers)
                 findNavController().navigate(action)
             }
+
+            addCommentImageButton.setOnClickListener {
+
+            }
         }
-
-
         return binding.root
     }
 
     private fun FragmentOpenWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {
-        val executionPriority = wishWithAllUsers.wish.planExecuteDate.let {
-            BusinessRules.determiningPriorityLevelOfWish(
-                LocalDateTime.now(),
-                Utils.fromLongToLocalDateTime(it!!)
-            )
-        }
-
-        when (executionPriority) {
-            ExecutionPriority.HIGH ->
+        when (wishWithAllUsers.wish.priority) {
+            Wish.Priority.HIGH ->
                 statusIconImageView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -138,7 +133,7 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                     )
                 )
 
-            ExecutionPriority.MEDIUM ->
+            Wish.Priority.MEDIUM ->
                 statusIconImageView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -146,7 +141,7 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                     )
                 )
 
-            ExecutionPriority.LOW ->
+            Wish.Priority.LOW ->
                 statusIconImageView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -155,5 +150,4 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                 )
         }
     }
-
 }
