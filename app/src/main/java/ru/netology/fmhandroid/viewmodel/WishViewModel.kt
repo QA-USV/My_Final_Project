@@ -1,7 +1,6 @@
 package ru.netology.fmhandroid.viewmodel
 
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,10 +9,9 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.repository.wishRepository.WishRepository
-import ru.netology.fmhandroid.utils.SingleLiveEvent
+import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
 
-private var emptyWish = Wish()
 
 @HiltViewModel
 class WishViewModel @Inject constructor(
@@ -26,17 +24,20 @@ class WishViewModel @Inject constructor(
     val dataOpenInProgress: Flow<List<WishWithAllUsers>>
         get() = wishRepository.dataOpenInProgress
 
-    private val _wishCreatedEvent = SingleLiveEvent<Unit>()
-    val wishCreatedEvent: LiveData<Unit>
-        get() = _wishCreatedEvent
-
-    private val _loadWishExceptionEvent = SingleLiveEvent<Unit>()
-    val loadWishExceptionEvent: LiveData<Unit>
-        get() = _loadWishExceptionEvent
-
-    private val _saveWishExceptionEvent = SingleLiveEvent<Unit>()
-    val saveWishExceptionEvent: LiveData<Unit>
-        get() = _saveWishExceptionEvent
+    val wishCreatedEvent = Events()
+    val wishCommentCreatedEvent = Events()
+    val wishCommentsLoadedEvent = Events()
+    val wishCommentUpdatedEvent = Events()
+    val wishStatusChangedEvent = Events()
+    val wishUpdatedEvent = Events()
+    val wishCommentsLoadExceptionEvent = Events()
+    val wishCommentCreateExceptionEvent = Events()
+    val updateWishCommentExceptionEvent = Events()
+    val wishStatusChangeExceptionEvent = Events()
+    val loadWishExceptionEvent = Events()
+    val createWishExceptionEvent = Events()
+    val wishUpdateExceptionEvent = Events()
+    val wishLoadedEvent = Events()
 
     init {
         viewModelScope.launch {
@@ -50,28 +51,24 @@ class WishViewModel @Inject constructor(
                 wishRepository.getAllWishes()
             } catch (e: Exception) {
                 e.printStackTrace()
-                _loadWishExceptionEvent.call()
+                Events.produceEvents(loadWishExceptionEvent)
             }
         }
     }
 
-    fun save() {
-        emptyWish.let {
-            viewModelScope.launch {
-                try {
-                    wishRepository.saveWish(it)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    _saveWishExceptionEvent.call()
-                }
-                _wishCreatedEvent.call()
+    fun save(wish: Wish) {
+        viewModelScope.launch {
+            try {
+                wishRepository.saveWish(wish)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Events.produceEvents(createWishExceptionEvent)
             }
-            emptyWish = Wish()
         }
     }
 
     fun editWish(wish: Wish) {
-        emptyWish = wish
+        TODO("Дописать")
     }
 
     fun getWishById(id: Int) {
@@ -84,30 +81,7 @@ class WishViewModel @Inject constructor(
         }
     }
 
-//    fun saveWishCommentById() {
-//        emptyWish.let {
-//            viewModelScope.launch {
-//                try {
-//                    it.comment?.let { comment -> wishRepository.saveWishCommentById(it.id, comment) }
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//    }
-
     fun setWishStatusById() {
-        emptyWish.let {
-            viewModelScope.launch {
-                try {
-                    it.status?.let { wishStatus -> it.id?.let { it1 ->
-                        wishRepository.setWishStatusById(
-                            it1, wishStatus)
-                    } }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
+        TODO("Дописать")
     }
 }
