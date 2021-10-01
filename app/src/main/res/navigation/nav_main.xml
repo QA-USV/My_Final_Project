@@ -100,6 +100,9 @@
             app:argType="ru.netology.fmhandroid.dto.WishWithAllUsers"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_openWishFragment_to_createEditWishFragment"
+            app:destination="@id/createEditWishFragment" />
     </fragment>
 
     <fragment

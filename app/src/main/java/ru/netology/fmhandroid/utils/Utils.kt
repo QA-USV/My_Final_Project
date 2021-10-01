@@ -54,7 +54,7 @@ object Utils {
     }
 
     fun fromLongToLocalDateTime(value: Long): LocalDateTime {
-        val instant = Instant.ofEpochMilli(value)
+        val instant = Instant.ofEpochSecond(value)
         return instant.atZone(ZoneId.of("Europe/Moscow"))
             .toLocalDateTime()
     }

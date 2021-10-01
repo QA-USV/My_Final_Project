@@ -341,6 +341,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/button_visibility"
                     android:src="@drawable/ic_visibility"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/status_processing_image_button"
                     app:layout_constraintStart_toEndOf="@id/close_image_button"

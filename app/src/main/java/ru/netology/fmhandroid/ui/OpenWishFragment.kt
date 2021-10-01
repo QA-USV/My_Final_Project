@@ -8,6 +8,7 @@ import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
@@ -96,7 +97,24 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                 prioritization(wishWithAllUsers)
             }
             descriptionTextView.text = wishWithAllUsers?.wish?.description
+            authorNameTextView.text = Utils.fullUserNameGenerator(
+                wishWithAllUsers?.creator?.lastName.toString(),
+                wishWithAllUsers?.creator?.firstName.toString(),
+                wishWithAllUsers?.creator?.middleName.toString()
+            )
+            createDataTextView.text = wishWithAllUsers?.wish?.createDate?.let {
+                Utils.showDateTimeInOne(
+                    it
+                )
+            }
 
+            closeImageButton.setOnClickListener { findNavController().navigateUp() }
+
+            editProcessingImageButton.setOnClickListener {
+                val action = OpenWishFragmentDirections
+                    .actionOpenWishFragmentToCreateEditWishFragment(wishWithAllUsers)
+                findNavController().navigate(action)
+            }
         }
 
 
