@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.repository.wishRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.WishApi
 import ru.netology.fmhandroid.dao.WishDao
 import ru.netology.fmhandroid.domain.BusinessRules
@@ -20,7 +21,7 @@ class WishRepositoryImp @Inject constructor(
     private val wishApi: WishApi
 ) : WishRepository {
 
-    lateinit var dataComment: Flow<List<WishCommentWithCreator>>
+    override lateinit var dataComments: Flow<List<WishCommentWithCreator>>
 
     override val dataOpenInProgress: Flow<List<WishWithAllUsers>>
         get() = wishDao.getWishesOpenAndInProgressStatuses(
@@ -46,6 +47,14 @@ class WishRepositoryImp @Inject constructor(
         }
     )
 
+    override suspend fun getAllCommentsForWish(id: Int): List<WishComment> = makeRequest(
+        request = { wishApi.getAllWishComments(id) },
+        onSuccess = { body ->
+            wishDao.insertComment(body.toEntity())
+            dataComments = wishDao.getWishComments(id).flowOn(Dispatchers.Default)
+            body
+        }
+    )
 
     override suspend fun saveWish(wish: Wish): Wish = makeRequest(
         request = { wishApi.saveWish(wish) },
@@ -55,10 +64,45 @@ class WishRepositoryImp @Inject constructor(
         }
     )
 
+    override suspend fun saveWishComment(wishId: Int, comment: WishComment): WishComment =
+        makeRequest(
+            request = { wishApi.saveWishComment(wishId, comment) },
+            onSuccess = { body ->
+                wishDao.insertComment(body.toEntity())
+                dataComments.map { list ->
+                    list.map {
+                        if (it.wishComment.id != comment.id) {
+                            it
+                        } else {
+                            it.wishComment.copy(description = comment.description)
+                        }
+                    }
+                }
+                body
+            }
+        )
+
     override suspend fun editWish(wish: Wish) = makeRequest(
         request = { wishApi.editWish(wish) },
         onSuccess = { body ->
             wishDao.insert(body.toEntity())
+            body
+        }
+    )
+
+    override suspend fun changeWishComment(comment: WishComment): WishComment = makeRequest(
+        request = { wishApi.updateWishComment(comment) },
+        onSuccess = { body ->
+            wishDao.insertComment(body.toEntity())
+            dataComments.map { list ->
+                list.map {
+                    if (it.wishComment.id == comment.id) {
+                        it.wishComment.copy(description = comment.description)
+                    } else {
+                        it
+                    }
+                }
+            }
             body
         }
     )

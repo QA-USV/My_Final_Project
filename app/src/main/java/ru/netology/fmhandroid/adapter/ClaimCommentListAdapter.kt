@@ -10,12 +10,12 @@ import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.utils.Utils
 
 
-interface OnCommentItemClickListener {
+interface OnClaimCommentItemClickListener {
     fun onCard(claimComment: ClaimCommentWithCreator) {}
 }
 
 class ClaimCommentListAdapter(
-    private val onCommentItemClickListener: OnCommentItemClickListener
+    private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener
 ) :
     ListAdapter<ClaimCommentWithCreator, ClaimCommentListAdapter.ClaimCommentViewHolder>(
         ClaimCommentDiffCallback()
@@ -27,7 +27,7 @@ class ClaimCommentListAdapter(
             parent,
             false
         )
-        return ClaimCommentViewHolder(binding, onCommentItemClickListener)
+        return ClaimCommentViewHolder(binding, onClaimCommentItemClickListener)
     }
 
     override fun onBindViewHolder(holder: ClaimCommentViewHolder, position: Int) {
@@ -38,7 +38,7 @@ class ClaimCommentListAdapter(
 
     class ClaimCommentViewHolder(
         private val binding: ItemCommentBinding,
-        private val onCommentItemClickListener: OnCommentItemClickListener
+        private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(claimComment: ClaimCommentWithCreator) {
@@ -59,7 +59,7 @@ class ClaimCommentListAdapter(
                     claimComment.claimComment.createDate?.let { Utils.showDateTimeInOne(it) }
 
                 editLightImageButton.setOnClickListener {
-                    onCommentItemClickListener.onCard(claimComment)
+                    onClaimCommentItemClickListener.onCard(claimComment)
                 }
             }
         }

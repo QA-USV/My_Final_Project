@@ -13,13 +13,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.OnWishItemClickListener
 import ru.netology.fmhandroid.adapter.WishListAdapter
 import ru.netology.fmhandroid.databinding.FragmentListWishBinding
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.WishWithAllUsers
+import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.viewmodel.WishViewModel
 
 @AndroidEntryPoint
@@ -53,10 +56,16 @@ class WishListFragment : Fragment() {
             }
 
             override fun onCard(wishWithAllUsers: WishWithAllUsers) {
-                val action = WishListFragmentDirections.actionFragmentListWishesToOpenWishFragment(
-                    wishWithAllUsers
-                )
-                findNavController().navigate(action)
+                wishWithAllUsers.wish.id?.let { viewModel.getAllWishComments(it) }
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    Events.events.collect {
+                        viewModel.wishCommentsLoadedEvent
+                        val action = WishListFragmentDirections
+                            .actionFragmentListWishesToOpenWishFragment(wishWithAllUsers)
+                        findNavController().navigate(action)
+                    }
+                }
             }
         })
 

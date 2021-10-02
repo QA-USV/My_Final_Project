@@ -11,16 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
-import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.utils.Utils
-import ru.netology.fmhandroid.viewmodel.ClaimViewModel
+import ru.netology.fmhandroid.dto.WishComment
+import ru.netology.fmhandroid.dto.WishCommentWithCreator
+import ru.netology.fmhandroid.viewmodel.WishViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-class CreateEditCommentFragment : Fragment() {
-    private val viewModel: ClaimViewModel by viewModels(
+class CreateEditWishCommentFragment : Fragment() {
+    private val viewModel: WishViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -28,11 +27,11 @@ class CreateEditCommentFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        val args: CreateEditCommentFragmentArgs by navArgs()
-        val comment: ClaimCommentWithCreator? = args.argComment
-        val claimId: Int = args.argClaimId
+        val args: CreateEditWishCommentFragmentArgs by navArgs()
+        val comment: WishCommentWithCreator? = args.argComment
+        val claimId: Int = args.argWishId
 
         val binding = FragmentCreateEditCommentBinding.inflate(
             inflater,
@@ -41,13 +40,13 @@ class CreateEditCommentFragment : Fragment() {
         )
 
         if (comment != null) {
-            binding.commentTextInputLayout.editText?.setText(comment.claimComment.description)
+            binding.commentTextInputLayout.editText?.setText(comment.wishComment.description)
 
             binding.saveButton.setOnClickListener {
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
                 if (newCommentDescription.isNotBlank()) {
-                    viewModel.updateClaimComment(
-                        comment.claimComment.copy(
+                    viewModel.updateWishComment(
+                        comment.wishComment.copy(
                             description = binding.commentTextInputLayout.editText?.text.toString()
                         )
                     )
@@ -71,8 +70,8 @@ class CreateEditCommentFragment : Fragment() {
 
                 if (newCommentDescription.isNotBlank()) {
                     viewModel.createClaimComment(
-                        ClaimComment(
-                            claimId = claimId,
+                        WishComment(
+                            wishId = claimId,
                             description = newCommentDescription,
                             creatorId = 1,
                             createDate = LocalDateTime.now().toEpochSecond(

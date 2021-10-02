@@ -11,6 +11,7 @@ import ru.netology.fmhandroid.entity.*
         UserEntity::class,
         PatientEntity::class,
         WishEntity::class,
+        WishCommentEntity::class,
         AdmissionEntity::class,
         ClaimEntity::class,
         ClaimCommentEntity::class,

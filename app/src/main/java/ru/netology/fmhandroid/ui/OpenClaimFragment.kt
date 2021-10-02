@@ -13,12 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
-import ru.netology.fmhandroid.adapter.OnCommentItemClickListener
+import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.utils.Events
@@ -65,7 +63,7 @@ class OpenClaimFragment : Fragment() {
             deleted = false
         )
 
-        val adapter = ClaimCommentListAdapter(object : OnCommentItemClickListener {
+        val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
                 val action = OpenClaimFragmentDirections
                     .actionOpenClaimFragmentToCreateEditClaimCommentFragment(

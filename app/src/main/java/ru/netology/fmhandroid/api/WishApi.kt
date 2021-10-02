@@ -3,12 +3,17 @@ package ru.netology.fmhandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
+import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.Wish
 import ru.netology.fmhandroid.dto.Wish.Status
+import ru.netology.fmhandroid.dto.WishComment
 
 interface WishApi {
     @GET("wishes")
     suspend fun getAllWishes(): Response<List<Wish>>
+
+    @GET("wishes/{id}/comments")
+    suspend fun getAllWishComments(@Path("id") id: Int): Response<List<WishComment>>
 
     @POST("wishes")
     suspend fun saveWish(@Body wish: Wish): Response<Wish>
@@ -32,4 +37,13 @@ interface WishApi {
         @Path("wishId") wishId: Int,
         @Query("status") status: Status
     ): Response<Wish>
+
+    @POST("wishes/{id}/comments")
+    suspend fun saveWishComment(
+        @Path("id") id: Int,
+        @Body wishComment: WishComment
+    ): Response<WishComment>
+
+    @PUT("wishes/comments")
+    suspend fun updateWishComment(@Body wishComment: WishComment): Response<WishComment>
 }

@@ -8,14 +8,20 @@ import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
+import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
+import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
+import ru.netology.fmhandroid.adapter.OnWishCommentItemClickListener
+import ru.netology.fmhandroid.adapter.WishCommentListAdapter
 import ru.netology.fmhandroid.databinding.FragmentOpenWishBinding
-import ru.netology.fmhandroid.dto.User
-import ru.netology.fmhandroid.dto.Wish
-import ru.netology.fmhandroid.dto.WishWithAllUsers
+import ru.netology.fmhandroid.dto.*
+import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.WishViewModel
 
@@ -45,6 +51,17 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
 
         val args: OpenWishFragmentArgs by navArgs()
         val wishWithAllUsers = args.wishArgs
+
+        val adapter = WishCommentListAdapter(object : OnWishCommentItemClickListener {
+            override fun onCard(wishComment: WishCommentWithCreator) {
+                val action = OpenWishFragmentDirections
+                    .actionOpenWishFragmentToCreateEditWishCommentFragment(
+                        wishComment,
+                        wishWithAllUsers?.wish?.id!!
+                    )
+                findNavController().navigate(action)
+            }
+        })
 
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
         statusProcessingMenu.inflate(R.menu.menu_wish_claim_status_processing)
@@ -117,9 +134,32 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
             }
 
             addCommentImageButton.setOnClickListener {
-
+                val action = OpenWishFragmentDirections
+                    .actionOpenWishFragmentToCreateEditWishCommentFragment(
+                        argComment = null,
+                        argWishId = wishWithAllUsers?.wish?.id!!
+                    )
+                findNavController().navigate(action)
             }
         }
+
+        binding.wishCommentsListRecyclerView.adapter = adapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            Events.events.collect {
+                viewModel.wishCommentUpdatedEvent
+                viewModel.commentsData.collect {
+                    adapter.submitList(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.commentsData.collect {
+                adapter.submitList(it)
+            }
+        }
+
         return binding.root
     }
 
