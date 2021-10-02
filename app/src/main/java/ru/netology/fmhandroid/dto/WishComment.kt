@@ -5,7 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
 import ru.netology.fmhandroid.entity.UserEntity
-import java.time.LocalDateTime
 
 @Parcelize
 data class WishComment(

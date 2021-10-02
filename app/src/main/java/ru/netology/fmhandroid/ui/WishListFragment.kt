@@ -56,7 +56,7 @@ class WishListFragment : Fragment() {
             }
 
             override fun onCard(wishWithAllUsers: WishWithAllUsers) {
-                wishWithAllUsers.wish.id?.let { viewModel.getAllWishComments(it) }
+                wishWithAllUsers.wish.id.let { viewModel.getAllWishComments(it!!) }
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     Events.events.collect {

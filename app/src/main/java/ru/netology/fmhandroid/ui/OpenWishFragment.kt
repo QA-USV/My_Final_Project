@@ -162,11 +162,23 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.commentsData.collect {
-                adapter.submitList(it)
-            }
-        }
+        adapter.submitList(wishWithAllUsers?.comments)
+
+
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            Events.events.collect {
+//                viewModel.wishCommentUpdatedEvent
+//                viewModel.commentsData.collect {
+//                    adapter.submitList(it)
+//                }
+//            }
+//        }
+//
+//        lifecycleScope.launch {
+//            viewModel.commentsData.collect {
+//                adapter.submitList(it)
+//            }
+//        }
     }
 
     private fun FragmentOpenWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {

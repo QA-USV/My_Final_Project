@@ -6,6 +6,7 @@ import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
 import ru.netology.fmhandroid.entity.PatientEntity
 import ru.netology.fmhandroid.entity.UserEntity
+import ru.netology.fmhandroid.entity.WishCommentEntity
 
 @Parcelize
 data class Wish(
@@ -58,6 +59,13 @@ data class WishWithAllUsers(
         parentColumn = "patientId",
         entityColumn = "id"
     )
-    val patient: Patient
+    val patient: Patient,
+
+    @Relation(
+        entity = WishCommentEntity::class,
+        parentColumn = "id",
+        entityColumn = "wishId"
+    )
+    val comments: List<WishCommentWithCreator>
 
 ) : Parcelable
