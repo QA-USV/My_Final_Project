@@ -21,8 +21,6 @@ class WishRepositoryImp @Inject constructor(
     private val wishApi: WishApi
 ) : WishRepository {
 
-    override lateinit var dataComments: Flow<List<WishCommentWithCreator>>
-
     override val dataOpenInProgress: Flow<List<WishWithAllUsers>>
         get() = wishDao.getWishesOpenAndInProgressStatuses(
             Wish.Status.OPEN,
@@ -32,6 +30,8 @@ class WishRepositoryImp @Inject constructor(
     override val data: Flow<List<WishWithAllUsers>>
         get() = wishDao.getAllWishes()
             .flowOn(Dispatchers.Default)
+
+    override lateinit var dataComments: Flow<List<WishCommentWithCreator>>
 
     override suspend fun getAllWishes(): List<Wish> = makeRequest(
         request = { wishApi.getAllWishes() },

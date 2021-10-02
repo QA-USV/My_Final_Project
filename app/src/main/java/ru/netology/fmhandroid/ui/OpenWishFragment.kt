@@ -15,12 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
-import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
-import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.adapter.OnWishCommentItemClickListener
 import ru.netology.fmhandroid.adapter.WishCommentListAdapter
 import ru.netology.fmhandroid.databinding.FragmentOpenWishBinding
-import ru.netology.fmhandroid.dto.*
+import ru.netology.fmhandroid.dto.User
+import ru.netology.fmhandroid.dto.Wish
+import ru.netology.fmhandroid.dto.WishCommentWithCreator
+import ru.netology.fmhandroid.dto.WishWithAllUsers
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.WishViewModel
@@ -29,13 +30,23 @@ import ru.netology.fmhandroid.viewmodel.WishViewModel
 class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
     val viewModel: WishViewModel by viewModels()
 
+    lateinit var binding: FragmentOpenWishBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentOpenWishBinding.inflate(inflater, container, false)
+        return inflater.inflate(R.layout.fragment_open_wish, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val args: OpenWishFragmentArgs by navArgs()
+        val wishWithAllUsers = args.wishArgs
+
+        val binding = FragmentOpenWishBinding.bind(view)
         // Временная переменная. После авторизации заменить на залогиненного юзера
         val user = User(
             id = 1,
@@ -48,9 +59,6 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
             email = "Vinokurov@mail.ru",
             deleted = false
         )
-
-        val args: OpenWishFragmentArgs by navArgs()
-        val wishWithAllUsers = args.wishArgs
 
         val adapter = WishCommentListAdapter(object : OnWishCommentItemClickListener {
             override fun onCard(wishComment: WishCommentWithCreator) {
@@ -159,8 +167,6 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
                 adapter.submitList(it)
             }
         }
-
-        return binding.root
     }
 
     private fun FragmentOpenWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {
