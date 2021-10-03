@@ -5,14 +5,19 @@
     <string name="patients">Пациенты</string>
     <string name="patients_list">Список пациентов</string>
     <string name="claims">Заявки</string>
-    <string name="patient_first__middle_last_name">ФИО</string>
+    <string name="patient_first_middle_last_name">ФИО</string>
     <string name="location">В хосписе</string>
     <string name="patient_location">Да</string>
     <string name="status">Статус</string>
     <string name="patient_name">И.И. Иванов</string>
+    <string name="patient_last_name">Иванов</string>
+    <string name="patient_first_name">Иван</string>
+    <string name="patient_middle_name">Иванович</string>
     <string name="full_name_format">%s %s %s</string>
     <string name="patient_date_of_receipt">Дата поступления</string>
     <string name="patient_date_of_discharge">Дата выписки</string>
+    <string name="patient_card_title">Данные о пациенте Иванове И.И.</string>
+    <string name="admission_comment">Комментарий</string>
     <string name="more">Еще</string>
     <string name="all_patients">Все пациенты</string>
     <string name="new_patient">Новый пациент</string>
@@ -32,7 +37,9 @@
     <string name="admissions">Госпитализации</string>
     <string name="date">Дата</string>
     <string name="date_in">Дата поступления</string>
+    <string name="full_admission_date_in">Дата \n поступления</string>
     <string name="date_out">Дата выписки</string>
+    <string name="full_admission_date_out">Дата \nвыписки</string>
     <string name="add">Добавить</string>
     <string name="wish_status">Статус просьбы</string>
     <string name="wish">Просьба</string>
@@ -58,6 +65,7 @@
     <string name="wish_patient_label">Пациент</string>
     <string name="wish_executor_label">Исполнитель</string>
     <string name="plan_date">Плановая дата</string>
+    <string name="full_admission_plan_date">плановая</string>
     <string name="fact_date">Фактическая дата</string>
     <string name="outwork">Не взята в работу</string>
     <string name="in_hospice">В хосписе</string>
@@ -168,4 +176,6 @@
     <string name="rooms">Палаты</string>
     <string name="documents">Документы</string>
     <string name="duty_roster">Графики дежурств</string>
+    <string name="all_admissions">ВСЕ ГОСПИТАЛИЗАЦИИ</string>
+    <string name="full_admission_fact_date">фактическая</string>
 </resources>

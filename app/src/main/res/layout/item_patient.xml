@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/news_item_material_card_view"
+        android:id="@+id/patient_material_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,7 +28,7 @@
                 android:layout_height="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/news_item_publication_text_view"
+                app:layout_constraintBottom_toTopOf="@id/patient_birth_date_text_view"
                 android:layout_marginBottom="8dp"
                 android:background="@color/claim_header_background"/>
 
@@ -40,7 +40,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/patient_first__middle_last_name"
+                android:text="@string/patient_first_middle_last_name"
                 android:textSize="13sp"
                 android:maxLines="2"
                 android:ellipsize="end"/>
@@ -58,7 +58,7 @@
                 android:ellipsize="end"/>
 
             <View
-                android:id="@+id/second_separator_view"
+                android:id="@+id/first_separator_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
@@ -85,7 +85,7 @@
                 android:ellipsize="end"/>
 
             <View
-                android:id="@+id/third_separator"
+                android:id="@+id/second_separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
@@ -112,7 +112,7 @@
                 android:ellipsize="end"/>
 
             <TextView
-                android:id="@+id/patient_name_text_view"
+                android:id="@+id/name_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,340 +1,652 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
 
-    <LinearLayout
+<com.google.android.material.appbar.AppBarLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent" />
+
+<com.google.android.material.appbar.MaterialToolbar
+android:id="@+id/top_app_bar_material_toolbar"
+style="@style/Widget.MaterialComponents.Toolbar.Primary"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"
+app:menu="@menu/wish_list_tool_bar"
+app:navigationIcon="@drawable/ic_menu_24"
+app:title="@string/app_name" />
+
+<androidx.constraintlayout.widget.ConstraintLayout
+android:id="@+id/patient"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="16dp">
+
+<ImageView
+    android:id="@+id/title_background_image_view"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:layout_marginTop="55dp"
+    android:background="@color/light_grey"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/news_fragment_title_text_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:ellipsize="end"
+    android:text="@string/patient_card_title"
+    android:textSize="20sp"
+    app:layout_constraintBottom_toBottomOf="@id/title_background_image_view"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/title_background_image_view" />
+
+<ImageView
+    android:id="@+id/edit_patient_image_view"
+    style="@style/materialButtonTheme"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    android:src="@raw/icon_edit"
+    app:layout_constraintBottom_toBottomOf="@id/title_background_image_view"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@id/title_background_image_view" />
+
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/patient_material_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:outlineSpotShadowColor="@color/execution_priority_low"
+    app:cardElevation="10dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/title_background_image_view">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="40dp">
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/light_grey"
+            app:layout_constraintBottom_toTopOf="@id/name_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/last_name_text_view"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="@string/patient_profile"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/last_name"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- patient card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/patient_data_card_material_card_view"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="@color/light_grey"
-            app:cardCornerRadius="6dp">
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/first_name"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/last_name_text_view" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/patient_data_card_container_constraint_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/patient_data_card_title_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:backgroundTint="@color/grey"
-                    android:text="@string/patient_data"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/patient_data_card_barrier"
-                    app:layout_constraintStart_toStartOf="@+id/patient_data_card_container_constraint_layout"
-                    app:layout_constraintTop_toTopOf="@+id/patient_data_card_container_constraint_layout" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/patient_data_card_edit_material_button"
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/editing"
-                    android:minWidth="14dp"
-                    android:minHeight="14dp"
-                    app:icon="@drawable/ic_edit_14"
-                    app:iconTint="@color/blue"
-                    app:layout_constraintBottom_toBottomOf="@+id/patient_data_card_barrier"
-                    app:layout_constraintEnd_toEndOf="@+id/patient_data_card_container_constraint_layout"
-                    app:layout_constraintTop_toTopOf="@+id/patient_data_card_container_constraint_layout" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/patient_data_card_barrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="patient_data_card_title_text_view, patient_data_card_edit_material_button" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="6dp"
-                    app:cardElevation="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/patient_data_card_container_constraint_layout"
-                    app:layout_constraintStart_toStartOf="@+id/patient_data_card_container_constraint_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/patient_data_card_barrier">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:id="@+id/patient_data_card_name_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:ellipsize="end"
-                            android:singleLine="true"
-                            android:textColor="@color/blue"
-                            android:textSize="20sp"
-                            tools:text="Иванов Иван Иванович" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/patient_data"
-                                android:textColor="#8A000000"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/patient_data_card_birth_date_text_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:textColor="@color/black"
-                                android:textSize="15sp"
-                                tools:text="19.03.1968" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/room"
-                                android:textColor="@color/grey"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/patient_data_card_room_text_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:textColor="@color/black"
-                                android:textSize="15sp"
-                                tools:text="1/14" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-<!--        &lt;!&ndash; admissions card &ndash;&gt;-->
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:id="@+id/admissions_card_material_card_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="24dp"-->
-<!--            app:cardBackgroundColor="@color/light_grey"-->
-<!--            app:cardCornerRadius="6dp">-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:id="@+id/admissions_card_container_constraint_layout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/admissions_card_title_text_view"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_margin="16dp"-->
-<!--                    android:backgroundTint="@color/grey"-->
-<!--                    android:text="@string/admissions"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="20sp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/admissions_card_barrier"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/admissions_card_container_constraint_layout"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/admissions_card_container_constraint_layout" />-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/admissions_card_edit_material_button"-->
-<!--                    style="?attr/borderlessButtonStyle"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:contentDescription="@string/add"-->
-<!--                    android:minWidth="14dp"-->
-<!--                    android:minHeight="14dp"-->
-<!--                    app:icon="@drawable/ic_add_14"-->
-<!--                    app:iconTint="@color/blue"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/admissions_card_barrier"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/admissions_card_container_constraint_layout"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/admissions_card_container_constraint_layout" />-->
-
-<!--                <androidx.constraintlayout.widget.Barrier-->
-<!--                    android:id="@+id/admissions_card_barrier"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:barrierDirection="bottom"-->
-<!--                    app:constraint_referenced_ids="admissions_card_title_text_view, admissions_card_edit_material_button" />-->
-
-<!--                <com.google.android.material.card.MaterialCardView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:cardCornerRadius="6dp"-->
-<!--                    app:cardElevation="10dp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/admissions_card_container_constraint_layout"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/admissions_card_container_constraint_layout"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/admissions_card_barrier">-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:padding="16dp">-->
-
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginBottom="16dp"-->
-<!--                            android:orientation="horizontal">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="@string/date_in"-->
-<!--                                android:textColor="#8A000000"-->
-<!--                                android:textSize="15sp" />-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginStart="40dp"-->
-<!--                                android:text="@string/date_out"-->
-<!--                                android:textColor="@color/grey"-->
-<!--                                android:textSize="15sp" />-->
-<!--                        </LinearLayout>-->
-
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="1dp"-->
-<!--                            android:background="#14000000" />-->
-
-<!--                        <androidx.recyclerview.widget.RecyclerView-->
-<!--                            android:id="@+id/admissions_list_recycler_view"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            tools:itemCount="3"-->
-<!--                            tools:listitem="@layout/admission_item" />-->
-
-<!--                    </LinearLayout>-->
-<!--                </com.google.android.material.card.MaterialCardView>-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--        </com.google.android.material.card.MaterialCardView>-->
-
-        <!-- wishes card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/notes_material_card_view"
+        <View
+            android:id="@+id/patient_first_separator_view"
             android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view" />
+
+        <TextView
+            android:id="@+id/middle_name_text_view"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_grey"
-            app:cardCornerRadius="6dp">
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/middle_name"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/notes_card_container_constraint_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <View
+            android:id="@+id/patient_second_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/middle_name_text_view" />
 
-                <TextView
-                    android:id="@+id/notes_card_title_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:backgroundTint="@color/grey"
-                    android:text="@string/wishes"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/notes_card_barrier"
-                    app:layout_constraintStart_toStartOf="@+id/notes_card_container_constraint_layout"
-                    app:layout_constraintTop_toTopOf="@+id/notes_card_container_constraint_layout" />
+        <TextView
+            android:id="@+id/birth_date_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/birth_date"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/middle_name_text_view" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/notes_card_edit_material_button"
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/add"
-                    android:minWidth="14dp"
-                    android:minHeight="14dp"
-                    app:icon="@drawable/ic_add_14"
-                    app:iconTint="@color/blue"
-                    app:layout_constraintBottom_toBottomOf="@+id/notes_card_barrier"
-                    app:layout_constraintEnd_toEndOf="@+id/notes_card_container_constraint_layout"
-                    app:layout_constraintTop_toTopOf="@+id/notes_card_container_constraint_layout" />
+        <TextView
+            android:id="@+id/patient_last_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/last_name_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/patient_name" />
 
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/notes_card_barrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="notes_card_title_text_view, notes_card_edit_material_button" />
+        <TextView
+            android:id="@+id/patient_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/name_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/patient_first_name" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="6dp"
-                    app:cardElevation="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/notes_card_container_constraint_layout"
-                    app:layout_constraintStart_toStartOf="@+id/notes_card_container_constraint_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/notes_card_barrier">
+        <TextView
+            android:id="@+id/patient_middle_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/middle_name_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/patient_middle_name" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+        <TextView
+            android:id="@+id/date_out_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/birth_date_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/news_item_date_format" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginBottom="16dp"
-                            android:text="@string/wish"
-                            android:textColor="#8A000000"
-                            android:textSize="15sp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#14000000" />
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/admission_material_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:outlineSpotShadowColor="@color/execution_priority_low"
+    app:cardElevation="10dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/patient_material_card_view">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/wish_list_recycler_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:itemCount="3"
-                            tools:listitem="@layout/item_claim" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
 
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-</ScrollView>
+        <ImageView
+            android:id="@+id/admission_title_background_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/light_grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/add_news_image_view"
+            style="@style/materialButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@raw/icon_add"
+            app:layout_constraintBottom_toBottomOf="@id/admission_title_background_image_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/admission_title_background_image_view" />
+
+        <TextView
+            android:id="@+id/all_admissions_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/all_admissions"
+            android:textColor="@color/execution_priority_low"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/admission_title_background_image_view">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/delete_first_admission_item_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/icon_delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/all_admissions_text_view" />
+
+        <View
+            android:id="@+id/first_admission_first_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/delete_first_admission_item_image_view" />
+
+        <ImageView
+            android:id="@+id/edit_first_admission_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/icon_edit"
+            app:layout_constraintEnd_toStartOf="@id/view_first_admission_image_view"
+            app:layout_constraintStart_toEndOf="@id/delete_first_admission_item_image_view"
+            app:layout_constraintTop_toBottomOf="@id/all_admissions_text_view" />
+
+        <ImageView
+            android:id="@+id/view_first_admission_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:checkable="true"
+            android:padding="0dp"
+            android:src="@drawable/expand_more_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/all_admissions_text_view" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/short_date_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="first_admission_fact_date_in_text_view, first_admission_fact_date_out_text_view, first_fact_date_in_text_view, first_fact_date_out_text_view, first_admission_second_separator_view, first_admission_third_separator_view" />
+
+        <TextView
+            android:id="@+id/first_admission_fact_date_in_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:text="@string/date_in"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/first_admission_first_separator_view"
+            app:layout_constraintBottom_toTopOf="@+id/first_admission_fact_date_out_text_view"/>
+
+        <View
+            android:id="@+id/first_admission_second_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintBottom_toTopOf="@+id/first_admission_fact_date_out_text_view"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/first_admission_fact_date_out_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:text="@string/date_out"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/first_admission_fact_date_in_text_view"
+            app:layout_constraintBottom_toTopOf="@id/first_room_text_view"/>
+
+        <TextView
+            android:id="@+id/first_fact_date_in_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/first_admission_fact_date_in_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/news_item_date_format" />
+
+        <TextView
+            android:id="@+id/first_fact_date_out_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/first_admission_fact_date_out_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/news_item_date_format" />
+
+        <View
+            android:id="@+id/first_admission_third_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/first_room_text_view" />
+
+        <TextView
+            android:id="@+id/first_admission_room_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:text="@string/room"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/first_admission_comment_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/first_admission_fourth_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/first_comment_text_view" />
+
+        <TextView
+            android:id="@+id/first_admission_comment_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:text="@string/admission_comment"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/first_room_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/first_admission_room_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/room_N" />
+
+        <TextView
+            android:id="@+id/first_comment_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/first_admission_comment_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/admission_comment" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/full_date_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="first_admission_full_date_in_text_view, first_admission_full_date_out_text_view, first_full_fact_date_in_text_view, first_full_fact_date_out_text_view, first_admission_full_second_separator_view, first_full_admission_third_separator_view, first_full_fact_date_out_text_view, first_full_plan_date_out_text_view, full_admission_fact_date_out_text_view, first_full_plan_date_in_text_view, plan_fact_date_out_separator_view, full_admission_fact_date_in_text_view, plan_fact_date_separator_view, full_admission_plane_date_out_text_view " />
+
+        <TextView
+            android:id="@+id/first_admission_full_date_in_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/full_admission_date_in"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_admission_first_separator_view" />
+
+        <TextView
+            android:id="@+id/full_admission_plane_date_in_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/full_admission_plan_date"
+            app:layout_constraintBottom_toTopOf="@+id/plan_fact_date_separator_view"
+            app:layout_constraintStart_toEndOf="@+id/first_admission_full_date_in_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/first_admission_first_separator_view" />
+
+        <View
+            android:id="@+id/plan_fact_date_separator_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintBottom_toTopOf="@+id/first_admission_full_second_separator_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/first_admission_full_date_in_text_view"
+            app:layout_constraintTop_toBottomOf="@id/first_admission_first_separator_view" />
+
+        <TextView
+            android:id="@+id/full_admission_fact_date_in_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/full_admission_fact_date"
+            app:layout_constraintBottom_toTopOf="@+id/first_admission_full_second_separator_view"
+            app:layout_constraintStart_toEndOf="@+id/first_admission_full_date_in_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/plan_fact_date_separator_view" />
+
+        <TextView
+            android:id="@+id/first_full_plan_date_in_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/full_admission_plane_date_in_text_view"
+            tools:text="@string/news_item_date_format" />
+
+        <TextView
+            android:id="@+id/first_full_fact_date_in_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/full_admission_fact_date_in_text_view"
+            tools:text="@string/news_item_date_format" />
+
+        <View
+            android:id="@+id/first_admission_full_second_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_admission_full_date_in_text_view" />
+
+        <TextView
+            android:id="@+id/first_admission_full_date_out_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:text="@string/full_admission_date_out"
+            android:gravity="center"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_admission_full_second_separator_view"
+            app:layout_constraintBottom_toTopOf="@id/first_room_text_view"/>
+
+        <TextView
+            android:id="@+id/full_admission_plane_date_out_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/full_admission_plan_date"
+            app:layout_constraintStart_toEndOf="@+id/first_admission_full_date_in_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/first_admission_full_second_separator_view"
+            app:layout_constraintBottom_toTopOf="@+id/plan_fact_date_out_separator_view"/>
+
+        <View
+            android:id="@+id/plan_fact_date_out_separator_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/first_admission_full_date_in_text_view"
+            app:layout_constraintTop_toBottomOf="@id/first_admission_full_second_separator_view"
+            app:layout_constraintBottom_toTopOf="@+id/first_full_admission_third_separator_view"/>
+
+        <TextView
+            android:id="@+id/full_admission_fact_date_out_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/full_admission_fact_date"
+            app:layout_constraintStart_toEndOf="@+id/first_admission_full_date_in_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/plan_fact_date_out_separator_view"
+            app:layout_constraintBottom_toTopOf="@+id/first_full_admission_third_separator_view"/>
+
+        <TextView
+            android:id="@+id/first_full_plan_date_out_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="13sp"
+            app:layout_constraintTop_toTopOf="@id/full_admission_plane_date_out_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/news_item_date_format" />
+
+        <TextView
+            android:id="@+id/first_full_fact_date_out_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            app:layout_constraintTop_toTopOf="@id/full_admission_fact_date_out_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/news_item_date_format" />
+
+        <View
+            android:id="@+id/first_full_admission_third_separator_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/separator"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_admission_full_date_out_text_view"
+            app:layout_constraintBottom_toTopOf="@id/first_room_text_view"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

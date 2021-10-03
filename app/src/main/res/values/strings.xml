@@ -4,13 +4,18 @@
     <string name="patients">Patients</string>
     <string name="patients_list">Patients list</string>
     <string name="claims">Claims</string>
-    <string name="patient_first__middle_last_name">Name</string>
+    <string name="patient_first_middle_last_name">Name</string>
     <string name="location">Location</string>
     <string name="patient_location">Yes</string>
     <string name="status">Status</string>
     <string name="patient_name">I.I. Ivanov</string>
+    <string name="patient_last_name">Ivanov</string>
+    <string name="patient_first_name">Ivan</string>
+    <string name="patient_middle_name">Ivanovich</string>
     <string name="patient_date_of_receipt">Date of receipt</string>
     <string name="patient_date_of_discharge">Date of discharge</string>
+    <string name="patient_card_title">Information about patient Ivanov I.I.</string>
+    <string name="admission_comment">Comment</string>
     <string name="more">More</string>
     <string name="all_patients">All patients</string>
     <string name="new_patient">New patient</string>
@@ -30,7 +35,9 @@
     <string name="admissions">Admissions</string>
     <string name="date">Date</string>
     <string name="date_in">Date of receipt</string>
+    <string name="full_admission_date_in">Date \nof receipt</string>
     <string name="date_out">Date of discharge</string>
+    <string name="full_admission_date_out">Date \nof discharge</string>
     <string name="add">Add</string>
     <string name="wish_status">Wish status</string>
     <string name="wish">Wish</string>
@@ -56,6 +63,7 @@
     <string name="wish_patient_label">Patient</string>
     <string name="wish_executor_label">Executor</string>
     <string name="plan_date">Plan date</string>
+    <string name="full_admission_plan_date">plan date</string>
     <string name="fact_date">Fact date</string>
     <string name="outwork">Outwork</string>
     <string name="in_hospice">In hospice</string>
@@ -170,4 +178,7 @@
     <string name="rooms">Rooms</string>
     <string name="documents">Documents</string>
     <string name="duty_roster">Duty roster</string>
+    <string name="all_admissions">ALL ADMISSIONS</string>
+    <string name="room_N" translatable="false">№ %s</string>
+    <string name="full_admission_fact_date">fact date</string>
 </resources>
