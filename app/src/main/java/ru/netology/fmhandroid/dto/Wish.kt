@@ -59,5 +59,5 @@ data class WishWithAllUsers(
         parentColumn = "patientId",
         entityColumn = "id"
     )
-    val patient: Patient,
+    val patient: Patient
 ) : Parcelable
