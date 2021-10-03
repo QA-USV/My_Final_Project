@@ -28,7 +28,9 @@ import ru.netology.fmhandroid.viewmodel.WishViewModel
 
 @AndroidEntryPoint
 class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
-    val viewModel: WishViewModel by viewModels()
+    val viewModel: WishViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
     lateinit var binding: FragmentOpenWishBinding
 
@@ -153,32 +155,20 @@ class OpenWishFragment : Fragment(R.layout.fragment_open_wish) {
 
         binding.wishCommentsListRecyclerView.adapter = adapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             Events.events.collect {
                 viewModel.wishCommentUpdatedEvent
-                viewModel.commentsData.collect {
+                viewModel.wishCommentsData.collect {
                     adapter.submitList(it)
                 }
             }
         }
 
-        adapter.submitList(wishWithAllUsers?.comments)
-
-
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            Events.events.collect {
-//                viewModel.wishCommentUpdatedEvent
-//                viewModel.commentsData.collect {
-//                    adapter.submitList(it)
-//                }
-//            }
-//        }
-//
-//        lifecycleScope.launch {
-//            viewModel.commentsData.collect {
-//                adapter.submitList(it)
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModel.wishCommentsData.collect {
+                adapter.submitList(it)
+            }
+        }
     }
 
     private fun FragmentOpenWishBinding.prioritization(wishWithAllUsers: WishWithAllUsers) {

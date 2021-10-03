@@ -76,7 +76,7 @@ class ClaimListFragment : Fragment() {
         }
 
         binding.addNewClaimImageButton.setOnClickListener {
-            findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimCommentFragment)
+            findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
         }
 
         return binding.root

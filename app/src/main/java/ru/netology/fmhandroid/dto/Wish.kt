@@ -60,12 +60,4 @@ data class WishWithAllUsers(
         entityColumn = "id"
     )
     val patient: Patient,
-
-    @Relation(
-        entity = WishCommentEntity::class,
-        parentColumn = "id",
-        entityColumn = "wishId"
-    )
-    val comments: List<WishCommentWithCreator>
-
 ) : Parcelable

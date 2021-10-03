@@ -59,7 +59,6 @@ class CreateEditWishCommentFragment : Fragment() {
                     ).show()
                     return@setOnClickListener
                 }
-
             }
         } else {
             binding.saveButton.setOnClickListener {
@@ -69,14 +68,16 @@ class CreateEditWishCommentFragment : Fragment() {
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
 
                 if (newCommentDescription.isNotBlank()) {
-                    viewModel.createClaimComment(
+                    viewModel.createWishComment(
                         WishComment(
                             wishId = claimId,
                             description = newCommentDescription,
                             creatorId = 1,
                             createDate = LocalDateTime.now().toEpochSecond(
                                 ZoneId.of("Europe/Moscow").rules.getOffset(
-                                    Instant.now()))
+                                    Instant.now()
+                                )
+                            )
                         )
                     )
                     findNavController().navigateUp()

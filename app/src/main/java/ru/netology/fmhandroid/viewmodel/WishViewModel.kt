@@ -16,7 +16,7 @@ import javax.inject.Inject
 class WishViewModel @Inject constructor(
     private val wishRepository: WishRepository
 ) : ViewModel() {
-    lateinit var commentsData: Flow<List<WishCommentWithCreator>>
+    lateinit var wishCommentsData: Flow<List<WishCommentWithCreator>>
 
     val data: Flow<List<WishWithAllUsers>>
         get() = wishRepository.data
@@ -60,7 +60,7 @@ class WishViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 wishRepository.getAllCommentsForWish(id)
-                commentsData = wishRepository.dataComments
+                wishCommentsData = wishRepository.dataWishComments
                 Events.produceEvents(wishCommentsLoadedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -80,7 +80,7 @@ class WishViewModel @Inject constructor(
         }
     }
 
-    fun createClaimComment(wishComment: WishComment) {
+    fun createWishComment(wishComment: WishComment) {
         viewModelScope.launch {
             try {
                 wishComment.wishId?.let { wishRepository.saveWishComment(it, wishComment) }

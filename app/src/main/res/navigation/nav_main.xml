@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/patientsListFragment"
         android:name="ru.netology.fmhandroid.ui.PatientsListFragment"
-        android:label="fragment_patients_list"
-        tools:layout="@layout/fragment_patients_list">
+        android:label="fragment_patients_list">
         <action
             android:id="@+id/action_patientsListFragment_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />
@@ -201,8 +200,8 @@
             android:id="@+id/action_claimListFragment_to_openClaimFragment"
             app:destination="@id/openClaimFragment" />
         <action
-            android:id="@+id/action_claimListFragment_to_createEditClaimCommentFragment"
-            app:destination="@id/createEditClaimCommentFragment" />
+            android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
+            app:destination="@id/createEditClaimFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEditNewsFragment"

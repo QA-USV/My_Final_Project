@@ -2,6 +2,7 @@ package ru.netology.fmhandroid.repository.wishRepository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.WishApi
@@ -31,7 +32,7 @@ class WishRepositoryImp @Inject constructor(
         get() = wishDao.getAllWishes()
             .flowOn(Dispatchers.Default)
 
-    override lateinit var dataComments: Flow<List<WishCommentWithCreator>>
+    override lateinit var dataWishComments: Flow<List<WishCommentWithCreator>>
 
     override suspend fun getAllWishes(): List<Wish> = makeRequest(
         request = { wishApi.getAllWishes() },
@@ -51,7 +52,7 @@ class WishRepositoryImp @Inject constructor(
         request = { wishApi.getAllWishComments(id) },
         onSuccess = { body ->
             wishDao.insertComment(body.toEntity())
-            dataComments = wishDao.getWishComments(id).flowOn(Dispatchers.Default)
+            dataWishComments = wishDao.getWishComments(id).flowOn(Dispatchers.Default)
             body
         }
     )
@@ -69,7 +70,7 @@ class WishRepositoryImp @Inject constructor(
             request = { wishApi.saveWishComment(wishId, comment) },
             onSuccess = { body ->
                 wishDao.insertComment(body.toEntity())
-                dataComments.map { list ->
+                dataWishComments.map { list ->
                     list.map {
                         if (it.wishComment.id != comment.id) {
                             it
@@ -94,7 +95,7 @@ class WishRepositoryImp @Inject constructor(
         request = { wishApi.updateWishComment(comment) },
         onSuccess = { body ->
             wishDao.insertComment(body.toEntity())
-            dataComments.map { list ->
+            dataWishComments.map { list ->
                 list.map {
                     if (it.wishComment.id == comment.id) {
                         it.wishComment.copy(description = comment.description)
