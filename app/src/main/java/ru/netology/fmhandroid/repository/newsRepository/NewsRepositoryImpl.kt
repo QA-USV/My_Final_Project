@@ -10,8 +10,6 @@ import ru.netology.fmhandroid.dao.NewsDao
 import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.dto.User
-import ru.netology.fmhandroid.entity.NewsCategoryEntity
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.entity.toNewsCategoryDto
 import ru.netology.fmhandroid.entity.toNewsCategoryEntity

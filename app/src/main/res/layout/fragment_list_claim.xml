@@ -9,16 +9,41 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="128dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/claim_list_material_tool_bar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/wish_list_tool_bar"
-            app:navigationIcon="@drawable/ic_menu_24"
-            app:title="@string/app_name" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/claim_list_material_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:layout_marginBottom="28dp"
+                android:layout_marginStart="@dimen/card_view_padding"
+                android:layout_marginEnd="@dimen/card_view_padding"
+                app:menu="@menu/top_app_material_tool_bar"
+                app:navigationIcon="@drawable/ic_menu_24">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/AppToolBarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/app_tool_bar_title"/>
+
+                    <TextView
+                        style="@style/AppToolBarSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/app_tool_bar_subtitle" />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,58 +100,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/empty_claim_list_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/empty_list_image"
-        app:layout_constraintBottom_toTopOf="@+id/empty_claim_list_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <ImageView
+            android:id="@+id/empty_claim_list_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_list_image"
+            app:layout_constraintBottom_toTopOf="@+id/empty_claim_list_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/empty_claim_list_text_view"
-        style="@style/EmptyListTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_view_padding"
-        android:text="@string/empty_claim_list_text"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/claim_retry_text_view"
-        app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
-        app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
-        app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_image_view"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/empty_claim_list_text_view"
+            style="@style/EmptyListTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/empty_claim_list_text"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/claim_retry_text_view"
+            app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
+            app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_image_view"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/claim_retry_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_view_padding"
-        android:text="@string/refresh"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
-        app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_text_view" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/claim_retry_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/refresh"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_text_view" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/empty_claim_list_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="empty_claim_list_image_view, empty_claim_list_text_view, claim_retry_text_view" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/empty_claim_list_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="empty_claim_list_image_view, empty_claim_list_text_view, claim_retry_text_view" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/claim_list_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:clipToPadding="true"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_claim" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/claim_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clipToPadding="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_claim" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

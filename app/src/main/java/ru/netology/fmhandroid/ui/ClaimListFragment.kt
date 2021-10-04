@@ -40,7 +40,7 @@ class ClaimListFragment : Fragment() {
         val binding = FragmentListClaimBinding.inflate(inflater, container, false)
 
         val menuFiltering = PopupMenu(context, binding.filtersImageButton)
-        menuFiltering.inflate(R.menu.menu_wish_claim_list_filtering)
+        menuFiltering.inflate(R.menu.menu_claim_list_filtering)
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
 

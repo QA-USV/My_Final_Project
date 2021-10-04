@@ -10,46 +10,6 @@
 
     <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button
-        android:id="@+id/toPatientListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to List of Patients Fragment" />
-
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/toAddPatientFragmentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Add Patient Fragment" />
-
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/toListOfNotesFragmentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to List of Notes Fragment" />
-
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToAddNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Add Note" />
-
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToNoteCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Note Card" />
-
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
         android:id="@+id/btnToNewsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,14 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="to Claim list fragment" />
-
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToOpenClaimFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Open Claim fragment" />
 
     <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
     <Button

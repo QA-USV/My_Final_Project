@@ -9,10 +9,6 @@ import ru.netology.fmhandroid.entity.*
 @Database(
     entities = [
         UserEntity::class,
-        PatientEntity::class,
-        WishEntity::class,
-        WishCommentEntity::class,
-        AdmissionEntity::class,
         ClaimEntity::class,
         ClaimCommentEntity::class,
         NewsEntity::class,
@@ -27,9 +23,6 @@ import ru.netology.fmhandroid.entity.*
 )
 abstract class AppDb : RoomDatabase() {
     abstract fun userDao(): UserDao
-    abstract fun patientDao(): PatientDao
-    abstract fun wishDao(): WishDao
-    abstract fun admissionDao(): AdmissionDao
     abstract fun claimDao(): ClaimDao
     abstract fun newsDao(): NewsDao
     abstract fun newsCategoryDao(): NewsCategoryDao

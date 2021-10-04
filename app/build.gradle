@@ -59,7 +59,7 @@ dependencies {
     def nav_version = '2.3.5'
     def recycler_version = '1.2.1'
     def material_version = '1.4.0'
-    def constraint_version = '2.1.0'
+    def constraint_version = '2.1.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'

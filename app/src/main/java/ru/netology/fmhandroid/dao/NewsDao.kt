@@ -2,7 +2,6 @@ package ru.netology.fmhandroid.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.entity.NewsCategoryEntity
 import ru.netology.fmhandroid.entity.NewsEntity

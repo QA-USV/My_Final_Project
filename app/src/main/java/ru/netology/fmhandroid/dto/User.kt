@@ -1,7 +1,6 @@
 package ru.netology.fmhandroid.dto
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 @kotlinx.parcelize.Parcelize
 data class User(

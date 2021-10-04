@@ -1,8 +1,8 @@
 package ru.netology.fmhandroid.repository.newsRepository
 
 import kotlinx.coroutines.flow.Flow
-import ru.netology.fmhandroid.dto.*
-import ru.netology.fmhandroid.entity.NewsCategoryEntity
+import ru.netology.fmhandroid.dto.News
+import ru.netology.fmhandroid.dto.NewsWithCreators
 
 interface NewsRepository {
     val data: Flow<List<NewsWithCreators>>

@@ -6,54 +6,10 @@
     app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/patientsListFragment"
-        android:name="ru.netology.fmhandroid.ui.PatientsListFragment"
-        android:label="fragment_patients_list">
-        <action
-            android:id="@+id/action_patientsListFragment_to_addPatientFragment"
-            app:destination="@id/addPatientFragment" />
-        <action
-            android:id="@+id/action_patientsListFragment_to_patientProfileCardFragment"
-            app:destination="@id/patientProfileCardFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/addPatientFragment"
-        android:name="ru.netology.fmhandroid.ui.AddPatientFragment"
-        android:label="AddPatientFragment" />
-
-    <fragment
-        android:id="@+id/fragment_list_wishes"
-        android:name="ru.netology.fmhandroid.ui.WishListFragment"
-        android:label="@string/list_of_wishes_fragment_label" >
-        <action
-            android:id="@+id/action_fragment_list_wishes_to_createEditWishFragment"
-            app:destination="@id/createEditWishFragment" />
-        <action
-            android:id="@+id/action_fragment_list_wishes_to_openWishFragment"
-            app:destination="@id/openWishFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/mainFragment"
         android:name="ru.netology.fmhandroid.ui.MainFragment"
-        android:label="fragment_new_post"
+        android:label="MainFragment"
         tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_feedFragment_to_addPatientFragment"
-            app:destination="@id/addPatientFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_patientsListFragment"
-            app:destination="@id/patientsListFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_addNoteFragment"
-            app:destination="@id/createEditWishFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_noteCardFragment"
-            app:destination="@id/openWishFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_fragment_list_notes"
-            app:destination="@id/fragment_list_wishes" />
         <action
             android:id="@+id/action_mainFragment_to_newsListFragment"
             app:destination="@id/newsListFragment" />
@@ -64,47 +20,11 @@
             android:id="@+id/action_mainFragment_to_claimListFragment"
             app:destination="@id/claimListFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_openClaimFragment"
-            app:destination="@id/openClaimFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
         <action
             android:id="@+id/action_mainFragment_to_createEditNewsFragment"
             app:destination="@id/createEditNewsFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/patientProfileCardFragment"
-        android:name="ru.netology.fmhandroid.ui.PatientFragment"
-        android:label="PatientProfileCardFragment" />
-
-    <fragment
-        android:id="@+id/createEditWishFragment"
-        android:name="ru.netology.fmhandroid.ui.CreateEditWishFragment"
-        android:label="CreateEditWishFragment" >
-        <argument
-            android:name="wishArgs"
-            app:argType="ru.netology.fmhandroid.dto.WishWithAllUsers"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/openWishFragment"
-        android:name="ru.netology.fmhandroid.ui.OpenWishFragment"
-        android:label="OpenWishFragment" >
-        <argument
-            android:name="wishArgs"
-            app:argType="ru.netology.fmhandroid.dto.WishWithAllUsers"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <action
-            android:id="@+id/action_openWishFragment_to_createEditWishFragment"
-            app:destination="@id/createEditWishFragment" />
-        <action
-            android:id="@+id/action_openWishFragment_to_createEditWishCommentFragment"
-            app:destination="@id/createEditWishCommentFragment" />
     </fragment>
 
     <fragment
@@ -159,12 +79,12 @@
     <fragment
         android:id="@+id/createEditClaimFragment"
         android:name="ru.netology.fmhandroid.ui.CreateEditClaimFragment"
-        android:label="CreateEditClaimFragment" >
+        android:label="CreateEditClaimFragment">
         <argument
             android:name="argClaim"
+            android:defaultValue="@null"
             app:argType="ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -173,13 +93,14 @@
         android:label="CreateEditClaimCommentFragment">
         <argument
             android:name="argComment"
+            android:defaultValue="@null"
             app:argType="ru.netology.fmhandroid.dto.ClaimCommentWithCreator"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="argClaimId"
             app:argType="integer" />
     </fragment>
+
     <fragment
         android:id="@+id/filterNewsFragment"
         android:name="ru.netology.fmhandroid.ui.FilterNewsListFragment"
@@ -191,11 +112,12 @@
             android:id="@+id/action_filterNewsFragment_to_newsControlPanelFragment"
             app:destination="@id/newsControlPanelFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/claimListFragment"
         android:name="ru.netology.fmhandroid.ui.ClaimListFragment"
         android:label="fragment_list_claim"
-        tools:layout="@layout/fragment_list_claim" >
+        tools:layout="@layout/fragment_list_claim">
         <action
             android:id="@+id/action_claimListFragment_to_openClaimFragment"
             app:destination="@id/openClaimFragment" />
@@ -203,29 +125,15 @@
             android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/createEditNewsFragment"
         android:name="ru.netology.fmhandroid.ui.CreateEditNewsFragment"
         android:label="CreateEditNewsFragment">
         <argument
             android:name="newsItemArg"
+            android:defaultValue="@null"
             app:argType="ru.netology.fmhandroid.dto.NewsWithCreators"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
-    <fragment
-        android:id="@+id/createEditWishCommentFragment"
-        android:name="ru.netology.fmhandroid.ui.CreateEditWishCommentFragment"
-        android:label="CreateEditWishCommentFragment"
-        tools:layout="@layout/fragment_create_edit_comment">
-        <argument
-            android:name="argComment"
-            app:argType="ru.netology.fmhandroid.dto.WishCommentWithCreator"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="argWishId"
-            app:argType="integer" />
-    </fragment>
-
 </navigation>

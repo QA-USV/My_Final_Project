@@ -4,10 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.utils.Utils
-import java.sql.Timestamp
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @Entity(tableName = "NewsEntity")
 data class NewsEntity(

@@ -7,8 +7,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.BuildConfig.BASE_URL
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 fun loggingInterceptor() = HttpLoggingInterceptor()
     .apply {

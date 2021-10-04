@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.fmhandroid.dto.Claim
-import java.time.LocalDateTime
 
 @Entity(tableName = "ClaimEntity")
 data class ClaimEntity(

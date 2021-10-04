@@ -10,16 +10,7 @@ import ru.netology.fmhandroid.db.AppDb
 @Module
 object DaoModule {
     @Provides
-    fun providePatientDao(db: AppDb): PatientDao = db.patientDao()
-
-    @Provides
-    fun provideWishDao(db: AppDb): WishDao = db.wishDao()
-
-    @Provides
     fun provideClaimDao(db: AppDb): ClaimDao = db.claimDao()
-
-    @Provides
-    fun provideAdmissionDao(db: AppDb): AdmissionDao = db.admissionDao()
 
     @Provides
     fun provideUserDao(db: AppDb): UserDao = db.userDao()

@@ -5,8 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import ru.netology.fmhandroid.entity.NewsCategoryEntity
 import ru.netology.fmhandroid.entity.UserEntity
-import java.sql.Timestamp
-import java.time.LocalDateTime
 
 @kotlinx.parcelize.Parcelize
 data class News(

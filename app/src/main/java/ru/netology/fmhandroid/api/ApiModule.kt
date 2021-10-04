@@ -11,30 +11,9 @@ import javax.inject.Singleton
 object ApiModule {
     @Provides
     @Singleton
-    fun providePatientApi(): PatientApi {
-        return retrofit(okhttp(loggingInterceptor()))
-            .create(PatientApi::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideWishApi(): WishApi {
-        return retrofit(okhttp(loggingInterceptor()))
-            .create(WishApi::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideClaimApi(): ClaimApi {
         return retrofit(okhttp(loggingInterceptor()))
             .create(ClaimApi::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAdmissionApi(): AdmissionApi {
-        return retrofit(okhttp(loggingInterceptor()))
-            .create(AdmissionApi::class.java)
     }
 
     @Provides
