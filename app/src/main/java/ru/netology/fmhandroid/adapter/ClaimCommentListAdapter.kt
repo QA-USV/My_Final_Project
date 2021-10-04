@@ -43,7 +43,7 @@ class ClaimCommentListAdapter(
 
         fun bind(claimComment: ClaimCommentWithCreator) {
             binding.apply {
-                commentTextView.text = claimComment.claimComment.description
+                commentDescriptionTextView.text = claimComment.claimComment.description
                 commentatorNameTextView.text = claimComment.creator.lastName?.let { lastName ->
                     claimComment.creator.firstName?.let { firstName ->
                         claimComment.creator.middleName?.let { middleName ->

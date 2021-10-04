@@ -42,7 +42,7 @@ class WishCommentListAdapter(
 
         fun bind(wishComment: WishCommentWithCreator) {
             binding.apply {
-                commentTextView.text = wishComment.wishComment.description
+                commentDescriptionTextView.text = wishComment.wishComment.description
                 commentatorNameTextView.text = wishComment.creator.lastName?.let { lastName ->
                     wishComment.creator.firstName?.let { firstName ->
                         wishComment.creator.middleName?.let { middleName ->

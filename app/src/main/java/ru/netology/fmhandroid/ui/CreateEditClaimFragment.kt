@@ -22,6 +22,7 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.News
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.fullUserNameGenerator
@@ -42,7 +43,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     private lateinit var vTimePicker: TextInputEditText
     private lateinit var binding: FragmentCreateEditClaimBinding
     private val args: CreateEditClaimFragmentArgs by navArgs()
-    private var executorId: Int? = null
+    private var executor: User? = null
 
     //временно, пока нет авторизации
     private val creatorId = 1
@@ -130,7 +131,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 binding.executorDropMenuAutoCompleteTextView.apply {
                     setAdapter(adapter)
                     setOnItemClickListener { _, _, position, _ ->
-                        executorId = it[position].id
+                        executor = it[position]
                     }
                 }
             }
@@ -200,7 +201,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 id = args.argClaim?.claim?.id,
                 title = titleTextInputLayout.editText?.text.toString(),
                 description = descriptionTextInputLayout.editText?.text.toString(),
-                executorId = executorId,
+                executorId = executor?.id,
                 createDate = args.argClaim?.claim?.createDate ?: LocalDateTime.now()
                     .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(Instant.now())),
                 //* Временное поле. Подлежит удалению после введения регистрации/аутентификации *

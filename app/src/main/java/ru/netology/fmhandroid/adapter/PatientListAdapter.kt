@@ -42,7 +42,7 @@ class PatientListAdapter(
         private val onInteractionListener: PatientsOnInteractionListener,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(patient: Patient) = with(binding) {
-            patientNameTextView.text = itemView.resources.getString(
+            nameTextView.text = itemView.resources.getString(
                 R.string.full_name_format,
                 patient.firstName?.first()?.plus("."),
                 patient.middleName?.first()?.plus("."),
