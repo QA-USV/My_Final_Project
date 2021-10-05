@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
@@ -19,7 +16,7 @@ class ClaimViewModel @Inject constructor(
 ) : ViewModel() {
 
     lateinit var commentsData: Flow<List<ClaimCommentWithCreator>>
-    lateinit var dataClaim:Flow<ClaimWithCreatorAndExecutor>
+    lateinit var dataClaim: Flow<ClaimWithCreatorAndExecutor>
 
     val claimCreatedEvent = Events()
     val claimCommentCreatedEvent = Events()
@@ -122,10 +119,20 @@ class ClaimViewModel @Inject constructor(
         }
     }
 
-    fun changeClaimStatus(claimId: Int, newClaimStatus: Claim.Status) {
+    fun changeClaimStatus(
+        claimId: Int,
+        newClaimStatus: Claim.Status,
+        claimExecutor: User?,
+        claimComment: ClaimComment?
+    ) {
         viewModelScope.launch {
             try {
-                claimRepository.changeClaimStatus(claimId, newClaimStatus)
+                claimRepository.changeClaimStatus(
+                    claimId,
+                    newClaimStatus,
+                    claimExecutor,
+                    claimComment
+                )
                 Events.produceEvents(claimStatusChangedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()

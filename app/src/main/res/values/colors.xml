@@ -22,5 +22,6 @@
     <color name="claim_header_background">#FFECE0</color>
     <color name="claim_stroke_color">#868686</color>
     <color name="news_helper_title_background">#1A000000</color>
+    <color name="app_snack_bar_background">#868686</color>
     <color name="transparent">@android:color/transparent</color>
 </resources>

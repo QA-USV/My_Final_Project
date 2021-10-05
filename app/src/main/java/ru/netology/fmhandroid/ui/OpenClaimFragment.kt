@@ -1,16 +1,19 @@
 package ru.netology.fmhandroid.ui
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -77,37 +80,27 @@ class OpenClaimFragment : Fragment() {
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
 
-        if (claim.claim.creatorId != user.id) {
-            statusProcessingMenu.menu.removeItem(R.id.cancel_list_item)
-        }
         statusMenuVisibility(claim.claim.status!!, statusProcessingMenu)
         statusProcessingMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
 
                 R.id.take_to_work_list_item -> {
+                    // Изменить claimExecutor на залогиненного пользователя !!!
+                    viewModel.changeClaimStatus(
+                        claimId = claim.claim.id!!,
+                        newClaimStatus = Claim.Status.IN_PROGRESS,
+                        claimExecutor = user,
+                        claimComment = null
+                    )
 
                     lifecycleScope.launchWhenStarted {
-                        //Изменить на залогиненного юзера!
-                        viewModel.updateClaim(updatedClaim = claim.claim.copy(executorId = user.id))
-
                         Events.events.collect { event ->
                             when (event) {
-                                viewModel.claimUpdateExceptionEvent -> {
-                                    showErrorToast()
-                                    return@collect
-                                }
-
                                 viewModel.claimStatusChangeExceptionEvent -> {
                                     showErrorToast()
                                     return@collect
                                 }
 
-                                viewModel.claimUpdatedEvent -> {
-                                    viewModel.changeClaimStatus(
-                                        claim.claim.id!!,
-                                        Claim.Status.IN_PROGRESS
-                                    )
-                                }
                                 viewModel.claimStatusChangedEvent -> {
                                     binding.executorNameTextView.text =
                                         Utils.fullUserNameGenerator(
@@ -134,7 +127,7 @@ class OpenClaimFragment : Fragment() {
                 R.id.cancel_list_item -> {
 
                     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
+//                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
                         Events.events.collect {
                             viewModel.claimStatusChangedEvent
                             viewModel.dataClaim.collect {
@@ -152,7 +145,7 @@ class OpenClaimFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                         createClaimCommentDialog(claim, user)
                         viewModel.updateClaim(claim.claim.copy(executorId = null))
-                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
+//                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
 
                         Events.events.collect { event ->
                             when (event) {
@@ -200,10 +193,10 @@ class OpenClaimFragment : Fragment() {
                                     )
                                 }
                                 viewModel.claimUpdatedEvent -> {
-                                    viewModel.changeClaimStatus(
-                                        claim.claim.id!!,
-                                        Claim.Status.EXECUTED
-                                    )
+//                                    viewModel.changeClaimStatus(
+//                                        claim.claim.id!!,
+//                                        Claim.Status.EXECUTED
+//                                    )
                                 }
                             }
                         }
@@ -229,21 +222,6 @@ class OpenClaimFragment : Fragment() {
         }
 
         binding.apply {
-
-            if (claim.claim.status == Claim.Status.CANCELLED || claim.claim.status == Claim.Status.EXECUTED) {
-                statusProcessingImageButton.visibility = View.INVISIBLE
-                editProcessingImageButton.visibility = View.INVISIBLE
-            }
-
-            if (claim.claim.status == Claim.Status.IN_PROGRESS) {
-                editProcessingImageButton.visibility = View.INVISIBLE
-            }
-
-            // Изменить на залогиненного юзера и добавить в условие администратора
-            if (claim.claim.executorId != user.id && claim.claim.status == Claim.Status.IN_PROGRESS) {
-                statusProcessingImageButton.visibility = View.INVISIBLE
-            }
-
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(
@@ -287,6 +265,21 @@ class OpenClaimFragment : Fragment() {
             }
 
             editProcessingImageButton.setOnClickListener {
+                if (claim.claim.status != Claim.Status.OPEN) {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.inability_to_edit_claim,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                        .setAction("Ok") { return@setAction }
+                        .show()
+                    return@setOnClickListener
+                }
+                // Изменить в условии на Id залогиненного юзера!!!
+                if (claim.claim.creatorId != user.id) {
+                    showWarningSnackBar(R.string.no_editing_rights)
+                    return@setOnClickListener
+                }
                 val action = OpenClaimFragmentDirections
                     .actionOpenClaimFragmentToCreateEditClaimFragment(claim)
                 findNavController().navigate(action)
@@ -343,12 +336,34 @@ class OpenClaimFragment : Fragment() {
         }
     }
 
+    private fun showWarningSnackBar(warningTextString: Int) {
+        Snackbar.make(
+            binding.root,
+            warningTextString,
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction("Ok") { return@setAction }
+            .setBackgroundTint(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.app_snack_bar_background
+                )
+            )
+            .setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.white
+                )
+            )
+            .show()
+    }
+
     private fun showErrorToast() {
         Toast.makeText(
             requireContext(),
             R.string.error,
             Toast.LENGTH_LONG
-        )
+        ).show()
     }
 
     private fun createClaimCommentDialog(
@@ -408,8 +423,7 @@ class OpenClaimFragment : Fragment() {
                 statusProcessingMenu.menu.setGroupVisible(R.id.in_progress_menu_group, true)
             }
             else -> {
-                binding.statusProcessingImageButton.visibility = View.INVISIBLE
-                binding.editProcessingImageButton.visibility = View.INVISIBLE
+                return
             }
         }
     }

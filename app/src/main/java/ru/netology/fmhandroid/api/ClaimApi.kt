@@ -4,6 +4,8 @@ import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.User
 
 interface ClaimApi {
     @GET("claims")
@@ -36,8 +38,10 @@ interface ClaimApi {
     @PUT("claims/{id}/status")
     suspend fun updateClaimStatus(
         @Path("id") id: Int,
-        @Query("status") claimStatus: Claim.Status
-    ): Response<Claim>
+        @Query("status") claimStatus: Claim.Status,
+        @Query("executor") claimExecutor: User?,
+        @Query("") claimComment: ClaimComment?
+        ): Response<Claim>
 
     @PUT("claims/comments")
     suspend fun updateClaimComment(@Body claimComment: ClaimComment): Response<ClaimComment>

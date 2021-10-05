@@ -6,10 +6,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimDao
-import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
@@ -102,15 +99,27 @@ class ClaimRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun changeClaimStatus(claimId: Int, newStatus: Claim.Status): Claim =
+    override suspend fun changeClaimStatus(
+        claimId: Int,
+        newStatus: Claim.Status,
+        claimExecutor: User?,
+        claimComment: ClaimComment?
+    ): Claim =
         makeRequest(
-            request = { claimApi.updateClaimStatus(claimId, newStatus) },
+            request = {
+                claimApi.updateClaimStatus(
+                    claimId,
+                    newStatus,
+                    claimExecutor,
+                    claimComment
+                )
+            },
             onSuccess = { body ->
                 claimDao.insertClaim(body.toEntity())
                 dataClaim = dataClaim.map {
                     ClaimWithCreatorAndExecutor(
-                        claim = it.claim.copy(status = newStatus),
-                        executor = it.executor,
+                        claim = it.claim.copy(status = newStatus, executorId = claimExecutor?.id),
+                        executor = claimExecutor,
                         creator = it.creator
                     )
                 }

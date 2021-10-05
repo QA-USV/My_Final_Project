@@ -195,4 +195,14 @@
         <item name="android:textSize"> 12sp </item>
         <item name="android:textColor"> #878787 </item>
     </style>
+
+    <style name="TopAppBarTitle">
+        <item name="android:textSize"> 12sp </item>
+        <item name="android:textColor"> @color/white </item>
+    </style>
+
+    <style name="TopAppBarSubTitle">
+        <item name="android:textSize"> 26sp </item>
+        <item name="android:textColor"> @color/white </item>
+    </style>
 </resources>
