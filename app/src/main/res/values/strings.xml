@@ -144,4 +144,5 @@
     <string name="executor_label">Executor</string>
     <string name="inability_to_edit_claim">The Claim can be edited only in the "Open" status.</string>
     <string name="no_editing_rights">This document can only be edited by its Author or Administrator.</string>
+    <string name="no_change_status_rights">The action is available only to the author or Administrator.</string>
 </resources>

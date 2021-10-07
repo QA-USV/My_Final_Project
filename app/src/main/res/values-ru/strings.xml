@@ -143,4 +143,5 @@
     <string name="executor_label">Исполнитель</string>
     <string name="inability_to_edit_claim">Редактировать Заявку можно только в статусе "Открыта".</string>
     <string name="no_editing_rights">Редактировать данный документ может только его Автор или Администратор</string>
+    <string name="no_change_status_rights">Действие доступно только автору или Администратору</string>
 </resources>

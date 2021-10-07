@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import retrofit2.Response
+import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
@@ -15,6 +16,16 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 object Utils {
+
+    object EmptyComment {
+        val emptyClaimComment = ClaimComment(
+            id = null,
+            claimId = null,
+            description = "",
+            creatorId = null,
+            createDate = null,
+        )
+    }
 
     fun convertNewsCategory(category: String): Int {
         return when (category) {

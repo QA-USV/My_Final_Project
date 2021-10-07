@@ -39,8 +39,8 @@ interface ClaimApi {
     suspend fun updateClaimStatus(
         @Path("id") id: Int,
         @Query("status") claimStatus: Claim.Status,
-        @Query("executor") claimExecutor: User?,
-        @Query("") claimComment: ClaimComment?
+        @Query("executor") executorId: Int?,
+        @Body claimComment: ClaimComment
         ): Response<Claim>
 
     @PUT("claims/comments")

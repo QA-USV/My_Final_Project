@@ -122,15 +122,15 @@ class ClaimViewModel @Inject constructor(
     fun changeClaimStatus(
         claimId: Int,
         newClaimStatus: Claim.Status,
-        claimExecutor: User?,
-        claimComment: ClaimComment?
+        executorId: Int?,
+        claimComment: ClaimComment
     ) {
         viewModelScope.launch {
             try {
                 claimRepository.changeClaimStatus(
                     claimId,
                     newClaimStatus,
-                    claimExecutor,
+                    executorId,
                     claimComment
                 )
                 Events.produceEvents(claimStatusChangedEvent)

@@ -89,8 +89,8 @@ class OpenClaimFragment : Fragment() {
                     viewModel.changeClaimStatus(
                         claimId = claim.claim.id!!,
                         newClaimStatus = Claim.Status.IN_PROGRESS,
-                        claimExecutor = user,
-                        claimComment = null
+                        executorId = user.id,
+                        claimComment = Utils.EmptyComment.emptyClaimComment
                     )
 
                     lifecycleScope.launchWhenStarted {
@@ -100,24 +100,21 @@ class OpenClaimFragment : Fragment() {
                                     showErrorToast()
                                     return@collect
                                 }
+                            }
 
-                                viewModel.claimStatusChangedEvent -> {
-                                    binding.executorNameTextView.text =
-                                        Utils.fullUserNameGenerator(
-                                            user.lastName.toString(),
-                                            user.firstName.toString(),
-                                            user.middleName.toString()
-                                        )
-
-                                    viewModel.dataClaim.collect {
-                                        binding.statusLabelTextView.text =
-                                            displayingStatusOfClaim(it.claim.status!!)
-                                        statusMenuVisibility(
-                                            it.claim.status!!,
-                                            statusProcessingMenu
-                                        )
-                                    }
-                                }
+                            viewModel.dataClaim.collect {
+                                binding.statusLabelTextView.text =
+                                    displayingStatusOfClaim(it.claim.status!!)
+                                statusMenuVisibility(
+                                    it.claim.status!!,
+                                    statusProcessingMenu
+                                )
+                                binding.executorNameTextView.text =
+                                    Utils.fullUserNameGenerator(
+                                        it.executor?.lastName.toString(),
+                                        it.executor?.firstName.toString(),
+                                        it.executor?.middleName.toString()
+                                    )
                             }
                         }
                     }
@@ -126,14 +123,43 @@ class OpenClaimFragment : Fragment() {
 
                 R.id.cancel_list_item -> {
 
-                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-//                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.CANCELLED)
-                        Events.events.collect {
-                            viewModel.claimStatusChangedEvent
+                    lifecycleScope.launchWhenStarted {
+                        // Изменить в условии на Id залогиненного юзера!!!
+                        if (claim.claim.creatorId != user.id) {
+                            showWarningSnackBar(R.string.no_change_status_rights)
+                            return@launchWhenStarted
+                        }
+
+                        viewModel.changeClaimStatus(
+                            claim.claim.id!!,
+                            Claim.Status.CANCELLED,
+                            executorId = null,
+                            claimComment = Utils.EmptyComment.emptyClaimComment
+                        )
+                        Events.events.collect { event ->
+                            when (event) {
+                                viewModel.claimStatusChangeExceptionEvent -> {
+                                    showErrorToast()
+                                    return@collect
+                                }
+                            }
+
                             viewModel.dataClaim.collect {
                                 binding.statusLabelTextView.text =
                                     displayingStatusOfClaim(it.claim.status!!)
-                                statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
+                                statusMenuVisibility(
+                                    it.claim.status!!,
+                                    statusProcessingMenu
+                                )
+                                binding.executorNameTextView.text = if (it.executor != null) {
+                                    Utils.fullUserNameGenerator(
+                                        it.executor.lastName.toString(),
+                                        it.executor.firstName.toString(),
+                                        it.executor.middleName.toString()
+                                    )
+                                } else {
+                                    getString(R.string.not_assigned)
+                                }
                             }
                         }
                     }
@@ -141,30 +167,57 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.throw_off_list_item -> {
+                    var newClaimComment = Utils.EmptyComment.emptyClaimComment
 
-                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                        createClaimCommentDialog(claim, user)
-                        viewModel.updateClaim(claim.claim.copy(executorId = null))
-//                        viewModel.changeClaimStatus(claim.claim.id!!, Claim.Status.OPEN)
+                    val dialog = CreateCommentDialogFragment.newInstance(
+                        text = "",
+                        hint = "Description",
+                        isMultiline = true
+                    )
+                    dialog.onOk = {
+                        val text = dialog.editText.text
+                        if (text.isNotBlank()) {
+                            newClaimComment =
+                                ClaimComment(
+                                    claimId = claim.claim.id,
+                                    description = text.toString(),
+                                    creatorId = user.id,
+                                    createDate = LocalDateTime.now().toEpochSecond(
+                                        ZoneId.of("Europe/Moscow").rules.getOffset(
+                                            Instant.now()
+                                        )
+                                    )
+                                )
+
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.toast_empty_field,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    dialog.show(this.childFragmentManager, "CreateCommentDialog")
+
+                    lifecycleScope.launchWhenStarted {
+
+                        viewModel.changeClaimStatus(
+                            claim.claim.id!!,
+                            Claim.Status.OPEN,
+                            executorId = null,
+                            claimComment = newClaimComment
+                        )
 
                         Events.events.collect { event ->
                             when (event) {
-                                viewModel.claimCommentCreateExceptionEvent -> {
-                                    showErrorToast()
-                                    return@collect
-                                }
-                                viewModel.claimUpdateExceptionEvent -> {
-                                    showErrorToast()
-                                    return@collect
-                                }
                                 viewModel.claimStatusChangeExceptionEvent -> {
                                     showErrorToast()
                                     return@collect
                                 }
                             }
 
-                            binding.executorNameTextView.setText(R.string.not_assigned)
                             viewModel.dataClaim.collect {
+
                                 binding.statusLabelTextView.text =
                                     displayingStatusOfClaim(it.claim.status!!)
                                 statusMenuVisibility(it.claim.status!!, statusProcessingMenu)
@@ -266,13 +319,7 @@ class OpenClaimFragment : Fragment() {
 
             editProcessingImageButton.setOnClickListener {
                 if (claim.claim.status != Claim.Status.OPEN) {
-                    Snackbar.make(
-                        binding.root,
-                        R.string.inability_to_edit_claim,
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                        .setAction("Ok") { return@setAction }
-                        .show()
+                    showWarningSnackBar(R.string.inability_to_edit_claim)
                     return@setOnClickListener
                 }
                 // Изменить в условии на Id залогиненного юзера!!!

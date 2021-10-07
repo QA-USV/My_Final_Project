@@ -17,8 +17,8 @@ interface ClaimRepository {
     suspend fun changeClaimStatus(
         claimId: Int,
         newStatus: Claim.Status,
-        claimExecutor: User?,
-        claimComment: ClaimComment?
+        executorId: Int?,
+        claimComment: ClaimComment
     ): Claim
 
     suspend fun changeClaimComment(comment: ClaimComment): ClaimComment

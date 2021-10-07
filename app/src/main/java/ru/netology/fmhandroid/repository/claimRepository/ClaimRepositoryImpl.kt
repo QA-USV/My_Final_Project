@@ -4,8 +4,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimDao
+import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.utils.Utils.makeRequest
@@ -16,6 +18,7 @@ import javax.inject.Singleton
 class ClaimRepositoryImpl @Inject constructor(
     private val claimApi: ClaimApi,
     private val claimDao: ClaimDao,
+    private val userDao: UserDao
 ) : ClaimRepository {
 
     override val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
@@ -48,7 +51,9 @@ class ClaimRepositoryImpl @Inject constructor(
             dataClaim = dataClaim.map {
                 ClaimWithCreatorAndExecutor(
                     claim = editedClaim,
-                    executor = it.executor,
+                    executor = editedClaim.executorId?.let { userId ->
+                        userDao.getUserById(userId).toDto()
+                    },
                     creator = it.creator
                 )
             }
@@ -102,15 +107,15 @@ class ClaimRepositoryImpl @Inject constructor(
     override suspend fun changeClaimStatus(
         claimId: Int,
         newStatus: Claim.Status,
-        claimExecutor: User?,
-        claimComment: ClaimComment?
+        executorId: Int?,
+        claimComment: ClaimComment
     ): Claim =
         makeRequest(
             request = {
                 claimApi.updateClaimStatus(
                     claimId,
                     newStatus,
-                    claimExecutor,
+                    executorId,
                     claimComment
                 )
             },
@@ -118,9 +123,19 @@ class ClaimRepositoryImpl @Inject constructor(
                 claimDao.insertClaim(body.toEntity())
                 dataClaim = dataClaim.map {
                     ClaimWithCreatorAndExecutor(
-                        claim = it.claim.copy(status = newStatus, executorId = claimExecutor?.id),
-                        executor = claimExecutor,
+                        claim = it.claim.copy(status = newStatus, executorId = executorId),
+                        executor = executorId?.let { userId ->
+                            userDao.getUserById(userId).toDto()
+                        },
                         creator = it.creator
+                    )
+                }
+                if (claimComment.id != null) dataComments.map {
+                    it.plus(
+                        ClaimCommentWithCreator(
+                            claimComment = claimComment,
+                            creator = userDao.getUserById(claimComment.creatorId!!).toDto()
+                        )
                     )
                 }
                 body
