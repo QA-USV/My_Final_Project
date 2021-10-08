@@ -134,6 +134,9 @@ class ClaimViewModel @Inject constructor(
                     claimComment
                 )
                 Events.produceEvents(claimStatusChangedEvent)
+                if (claimComment.id != null) {
+                    Events.produceEvents(claimCommentCreatedEvent)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 Events.produceEvents(claimStatusChangeExceptionEvent)

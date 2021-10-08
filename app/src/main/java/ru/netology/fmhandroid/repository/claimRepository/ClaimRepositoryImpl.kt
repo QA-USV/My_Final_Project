@@ -123,7 +123,7 @@ class ClaimRepositoryImpl @Inject constructor(
                 claimDao.insertClaim(body.toEntity())
                 dataClaim = dataClaim.map {
                     ClaimWithCreatorAndExecutor(
-                        claim = it.claim.copy(status = newStatus, executorId = executorId),
+                        claim = body,
                         executor = executorId?.let { userId ->
                             userDao.getUserById(userId).toDto()
                         },
