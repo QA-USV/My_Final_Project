@@ -14,8 +14,10 @@
         android:title="@string/news" />
     <item
         android:id="@+id/menu_item_documents"
-        android:title="@string/documents" />
+        android:title="@string/documents"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_item_duty_roster"
-        android:title="@string/duty_roster" />
+        android:title="@string/duty_roster"
+        android:visible="false"/>
 </menu>

@@ -133,9 +133,10 @@ class ClaimViewModel @Inject constructor(
                     executorId,
                     claimComment
                 )
+                dataClaim = claimRepository.dataClaim
                 Events.produceEvents(claimStatusChangedEvent)
-                if (claimComment.id != null) {
-                    Events.produceEvents(claimCommentCreatedEvent)
+                if (!claimComment.description.isNullOrBlank()) {
+                    commentsData = claimRepository.dataComments
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

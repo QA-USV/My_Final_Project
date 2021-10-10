@@ -52,9 +52,11 @@ class OpenClaimFragment : Fragment() {
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
 
+        var tempExecutorId: Int? = claim.claim.executorId
+
         // Временная переменная. После авторизации заменить на залогиненного юзера
         val user = User(
-            id = 1,
+            id = 2,
             login = "User-1",
             password = "abcd",
             firstName = "Дмитрий",
@@ -116,6 +118,9 @@ class OpenClaimFragment : Fragment() {
                                 } else {
                                     getString(R.string.not_assigned)
                                 }
+                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit_non_clickable)
+                                binding.editProcessingImageButton.isClickable = false
+                                tempExecutorId = user.id
                             }
                         }
                     }
@@ -157,6 +162,7 @@ class OpenClaimFragment : Fragment() {
                                         it.executor.firstName.toString(),
                                         it.executor.middleName.toString()
                                     )
+
                                 } else {
                                     getString(R.string.not_assigned)
                                 }
@@ -167,52 +173,49 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.throw_off_list_item -> {
-                    var newClaimComment = Utils.EmptyComment.emptyClaimComment
 
-                    val dialog = CreateCommentDialogFragment.newInstance(
-                        text = "",
-                        hint = "Description",
-                        isMultiline = true
-                    )
-                    dialog.onOk = {
-                        val text = dialog.editText.text
-                        if (text.isNotBlank()) {
-                            newClaimComment =
-                                ClaimComment(
-                                    claimId = claim.claim.id,
-                                    description = text.toString(),
-                                    creatorId = user.id,
-                                    createDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
-                                        )
+                    // Изменить на залогиненного юзера и добавить в проверку Администратора!
+                    if (user.id != tempExecutorId) {
+                        showWarningSnackBar(R.string.no_change_status_rights_executor)
+                    } else {
+                        val dialog = CreateCommentDialogFragment.newInstance(
+                            text = "",
+                            hint = "Description",
+                            isMultiline = true
+                        )
+                        dialog.onOk = {
+                            val text = dialog.editText.text
+                            if (text.isNotBlank()) {
+                                viewModel.changeClaimStatus(
+                                    claim.claim.id!!,
+                                    Claim.Status.OPEN,
+                                    executorId = null,
+                                    claimComment = ClaimComment(
+                                        claimId = claim.claim.id,
+                                        description = text.toString(),
+                                        creatorId = user.id,
+                                        createDate = LocalDateTime.now()
+                                            .toEpochSecond(
+                                                ZoneId.of("Europe/Moscow").rules.getOffset(
+                                                    Instant.now()
+                                                )
+                                            )
                                     )
                                 )
-
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                R.string.toast_empty_field,
-                                Toast.LENGTH_LONG
-                            ).show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    R.string.toast_empty_field,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            dialog.dismiss()
                         }
+                        dialog.show(parentFragmentManager, "CreateCommentDialog")
                     }
-                    dialog.show(this.childFragmentManager, "CreateCommentDialog")
+
 
                     lifecycleScope.launchWhenStarted {
-
-                        if (user.id != claim.claim.executorId) {
-                            showWarningSnackBar(R.string.no_change_status_rights_executor)
-                            return@launchWhenStarted
-                        }
-
-                        viewModel.changeClaimStatus(
-                            claim.claim.id!!,
-                            Claim.Status.OPEN,
-                            executorId = null,
-                            claimComment = newClaimComment
-                        )
-
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimStatusChangeExceptionEvent -> {
@@ -237,14 +240,16 @@ class OpenClaimFragment : Fragment() {
                                 } else {
                                     getString(R.string.not_assigned)
                                 }
+                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
+                                binding.editProcessingImageButton.isClickable = true
                             }
                         }
                     }
+                    tempExecutorId = null
                     true
                 }
 
                 R.id.executes_list_item -> {
-                    var newClaimComment = Utils.EmptyComment.emptyClaimComment
 
                     val dialog = CreateCommentDialogFragment.newInstance(
                         text = "",
@@ -254,8 +259,11 @@ class OpenClaimFragment : Fragment() {
                     dialog.onOk = {
                         val text = dialog.editText.text
                         if (text.isNotBlank()) {
-                            newClaimComment =
-                                ClaimComment(
+                            viewModel.changeClaimStatus(
+                                claim.claim.id!!,
+                                Claim.Status.EXECUTED,
+                                executorId = claim.executor?.id,
+                                claimComment = ClaimComment(
                                     claimId = claim.claim.id,
                                     description = text.toString(),
                                     creatorId = user.id,
@@ -265,7 +273,7 @@ class OpenClaimFragment : Fragment() {
                                         )
                                     )
                                 )
-
+                            )
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -281,13 +289,6 @@ class OpenClaimFragment : Fragment() {
                             showWarningSnackBar(R.string.no_change_status_rights_executor)
                             return@launchWhenStarted
                         }
-
-                        viewModel.changeClaimStatus(
-                            claim.claim.id!!,
-                            Claim.Status.EXECUTED,
-                            executorId = claim.executor?.id,
-                            claimComment = newClaimComment
-                        )
 
                         Events.events.collect { event ->
                             when (event) {
@@ -349,6 +350,16 @@ class OpenClaimFragment : Fragment() {
             )
             createDataTextView.text =
                 claim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
+
+            editProcessingImageButton.apply {
+                isClickable = if (claim.claim.status == Claim.Status.OPEN) {
+                    setImageResource(R.drawable.ic_edit)
+                    true
+                } else {
+                    setImageResource(R.drawable.ic_edit_non_clickable)
+                    false
+                }
+            }
 
             addCommentImageButton.setOnClickListener {
                 val action = OpenClaimFragmentDirections
@@ -417,8 +428,13 @@ class OpenClaimFragment : Fragment() {
                         }
 
                         planeDateTextView.text =
-                            updated.claim.planExecuteDate?.let { Utils.showDateTimeInOne(it) }
-                        statusLabelTextView.text = displayingStatusOfClaim(updated.claim.status!!)
+                            updated.claim.planExecuteDate?.let {
+                                Utils.showDateTimeInOne(
+                                    it
+                                )
+                            }
+                        statusLabelTextView.text =
+                            displayingStatusOfClaim(updated.claim.status!!)
                         descriptionTextView.text = updated.claim.description
                         authorNameTextView.text = Utils.fullUserNameGenerator(
                             updated.creator.lastName.toString(),
@@ -463,41 +479,6 @@ class OpenClaimFragment : Fragment() {
         ).show()
     }
 
-//    private fun createClaimCommentDialog(
-//        claim: ClaimWithCreatorAndExecutor,
-//        user: User
-//    ) {
-//        val dialog = CreateCommentDialogFragment.newInstance(
-//            text = "",
-//            hint = "Description",
-//            isMultiline = true
-//        )
-//        dialog.onOk = {
-//            val text = dialog.editText.text
-//            if (text.isNotBlank()) {
-//                viewModel.createClaimComment(
-//                    ClaimComment(
-//                        claimId = claim.claim.id,
-//                        description = text.toString(),
-//                        creatorId = user.id,
-//                        createDate = LocalDateTime.now().toEpochSecond(
-//                            ZoneId.of("Europe/Moscow").rules.getOffset(
-//                                Instant.now()
-//                            )
-//                        )
-//                    )
-//                )
-//            } else {
-//                Toast.makeText(
-//                    requireContext(),
-//                    R.string.toast_empty_field,
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//        }
-//        dialog.show(this.childFragmentManager, "CreateCommentDialog")
-//    }
-
     private fun displayingStatusOfClaim(claimStatus: Claim.Status) =
         when (claimStatus) {
             Claim.Status.CANCELLED -> getString(R.string.cancel)
@@ -513,14 +494,23 @@ class OpenClaimFragment : Fragment() {
         when (claimStatus) {
             Claim.Status.OPEN -> {
                 statusProcessingMenu.menu.setGroupVisible(R.id.open_menu_group, true)
-                statusProcessingMenu.menu.setGroupVisible(R.id.in_progress_menu_group, false)
+                statusProcessingMenu.menu.setGroupVisible(
+                    R.id.in_progress_menu_group,
+                    false
+                )
             }
             Claim.Status.IN_PROGRESS -> {
                 statusProcessingMenu.menu.setGroupVisible(R.id.open_menu_group, false)
-                statusProcessingMenu.menu.setGroupVisible(R.id.in_progress_menu_group, true)
+                statusProcessingMenu.menu.setGroupVisible(
+                    R.id.in_progress_menu_group,
+                    true
+                )
             }
             else -> {
-                return
+                statusProcessingMenu.menu.clear()
+                binding.statusProcessingImageButton.apply {
+                    setImageResource(R.drawable.ic_status_processing_non_clickable)
+                }
             }
         }
     }

@@ -130,13 +130,11 @@ class ClaimRepositoryImpl @Inject constructor(
                         creator = it.creator
                     )
                 }
-                if (claimComment.id != null) dataComments.map {
-                    it.plus(
-                        ClaimCommentWithCreator(
-                            claimComment = claimComment,
-                            creator = userDao.getUserById(claimComment.creatorId!!).toDto()
-                        )
-                    )
+                if (!claimComment.description.isNullOrBlank()) {
+                    claimDao.insertComment(claimComment.toEntity())
+                    dataComments.map { list ->
+                        list.plus(claimComment)
+                    }
                 }
                 body
             }
