@@ -5,47 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
     tools:context=".ui.MainFragment">
 
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToNewsList"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_app_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to News List" />
+        android:paddingBottom="8dp">
 
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToAddNewsItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Add News Item" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/main_fragment_material_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:navigationIcon="@drawable/ic_menu_24"
+            app:menu="@menu/top_app_material_tool_bar"
+            app:subtitle="@string/app_tool_bar_subtitle"
+            app:subtitleCentered="true"
+            app:subtitleTextAppearance="@style/AppToolBarSubTitle"
+            app:subtitleTextColor="@color/white"
+            app:title="@string/app_tool_bar_title"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/AppToolBarTitle"
+            app:titleTextColor="@color/white">
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToNewsControlPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to News Control Panel" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToClaimListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Claim list fragment" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f5f5f5"
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="30dp">
 
-    <!--Тестовая кнопка. Подлежит удалению при финальной верстке-->
-    <Button
-        android:id="@+id/btnToCreateEditClaimFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="to Create/Edit Claim fragment" />
+            <include
+                android:id="@+id/container_list_news_include_on_fragment_main"
+                layout="@layout/container_list_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp" />
 
+            <include
+                android:id="@+id/container_list_claim_include_on_fragment_main"
+                layout="@layout/container_list_claim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

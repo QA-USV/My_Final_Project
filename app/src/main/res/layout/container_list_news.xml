@@ -26,12 +26,9 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sort_news_material_button"
-            style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/bottom_toolbar_action_button_margin"
-            android:background="@android:color/transparent"
-            app:icon="@drawable/ic_information_icon"
             android:checkable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/filter_news_material_button"

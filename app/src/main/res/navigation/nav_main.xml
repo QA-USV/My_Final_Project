@@ -3,29 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/main2Fragment">
-
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="ru.netology.fmhandroid.ui.MainFragment"
-        android:label="MainFragment"
-        tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_mainFragment_to_newsListFragment"
-            app:destination="@id/newsListFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_newsControlPanelFragment"
-            app:destination="@id/newsControlPanelFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_claimListFragment"
-            app:destination="@id/claimListFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_createEditClaimFragment"
-            app:destination="@id/createEditClaimFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_createEditNewsFragment"
-            app:destination="@id/createEditNewsFragment" />
-    </fragment>
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/newsListFragment"
@@ -137,12 +115,15 @@
             app:nullable="true" />
     </fragment>
     <fragment
-        android:id="@+id/main2Fragment"
-        android:name="ru.netology.fmhandroid.ui.Main2Fragment"
-        android:label="fragment_main2"
-        tools:layout="@layout/fragment_main2" >
+        android:id="@+id/mainFragment"
+        android:name="ru.netology.fmhandroid.ui.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_main2Fragment_to_openClaimFragment"
-            app:destination="@id/openClaimFragment" />
+            android:id="@+id/action_mainFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
     </fragment>
 </navigation>
