@@ -33,7 +33,6 @@ import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
-
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
@@ -76,20 +75,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         val claimListAdapter = ClaimListAdapter(object : OnClaimItemClickListener {
-
-            //Определиться, нужно ли нам это действие на главной странице!!!
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
-//                claimWithCreatorAndExecutor.claim.id?.let { viewModelClaim.getAllClaimComments(it) }
-//                claimWithCreatorAndExecutor.claim.id?.let { viewModelClaim.getClaimById(it) }
-//
-//                viewLifecycleOwner.lifecycleScope.launch {
-//                    Events.events.collect {
-//                        viewModelClaim.claimCommentsLoadedEvent
-//                        val action = MainFragmentDirections
-//                            .actionMainFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
-//                        findNavController().navigate(action)
-//                    }
-//                }
+                claimWithCreatorAndExecutor.claim.id?.let { viewModelClaim.getAllClaimComments(it) }
+                claimWithCreatorAndExecutor.claim.id?.let { viewModelClaim.getClaimById(it) }
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    Events.events.collect {
+                        viewModelClaim.claimCommentsLoadedEvent
+                        val action = MainFragmentDirections
+                            .actionMainFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
+                        findNavController().navigate(action)
+                    }
+                }
             }
         })
 
@@ -107,23 +104,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launchWhenCreated {
             filterNews(newsListAdapter)
         }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            Events.events.collect {
-                viewModelNews.loadNewsExceptionEvent
-                val activity = activity ?: return@collect
-                val dialog = AlertDialog.Builder(activity)
-                dialog.setMessage(R.string.error)
-                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
-                        alertDialog.cancel()
-                    }
-                    .create()
-                    .show()
-            }
-        }
+// срабатывает при клике на claim card?!
+//
+//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+//            Events.events.collect {
+//                viewModelNews.loadNewsExceptionEvent
+//                val activity = activity ?: return@collect
+//                val dialog = AlertDialog.Builder(activity)
+//                dialog.setMessage(R.string.error)
+//                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+//                        alertDialog.cancel()
+//                    }
+//                    .create()
+//                    .show()
+//            }
+//        }
 
         with(binding) {
-            containerListNewsIncludeOnFragmentMain.editNewsImageView.setOnClickListener {
+            containerListNewsIncludeOnFragmentMain.editNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_newsListFragment_to_newsControlPanelFragment
                 )

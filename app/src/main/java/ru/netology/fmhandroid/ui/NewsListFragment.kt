@@ -60,7 +60,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
 
         with(binding) {
-            editNewsImageView.setOnClickListener {
+            editNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_newsListFragment_to_newsControlPanelFragment
                 )

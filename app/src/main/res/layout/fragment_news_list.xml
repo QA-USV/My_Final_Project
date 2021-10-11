@@ -72,13 +72,13 @@
             android:checkable="true"
             app:iconTint="?attr/colorControlNormal"
             android:background="@color/transparent"
-            app:layout_constraintEnd_toStartOf="@+id/edit_news_image_view"
+            app:layout_constraintEnd_toStartOf="@+id/edit_news_material_button"
             app:layout_constraintStart_toEndOf="@+id/sort_news_material_button"
             app:layout_constraintTop_toTopOf="@id/title_background_image_view"
             app:layout_constraintBottom_toBottomOf="@id/title_background_image_view"/>
 
         <ImageView
-            android:id="@+id/edit_news_image_view"
+            android:id="@+id/edit_news_material_button"
             style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

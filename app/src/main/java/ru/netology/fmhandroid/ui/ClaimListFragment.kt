@@ -39,7 +39,7 @@ class ClaimListFragment : Fragment() {
 
         val binding = FragmentListClaimBinding.inflate(inflater, container, false)
 
-        val menuFiltering = PopupMenu(context, binding.containerListClaimInclude.filtersImageButton)
+        val menuFiltering = PopupMenu(context, binding.containerListClaimInclude.filtersMaterialButton)
         menuFiltering.inflate(R.menu.menu_claim_list_filtering)
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
@@ -70,11 +70,11 @@ class ClaimListFragment : Fragment() {
             }
         }
 
-        binding.containerListClaimInclude.filtersImageButton.setOnClickListener {
+        binding.containerListClaimInclude.filtersMaterialButton.setOnClickListener {
             menuFiltering.show()
         }
 
-        binding.containerListClaimInclude.addNewClaimImageButton.setOnClickListener {
+        binding.containerListClaimInclude.addNewClaimMaterialButton.setOnClickListener {
             findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
         }
 
