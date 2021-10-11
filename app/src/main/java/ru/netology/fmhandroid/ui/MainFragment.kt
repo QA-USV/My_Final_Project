@@ -53,15 +53,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
 
-        val mainMenu = PopupMenu(context, binding.mainAppBar)
+        val mainMenu = PopupMenu(context, binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton)
         mainMenu.inflate(R.menu.menu_main)
         mainMenu.menu.removeItem(R.id.menu_item_main)
 
-        val toolbar: Toolbar = binding.mainFragmentMaterialToolBar
-
-        toolbar.setNavigationOnClickListener {
-            mainMenu.show()
-        }
         mainMenu.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.menu_item_users -> {
@@ -151,6 +146,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             containerListNewsIncludeOnFragmentMain.filterNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(R.id.action_newsListFragment_to_filterNewsFragment)
+            }
+
+            containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton.setOnClickListener {
+                mainMenu.show()
             }
         }
 

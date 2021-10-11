@@ -7,32 +7,15 @@
     android:orientation="vertical"
     tools:context=".ui.MainFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main_app_bar"
+    <include
+        android:id="@+id/container_custom_app_bar_include_on_fragment_main"
+        layout="@layout/top_custom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/main_fragment_material_tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:navigationIcon="@drawable/ic_menu_24"
-            app:menu="@menu/top_app_material_tool_bar"
-            app:subtitle="@string/app_tool_bar_subtitle"
-            app:subtitleCentered="true"
-            app:subtitleTextAppearance="@style/AppToolBarSubTitle"
-            app:subtitleTextColor="@color/white"
-            app:title="@string/app_tool_bar_title"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/AppToolBarTitle"
-            app:titleTextColor="@color/white">
-        </com.google.android.material.appbar.MaterialToolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"

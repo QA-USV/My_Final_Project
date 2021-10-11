@@ -51,8 +51,8 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
                 val activity = activity ?: return@collect
                 val dialog = AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.error)
-                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                        dialog.cancel()
+                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                        alertDialog.cancel()
                     }
                     .create()
                     .show()
