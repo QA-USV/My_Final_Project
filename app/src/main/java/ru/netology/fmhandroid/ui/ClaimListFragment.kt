@@ -39,8 +39,36 @@ class ClaimListFragment : Fragment() {
 
         val binding = FragmentListClaimBinding.inflate(inflater, container, false)
 
-        val menuFiltering = PopupMenu(context, binding.containerListClaimInclude.filtersMaterialButton)
+        val menuFiltering =
+            PopupMenu(context, binding.containerListClaimInclude.filtersMaterialButton)
         menuFiltering.inflate(R.menu.menu_claim_list_filtering)
+
+        val mainMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentListClaim.mainMenuImageButton
+        )
+        mainMenu.inflate(R.menu.menu_main)
+        mainMenu.menu.removeItem(R.id.menu_item_claims)
+
+        mainMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_item_main -> {
+                    findNavController().navigate(R.id.action_claimListFragment_to_mainFragment)
+                    true
+                }
+                R.id.menu_item_users -> {
+                    // дописать переход на фрагмент со списком пользователей
+                    true
+                }
+                R.id.menu_item_news -> {
+                    findNavController().navigate(R.id.action_claimListFragment_to_newsListFragment)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
@@ -74,6 +102,10 @@ class ClaimListFragment : Fragment() {
             menuFiltering.show()
         }
 
+        binding.containerCustomAppBarIncludeOnFragmentListClaim.mainMenuImageButton.setOnClickListener {
+            mainMenu.show()
+        }
+
         binding.containerListClaimInclude.addNewClaimMaterialButton.setOnClickListener {
             findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
         }
@@ -91,7 +123,8 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.OPEN })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+                        state.isEmpty()
                 }
             }
             true
@@ -101,7 +134,8 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.IN_PROGRESS })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+                        state.isEmpty()
                 }
             }
             true
@@ -111,7 +145,8 @@ class ClaimListFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state.filter { it.claim.status == Claim.Status.CANCELLED })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+                        state.isEmpty()
                 }
             }
             true
@@ -120,8 +155,9 @@ class ClaimListFragment : Fragment() {
         R.id.executes_list_item -> {
             lifecycleScope.launchWhenCreated {
                 viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED})
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED })
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+                        state.isEmpty()
                 }
             }
             true

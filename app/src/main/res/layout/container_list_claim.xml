@@ -85,7 +85,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/empty_claim_list_text_view"
@@ -128,6 +129,7 @@
             android:layout_gravity="center"
             android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_claim" />
+            tools:listitem="@layout/item_claim"
+            tools:itemCount="2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -20,6 +20,12 @@
             android:defaultValue="@null"
             app:argType="ru.netology.fmhandroid.dto.NewsFilterArgs"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_newsListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
     </fragment>
 
     <fragment
@@ -102,6 +108,12 @@
         <action
             android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
     </fragment>
 
     <fragment

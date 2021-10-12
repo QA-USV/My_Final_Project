@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.ui
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -39,6 +40,33 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsListBinding.bind(view)
 
+        val mainMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentNewsList.mainMenuImageButton
+        )
+        mainMenu.inflate(R.menu.menu_main)
+        mainMenu.menu.removeItem(R.id.menu_item_news)
+
+        mainMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_item_main -> {
+                    findNavController().navigate(R.id.action_newsListFragment_to_mainFragment)
+                    true
+                }
+                R.id.menu_item_users -> {
+                    // дописать переход на фрагмент со списком пользователей !!
+                    true
+                }
+                R.id.menu_item_claims -> {
+                    findNavController().navigate(R.id.action_newsListFragment_to_claimListFragment)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
         val adapter = NewsListAdapter()
 
         lifecycleScope.launchWhenCreated {
@@ -60,33 +88,43 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
 
         with(binding) {
-            editNewsMaterialButton.setOnClickListener {
+            containerListClaimInclude.editNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_newsListFragment_to_newsControlPanelFragment
                 )
             }
 
-            sortNewsMaterialButton.setOnClickListener {
+            containerListClaimInclude.sortNewsMaterialButton.setOnClickListener {
                 if (data == null) data = viewModel.data
                 lifecycleScope.launch {
-                    if (binding.sortNewsMaterialButton.isChecked) {
-                        newsListRecyclerView.revert(true, requireActivity())
+                    if (binding.containerListClaimInclude.sortNewsMaterialButton.isChecked) {
+                        containerListClaimInclude.newsListRecyclerView.revert(
+                            true,
+                            requireActivity()
+                        )
                         data?.collectLatest { state ->
                             adapter.submitList(state.reversed())
                         }
                     } else {
-                        newsListRecyclerView.revert(true, requireActivity())
+                        containerListClaimInclude.newsListRecyclerView.revert(
+                            true,
+                            requireActivity()
+                        )
                         submitList(adapter, data)
                     }
                 }
             }
 
-            filterNewsMaterialButton.setOnClickListener {
+            containerCustomAppBarIncludeOnFragmentNewsList.mainMenuImageButton.setOnClickListener {
+                mainMenu.show()
+            }
+
+            containerListClaimInclude.filterNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(R.id.action_newsListFragment_to_filterNewsFragment)
             }
         }
 
-        binding.newsListRecyclerView.adapter = adapter
+        binding.containerListClaimInclude.newsListRecyclerView.adapter = adapter
     }
 
     private suspend fun filterNews(adapter: NewsListAdapter) {
@@ -115,7 +153,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         lifecycleScope.launch {
             data?.collectLatest { state ->
                 adapter.submitList(state)
-                binding.emptyTextTextView.isVisible = state.isEmpty()
+                binding.containerListClaimInclude.emptyTextTextView.isVisible = state.isEmpty()
             }
         }
     }
