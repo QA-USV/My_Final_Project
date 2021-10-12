@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Первый московский хоспис</string>
     <string name="claims">Заявки</string>
+    <string name="claim">Заявка</string>
     <string name="location">В хосписе</string>
     <string name="status">Статус</string>
     <string name="full_name_format">%s %s %s</string>
@@ -145,4 +146,6 @@
     <string name="no_editing_rights">Редактировать данный документ может только его Автор или Администратор</string>
     <string name="no_change_status_rights_author">Действие доступно только автору или Администратору</string>
     <string name="no_change_status_rights_executor">Действие доступно только Исполнителю или Администратору</string>
+    <string name="creating">Создание</string>
+    <string name="genitive_comment">Комментария</string>
 </resources>

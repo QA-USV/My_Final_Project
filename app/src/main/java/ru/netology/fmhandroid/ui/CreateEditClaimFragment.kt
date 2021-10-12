@@ -61,6 +61,28 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         binding = FragmentCreateEditClaimBinding.bind(view)
 
         with(binding) {
+            containerCustomAppBarIncludeOnFragmentCreateEditClaim.mainMenuImageButton.visibility =
+                View.GONE
+            containerCustomAppBarIncludeOnFragmentCreateEditClaim.authorizationImageButton.visibility =
+                View.GONE
+            containerCustomAppBarIncludeOnFragmentCreateEditClaim.ourMissionImageButton.visibility =
+                View.GONE
+            if (args.argClaim == null) {
+                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarTitleTextView.apply {
+                    setText(R.string.creating)
+                    textSize = 18F
+                }
+                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarSubTitleTextView
+                    .setText(R.string.claims)
+            } else {
+                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarTitleTextView.apply {
+                    setText(R.string.editing)
+                    textSize = 18F
+                }
+                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarSubTitleTextView
+                    .setText(R.string.claims)
+            }
+
             args.argClaim?.let { claim ->
                 titleTextInputLayout.editText?.setText(claim.claim.title)
                 dateInPlanTextInputLayout.editText?.setText(

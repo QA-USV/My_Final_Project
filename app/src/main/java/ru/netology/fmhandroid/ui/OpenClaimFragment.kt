@@ -326,6 +326,10 @@ class OpenClaimFragment : Fragment() {
         }
 
         binding.apply {
+//            containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarTitleTextView.visibility =
+//                View.GONE
+//            containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
+//                .setText(R.string.claim)
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(

@@ -39,7 +39,23 @@ class CreateEditClaimCommentFragment : Fragment() {
             false
         )
 
+        with(binding) {
+            containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.mainMenuImageButton.visibility =
+                View.GONE
+            containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.authorizationImageButton.visibility =
+                View.GONE
+            containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.ourMissionImageButton.visibility =
+                View.GONE
+        }
+
         if (comment != null) {
+            binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.customAppBarTitleTextView.apply {
+                setText(R.string.editing)
+                textSize = 18F
+            }
+            binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.customAppBarSubTitleTextView
+                .setText(R.string.genitive_comment)
+
             binding.commentTextInputLayout.editText?.setText(comment.claimComment.description)
 
             binding.saveButton.setOnClickListener {
@@ -62,6 +78,13 @@ class CreateEditClaimCommentFragment : Fragment() {
 
             }
         } else {
+            binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.customAppBarTitleTextView.apply {
+                setText(R.string.creating)
+                textSize = 18F
+            }
+            binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.customAppBarSubTitleTextView
+                .setText(R.string.genitive_comment)
+
             binding.saveButton.setOnClickListener {
                 // TODO("Доработать когда будет реализована авторизация
                 //  Вставлять корректный creatorId вместо хардкода")
@@ -76,7 +99,9 @@ class CreateEditClaimCommentFragment : Fragment() {
                             creatorId = 1,
                             createDate = LocalDateTime.now().toEpochSecond(
                                 ZoneId.of("Europe/Moscow").rules.getOffset(
-                                    Instant.now()))
+                                    Instant.now()
+                                )
+                            )
                         )
                     )
                     findNavController().navigateUp()

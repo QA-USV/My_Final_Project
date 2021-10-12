@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">First moscow \nhospice</string>
     <string name="claims">Claims</string>
+    <string name="claim">Claim</string>
     <string name="location">Location</string>
     <string name="status">Status</string>
     <string name="more">More</string>
@@ -103,7 +104,7 @@
     <string name="information" translatable="false">Information</string>
     <string name="all_news_categories">All categories</string>
     <string name="news_category_advertisement">Advertisement</string>
-    <string name="news_category_birthday">Bithday</string>
+    <string name="news_category_birthday">Birthday</string>
     <string name="news_category_salary">Salary</string>
     <string name="news_category_union">Union</string>
     <string name="news_category_holiday">Holiday</string>
@@ -146,4 +147,6 @@
     <string name="no_editing_rights">This document can only be edited by its Author or Administrator.</string>
     <string name="no_change_status_rights_author">The action is available only to the author or Administrator.</string>
     <string name="no_change_status_rights_executor">The action is available only to the Executor or Administrator</string>
+    <string name="creating">Creating</string>
+    <string name="genitive_comment">Comment</string>
 </resources>
