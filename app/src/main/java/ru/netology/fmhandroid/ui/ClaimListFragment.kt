@@ -70,6 +70,11 @@ class ClaimListFragment : Fragment() {
             }
         }
 
+        binding.apply {
+            containerListClaimInclude.expandMaterialButton.visibility = View.GONE
+            containerListClaimInclude.allClaimsTextView.visibility = View.GONE
+        }
+
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
                 claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }

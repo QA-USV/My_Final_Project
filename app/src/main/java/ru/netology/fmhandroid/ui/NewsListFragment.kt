@@ -67,6 +67,11 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
         }
 
+        binding.apply {
+            containerListNewsInclude.allNewsTextView.visibility = View.GONE
+            containerListNewsInclude.expandMaterialButton.visibility = View.GONE
+        }
+
         val adapter = NewsListAdapter()
 
         lifecycleScope.launchWhenCreated {
@@ -88,17 +93,17 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
 
         with(binding) {
-            containerListClaimInclude.editNewsMaterialButton.setOnClickListener {
+            containerListNewsInclude.editNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_newsListFragment_to_newsControlPanelFragment
                 )
             }
 
-            containerListClaimInclude.sortNewsMaterialButton.setOnClickListener {
+            containerListNewsInclude.sortNewsMaterialButton.setOnClickListener {
                 if (data == null) data = viewModel.data
                 lifecycleScope.launch {
-                    if (binding.containerListClaimInclude.sortNewsMaterialButton.isChecked) {
-                        containerListClaimInclude.newsListRecyclerView.revert(
+                    if (binding.containerListNewsInclude.sortNewsMaterialButton.isChecked) {
+                        containerListNewsInclude.newsListRecyclerView.revert(
                             true,
                             requireActivity()
                         )
@@ -106,7 +111,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
                             adapter.submitList(state.reversed())
                         }
                     } else {
-                        containerListClaimInclude.newsListRecyclerView.revert(
+                        containerListNewsInclude.newsListRecyclerView.revert(
                             true,
                             requireActivity()
                         )
@@ -119,12 +124,12 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
                 mainMenu.show()
             }
 
-            containerListClaimInclude.filterNewsMaterialButton.setOnClickListener {
+            containerListNewsInclude.filterNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(R.id.action_newsListFragment_to_filterNewsFragment)
             }
         }
 
-        binding.containerListClaimInclude.newsListRecyclerView.adapter = adapter
+        binding.containerListNewsInclude.newsListRecyclerView.adapter = adapter
     }
 
     private suspend fun filterNews(adapter: NewsListAdapter) {
@@ -153,7 +158,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         lifecycleScope.launch {
             data?.collectLatest { state ->
                 adapter.submitList(state)
-                binding.containerListClaimInclude.emptyTextTextView.isVisible = state.isEmpty()
+                binding.containerListNewsInclude.emptyTextTextView.isVisible = state.isEmpty()
             }
         }
     }
