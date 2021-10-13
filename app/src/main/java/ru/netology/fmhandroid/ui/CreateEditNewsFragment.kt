@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -81,6 +82,17 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 switcher.isChecked = newsItem.news.newsItem.publishEnabled
             }
 
+            lifecycleScope.launch {
+                Events.events.collect {
+                    viewModel.saveNewsItemExceptionEvent
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
             cancelButton.setOnClickListener {
                 val activity = activity ?: return@setOnClickListener
                 val dialog = AlertDialog.Builder(activity)
@@ -117,21 +129,21 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                         else -> viewModel.edit(fillNewsItem())
                     }
                 }
-                viewLifecycleOwner.lifecycleScope.launch {
-                    Events.events.collect {
-                        viewModel.saveNewsItemExceptionEvent
-                        dialog.setMessage(R.string.error_saving)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
-                    }
-                }
             }
         }
-
-
+            // Этот код все время выбрасывает ошибку !!!
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            val dialog = context?.let { AlertDialog.Builder(it) }
+//            Events.events.collect {
+//                viewModel.saveNewsItemExceptionEvent
+//                dialog?.setMessage(R.string.error_saving)
+//                    ?.setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+//                        dialog.cancel()
+//                    }
+//                    ?.create()
+//                    ?.show()
+//            }
+//        }
 
         lifecycleScope.launch {
             viewModel.getAllNewsCategories().collect {
