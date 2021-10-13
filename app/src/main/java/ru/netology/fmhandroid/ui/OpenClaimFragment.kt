@@ -97,7 +97,7 @@ class OpenClaimFragment : Fragment() {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast()
+                                    showErrorToast(R.string.error)
                                     return@collect
                                 }
                             }
@@ -131,7 +131,7 @@ class OpenClaimFragment : Fragment() {
                     lifecycleScope.launchWhenStarted {
                         // Изменить в условии на Id залогиненного юзера!!!
                         if (claim.claim.creatorId != user.id) {
-                            showWarningSnackBar(R.string.no_change_status_rights_author)
+                            showErrorToast(R.string.no_change_status_rights_author)
                             return@launchWhenStarted
                         }
 
@@ -144,7 +144,7 @@ class OpenClaimFragment : Fragment() {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast()
+                                    showErrorToast(R.string.error)
                                     return@collect
                                 }
                             }
@@ -176,7 +176,7 @@ class OpenClaimFragment : Fragment() {
 
                     // Изменить на залогиненного юзера и добавить в проверку Администратора!
                     if (user.id != tempExecutorId) {
-                        showWarningSnackBar(R.string.no_change_status_rights_executor)
+                        showErrorToast(R.string.no_change_status_rights_executor)
                     } else {
                         val dialog = CreateCommentDialogFragment.newInstance(
                             text = "",
@@ -205,11 +205,7 @@ class OpenClaimFragment : Fragment() {
                                 tempExecutorId = null
                                 dialog.dismiss()
                             } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    R.string.toast_empty_field,
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                showErrorToast(R.string.toast_empty_field)
                             }
                         }
                         dialog.show(parentFragmentManager, "CreateCommentDialog")
@@ -220,7 +216,7 @@ class OpenClaimFragment : Fragment() {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast()
+                                    showErrorToast(R.string.error)
                                     return@collect
                                 }
                             }
@@ -251,74 +247,71 @@ class OpenClaimFragment : Fragment() {
 
                 R.id.executes_list_item -> {
 
-                                        // Изменить на залогиненного юзера и добавить в проверку Администратора!
+                    // Изменить на залогиненного юзера и добавить в проверку Администратора!
                     if (user.id != tempExecutorId) {
-                        showWarningSnackBar(R.string.no_change_status_rights_executor)
+                        showErrorToast(R.string.no_change_status_rights_executor)
                     } else {
 
-                    val dialog = CreateCommentDialogFragment.newInstance(
-                        text = "",
-                        hint = "Description",
-                        isMultiline = true
-                    )
-                    dialog.onOk = {
-                        val text = dialog.editText.text
-                        if (text.isNotBlank()) {
-                            viewModel.changeClaimStatus(
-                                claim.claim.id!!,
-                                Claim.Status.EXECUTED,
-                                executorId = claim.executor?.id,
-                                claimComment = ClaimComment(
-                                    claimId = claim.claim.id,
-                                    description = text.toString(),
-                                    creatorId = user.id,
-                                    createDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
+                        val dialog = CreateCommentDialogFragment.newInstance(
+                            text = "",
+                            hint = "Description",
+                            isMultiline = true
+                        )
+                        dialog.onOk = {
+                            val text = dialog.editText.text
+                            if (text.isNotBlank()) {
+                                viewModel.changeClaimStatus(
+                                    claim.claim.id!!,
+                                    Claim.Status.EXECUTED,
+                                    executorId = claim.executor?.id,
+                                    claimComment = ClaimComment(
+                                        claimId = claim.claim.id,
+                                        description = text.toString(),
+                                        creatorId = user.id,
+                                        createDate = LocalDateTime.now().toEpochSecond(
+                                            ZoneId.of("Europe/Moscow").rules.getOffset(
+                                                Instant.now()
+                                            )
                                         )
                                     )
                                 )
-                            )
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                R.string.toast_empty_field,
-                                Toast.LENGTH_LONG
-                            ).show()
+                                dialog.dismiss()
+                            } else {
+                                showErrorToast(R.string.toast_empty_field)
+                            }
                         }
-                    }
-                    dialog.show(parentFragmentManager, "CreateCommentDialog")
+                        dialog.show(parentFragmentManager, "CreateCommentDialog")
 
 //                    lifecycleScope.launchWhenStarted {
 //                        if (user.id != claim.claim.executorId) {
 //                            showWarningSnackBar(R.string.no_change_status_rights_executor)
 //                            return@launchWhenStarted
 //                        }
-
-                        Events.events.collect { event ->
-                            when (event) {
-                                viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast()
-                                    return@collect
+                        lifecycleScope.launchWhenStarted {
+                            Events.events.collect { event ->
+                                when (event) {
+                                    viewModel.claimStatusChangeExceptionEvent -> {
+                                        showErrorToast(R.string.error)
+                                        return@collect
+                                    }
                                 }
-                            }
 
-                            viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.text =
-                                    displayingStatusOfClaim(it.claim.status!!)
-                                statusMenuVisibility(
-                                    it.claim.status!!,
-                                    statusProcessingMenu
-                                )
-                                binding.executorNameTextView.text = if (it.executor != null) {
-                                    Utils.fullUserNameGenerator(
-                                        it.executor.lastName.toString(),
-                                        it.executor.firstName.toString(),
-                                        it.executor.middleName.toString()
+                                viewModel.dataClaim.collect {
+                                    binding.statusLabelTextView.text =
+                                        displayingStatusOfClaim(it.claim.status!!)
+                                    statusMenuVisibility(
+                                        it.claim.status!!,
+                                        statusProcessingMenu
                                     )
-                                } else {
-                                    getString(R.string.not_assigned)
+                                    binding.executorNameTextView.text = if (it.executor != null) {
+                                        Utils.fullUserNameGenerator(
+                                            it.executor.lastName.toString(),
+                                            it.executor.firstName.toString(),
+                                            it.executor.middleName.toString()
+                                        )
+                                    } else {
+                                        getString(R.string.not_assigned)
+                                    }
                                 }
                             }
                         }
@@ -390,12 +383,12 @@ class OpenClaimFragment : Fragment() {
 
             editProcessingImageButton.setOnClickListener {
                 if (claim.claim.status != Claim.Status.OPEN) {
-                    showWarningSnackBar(R.string.inability_to_edit_claim)
+                    showErrorToast(R.string.inability_to_edit_claim)
                     return@setOnClickListener
                 }
                 // Изменить в условии на Id залогиненного юзера!!!
                 if (claim.claim.creatorId != user.id) {
-                    showWarningSnackBar(R.string.no_editing_rights)
+                    showErrorToast(R.string.no_editing_rights)
                     return@setOnClickListener
                 }
                 val action = OpenClaimFragmentDirections
@@ -459,32 +452,32 @@ class OpenClaimFragment : Fragment() {
         }
     }
 
-    private fun showWarningSnackBar(warningTextString: Int) {
-        Snackbar.make(
-            binding.root,
-            warningTextString,
-            Snackbar.LENGTH_INDEFINITE
-        )
-            .setAction("Ok") { return@setAction }
-            .setBackgroundTint(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.app_snack_bar_background
-                )
-            )
-            .setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.white
-                )
-            )
-            .show()
-    }
+//    private fun showWarningSnackBar(warningTextString: Int) {
+//        Snackbar.make(
+//            binding.root,
+//            warningTextString,
+//            Snackbar.LENGTH_INDEFINITE
+//        )
+//            .setAction("Ok") { return@setAction }
+//            .setBackgroundTint(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.app_snack_bar_background
+//                )
+//            )
+//            .setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.white
+//                )
+//            )
+//            .show()
+//    }
 
-    private fun showErrorToast() {
+    private fun showErrorToast(text: Int) {
         Toast.makeText(
             requireContext(),
-            R.string.error,
+            text,
             Toast.LENGTH_LONG
         ).show()
     }
