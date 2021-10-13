@@ -5,6 +5,7 @@
     android:id="@+id/news_item_material_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="68dp"
     android:layout_marginBottom="2dp"
     app:cardCornerRadius="0dp"
     app:strokeColor="@color/claim_stroke_color"
@@ -13,7 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:minHeight="70dp">
 
         <ImageView
             android:id="@+id/view_news_item_image_view"
@@ -80,7 +82,7 @@
             android:textSize="13sp"
             android:background="#F5F5F5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/news_item_description_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@string/news_item_date" />
 
         <TextView

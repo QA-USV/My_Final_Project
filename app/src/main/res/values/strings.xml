@@ -149,4 +149,6 @@
     <string name="no_change_status_rights_executor">The action is available only to the Executor or Administrator</string>
     <string name="creating">Creating</string>
     <string name="genitive_comment">Comment</string>
+    <string name="all_news">All news</string>
+    <string name="all_claims">all_claims</string>
 </resources>
