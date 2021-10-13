@@ -56,7 +56,7 @@ class OpenClaimFragment : Fragment() {
 
         // Временная переменная. После авторизации заменить на залогиненного юзера
         val user = User(
-            id = 2,
+            id = 1,
             login = "User-1",
             password = "abcd",
             firstName = "Дмитрий",
@@ -202,6 +202,8 @@ class OpenClaimFragment : Fragment() {
                                             )
                                     )
                                 )
+                                tempExecutorId = null
+                                dialog.dismiss()
                             } else {
                                 Toast.makeText(
                                     requireContext(),
@@ -209,7 +211,6 @@ class OpenClaimFragment : Fragment() {
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
-                            dialog.dismiss()
                         }
                         dialog.show(parentFragmentManager, "CreateCommentDialog")
                     }
@@ -245,11 +246,15 @@ class OpenClaimFragment : Fragment() {
                             }
                         }
                     }
-                    tempExecutorId = null
                     true
                 }
 
                 R.id.executes_list_item -> {
+
+                                        // Изменить на залогиненного юзера и добавить в проверку Администратора!
+                    if (user.id != tempExecutorId) {
+                        showWarningSnackBar(R.string.no_change_status_rights_executor)
+                    } else {
 
                     val dialog = CreateCommentDialogFragment.newInstance(
                         text = "",
@@ -274,6 +279,7 @@ class OpenClaimFragment : Fragment() {
                                     )
                                 )
                             )
+                            dialog.dismiss()
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -282,13 +288,13 @@ class OpenClaimFragment : Fragment() {
                             ).show()
                         }
                     }
-                    dialog.show(this.childFragmentManager, "CreateCommentDialog")
+                    dialog.show(parentFragmentManager, "CreateCommentDialog")
 
-                    lifecycleScope.launchWhenStarted {
-                        if (user.id != claim.claim.executorId) {
-                            showWarningSnackBar(R.string.no_change_status_rights_executor)
-                            return@launchWhenStarted
-                        }
+//                    lifecycleScope.launchWhenStarted {
+//                        if (user.id != claim.claim.executorId) {
+//                            showWarningSnackBar(R.string.no_change_status_rights_executor)
+//                            return@launchWhenStarted
+//                        }
 
                         Events.events.collect { event ->
                             when (event) {
