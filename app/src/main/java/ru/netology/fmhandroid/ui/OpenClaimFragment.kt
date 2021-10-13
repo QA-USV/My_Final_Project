@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -282,11 +280,6 @@ class OpenClaimFragment : Fragment() {
                         }
                         dialog.show(parentFragmentManager, "CreateCommentDialog")
 
-//                    lifecycleScope.launchWhenStarted {
-//                        if (user.id != claim.claim.executorId) {
-//                            showWarningSnackBar(R.string.no_change_status_rights_executor)
-//                            return@launchWhenStarted
-//                        }
                         lifecycleScope.launchWhenStarted {
                             Events.events.collect { event ->
                                 when (event) {
@@ -451,28 +444,6 @@ class OpenClaimFragment : Fragment() {
             }
         }
     }
-
-//    private fun showWarningSnackBar(warningTextString: Int) {
-//        Snackbar.make(
-//            binding.root,
-//            warningTextString,
-//            Snackbar.LENGTH_INDEFINITE
-//        )
-//            .setAction("Ok") { return@setAction }
-//            .setBackgroundTint(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.app_snack_bar_background
-//                )
-//            )
-//            .setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.white
-//                )
-//            )
-//            .show()
-//    }
 
     private fun showErrorToast(text: Int) {
         Toast.makeText(

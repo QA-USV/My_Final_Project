@@ -19,6 +19,8 @@ class NewsViewModel @Inject constructor(
     val newsItemCreatedEvent = Events()
     val loadNewsExceptionEvent = Events()
     val saveNewsItemExceptionEvent = Events()
+    val editNewsItemSavedEvent = Events()
+    val editNewsItemExceptionEvent = Events()
     val removeNewsItemExceptionEvent = Events()
     val loadNewsCategoriesExceptionEvent = Events()
 
@@ -52,10 +54,10 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 newsRepository.editNewsItem(newsItem)
-                Events.produceEvents(newsItemCreatedEvent)
+                Events.produceEvents(editNewsItemSavedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(saveNewsItemExceptionEvent)
+                Events.produceEvents(editNewsItemExceptionEvent)
             }
         }
     }

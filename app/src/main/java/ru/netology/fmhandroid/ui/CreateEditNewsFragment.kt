@@ -82,17 +82,6 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 switcher.isChecked = newsItem.news.newsItem.publishEnabled
             }
 
-            lifecycleScope.launch {
-                Events.events.collect {
-                    viewModel.saveNewsItemExceptionEvent
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.error,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-
             cancelButton.setOnClickListener {
                 val activity = activity ?: return@setOnClickListener
                 val dialog = AlertDialog.Builder(activity)
@@ -109,41 +98,36 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
             }
 
             saveButton.setOnClickListener {
-                val activity = activity ?: return@setOnClickListener
-                val dialog = android.app.AlertDialog.Builder(activity)
                 if (newsItemCategoryTextAutoCompleteTextView.text.isNullOrBlank() ||
                     newsItemTitleTextInputEditText.text.isNullOrBlank() ||
                     newsItemPublishDateTextInputEditText.text.isNullOrBlank() ||
                     newsItemPublishTimeTextInputEditText.text.isNullOrBlank() ||
                     newsItemDescriptionTextInputEditText.text.isNullOrBlank()
                 ) {
-                    dialog.setMessage(R.string.empty_fields)
-                        .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                            dialog.cancel()
-                        }
-                        .create()
-                        .show()
+                    showErrorToast(R.string.empty_fields)
                 } else {
                     when (args.newsItemArg) {
                         null -> viewModel.save(fillNewsItem())
                         else -> viewModel.edit(fillNewsItem())
                     }
+
+                    lifecycleScope.launchWhenStarted {
+                        Events.events.collect { event ->
+                            when(event) {
+                                viewModel.saveNewsItemExceptionEvent -> {
+                                    showErrorToast(R.string.error_saving)
+                                    return@collect
+                                }
+                                viewModel.editNewsItemExceptionEvent -> {
+                                    showErrorToast(R.string.error_saving)
+                                    return@collect
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-            // Этот код все время выбрасывает ошибку !!!
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            val dialog = context?.let { AlertDialog.Builder(it) }
-//            Events.events.collect {
-//                viewModel.saveNewsItemExceptionEvent
-//                dialog?.setMessage(R.string.error_saving)
-//                    ?.setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-//                        dialog.cancel()
-//                    }
-//                    ?.create()
-//                    ?.show()
-//            }
-//        }
 
         lifecycleScope.launch {
             viewModel.getAllNewsCategories().collect {
@@ -169,21 +153,13 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             Events.events.collect { event ->
-                val activity = activity ?: return@collect
-                val dialog = android.app.AlertDialog.Builder(activity)
                 when (event) {
                     viewModel.loadNewsCategoriesExceptionEvent ->
-                        dialog.setMessage(R.string.error)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
+                        showErrorToast(R.string.error)
                     viewModel.newsItemCreatedEvent -> findNavController().navigateUp()
                 }
             }
         }
-
 
         val calendar = Calendar.getInstance()
 
@@ -228,6 +204,14 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 true
             ).show()
         }
+    }
+
+    private fun showErrorToast(text: Int) {
+        Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun fillNewsItem(): News {
