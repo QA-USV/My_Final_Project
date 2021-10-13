@@ -148,4 +148,6 @@
     <string name="no_change_status_rights_executor">Действие доступно только Исполнителю или Администратору</string>
     <string name="creating">Создание</string>
     <string name="genitive_comment">Комментария</string>
+    <string name="all_news">Все новости</string>
+    <string name="all_claims">Все заявки</string>
 </resources>

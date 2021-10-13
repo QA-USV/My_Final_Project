@@ -1,13 +1,8 @@
 package ru.netology.fmhandroid.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -27,7 +22,6 @@ import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.ui.NewsControlPanelFragment.Companion.revert
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
@@ -55,9 +49,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val mainMenu = PopupMenu(context, binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton)
         mainMenu.inflate(R.menu.menu_main)
         mainMenu.menu.removeItem(R.id.menu_item_main)
-
+        binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton.setOnClickListener {
+            mainMenu.show()
+        }
         mainMenu.setOnMenuItemClickListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.menu_item_users -> {
                     // Дописать переход на фрагмент со списком пользователей!!!
                     true
@@ -71,6 +67,34 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     true
                 }
                 else -> false
+            }
+        }
+
+
+        binding.containerListClaimIncludeOnFragmentMain.apply {
+            filtersMaterialButton.visibility = View.GONE
+
+            addNewClaimMaterialButton.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)
+            }
+
+            expandMaterialButton.setOnClickListener {
+                when (allClaimsTextView.visibility) {
+                    View.GONE -> {
+                        allClaimsTextView.visibility = View.VISIBLE
+                        allClaimsCardsBlockConstraintLayout.visibility = View.VISIBLE
+                        expandMaterialButton.setIconResource(R.drawable.expand_less_24)
+                    }
+                    else -> {
+                        allClaimsTextView.visibility = View.GONE
+                        allClaimsCardsBlockConstraintLayout.visibility = View.GONE
+                        expandMaterialButton.setIconResource(R.drawable.expand_more_24)
+                    }
+                }
+            }
+
+            allClaimsTextView.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
             }
         }
 
@@ -98,6 +122,31 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
+        binding.containerListNewsIncludeOnFragmentMain.apply {
+            sortNewsMaterialButton.visibility = View.GONE
+            filterNewsMaterialButton.visibility = View.GONE
+            editNewsMaterialButton.visibility = View.GONE
+
+            expandMaterialButton.setOnClickListener {
+                when (allNewsTextView.visibility) {
+                    View.GONE -> {
+                        allNewsTextView.visibility = View.VISIBLE
+                        allNewsCardsBlockConstraintLayout.visibility = View.VISIBLE
+                        expandMaterialButton.setIconResource(R.drawable.expand_less_24)
+                    }
+                    else -> {
+                        allNewsTextView.visibility = View.GONE
+                        allNewsCardsBlockConstraintLayout.visibility = View.GONE
+                        expandMaterialButton.setIconResource(R.drawable.expand_more_24)
+                    }
+                }
+            }
+
+            allNewsTextView.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_newsListFragment)
+            }
+        }
+
         val newsListAdapter = NewsListAdapter()
         binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter = newsListAdapter
 
@@ -119,40 +168,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 //                    .show()
 //            }
 //        }
-
-        with(binding) {
-            containerListNewsIncludeOnFragmentMain.editNewsMaterialButton.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_newsListFragment_to_newsControlPanelFragment
-                )
-            }
-
-            containerListNewsIncludeOnFragmentMain.sortNewsMaterialButton.setOnClickListener {
-                if (data == null) data = viewModelNews.data
-                lifecycleScope.launch {
-                    if (containerListNewsIncludeOnFragmentMain.sortNewsMaterialButton.isChecked) {
-                        containerListNewsIncludeOnFragmentMain.newsListRecyclerView.revert(true, requireActivity())
-                        data?.collectLatest { state ->
-                            newsListAdapter.submitList(state.reversed())
-                        }
-                    } else {
-                        containerListNewsIncludeOnFragmentMain.newsListRecyclerView.revert(true, requireActivity())
-                        submitList(newsListAdapter, data)
-                    }
-                }
-            }
-
-            containerListNewsIncludeOnFragmentMain.filterNewsMaterialButton.setOnClickListener {
-                findNavController().navigate(R.id.action_newsListFragment_to_filterNewsFragment)
-            }
-
-            containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton.setOnClickListener {
-                mainMenu.show()
-            }
-        }
-
-        binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter = newsListAdapter
-   }
+    }
 
     private suspend fun filterNews(adapter: NewsListAdapter) {
         setFragmentResultListener("requestKey") { _, bundle ->
@@ -161,14 +177,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 if (args?.category == null && args?.dates == null) data = viewModelNews.data
                 args?.category?.let { category ->
                     data = when (args.dates) {
-                        null -> viewModelNews.filterNewsByCategory(Utils.convertNewsCategory(category))
+                        null -> viewModelNews.filterNewsByCategory(
+                            Utils.convertNewsCategory(
+                                category
+                            )
+                        )
                         else -> viewModelNews.filterNewsByCategoryAndPublishDate(
                             Utils.convertNewsCategory(category), args.dates[0], args.dates[1]
                         )
                     }
                 }
                 if (args?.category == null) {
-                    data = args?.dates?.let { viewModelNews.filterNewsByPublishDate(it[0], it[1]) }
+                    data =
+                        args?.dates?.let { viewModelNews.filterNewsByPublishDate(it[0], it[1]) }
                 }
                 submitList(adapter, data)
             }
@@ -180,7 +201,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launch {
             data?.collectLatest { state ->
                 adapter.submitList(state)
-                binding.containerListNewsIncludeOnFragmentMain.emptyTextTextView.isVisible = state.isEmpty()
+                binding.containerListNewsIncludeOnFragmentMain.emptyTextTextView.isVisible =
+                    state.isEmpty()
             }
         }
     }
