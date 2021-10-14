@@ -74,12 +74,12 @@ class NewsControlPanelListAdapter(
                 true -> {
                     newsItemPublishedTextView.text =
                         itemView.context.getString(R.string.news_control_panel_published)
-                    newsItemPublishedIconImageView.setImageResource(R.drawable.check_24)
+                    newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_check_24)
                 }
                 false -> {
                     newsItemPublishedTextView.text =
                         itemView.context.getString(R.string.news_control_panel_not_published)
-                    newsItemPublishedIconImageView.setImageResource(R.drawable.clear_24)
+                    newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_clear_24)
                 }
             }
 

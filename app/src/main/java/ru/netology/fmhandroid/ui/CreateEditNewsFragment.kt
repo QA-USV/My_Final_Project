@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.ui
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -71,6 +72,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                     .setText(R.string.news)
             }
             args.newsItemArg?.let { newsItem ->
+                newsItemCategoryTextAutoCompleteTextView.setText(newsItem.news.category.name)
                 newsItemTitleTextInputEditText.setText(newsItem.news.newsItem.title)
                 newsItemPublishDateTextInputEditText.setText(
                     newsItem.news.newsItem.publishDate?.let { Utils.showDate(it) }
@@ -113,7 +115,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
 
                     lifecycleScope.launchWhenStarted {
                         Events.events.collect { event ->
-                            when(event) {
+                            when (event) {
                                 viewModel.saveNewsItemExceptionEvent -> {
                                     showErrorToast(R.string.error_saving)
                                     return@collect
@@ -156,7 +158,8 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 when (event) {
                     viewModel.loadNewsCategoriesExceptionEvent ->
                         showErrorToast(R.string.error)
-                    viewModel.newsItemCreatedEvent -> findNavController().navigateUp()
+                    viewModel.newsItemCreatedEvent, viewModel.editNewsItemSavedEvent ->
+                        findNavController().navigateUp()
                 }
             }
         }

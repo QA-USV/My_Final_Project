@@ -12,13 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_view_padding"
+        android:paddingBottom="@dimen/card_view_padding"
         android:background="@drawable/background_rounded"
         android:outlineSpotShadowColor="@color/execution_priority_low"
         android:elevation="10dp">
@@ -139,8 +141,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/cancel"
             app:layout_constraintStart_toStartOf="parent"
@@ -160,5 +162,6 @@
             app:layout_constraintTop_toBottomOf="@id/news_item_description_text_input_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
