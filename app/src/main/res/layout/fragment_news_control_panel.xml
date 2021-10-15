@@ -36,13 +36,12 @@
             style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/transparent"
             android:checkable="true"
-            app:icon="@raw/icon_sort"
+            app:icon="@drawable/ic_sort_18"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/filter_news_material_button"
-            app:layout_constraintStart_toEndOf="@id/news_control_fragment_title_text_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -50,12 +49,12 @@
             style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:background="@color/transparent"
             android:checkable="true"
-            app:icon="@raw/icon_filter"
+            app:icon="@drawable/ic_filters_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add_news_image_view"
-            app:layout_constraintStart_toEndOf="@+id/sort_news_material_button"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -64,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:src="@raw/icon_add"
+            android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,6 +81,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"

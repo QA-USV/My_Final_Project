@@ -42,6 +42,9 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsControlPanelBinding.bind(view)
 
+        val activity = activity ?: return
+        val dialog = AlertDialog.Builder(activity)
+
         val adapter = NewsControlPanelListAdapter(object : NewsOnInteractionListener {
             override fun onEdit(newItemWithCreator: NewsWithCreators) {
                 val action = NewsControlPanelFragmentDirections
@@ -50,7 +53,16 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             }
 
             override fun onRemove(newItemWithCreator: NewsWithCreators) {
-                newItemWithCreator.news.newsItem.id?.let { viewModel.remove(it) }
+                dialog.setMessage(R.string.irrevocable_deletion)
+                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                        newItemWithCreator.news.newsItem.id?.let { viewModel.remove(it) }
+                        alertDialog.cancel()
+                    }
+                    .setNegativeButton(R.string.cancel) { alertDialog, _ ->
+                        alertDialog.cancel()
+                    }
+                    .create()
+                    .show()
             }
         })
 
@@ -60,8 +72,6 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             Events.events.collect {
-                val activity = activity ?: return@collect
-                val dialog = AlertDialog.Builder(activity)
                 when (it) {
                     viewModel.loadNewsExceptionEvent ->
                         dialog.setMessage(R.string.error)

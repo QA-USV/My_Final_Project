@@ -200,7 +200,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun submitList(adapter: NewsListAdapter, data: Flow<List<NewsWithCreators>>?) {
         lifecycleScope.launch {
             data?.collectLatest { state ->
-                adapter.submitList(state)
+                adapter.submitList(state.filter {
+                    it.news.newsItem.publishEnabled
+                })
                 binding.containerListNewsIncludeOnFragmentMain.emptyTextTextView.isVisible =
                     state.isEmpty()
             }
