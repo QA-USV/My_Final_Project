@@ -151,4 +151,6 @@
     <string name="genitive_comment">Comment</string>
     <string name="all_news">All news</string>
     <string name="all_claims">all_claims</string>
+    <string name="enter">Enter</string>
+    <string name="login">login</string>
 </resources>
