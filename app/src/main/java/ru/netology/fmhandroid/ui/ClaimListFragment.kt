@@ -167,6 +167,17 @@ class ClaimListFragment : Fragment() {
             }
             true
         }
+
+        R.id.cancel_filtering_list_item -> {
+            lifecycleScope.launchWhenCreated {
+                viewModel.dataOpenInProgress.collectLatest { state ->
+                    adapter.submitList(state)
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+                        state.isEmpty()
+                }
+            }
+            true
+        }
         else -> false
     }
 }

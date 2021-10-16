@@ -108,52 +108,39 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
             ).show()
         }
 
-        with(binding) {
-            filterButton.setOnClickListener {
-                val activity = activity ?: return@setOnClickListener
-                val dialog = android.app.AlertDialog.Builder(activity)
-                if (newsItemCategoryTextAutoCompleteTextView.text.isNullOrBlank()) {
-                    dialog.setMessage(R.string.empty_news_category)
-                        .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                            dialog.cancel()
-                        }
-                        .create()
-                        .show()
-                }
-            }
+        var category: String? = null
+        binding.newsItemCategoryTextAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
+                category = if (position >= 0) parent.getItemAtPosition(position).toString() else null
         }
 
-        binding.newsItemCategoryTextAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
-                val category = if (position != 0) parent.getItemAtPosition(position).toString() else null
+        var dates: List<Long>? = null
+        binding.filterButton.setOnClickListener {
+            if (vPublishDateStartPicker.text.toString().isNotBlank() &&
+                vPublishDateEndPicker.text.toString().isNotBlank()
+            ) {
+                dates = listOf(
+                    saveDateTime(vPublishDateStartPicker.text.toString(), "00-00"),
+                    saveDateTime(vPublishDateEndPicker.text.toString(), "23-59")
+                )
+                navigateUp(category, dates)
 
-                var dates: List<Long>? = null
-                binding.filterButton.setOnClickListener {
-                    if (vPublishDateStartPicker.text.toString().isNotBlank() &&
-                        vPublishDateEndPicker.text.toString().isNotBlank()
-                    ) {
-                        dates = listOf(
-                            saveDateTime(vPublishDateStartPicker.text.toString(), "00-00"),
-                            saveDateTime(vPublishDateEndPicker.text.toString(), "23-59")
-                        )
-                        navigateUp(category, dates)
+            } else if (vPublishDateStartPicker.text.toString().isNotBlank() &&
+                vPublishDateEndPicker.text.isNullOrBlank() ||
+                vPublishDateStartPicker.text.isNullOrBlank() &&
+                vPublishDateEndPicker.text.toString().isNotBlank()
+            ) {
+                val activity = activity ?: return@setOnClickListener
+                val dialog = android.app.AlertDialog.Builder(activity)
+                dialog.setMessage(R.string.wrong_news_date_period)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
 
-                    } else if (vPublishDateStartPicker.text.toString().isNotBlank() &&
-                        vPublishDateEndPicker.text.isNullOrBlank() ||
-                        vPublishDateStartPicker.text.isNullOrBlank() &&
-                        vPublishDateEndPicker.text.toString().isNotBlank()
-                    ) {
-                        val activity = activity ?: return@setOnClickListener
-                        val dialog = android.app.AlertDialog.Builder(activity)
-                            dialog.setMessage(R.string.wrong_news_date_period)
-                                .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                    dialog.cancel()
-                                }
-                                .create()
-                                .show()
+            } else navigateUp(category, dates)
+        }
 
-                    } else navigateUp(category, dates)
-                }
-            }
 
         binding.cancelButton.setOnClickListener {
             findNavController().navigateUp()

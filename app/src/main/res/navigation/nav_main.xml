@@ -43,6 +43,15 @@
         <action
             android:id="@+id/action_newsControlPanelFragment_to_createEditNewsFragment"
             app:destination="@id/createEditNewsFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
     </fragment>
 
     <fragment

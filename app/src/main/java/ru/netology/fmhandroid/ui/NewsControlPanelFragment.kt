@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -41,6 +42,37 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsControlPanelBinding.bind(view)
+
+        val mainMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentNewsControlPanel.mainMenuImageButton
+        )
+        mainMenu.inflate(R.menu.menu_main)
+        binding.containerCustomAppBarIncludeOnFragmentNewsControlPanel
+            .mainMenuImageButton.setOnClickListener {
+                mainMenu.show()
+            }
+        mainMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_item_main -> {
+                    findNavController().navigate(R.id.action_newsControlPanelFragment_to_mainFragment)
+                    true
+                }
+                R.id.menu_item_users -> {
+                    // Дописать переход на фрагмент со списком пользователей!!!
+                    true
+                }
+                R.id.menu_item_claims -> {
+                    findNavController().navigate(R.id.action_newsControlPanelFragment_to_claimListFragment)
+                    true
+                }
+                R.id.menu_item_news -> {
+                    findNavController().navigate(R.id.action_newsControlPanelFragment_to_newsListFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
         val activity = activity ?: return
         val dialog = AlertDialog.Builder(activity)
