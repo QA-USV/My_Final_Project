@@ -91,7 +91,7 @@ class OpenClaimFragment : Fragment() {
                         claimComment = Utils.EmptyComment.emptyClaimComment
                     )
 
-                    lifecycleScope.launchWhenStarted {
+                    lifecycleScope.launch {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimStatusChangeExceptionEvent -> {
@@ -126,11 +126,11 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.cancel_list_item -> {
-                    lifecycleScope.launchWhenStarted {
+                    lifecycleScope.launch {
                         // Изменить в условии на Id залогиненного юзера!!!
                         if (claim.claim.creatorId != user.id) {
                             showErrorToast(R.string.no_change_status_rights_author)
-                            return@launchWhenStarted
+                            return@launch
                         }
 
                         viewModel.changeClaimStatus(
@@ -210,7 +210,7 @@ class OpenClaimFragment : Fragment() {
                     }
 
 
-                    lifecycleScope.launchWhenStarted {
+                    lifecycleScope.launchWhenResumed {
                         Events.events.collect { event ->
                             when (event) {
                                 viewModel.claimStatusChangeExceptionEvent -> {
@@ -222,10 +222,12 @@ class OpenClaimFragment : Fragment() {
                             viewModel.dataClaim.collect {
                                 binding.statusLabelTextView.text =
                                     displayingStatusOfClaim(it.claim.status!!)
+
                                 statusMenuVisibility(
                                     it.claim.status!!,
                                     statusProcessingMenu
                                 )
+
                                 binding.executorNameTextView.text = if (it.executor != null) {
                                     Utils.fullUserNameGenerator(
                                         it.executor.lastName.toString(),
@@ -280,7 +282,7 @@ class OpenClaimFragment : Fragment() {
                         }
                         dialog.show(parentFragmentManager, "CreateCommentDialog")
 
-                        lifecycleScope.launchWhenStarted {
+                        lifecycleScope.launchWhenResumed {
                             Events.events.collect { event ->
                                 when (event) {
                                     viewModel.claimStatusChangeExceptionEvent -> {
@@ -408,37 +410,40 @@ class OpenClaimFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenResumed {
-            Events.events.collect {
-                viewModel.claimUpdatedEvent
-                viewModel.dataClaim.collect { updated ->
-                    binding.apply {
-                        titleTextView.text = updated.claim.title
-                        executorNameTextView.text = if (updated.executor != null) {
-                            Utils.fullUserNameGenerator(
-                                updated.executor.lastName.toString(),
-                                updated.executor.firstName.toString(),
-                                updated.executor.middleName.toString()
-                            )
-                        } else {
-                            getText(R.string.not_assigned)
-                        }
+            Events.events.collect { event ->
+                when(event) {
+                    viewModel.claimUpdatedEvent -> {
+                        viewModel.dataClaim.collect { updated ->
+                            binding.apply {
+                                titleTextView.text = updated.claim.title
+                                executorNameTextView.text = if (updated.executor != null) {
+                                    Utils.fullUserNameGenerator(
+                                        updated.executor.lastName.toString(),
+                                        updated.executor.firstName.toString(),
+                                        updated.executor.middleName.toString()
+                                    )
+                                } else {
+                                    getText(R.string.not_assigned)
+                                }
 
-                        planeDateTextView.text =
-                            updated.claim.planExecuteDate?.let {
-                                Utils.showDateTimeInOne(
-                                    it
+                                planeDateTextView.text =
+                                    updated.claim.planExecuteDate?.let {
+                                        Utils.showDateTimeInOne(
+                                            it
+                                        )
+                                    }
+                                statusLabelTextView.text =
+                                    displayingStatusOfClaim(updated.claim.status!!)
+                                descriptionTextView.text = updated.claim.description
+                                authorNameTextView.text = Utils.fullUserNameGenerator(
+                                    updated.creator.lastName.toString(),
+                                    updated.creator.firstName.toString(),
+                                    updated.creator.middleName.toString()
                                 )
+                                createDataTextView.text =
+                                    updated.claim.createDate?.let { Utils.showDateTimeInOne(it) }
                             }
-                        statusLabelTextView.text =
-                            displayingStatusOfClaim(updated.claim.status!!)
-                        descriptionTextView.text = updated.claim.description
-                        authorNameTextView.text = Utils.fullUserNameGenerator(
-                            updated.creator.lastName.toString(),
-                            updated.creator.firstName.toString(),
-                            updated.creator.middleName.toString()
-                        )
-                        createDataTextView.text =
-                            updated.claim.createDate?.let { Utils.showDateTimeInOne(it) }
+                        }
                     }
                 }
             }

@@ -117,7 +117,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter = claimListAdapter
         lifecycleScope.launchWhenCreated {
             viewModelClaim.dataOpenInProgress.collectLatest { state ->
-                claimListAdapter.submitList(state)
+                claimListAdapter.submitList(state.take( n = 6))
                 binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible = state.isEmpty()
             }
         }
@@ -202,7 +202,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             data?.collectLatest { state ->
                 adapter.submitList(state.filter {
                     it.news.newsItem.publishEnabled
-                })
+                }.take(n = 3))
                 binding.containerListNewsIncludeOnFragmentMain.emptyTextTextView.isVisible =
                     state.isEmpty()
             }

@@ -51,7 +51,7 @@ object Utils {
     }
 
     fun updateTimeLabel(calendar: Calendar, editText: EditText) {
-        val format = "HH-mm"
+        val format = "HH:mm"
         val simpleDateFormat = SimpleDateFormat(format, Locale.getDefault())
         editText.setText(simpleDateFormat.format(calendar.time))
     }
@@ -60,7 +60,7 @@ object Utils {
 
     fun saveDateTime(date: String, time: String): Long {
         val dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        val timeFormatter = DateTimeFormatter.ofPattern("HH-mm")
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
         val localDate = LocalDate.parse(date, dateFormatter)
         val localTime = LocalTime.parse(time, timeFormatter)
         return LocalDateTime.of(localDate, localTime)
@@ -91,7 +91,7 @@ object Utils {
             ZoneId.systemDefault()
         )
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "HH-mm",
+            "HH:mm",
             Locale.getDefault()
         )
         return formatter.format(localDateTime)
@@ -103,7 +103,7 @@ object Utils {
             ZoneId.systemDefault()
         )
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "HH-mm dd.MM.yyyy",
+            "HH:mm dd.MM.yyyy",
             Locale.getDefault()
         )
         return formatter.format(localDateTime)
@@ -125,7 +125,7 @@ object Utils {
 
         val localDateTime = LocalDateTime.parse(dateTime.toString())
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "HH-mm",
+            "HH:mm",
             Locale.getDefault()
         )
         return formatter.format(localDateTime)
