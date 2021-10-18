@@ -154,4 +154,5 @@
     <string name="enter">Enter</string>
     <string name="login">login</string>
     <string name="irrevocable_deletion">Are you sure you want to permanently delete the document? These changes cannot be reversed in the future.</string>
+    <string name="splashscreen_image">Splashscreen image</string>
 </resources>

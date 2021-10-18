@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.netology.fmhandroid">
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -13,24 +14,21 @@
         android:theme="@style/Theme.FMHAndroid"
         android:name=".application.FhmApplication">
 
-        <activity android:name=".ui.SplashActivity">
-
+        <activity android:name=".ui.SplashScreenActivity"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
         <activity android:name=".ui.AppActivity">
             <nav-graph android:value="@navigation/nav_main" />
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

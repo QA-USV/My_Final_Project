@@ -153,4 +153,5 @@
     <string name="enter">Войти</string>
     <string name="login">логин</string>
     <string name="irrevocable_deletion">Вы уверены, что хотите безвозвратно удалить документ? Данные изменения нельзя будет отменить в будущем.</string>
+    <string name="splashscreen_image">Картинка загрузочного экрана</string>
 </resources>
