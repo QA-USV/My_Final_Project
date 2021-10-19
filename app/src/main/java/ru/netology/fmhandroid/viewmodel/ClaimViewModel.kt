@@ -2,27 +2,35 @@ package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
-    private val claimRepository: ClaimRepository
+    private val claimRepository: ClaimRepository,
+
 ) : ViewModel() {
 
+    private var claimId by Delegates.notNull<Int>()
     lateinit var commentsData: Flow<List<ClaimCommentWithCreator>>
-    lateinit var dataClaim: Flow<ClaimWithCreatorAndExecutor>
+    val dataClaim: Flow<ClaimWithCreatorAndExecutor> by lazy {
+        claimRepository.getClaimById(claimId)
+    }
 
     val claimCreatedEvent = Events()
     val claimCommentCreatedEvent = Events()
     val claimCommentsLoadedEvent = Events()
     val claimCommentUpdatedEvent = Events()
-    val claimStatusChangedEvent = Events()
+    val claimStatusChangedEvent = MutableSharedFlow<Unit>()
     val claimUpdatedEvent = Events()
     val claimCommentsLoadExceptionEvent = Events()
     val claimCommentCreateExceptionEvent = Events()
@@ -134,7 +142,7 @@ class ClaimViewModel @Inject constructor(
                     claimComment
                 )
                 dataClaim = claimRepository.dataClaim
-                Events.produceEvents(claimStatusChangedEvent)
+                claimStatusChangedEvent.emit(Unit)
                 if (!claimComment.description.isNullOrBlank()) {
                     commentsData = claimRepository.dataComments
                 }
@@ -143,5 +151,9 @@ class ClaimViewModel @Inject constructor(
                 Events.produceEvents(claimStatusChangeExceptionEvent)
             }
         }
+    }
+
+    fun init(claimId: Int) {
+        this.claimId = claimId
     }
 }

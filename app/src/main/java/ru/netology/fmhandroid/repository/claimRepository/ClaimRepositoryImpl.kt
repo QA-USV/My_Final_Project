@@ -32,7 +32,7 @@ class ClaimRepositoryImpl @Inject constructor(
             .flowOn(Dispatchers.Default)
 
     override lateinit var dataComments: Flow<List<ClaimCommentWithCreator>>
-    override lateinit var dataClaim: Flow<ClaimWithCreatorAndExecutor>
+
 
     override suspend fun getAllClaims(): List<Claim> {
         return makeRequest(
@@ -69,13 +69,7 @@ class ClaimRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun getClaimById(id: Int) {
-        try {
-            dataClaim = claimDao.getClaimById(id)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    override fun getClaimById(id: Int) = claimDao.getClaimById(id)
 
     override suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment> = makeRequest(
         request = { claimApi.getAllClaimComments(id) },

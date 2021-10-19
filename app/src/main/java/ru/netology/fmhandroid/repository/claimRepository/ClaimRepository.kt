@@ -11,7 +11,7 @@ interface ClaimRepository {
     suspend fun getAllClaims(): List<Claim>
     suspend fun editClaim(editedClaim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim
-    suspend fun getClaimById(id: Int)
+    fun getClaimById(id: Int): Flow<ClaimWithCreatorAndExecutor>
     suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment>
     suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment
     suspend fun changeClaimStatus(

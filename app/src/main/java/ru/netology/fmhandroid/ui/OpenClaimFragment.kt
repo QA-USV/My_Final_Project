@@ -32,6 +32,14 @@ class OpenClaimFragment : Fragment() {
     private val viewModel: ClaimViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+    private val statusProcessingMenu by lazy {
+        PopupMenu(context, binding.statusProcessingImageButton)
+    }
+
+    val claimId: Int by lazy {
+        val args by navArgs<OpenClaimFragmentArgs>()
+        args.argClaim.claim.id!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,7 +84,7 @@ class OpenClaimFragment : Fragment() {
             }
         })
 
-        val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
+
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
 
         statusMenuVisibility(claim.claim.status!!, statusProcessingMenu)
@@ -217,28 +225,6 @@ class OpenClaimFragment : Fragment() {
                                     showErrorToast(R.string.error)
                                     return@collect
                                 }
-                            }
-
-                            viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.text =
-                                    displayingStatusOfClaim(it.claim.status!!)
-
-                                statusMenuVisibility(
-                                    it.claim.status!!,
-                                    statusProcessingMenu
-                                )
-
-                                binding.executorNameTextView.text = if (it.executor != null) {
-                                    Utils.fullUserNameGenerator(
-                                        it.executor.lastName.toString(),
-                                        it.executor.firstName.toString(),
-                                        it.executor.middleName.toString()
-                                    )
-                                } else {
-                                    getString(R.string.not_assigned)
-                                }
-                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
-                                binding.editProcessingImageButton.isClickable = true
                             }
                         }
                     }
@@ -411,7 +397,7 @@ class OpenClaimFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             Events.events.collect { event ->
-                when(event) {
+                when (event) {
                     viewModel.claimUpdatedEvent -> {
                         viewModel.dataClaim.collect { updated ->
                             binding.apply {
@@ -445,6 +431,38 @@ class OpenClaimFragment : Fragment() {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.init(claimId)
+
+        lifecycleScope.launchWhenResumed {
+            viewModel.claimStatusChangedEvent.collect {
+                viewModel.dataClaim.collect {
+                    binding.statusLabelTextView.text =
+                        displayingStatusOfClaim(it.claim.status!!)
+
+                    statusMenuVisibility(
+                        it.claim.status!!,
+                        statusProcessingMenu
+                    )
+
+                    binding.executorNameTextView.text =
+                        if (it.executor != null) {
+                            Utils.fullUserNameGenerator(
+                                it.executor.lastName.toString(),
+                                it.executor.firstName.toString(),
+                                it.executor.middleName.toString()
+                            )
+                        } else {
+                            getString(R.string.not_assigned)
+                        }
+                    binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
+                    binding.editProcessingImageButton.isClickable = true
                 }
             }
         }
