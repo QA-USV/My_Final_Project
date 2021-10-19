@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_view_padding"
         android:paddingBottom="@dimen/card_view_padding"
-        android:background="@drawable/background_rounded"
+        android:background="@drawable/background_splash_screen_title_1"
         android:outlineSpotShadowColor="@color/execution_priority_low"
         android:elevation="10dp">
 

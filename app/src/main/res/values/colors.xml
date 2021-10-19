@@ -24,4 +24,10 @@
     <color name="news_helper_title_background">#1A000000</color>
     <color name="app_snack_bar_background">#868686</color>
     <color name="transparent">@android:color/transparent</color>
+    <color name="splash_screen_title_1">#FFF0E7</color>
+    <color name="splash_screen_title_2">#FFEBEE</color>
+    <color name="splash_screen_title_3">#E7F0FF</color>
+    <color name="splash_screen_title_4">#DBFFFE</color>
+    <color name="splash_screen_title_5">#E4FFE3</color>
+    <color name="splash_screen_title_6">#FAF0D6</color>
 </resources>
