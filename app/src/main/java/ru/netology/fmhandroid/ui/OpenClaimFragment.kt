@@ -116,7 +116,7 @@ class OpenClaimFragment : Fragment() {
                                 } else {
                                     getString(R.string.not_assigned)
                                 }
-                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit_non_clickable)
+                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_pen_light)
                                 binding.editProcessingImageButton.isClickable = false
                                 tempExecutorId = user.id
                             }
@@ -237,7 +237,7 @@ class OpenClaimFragment : Fragment() {
                                 } else {
                                     getString(R.string.not_assigned)
                                 }
-                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
+                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_pen)
                                 binding.editProcessingImageButton.isClickable = true
                             }
                         }
@@ -351,10 +351,10 @@ class OpenClaimFragment : Fragment() {
 
             editProcessingImageButton.apply {
                 isClickable = if (claim.claim.status == Claim.Status.OPEN) {
-                    setImageResource(R.drawable.ic_edit)
+                    setImageResource(R.drawable.ic_pen)
                     true
                 } else {
-                    setImageResource(R.drawable.ic_edit_non_clickable)
+                    setImageResource(R.drawable.ic_pen_light)
                     false
                 }
             }
