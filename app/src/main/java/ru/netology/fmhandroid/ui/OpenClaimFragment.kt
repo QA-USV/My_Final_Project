@@ -217,29 +217,31 @@ class OpenClaimFragment : Fragment() {
                                     showErrorToast(R.string.error)
                                     return@collect
                                 }
-                            }
+                                viewModel.claimStatusChangedEvent -> {
+                                    viewModel.dataClaim.collect {
+                                        binding.statusLabelTextView.text =
+                                            displayingStatusOfClaim(it.claim.status!!)
 
-                            viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.text =
-                                    displayingStatusOfClaim(it.claim.status!!)
+                                        statusMenuVisibility(
+                                            it.claim.status!!,
+                                            statusProcessingMenu
+                                        )
 
-                                statusMenuVisibility(
-                                    it.claim.status!!,
-                                    statusProcessingMenu
-                                )
-
-                                binding.executorNameTextView.text = if (it.executor != null) {
-                                    Utils.fullUserNameGenerator(
-                                        it.executor.lastName.toString(),
-                                        it.executor.firstName.toString(),
-                                        it.executor.middleName.toString()
-                                    )
-                                } else {
-                                    getString(R.string.not_assigned)
+                                        binding.executorNameTextView.text = if (it.executor != null) {
+                                            Utils.fullUserNameGenerator(
+                                                it.executor.lastName.toString(),
+                                                it.executor.firstName.toString(),
+                                                it.executor.middleName.toString()
+                                            )
+                                        } else {
+                                            getString(R.string.not_assigned)
+                                        }
+                                        binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
+                                        binding.editProcessingImageButton.isClickable = true
+                                    }
                                 }
-                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
-                                binding.editProcessingImageButton.isClickable = true
                             }
+
                         }
                     }
                     true
