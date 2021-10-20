@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
+import ru.netology.fmhandroid.entity.ClaimCommentEntity
 import ru.netology.fmhandroid.entity.UserEntity
 
 @Parcelize
@@ -29,7 +30,7 @@ data class Claim(
 }
 
 @kotlinx.parcelize.Parcelize
-data class ClaimWithCreatorAndExecutor(
+data class FullClaim(
     @Embedded
     val claim: Claim,
 
@@ -45,6 +46,13 @@ data class ClaimWithCreatorAndExecutor(
         parentColumn = "executorId",
         entityColumn = "id"
     )
-    val executor: User?
+    val executor: User?,
+
+    @Relation(
+        entity = ClaimCommentEntity::class,
+        parentColumn = "id",
+        entityColumn = "claimId"
+    )
+    val comments: List<ClaimCommentWithCreator>?
 
 ) : Parcelable

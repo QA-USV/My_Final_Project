@@ -21,6 +21,7 @@ import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import java.time.Instant
 import java.time.LocalDateTime
@@ -29,9 +30,9 @@ import java.time.ZoneId
 @AndroidEntryPoint
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
-    private val viewModel: ClaimViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
+
     private val statusProcessingMenu by lazy {
         PopupMenu(context, binding.statusProcessingImageButton)
     }
@@ -39,6 +40,48 @@ class OpenClaimFragment : Fragment() {
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
         args.argClaim.claim.id!!
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        claimCardViewModel.init(claimId)
+
+        lifecycleScope.launchWhenResumed {
+            claimCardViewModel.claimStatusChangedEvent.collect {
+                claimCardViewModel.dataFullClaim.collect {
+                    binding.statusLabelTextView.text =
+                        displayingStatusOfClaim(it.claim.status!!)
+
+                    statusMenuVisibility(
+                        it.claim.status!!,
+                        statusProcessingMenu
+                    )
+
+                    binding.executorNameTextView.text =
+                        if (it.executor != null) {
+                            Utils.fullUserNameGenerator(
+                                it.executor.lastName.toString(),
+                                it.executor.firstName.toString(),
+                                it.executor.middleName.toString()
+                            )
+                        } else {
+                            getString(R.string.not_assigned)
+                        }
+                    if(it.claim.status != Claim.Status.OPEN) {
+                        binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
+                        binding.editProcessingImageButton.isClickable = true
+
+                    } else {
+                        binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit_non_clickable)
+                        binding.editProcessingImageButton.isClickable = false
+                    }
+                }
+            }
+
+            claimCardViewModel.claimStatusChangeExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -57,8 +100,6 @@ class OpenClaimFragment : Fragment() {
 
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
-
-        var tempExecutorId: Int? = claim.claim.executorId
 
         // Временная переменная. После авторизации заменить на залогиненного юзера
         val user = User(
@@ -84,7 +125,6 @@ class OpenClaimFragment : Fragment() {
             }
         })
 
-
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
 
         statusMenuVisibility(claim.claim.status!!, statusProcessingMenu)
@@ -92,44 +132,12 @@ class OpenClaimFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.take_to_work_list_item -> {
                     // Изменить claimExecutor на залогиненного пользователя !!!
-                    viewModel.changeClaimStatus(
+                    claimCardViewModel.changeClaimStatus(
                         claimId = claim.claim.id!!,
                         newClaimStatus = Claim.Status.IN_PROGRESS,
                         executorId = user.id,
                         claimComment = Utils.EmptyComment.emptyClaimComment
                     )
-
-                    lifecycleScope.launch {
-                        Events.events.collect { event ->
-                            when (event) {
-                                viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast(R.string.error)
-                                    return@collect
-                                }
-                            }
-
-                            viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.text =
-                                    displayingStatusOfClaim(it.claim.status!!)
-                                statusMenuVisibility(
-                                    it.claim.status!!,
-                                    statusProcessingMenu
-                                )
-                                binding.executorNameTextView.text = if (it.executor != null) {
-                                    Utils.fullUserNameGenerator(
-                                        it.executor.lastName.toString(),
-                                        it.executor.firstName.toString(),
-                                        it.executor.middleName.toString()
-                                    )
-                                } else {
-                                    getString(R.string.not_assigned)
-                                }
-                                binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit_non_clickable)
-                                binding.editProcessingImageButton.isClickable = false
-                                tempExecutorId = user.id
-                            }
-                        }
-                    }
                     true
                 }
 
@@ -141,39 +149,12 @@ class OpenClaimFragment : Fragment() {
                             return@launch
                         }
 
-                        viewModel.changeClaimStatus(
+                        claimCardViewModel.changeClaimStatus(
                             claim.claim.id!!,
                             Claim.Status.CANCELLED,
                             executorId = null,
                             claimComment = Utils.EmptyComment.emptyClaimComment
                         )
-                        Events.events.collect { event ->
-                            when (event) {
-                                viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast(R.string.error)
-                                    return@collect
-                                }
-                            }
-
-                            viewModel.dataClaim.collect {
-                                binding.statusLabelTextView.text =
-                                    displayingStatusOfClaim(it.claim.status!!)
-                                statusMenuVisibility(
-                                    it.claim.status!!,
-                                    statusProcessingMenu
-                                )
-                                binding.executorNameTextView.text = if (it.executor != null) {
-                                    Utils.fullUserNameGenerator(
-                                        it.executor.lastName.toString(),
-                                        it.executor.firstName.toString(),
-                                        it.executor.middleName.toString()
-                                    )
-
-                                } else {
-                                    getString(R.string.not_assigned)
-                                }
-                            }
-                        }
                     }
                     true
                 }
@@ -181,9 +162,9 @@ class OpenClaimFragment : Fragment() {
                 R.id.throw_off_list_item -> {
 
                     // Изменить на залогиненного юзера и добавить в проверку Администратора!
-                    if (user.id != tempExecutorId) {
-                        showErrorToast(R.string.no_change_status_rights_executor)
-                    } else {
+//                    if (user.id != tempExecutorId) {
+//                        showErrorToast(R.string.no_change_status_rights_executor)
+//                    } else {
                         val dialog = CreateCommentDialogFragment.newInstance(
                             text = "",
                             hint = "Description",
@@ -192,7 +173,7 @@ class OpenClaimFragment : Fragment() {
                         dialog.onOk = {
                             val text = dialog.editText.text
                             if (text.isNotBlank()) {
-                                viewModel.changeClaimStatus(
+                                claimCardViewModel.changeClaimStatus(
                                     claim.claim.id!!,
                                     Claim.Status.OPEN,
                                     executorId = null,
@@ -208,36 +189,23 @@ class OpenClaimFragment : Fragment() {
                                             )
                                     )
                                 )
-                                tempExecutorId = null
                                 dialog.dismiss()
                             } else {
                                 showErrorToast(R.string.toast_empty_field)
                             }
                         }
                         dialog.show(parentFragmentManager, "CreateCommentDialog")
-                    }
-
-
-                    lifecycleScope.launchWhenResumed {
-                        Events.events.collect { event ->
-                            when (event) {
-                                viewModel.claimStatusChangeExceptionEvent -> {
-                                    showErrorToast(R.string.error)
-                                    return@collect
-                                }
-                            }
-                        }
-                    }
+//                    }
                     true
                 }
 
                 R.id.executes_list_item -> {
 
                     // Изменить на залогиненного юзера и добавить в проверку Администратора!
-                    if (user.id != tempExecutorId) {
-                        showErrorToast(R.string.no_change_status_rights_executor)
-                    } else {
-
+//                    if (user.id != tempExecutorId) {
+//                        showErrorToast(R.string.no_change_status_rights_executor)
+//                    } else {
+//
                         val dialog = CreateCommentDialogFragment.newInstance(
                             text = "",
                             hint = "Description",
@@ -246,7 +214,7 @@ class OpenClaimFragment : Fragment() {
                         dialog.onOk = {
                             val text = dialog.editText.text
                             if (text.isNotBlank()) {
-                                viewModel.changeClaimStatus(
+                                claimCardViewModel.changeClaimStatus(
                                     claim.claim.id!!,
                                     Claim.Status.EXECUTED,
                                     executorId = claim.executor?.id,
@@ -267,36 +235,6 @@ class OpenClaimFragment : Fragment() {
                             }
                         }
                         dialog.show(parentFragmentManager, "CreateCommentDialog")
-
-                        lifecycleScope.launchWhenResumed {
-                            Events.events.collect { event ->
-                                when (event) {
-                                    viewModel.claimStatusChangeExceptionEvent -> {
-                                        showErrorToast(R.string.error)
-                                        return@collect
-                                    }
-                                }
-
-                                viewModel.dataClaim.collect {
-                                    binding.statusLabelTextView.text =
-                                        displayingStatusOfClaim(it.claim.status!!)
-                                    statusMenuVisibility(
-                                        it.claim.status!!,
-                                        statusProcessingMenu
-                                    )
-                                    binding.executorNameTextView.text = if (it.executor != null) {
-                                        Utils.fullUserNameGenerator(
-                                            it.executor.lastName.toString(),
-                                            it.executor.firstName.toString(),
-                                            it.executor.middleName.toString()
-                                        )
-                                    } else {
-                                        getString(R.string.not_assigned)
-                                    }
-                                }
-                            }
-                        }
-                    }
                     true
                 }
                 else -> {
@@ -382,88 +320,16 @@ class OpenClaimFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             Events.events.collect {
-                viewModel.claimCommentUpdatedEvent
-                viewModel.commentsData.collect {
-                    adapter.submitList(it)
+                claimCardViewModel.claimCommentUpdatedEvent
+                claimCardViewModel.dataFullClaim.collect {
+                    adapter.submitList(it.comments)
                 }
             }
         }
 
         lifecycleScope.launch {
-            viewModel.commentsData.collect {
-                adapter.submitList(it)
-            }
-        }
-
-        lifecycleScope.launchWhenResumed {
-            Events.events.collect { event ->
-                when (event) {
-                    viewModel.claimUpdatedEvent -> {
-                        viewModel.dataClaim.collect { updated ->
-                            binding.apply {
-                                titleTextView.text = updated.claim.title
-                                executorNameTextView.text = if (updated.executor != null) {
-                                    Utils.fullUserNameGenerator(
-                                        updated.executor.lastName.toString(),
-                                        updated.executor.firstName.toString(),
-                                        updated.executor.middleName.toString()
-                                    )
-                                } else {
-                                    getText(R.string.not_assigned)
-                                }
-
-                                planeDateTextView.text =
-                                    updated.claim.planExecuteDate?.let {
-                                        Utils.showDateTimeInOne(
-                                            it
-                                        )
-                                    }
-                                statusLabelTextView.text =
-                                    displayingStatusOfClaim(updated.claim.status!!)
-                                descriptionTextView.text = updated.claim.description
-                                authorNameTextView.text = Utils.fullUserNameGenerator(
-                                    updated.creator.lastName.toString(),
-                                    updated.creator.firstName.toString(),
-                                    updated.creator.middleName.toString()
-                                )
-                                createDataTextView.text =
-                                    updated.claim.createDate?.let { Utils.showDateTimeInOne(it) }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.init(claimId)
-
-        lifecycleScope.launchWhenResumed {
-            viewModel.claimStatusChangedEvent.collect {
-                viewModel.dataClaim.collect {
-                    binding.statusLabelTextView.text =
-                        displayingStatusOfClaim(it.claim.status!!)
-
-                    statusMenuVisibility(
-                        it.claim.status!!,
-                        statusProcessingMenu
-                    )
-
-                    binding.executorNameTextView.text =
-                        if (it.executor != null) {
-                            Utils.fullUserNameGenerator(
-                                it.executor.lastName.toString(),
-                                it.executor.firstName.toString(),
-                                it.executor.middleName.toString()
-                            )
-                        } else {
-                            getString(R.string.not_assigned)
-                        }
-                    binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
-                    binding.editProcessingImageButton.isClickable = true
-                }
+            claimCardViewModel.dataFullClaim.collect {
+                adapter.submitList(it.comments)
             }
         }
     }

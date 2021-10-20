@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.utils.Utils
 
 interface OnClaimItemClickListener {
-    fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {}
-    fun onDescription(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {}
+    fun onCard(fullClaim: FullClaim) {}
+    fun onDescription(fullClaim: FullClaim) {}
 }
 
 class ClaimListAdapter(
     private val onClaimItemClickListener: OnClaimItemClickListener
-) : ListAdapter<ClaimWithCreatorAndExecutor, ClaimListAdapter.ClaimViewHolder>(
+) : ListAdapter<FullClaim, ClaimListAdapter.ClaimViewHolder>(
     ClaimDiffCallback()
 ) {
 
@@ -41,50 +41,50 @@ class ClaimListAdapter(
         private val onClaimItemClickListener: OnClaimItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
+        fun bind(fullClaim: FullClaim) {
             binding.apply {
-                if (claimWithCreatorAndExecutor.claim.executorId == null) {
+                if (fullClaim.claim.executorId == null) {
                     executorNameMaterialTextView.setText(R.string.not_assigned)
                 } else {
                     executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
-                        claimWithCreatorAndExecutor.executor?.lastName.toString(),
-                        claimWithCreatorAndExecutor.executor?.firstName.toString(),
-                        claimWithCreatorAndExecutor.executor?.middleName.toString()
+                        fullClaim.executor?.lastName.toString(),
+                        fullClaim.executor?.firstName.toString(),
+                        fullClaim.executor?.middleName.toString()
                     )
                 }
-                planTimeMaterialTextView.text = claimWithCreatorAndExecutor
+                planTimeMaterialTextView.text = fullClaim
                     .claim
                     .planExecuteDate?.let {
                         Utils.showTime(
                             it
                         )
                     }
-                planDateMaterialTextView.text = claimWithCreatorAndExecutor
+                planDateMaterialTextView.text = fullClaim
                     .claim.planExecuteDate?.let {
                         Utils.showDate(
                             it
                         )
                     }
-                themeMaterialTextView.text = claimWithCreatorAndExecutor.claim.title
+                themeMaterialTextView.text = fullClaim.claim.title
 
                 claimListCard.setOnClickListener {
-                    onClaimItemClickListener.onCard(claimWithCreatorAndExecutor)
+                    onClaimItemClickListener.onCard(fullClaim)
                 }
             }
         }
     }
 
-    class ClaimDiffCallback : DiffUtil.ItemCallback<ClaimWithCreatorAndExecutor>() {
+    class ClaimDiffCallback : DiffUtil.ItemCallback<FullClaim>() {
         override fun areItemsTheSame(
-            oldItem: ClaimWithCreatorAndExecutor,
-            newItem: ClaimWithCreatorAndExecutor
+            oldItem: FullClaim,
+            newItem: FullClaim
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: ClaimWithCreatorAndExecutor,
-            newItem: ClaimWithCreatorAndExecutor
+            oldItem: FullClaim,
+            newItem: FullClaim
         ): Boolean {
             return oldItem == newItem
         }

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,12 +21,12 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.User
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.fullUserNameGenerator
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
+import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
 import java.time.Instant
@@ -44,16 +45,35 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     //временно, пока нет авторизации
     private val creatorId = 1
 
-    private val viewModelClaim: ClaimViewModel by viewModels(
+    private val claimViewModel: ClaimViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
-    private val viewModelUser: UserViewModel by viewModels(
+    private val claimCardViewModel: ClaimCardViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+    private val userViewModel: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        lifecycleScope.launch {
+            claimViewModel.createClaimExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
+        lifecycleScope.launch {
+            claimViewModel.claimCreatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
+        lifecycleScope.launch {
+            claimCardViewModel.claimUpdatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,7 +122,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 dialog.setMessage(R.string.cancellation)
                     .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
                         dialog.dismiss()
-                        findNavController().navigateUp()
+                        findNavController().popBackStack()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.cancel()
@@ -127,15 +147,19 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                         .show()
                 } else {
                     when (args.argClaim) {
-                        null -> viewModelClaim.save(fillClaim())
-                        else -> viewModelClaim.updateClaim(fillClaim())
+                        null -> {
+                            claimViewModel.save(fillClaim())
+                        }
+                        else -> {
+                            claimCardViewModel.updateClaim(fillClaim())
+                        }
                     }
                 }
             }
         }
 
         lifecycleScope.launch {
-            viewModelUser.dataUser.collectLatest {
+            userViewModel.dataUser.collectLatest {
                 val adapter = ArrayAdapter(
                     requireContext(),
                     R.layout.menu_item,
@@ -151,24 +175,6 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     setOnItemClickListener { _, _, position, _ ->
                         executor = it[position]
                     }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            Events.events.collect { event ->
-                val activity = activity ?: return@collect
-                val dialog = android.app.AlertDialog.Builder(activity)
-                when (event) {
-                    viewModelClaim.createClaimExceptionEvent ->
-                        dialog.setMessage(R.string.error)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
-                    viewModelClaim.claimCreatedEvent,
-                    viewModelClaim.claimUpdatedEvent -> findNavController().navigateUp()
                 }
             }
         }
@@ -231,5 +237,12 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 )
             )
         }
+    }
+    private fun showErrorToast(text: Int) {
+        Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

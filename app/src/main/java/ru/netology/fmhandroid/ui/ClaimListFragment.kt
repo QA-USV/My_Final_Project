@@ -12,16 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
 import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
-import ru.netology.fmhandroid.utils.Events
+import ru.netology.fmhandroid.dto.FullClaim
+import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
@@ -30,6 +28,7 @@ class ClaimListFragment : Fragment() {
     private val viewModel: ClaimViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,18 +75,18 @@ class ClaimListFragment : Fragment() {
         }
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
-            override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
-                claimWithCreatorAndExecutor.claim.id?.let { viewModel.getAllClaimComments(it) }
-                claimWithCreatorAndExecutor.claim.id?.let { viewModel.getClaimById(it) }
+            override fun onCard(fullClaim: FullClaim) {
+                fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
+//                fullClaim.claim.id?.let { viewModel.getClaimById(it) }
 
-                viewLifecycleOwner.lifecycleScope.launch {
-                    Events.events.collect {
-                        viewModel.claimCommentsLoadedEvent
+//                viewLifecycleOwner.lifecycleScope.launch {
+//                    Events.events.collect {
+//                        viewModel.claimCommentsLoadedEvent
                         val action = ClaimListFragmentDirections
-                            .actionClaimListFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
+                            .actionClaimListFragmentToOpenClaimFragment(fullClaim)
                         findNavController().navigate(action)
-                    }
-                }
+//                    }
+//                }
             }
         })
 

@@ -9,17 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.viewmodel.ClaimViewModel
+import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+@AndroidEntryPoint
 class CreateEditClaimCommentFragment : Fragment() {
-    private val viewModel: ClaimViewModel by viewModels(
+    private val claimCardViewModel: ClaimCardViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -61,7 +63,7 @@ class CreateEditClaimCommentFragment : Fragment() {
             binding.saveButton.setOnClickListener {
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
                 if (newCommentDescription.isNotBlank()) {
-                    viewModel.updateClaimComment(
+                    claimCardViewModel.updateClaimComment(
                         comment.claimComment.copy(
                             description = binding.commentTextInputLayout.editText?.text.toString()
                         )
@@ -92,7 +94,7 @@ class CreateEditClaimCommentFragment : Fragment() {
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
 
                 if (newCommentDescription.isNotBlank()) {
-                    viewModel.createClaimComment(
+                    claimCardViewModel.createClaimComment(
                         ClaimComment(
                             claimId = claimId,
                             description = newCommentDescription,
