@@ -2,6 +2,7 @@ package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -22,7 +23,6 @@ import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
-import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -42,32 +42,47 @@ class OpenClaimFragment : Fragment() {
         args.argClaim.claim.id!!
     }
 
+    // Временная переменная. После авторизации заменить на залогиненного юзера
+    val user = User(
+        id = 1,
+        login = "User-1",
+        password = "abcd",
+        firstName = "Дмитрий",
+        lastName = "Винокуров",
+        middleName = "Владимирович",
+        phoneNumber = "+79109008765",
+        email = "Vinokurov@mail.ru",
+        deleted = false
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         claimCardViewModel.init(claimId)
 
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangedEvent.collect {
-                claimCardViewModel.dataFullClaim.collect {
+                claimCardViewModel.dataFullClaim.collect { fullClaim ->
                     binding.statusLabelTextView.text =
-                        displayingStatusOfClaim(it.claim.status!!)
+                        displayingStatusOfClaim(fullClaim.claim.status!!)
 
                     statusMenuVisibility(
-                        it.claim.status!!,
+                        fullClaim.claim.status!!,
                         statusProcessingMenu
                     )
 
+                    binding.titleTextView.text = fullClaim.claim.title
+
                     binding.executorNameTextView.text =
-                        if (it.executor != null) {
+                        if (fullClaim.executor != null) {
                             Utils.fullUserNameGenerator(
-                                it.executor.lastName.toString(),
-                                it.executor.firstName.toString(),
-                                it.executor.middleName.toString()
+                                fullClaim.executor.lastName.toString(),
+                                fullClaim.executor.firstName.toString(),
+                                fullClaim.executor.middleName.toString()
                             )
                         } else {
                             getString(R.string.not_assigned)
                         }
-                    if(it.claim.status != Claim.Status.OPEN) {
+                    if (fullClaim.claim.status != Claim.Status.OPEN) {
                         binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit)
                         binding.editProcessingImageButton.isClickable = true
 
@@ -75,9 +90,39 @@ class OpenClaimFragment : Fragment() {
                         binding.editProcessingImageButton.setImageResource(R.drawable.ic_edit_non_clickable)
                         binding.editProcessingImageButton.isClickable = false
                     }
+                    when (fullClaim.claim.status) {
+                        Claim.Status.OPEN -> {
+                            // Заменить на залогиненного юзера и добавить в условие админа !!
+                            statusProcessingMenu.menu.findItem(R.id.cancel_list_item).isEnabled =
+                                user.id == fullClaim.claim.creatorId
+                        }
+                        Claim.Status.IN_PROGRESS -> {
+                            if (user.id != fullClaim.claim.executorId) {
+                                binding.statusProcessingImageButton.setImageResource(R.drawable.ic_status_processing_non_clickable)
+                                binding.statusProcessingImageButton.setOnClickListener {
+                                    showErrorToast(R.string.no_change_status_rights_executor)
+                                }
+                            }
+                        }
+                        Claim.Status.CANCELLED -> {
+
+                        }
+                        else -> returnTransition
+                    }
+
+                    binding.editProcessingImageButton.apply {
+                        isClickable = if (fullClaim.claim.status == Claim.Status.OPEN) {
+                            setImageResource(R.drawable.ic_edit)
+                            true
+                        } else {
+                            setImageResource(R.drawable.ic_edit_non_clickable)
+                            false
+                        }
+                    }
                 }
             }
-
+        }
+        lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangeExceptionEvent.collect {
                 showErrorToast(R.string.error)
             }
@@ -101,18 +146,6 @@ class OpenClaimFragment : Fragment() {
         val args: OpenClaimFragmentArgs by navArgs()
         val claim = args.argClaim
 
-        // Временная переменная. После авторизации заменить на залогиненного юзера
-        val user = User(
-            id = 1,
-            login = "User-1",
-            password = "abcd",
-            firstName = "Дмитрий",
-            lastName = "Винокуров",
-            middleName = "Владимирович",
-            phoneNumber = "+79109008765",
-            email = "Vinokurov@mail.ru",
-            deleted = false
-        )
 
         val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
@@ -131,6 +164,7 @@ class OpenClaimFragment : Fragment() {
         statusProcessingMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.take_to_work_list_item -> {
+
                     // Изменить claimExecutor на залогиненного пользователя !!!
                     claimCardViewModel.changeClaimStatus(
                         claimId = claim.claim.id!!,
@@ -142,99 +176,80 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.cancel_list_item -> {
-                    lifecycleScope.launch {
-                        // Изменить в условии на Id залогиненного юзера!!!
-                        if (claim.claim.creatorId != user.id) {
-                            showErrorToast(R.string.no_change_status_rights_author)
-                            return@launch
-                        }
-
-                        claimCardViewModel.changeClaimStatus(
-                            claim.claim.id!!,
-                            Claim.Status.CANCELLED,
-                            executorId = null,
-                            claimComment = Utils.EmptyComment.emptyClaimComment
-                        )
-                    }
+                    claimCardViewModel.changeClaimStatus(
+                        claim.claim.id!!,
+                        Claim.Status.CANCELLED,
+                        executorId = null,
+                        claimComment = Utils.EmptyComment.emptyClaimComment
+                    )
                     true
                 }
 
                 R.id.throw_off_list_item -> {
-
-                    // Изменить на залогиненного юзера и добавить в проверку Администратора!
-//                    if (user.id != tempExecutorId) {
-//                        showErrorToast(R.string.no_change_status_rights_executor)
-//                    } else {
-                        val dialog = CreateCommentDialogFragment.newInstance(
-                            text = "",
-                            hint = "Description",
-                            isMultiline = true
-                        )
-                        dialog.onOk = {
-                            val text = dialog.editText.text
-                            if (text.isNotBlank()) {
-                                claimCardViewModel.changeClaimStatus(
-                                    claim.claim.id!!,
-                                    Claim.Status.OPEN,
-                                    executorId = null,
-                                    claimComment = ClaimComment(
-                                        claimId = claim.claim.id,
-                                        description = text.toString(),
-                                        creatorId = user.id,
-                                        createDate = LocalDateTime.now()
-                                            .toEpochSecond(
-                                                ZoneId.of("Europe/Moscow").rules.getOffset(
-                                                    Instant.now()
-                                                )
-                                            )
-                                    )
-                                )
-                                dialog.dismiss()
-                            } else {
-                                showErrorToast(R.string.toast_empty_field)
-                            }
-                        }
-                        dialog.show(parentFragmentManager, "CreateCommentDialog")
-//                    }
-                    true
-                }
-
-                R.id.executes_list_item -> {
-
-                    // Изменить на залогиненного юзера и добавить в проверку Администратора!
-//                    if (user.id != tempExecutorId) {
-//                        showErrorToast(R.string.no_change_status_rights_executor)
-//                    } else {
-//
-                        val dialog = CreateCommentDialogFragment.newInstance(
-                            text = "",
-                            hint = "Description",
-                            isMultiline = true
-                        )
-                        dialog.onOk = {
-                            val text = dialog.editText.text
-                            if (text.isNotBlank()) {
-                                claimCardViewModel.changeClaimStatus(
-                                    claim.claim.id!!,
-                                    Claim.Status.EXECUTED,
-                                    executorId = claim.executor?.id,
-                                    claimComment = ClaimComment(
-                                        claimId = claim.claim.id,
-                                        description = text.toString(),
-                                        creatorId = user.id,
-                                        createDate = LocalDateTime.now().toEpochSecond(
+                    val dialog = CreateCommentDialogFragment.newInstance(
+                        text = "",
+                        hint = "Description",
+                        isMultiline = true
+                    )
+                    dialog.onOk = {
+                        val text = dialog.editText.text
+                        if (text.isNotBlank()) {
+                            claimCardViewModel.changeClaimStatus(
+                                claim.claim.id!!,
+                                Claim.Status.OPEN,
+                                executorId = null,
+                                claimComment = ClaimComment(
+                                    claimId = claim.claim.id,
+                                    description = text.toString(),
+                                    creatorId = user.id,
+                                    createDate = LocalDateTime.now()
+                                        .toEpochSecond(
                                             ZoneId.of("Europe/Moscow").rules.getOffset(
                                                 Instant.now()
                                             )
                                         )
+                                )
+                            )
+                            dialog.dismiss()
+                        } else {
+                            showErrorToast(R.string.toast_empty_field)
+                        }
+                    }
+                    dialog.show(parentFragmentManager, "CreateCommentDialog")
+
+                    true
+                }
+
+                R.id.executes_list_item -> {
+                    val dialog = CreateCommentDialogFragment.newInstance(
+                        text = "",
+                        hint = "Description",
+                        isMultiline = true
+                    )
+                    dialog.onOk = {
+                        val text = dialog.editText.text
+                        if (text.isNotBlank()) {
+                            claimCardViewModel.changeClaimStatus(
+                                claim.claim.id!!,
+                                Claim.Status.EXECUTED,
+                                executorId = claim.executor?.id,
+                                claimComment = ClaimComment(
+                                    claimId = claim.claim.id,
+                                    description = text.toString(),
+                                    creatorId = user.id,
+                                    createDate = LocalDateTime.now().toEpochSecond(
+                                        ZoneId.of("Europe/Moscow").rules.getOffset(
+                                            Instant.now()
+                                        )
                                     )
                                 )
-                                dialog.dismiss()
-                            } else {
-                                showErrorToast(R.string.toast_empty_field)
-                            }
+                            )
+                            dialog.dismiss()
+                        } else {
+                            showErrorToast(R.string.toast_empty_field)
                         }
-                        dialog.show(parentFragmentManager, "CreateCommentDialog")
+                    }
+                    dialog.show(parentFragmentManager, "CreateCommentDialog")
                     true
                 }
                 else -> {
@@ -248,6 +263,24 @@ class OpenClaimFragment : Fragment() {
                 View.GONE
             containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
                 .setText(R.string.claim)
+            when (claim.claim.status) {
+                Claim.Status.OPEN -> {
+                    // Заменить на залогиненного юзера и добавить в условие админа !!
+                    statusProcessingMenu.menu.findItem(R.id.cancel_list_item).isEnabled =
+                        user.id == claim.claim.creatorId
+                }
+                Claim.Status.IN_PROGRESS -> {
+                    if (user.id != claim.claim.executorId) {
+                        binding.statusProcessingImageButton.setImageResource(R.drawable.ic_status_processing_non_clickable)
+                    }
+                }
+                Claim.Status.CANCELLED -> {
+
+                }
+                Claim.Status.EXECUTED -> {
+
+                }
+            }
             titleTextView.text = claim.claim.title
             executorNameTextView.text = if (claim.executor != null) {
                 Utils.fullUserNameGenerator(
@@ -297,7 +330,12 @@ class OpenClaimFragment : Fragment() {
             }
 
             statusProcessingImageButton.setOnClickListener {
-                statusProcessingMenu.show()
+                if (claim.claim.status == Claim.Status.IN_PROGRESS && user.id != claim.claim.executorId) {
+                    showErrorToast(R.string.no_change_status_rights_executor)
+                    return@setOnClickListener
+                } else {
+                    statusProcessingMenu.show()
+                }
             }
 
             editProcessingImageButton.setOnClickListener {

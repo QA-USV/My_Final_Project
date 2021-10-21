@@ -45,9 +45,9 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     //временно, пока нет авторизации
     private val creatorId = 1
 
-    private val claimViewModel: ClaimViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+//    private val claimViewModel: ClaimViewModel by viewModels(
+//        ownerProducer = ::requireParentFragment
+//    )
     private val claimCardViewModel: ClaimCardViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -60,12 +60,12 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         setHasOptionsMenu(true)
 
         lifecycleScope.launch {
-            claimViewModel.createClaimExceptionEvent.collect {
+            claimCardViewModel.createClaimExceptionEvent.collect {
                 showErrorToast(R.string.error)
             }
         }
         lifecycleScope.launch {
-            claimViewModel.claimCreatedEvent.collect {
+            claimCardViewModel.claimCreatedEvent.collect {
                 findNavController().navigateUp()
             }
         }
@@ -122,7 +122,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 dialog.setMessage(R.string.cancellation)
                     .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
                         dialog.dismiss()
-                        findNavController().popBackStack()
+                        findNavController().navigateUp()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.cancel()
@@ -148,7 +148,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 } else {
                     when (args.argClaim) {
                         null -> {
-                            claimViewModel.save(fillClaim())
+                            claimCardViewModel.save(fillClaim())
                         }
                         else -> {
                             claimCardViewModel.updateClaim(fillClaim())
