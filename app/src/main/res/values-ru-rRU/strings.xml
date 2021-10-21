@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Первый московский хоспис</string>
+    <string name="patients">Пациенты</string>
+    <string name="FLN">ФИО</string>
+    <string name="location">В хосписе</string>
+    <string name="patient_name">Иванов Иван Иванович</string>
+    <string name="patient_location">Да</string>
+    <string name="more">Еще</string>
+    <string name="all_patients">Все пациенты</string>
+    <string name="patients_in_hospice">В хосписе</string>
+    <string name="patients_expected">Ожидается</string>
+    <string name="new_patient">Новый пациент</string>
+    <string name="new_patient_last_name">Фамилия</string>
+    <string name="new_patient_name">Имя</string>
+    <string name="new_patient_middle_name">Отчество</string>
+    <string name="new_patient_birth_date">Дата рождения</string>
+    <string name="cancel_button">ОТМЕНА</string>
+    <string name="save_button">СОХРАНИТЬ</string>
+    <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
+    <string name="add_patient_fragment_negative_button">ОТМЕНА</string>
+    <string name="error_loading">Что-то пошло не так. Попробуйте позднее.</string>
+    <string name="retry_loading">Повторить</string>
+    <string name="empty_patients_list">Пациентов нет.\nЕсли создадите нового пациента, то он появится здесь</string>
+    <string name="error_saving">Сохранение не удалось. Попробуйте позднее.</string>
+    <string name="toast_empty_field">Поле не может быть пустым.</string>
+    <string name="patient_data">Данные о пациенте</string>
+    <string name="editing">Редактирование</string>
+    <string name="room">Палата</string>
+    <string name="admissions">Госпитализации</string>
+    <string name="date">Дата</string>
+    <string name="date_in">Дата поступления</string>
+    <string name="date_out">Дата выписки</string>
+    <string name="notes">Записки</string>
+    <string name="add">Добавить</string>
+    <string name="note_status">Статус записки</string>
+    <string name="note">Записка</string>
+    <string name="patient_profile">Профиль пациента</string>
+    <string name="change">Изменить</string>
+    <string name="term_of_execution">Срок исполнеия</string>
+    <string name="responsible">Ответственный</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="admission">Госпитализация</string>
+</resources>

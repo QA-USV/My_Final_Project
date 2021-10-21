@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">First moscow hospice</string>
+    <string name="patients">Patients</string>
+    <string name="FLN">FLN</string>
+    <string name="location">Location</string>
+    <string name="patient_name">Ivanov Ivan Ivanovich</string>
+    <string name="patient_location">Yes</string>
+    <string name="more">More</string>
+    <string name="all_patients">All patients</string>
+    <string name="patients_in_hospice">In hospice</string>
+    <string name="patients_expected">Expected</string>
+    <string name="new_patient">New patient</string>
+    <string name="new_patient_last_name">Last name</string>
+    <string name="new_patient_name">Name</string>
+    <string name="new_patient_middle_name">Middle name</string>
+    <string name="new_patient_birth_date">Birth date</string>
+    <string name="cancel_button" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="save_button" tools:ignore="ButtonCase">SAVE</string>
+    <string name="cancellation">The changes won\'t be saved, do you really want to log out?</string>
+    <string name="add_patient_fragment_positive_button" translatable="false">OK</string>
+    <string name="add_patient_fragment_negative_button">CANCEL</string>
+    <string name="error_loading">Something went wrong. Try again later.</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_patients_list">There are no patients.\nIf you create a new patient, it will appear here</string>
+    <string name="error_saving">Saving failed. Try again later.</string>
+    <string name="toast_empty_field">The field cannot be empty.</string>
+    <string name="patient_data">Information about patient</string>
+    <string name="editing">Editing</string>
+    <string name="room">Room</string>
+    <string name="admissions">Admissions</string>
+    <string name="date">Date</string>
+    <string name="date_in">Date of receipt</string>
+    <string name="date_out">Date of discharge</string>
+    <string name="notes">Notes</string>
+    <string name="add">Add</string>
+    <string name="note_status">Note status</string>
+    <string name="note">Note</string>
+    <string name="patient_profile">Patient profile</string>
+    <string name="change">Change</string>
+    <string name="term_of_execution">Term of execution</string>
+    <string name="responsible">Responsible</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="admission">Admission</string>
+</resources>
