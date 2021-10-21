@@ -119,7 +119,7 @@
                     style="@style/card_label_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/plan_date_lowercase"
+                    android:text="@string/plan_date"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider2_image_view" />
 
@@ -294,7 +294,7 @@
                             style="@style/card_label_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/add_comment_lowercase"
+                            android:text="@string/insert_comment"
                             android:visibility="visible"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/claim_comments_list_recycler_view" />
