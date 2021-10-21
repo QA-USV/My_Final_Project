@@ -112,6 +112,7 @@
     <string name="news_category_gratitude">Gratitude</string>
     <string name="news_category_need_help">Need help</string>
     <string name="news_item_active">Active</string>
+    <string name="news_item_not_active">Not active</string>
     <string name="news_item_publish_time">Time</string>
     <string name="news_item_publication">Publication date</string>
     <string name="news_item_creation">Creation date</string>

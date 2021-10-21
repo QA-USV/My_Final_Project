@@ -112,6 +112,7 @@
     <string name="news_category_gratitude">Благодарность</string>
     <string name="news_category_need_help">Нужна помощь</string>
     <string name="news_item_active">Активна</string>
+    <string name="news_item_not_active">Не активна</string>
     <string name="news_item_publish_time">Время</string>
     <string name="news_item_publication">Дата публикации</string>
     <string name="news_item_creation">Дата создания</string>

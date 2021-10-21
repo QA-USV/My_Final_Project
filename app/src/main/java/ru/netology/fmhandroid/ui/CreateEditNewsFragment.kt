@@ -84,6 +84,20 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 switcher.isChecked = newsItem.news.newsItem.publishEnabled
             }
 
+            if (switcher.isChecked) {
+                switcher.setText(R.string.news_item_active)
+            } else {
+                switcher.setText(R.string.news_item_not_active)
+            }
+
+            switcher.setOnClickListener {
+                if (switcher.isChecked) {
+                    switcher.setText(R.string.news_item_active)
+                } else {
+                    switcher.setText(R.string.news_item_not_active)
+                }
+            }
+
             cancelButton.setOnClickListener {
                 val activity = activity ?: return@setOnClickListener
                 val dialog = AlertDialog.Builder(activity)
