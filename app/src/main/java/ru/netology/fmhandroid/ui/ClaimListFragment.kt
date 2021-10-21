@@ -73,6 +73,7 @@ class ClaimListFragment : Fragment() {
         binding.apply {
             containerListClaimInclude.expandMaterialButton.visibility = View.GONE
             containerListClaimInclude.allClaimsTextView.visibility = View.GONE
+            root.setBackgroundResource(R.drawable.background_app)
         }
 
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {

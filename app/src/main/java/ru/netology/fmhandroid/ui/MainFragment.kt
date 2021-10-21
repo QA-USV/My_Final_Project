@@ -73,6 +73,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding.containerListClaimIncludeOnFragmentMain.apply {
             filtersMaterialButton.visibility = View.GONE
+            root.setBackgroundResource(R.color.white)
 
             addNewClaimMaterialButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)

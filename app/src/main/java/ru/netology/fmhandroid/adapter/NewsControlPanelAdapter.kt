@@ -73,12 +73,12 @@ class NewsControlPanelListAdapter(
             when (newsItemWithCreator.news.newsItem.publishEnabled) {
                 true -> {
                     newsItemPublishedTextView.text =
-                        itemView.context.getString(R.string.news_control_panel_published)
+                        itemView.context.getString(R.string.news_control_panel_active)
                     newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_check_24)
                 }
                 false -> {
                     newsItemPublishedTextView.text =
-                        itemView.context.getString(R.string.news_control_panel_not_published)
+                        itemView.context.getString(R.string.news_control_panel_not_active)
                     newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_clear_24)
                 }
             }

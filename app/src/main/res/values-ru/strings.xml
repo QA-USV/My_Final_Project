@@ -99,7 +99,7 @@
     <string name="throw_off">Сбросить</string>
     <string name="news_item_title">Заголовок</string>
     <string name="news_item_description">Описание</string>
-    <string name="news_item_publish_date">Дата</string>
+    <string name="news_item_publish_date">Дата публикации</string>
     <string name="news_item_category">Категория</string>
     <string name="news">Новости</string>
     <string name="all_news_categories">Все категории</string>
@@ -111,14 +111,14 @@
     <string name="news_category_massage">Массаж</string>
     <string name="news_category_gratitude">Благодарность</string>
     <string name="news_category_need_help">Нужна помощь</string>
-    <string name="news_item_published">Опубликована</string>
+    <string name="news_item_active">Активна</string>
     <string name="news_item_publish_time">Время</string>
     <string name="news_item_publication">Дата публикации</string>
     <string name="news_item_creation">Дата создания</string>
     <string name="news_item_author">Автор</string>
     <string name="news_item_date_format">ДД.ММ.ГГГГ</string>
-    <string name="news_control_panel_published">РАЗМЕЩЕНА</string>
-    <string name="news_control_panel_not_published">НЕ РАЗМЕЩЕНА</string>
+    <string name="news_control_panel_active">Активна</string>
+    <string name="news_control_panel_not_active">Не активна</string>
     <string name="news_control_panel">Панель управления \n новостями</string>
     <string name="edit_news_helper">К панели \n управления \n новостями</string>
     <string name="filter_news_helper">Фильтрация \n новостей</string>
