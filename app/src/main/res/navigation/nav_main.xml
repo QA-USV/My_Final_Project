@@ -78,6 +78,9 @@
             android:defaultValue="@null"
             app:argType="ru.netology.fmhandroid.dto.FullClaim"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_createEditClaimFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment" />
     </fragment>
 
     <fragment

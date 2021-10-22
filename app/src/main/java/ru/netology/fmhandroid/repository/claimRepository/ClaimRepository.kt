@@ -6,7 +6,6 @@ import ru.netology.fmhandroid.dto.*
 interface ClaimRepository {
     val data: Flow<List<FullClaim>>
     val dataOpenInProgress: Flow<List<FullClaim>>
-    val dataComments: Flow<List<ClaimCommentWithCreator>>
     suspend fun getAllClaims(): List<Claim>
     suspend fun editClaim(editedClaim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim

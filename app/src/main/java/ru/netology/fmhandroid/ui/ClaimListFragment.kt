@@ -77,16 +77,9 @@ class ClaimListFragment : Fragment() {
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(fullClaim: FullClaim) {
                 fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
-//                fullClaim.claim.id?.let { viewModel.getClaimById(it) }
-
-//                viewLifecycleOwner.lifecycleScope.launch {
-//                    Events.events.collect {
-//                        viewModel.claimCommentsLoadedEvent
                         val action = ClaimListFragmentDirections
                             .actionClaimListFragmentToOpenClaimFragment(fullClaim)
                         findNavController().navigate(action)
-//                    }
-//                }
             }
         })
 
