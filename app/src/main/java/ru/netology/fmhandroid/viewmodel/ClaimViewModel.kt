@@ -15,8 +15,6 @@ import javax.inject.Inject
 class ClaimViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
 ) : ViewModel() {
-//    val claimCreatedEvent = MutableSharedFlow<Unit>()
-//    val createClaimExceptionEvent = MutableSharedFlow<Unit>()
 
     val data: Flow<List<FullClaim>>
         get() = claimRepository.data
@@ -29,16 +27,4 @@ class ClaimViewModel @Inject constructor(
             claimRepository.getAllClaims()
         }
     }
-
-//    fun save(claim: Claim) {
-//        viewModelScope.launch {
-//            try {
-//                claimRepository.saveClaim(claim)
-//                claimCreatedEvent.emit(Unit)
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                createClaimExceptionEvent.emit(Unit)
-//            }
-//        }
-//    }
 }
