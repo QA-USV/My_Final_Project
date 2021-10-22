@@ -31,7 +31,9 @@ import java.time.ZoneId
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
 
-    private val claimCardViewModel: ClaimCardViewModel by viewModels()
+    private val claimCardViewModel: ClaimCardViewModel by viewModels(
+
+    )
 
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
@@ -58,7 +60,7 @@ class OpenClaimFragment : Fragment() {
 
         lifecycleScope.launch {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                renderingContentOfClaim(fullClaim, user)
+                renderingContentOfClaim(fullClaim, fullClaim.executor)
             }
         }
     }
@@ -67,14 +69,14 @@ class OpenClaimFragment : Fragment() {
         super.onResume()
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                renderingContentOfClaim(fullClaim, user)
+                renderingContentOfClaim(fullClaim, fullClaim.executor)
             }
         }
 
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangedEvent.collect {
                 claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                    renderingContentOfClaim(fullClaim, user)
+                    renderingContentOfClaim(fullClaim, fullClaim.executor)
                 }
             }
         }
@@ -184,7 +186,7 @@ class OpenClaimFragment : Fragment() {
 
     private fun renderingContentOfClaim(
         fullClaim: FullClaim,
-        executor: User
+        executor: User?
     ) {
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
@@ -210,9 +212,9 @@ class OpenClaimFragment : Fragment() {
         binding.executorNameTextView.text =
             if (fullClaim.executor != null) {
                 Utils.fullUserNameGenerator(
-                    executor.lastName.toString(),
-                    executor.firstName.toString(),
-                    executor.middleName.toString()
+                    executor?.lastName.toString(),
+                    executor?.firstName.toString(),
+                    executor?.middleName.toString()
                 )
             } else {
                 getString(R.string.not_assigned)
@@ -260,6 +262,16 @@ class OpenClaimFragment : Fragment() {
         binding.statusProcessingImageButton.setOnClickListener {
             statusProcessingMenu.show()
         }
+
+        binding.addCommentImageButton.setOnClickListener {
+            val action = OpenClaimFragmentDirections
+                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                    argComment = null,
+                    argClaimId = fullClaim.claim.id!!
+                )
+            findNavController().navigate(action)
+        }
+
         statusProcessingMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.take_to_work_list_item -> {

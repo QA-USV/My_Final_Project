@@ -24,15 +24,16 @@ import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
-    private val viewModelClaim: ClaimViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+
+    private val viewModelClaim: ClaimViewModel by viewModels()
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
 
     private var data: Flow<List<NewsWithCreators>>? = null
     private val viewModelNews: NewsViewModel by viewModels()
@@ -101,17 +102,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         val claimListAdapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(fullClaim: FullClaim) {
-//                fullClaim.claim.id?.let { viewModelClaim.getAllClaimComments(it) }
-//                fullClaim.claim.id?.let { viewModelClaim.getClaimById(it) }
-//
-//                viewLifecycleOwner.lifecycleScope.launch {
-//                    Events.events.collect {
-//                        viewModelClaim.claimCommentsLoadedEvent
+                fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
                         val action = MainFragmentDirections
                             .actionMainFragmentToOpenClaimFragment(fullClaim)
                         findNavController().navigate(action)
-//                    }
-//                }
             }
         })
 
