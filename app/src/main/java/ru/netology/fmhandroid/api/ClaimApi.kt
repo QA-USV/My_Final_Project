@@ -4,8 +4,6 @@ import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
-import ru.netology.fmhandroid.dto.User
 
 interface ClaimApi {
     @GET("claims")

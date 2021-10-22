@@ -4,14 +4,12 @@ import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.*
 
 interface ClaimRepository {
-    val data: Flow<List<ClaimWithCreatorAndExecutor>>
-    val dataOpenInProgress: Flow<List<ClaimWithCreatorAndExecutor>>
-    val dataComments: Flow<List<ClaimCommentWithCreator>>
-    val dataClaim: Flow<ClaimWithCreatorAndExecutor>
+    val data: Flow<List<FullClaim>>
+    val dataOpenInProgress: Flow<List<FullClaim>>
     suspend fun getAllClaims(): List<Claim>
     suspend fun editClaim(editedClaim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim
-    suspend fun getClaimById(id: Int)
+    fun getClaimById(id: Int): Flow<FullClaim>
     suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment>
     suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment
     suspend fun changeClaimStatus(

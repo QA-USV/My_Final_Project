@@ -60,7 +60,7 @@
         android:label="openClaimFragment">
         <argument
             android:name="argClaim"
-            app:argType="ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor" />
+            app:argType="ru.netology.fmhandroid.dto.FullClaim" />
         <action
             android:id="@+id/action_openClaimFragment_to_createEditClaimCommentFragment"
             app:destination="@id/createEditClaimCommentFragment" />
@@ -76,8 +76,11 @@
         <argument
             android:name="argClaim"
             android:defaultValue="@null"
-            app:argType="ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor"
+            app:argType="ru.netology.fmhandroid.dto.FullClaim"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_createEditClaimFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment" />
     </fragment>
 
     <fragment

@@ -19,7 +19,7 @@ import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
-import ru.netology.fmhandroid.dto.ClaimWithCreatorAndExecutor
+import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.utils.Events
@@ -100,18 +100,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         val claimListAdapter = ClaimListAdapter(object : OnClaimItemClickListener {
-            override fun onCard(claimWithCreatorAndExecutor: ClaimWithCreatorAndExecutor) {
-                claimWithCreatorAndExecutor.claim.id?.let { viewModelClaim.getAllClaimComments(it) }
-                claimWithCreatorAndExecutor.claim.id?.let { viewModelClaim.getClaimById(it) }
-
-                viewLifecycleOwner.lifecycleScope.launch {
-                    Events.events.collect {
-                        viewModelClaim.claimCommentsLoadedEvent
+            override fun onCard(fullClaim: FullClaim) {
+//                fullClaim.claim.id?.let { viewModelClaim.getAllClaimComments(it) }
+//                fullClaim.claim.id?.let { viewModelClaim.getClaimById(it) }
+//
+//                viewLifecycleOwner.lifecycleScope.launch {
+//                    Events.events.collect {
+//                        viewModelClaim.claimCommentsLoadedEvent
                         val action = MainFragmentDirections
-                            .actionMainFragmentToOpenClaimFragment(claimWithCreatorAndExecutor)
+                            .actionMainFragmentToOpenClaimFragment(fullClaim)
                         findNavController().navigate(action)
-                    }
-                }
+//                    }
+//                }
             }
         })
 
