@@ -91,7 +91,6 @@ class ClaimRepositoryImpl @Inject constructor(
             },
             onSuccess = { body ->
                 claimDao.insertClaim(body.toEntity())
-
                 if (!claimComment.description.isNullOrBlank()) {
                     claimDao.insertComment(claimComment.toEntity())
                 }
@@ -106,10 +105,6 @@ class ClaimRepositoryImpl @Inject constructor(
             body
         }
     )
-
-    override suspend fun getClaimCommentById(id: Int): ClaimComment {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun getAllClaimsWithOpenAndInProgressStatus(): List<Claim> {
         return makeRequest(

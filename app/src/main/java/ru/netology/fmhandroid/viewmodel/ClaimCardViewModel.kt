@@ -93,7 +93,6 @@ class ClaimCardViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getAllCommentsForClaim(id)
-//                commentsData = claimRepository.dataComments
                 Events.produceEvents(claimCommentsLoadedEvent)
             } catch (e: Exception) {
                 e.printStackTrace()

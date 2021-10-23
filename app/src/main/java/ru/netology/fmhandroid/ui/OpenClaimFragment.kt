@@ -31,9 +31,7 @@ import java.time.ZoneId
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
 
-    private val claimCardViewModel: ClaimCardViewModel by viewModels(
-
-    )
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
 
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
@@ -222,7 +220,7 @@ class OpenClaimFragment : Fragment() {
 
         binding.editProcessingImageButton.apply {
             if (fullClaim.claim.status == Claim.Status.OPEN) {
-                this.setImageResource(R.drawable.ic_edit)
+                this.setImageResource(R.drawable.background_app)
                 this.isClickable = true
                 this.setOnClickListener {
                     val action = OpenClaimFragmentDirections
