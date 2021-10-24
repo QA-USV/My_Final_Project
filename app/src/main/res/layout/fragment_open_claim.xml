@@ -128,9 +128,19 @@
                     style="@style/card_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/plan_time_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view"
+                    tools:text="19.12.2021" />
+
+                <TextView
+                    android:id="@+id/plan_time_text_view"
+                    style="@style/card_time_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider2_image_view"
-                    tools:text="18:00 19.12.2021" />
+                    tools:text="18:00" />
 
                 <ImageView
                     android:id="@+id/divider3_image_view"
@@ -147,11 +157,11 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_rectangle_381"
+                    android:background="#FFECE0"
                     app:layout_constraintBottom_toTopOf="@id/description_material_card_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider3_image_view"
-                    app:tint="#FFECE0"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -249,9 +259,19 @@
                     style="@style/card_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/create_time_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view"
+                    tools:text="05.12.2021" />
+
+                <TextView
+                    android:id="@+id/create_time_text_view"
+                    style="@style/card_time_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider5_image_view"
-                    tools:text="19:30 05.12.2021" />
+                    tools:text="18:00" />
 
                 <ImageView
                     android:id="@+id/divider6_image_view"

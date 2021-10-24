@@ -33,29 +33,45 @@
         style="@style/card_label_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:ellipsize="end"
         android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@+id/comment_time_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/comment_date_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_description_text_view"
         tools:text="А. И. Серова" />
 
     <TextView
-        android:id="@+id/comment_time_text_view"
+        android:id="@+id/comment_date_text_view"
         style="@style/card_label_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="4dp"
+        app:layout_constraintEnd_toStartOf="@id/comment_time_text_view"
+        app:layout_constraintTop_toBottomOf="@id/comment_description_text_view"
+        tools:ignore="RtlSymmetry"
+        tools:text="17.09.2021" />
+
+    <TextView
+        android:id="@+id/comment_time_text_view"
+        style="@style/card_claim_comment_time_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:paddingStart="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_description_text_view"
         tools:ignore="RtlSymmetry"
-        tools:text="19:30 17.09.2021" />
+        tools:text="19:30" />
 
     <ImageView
         android:id="@+id/divider11_image_view"
         style="@style/card_divider_style"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/commentator_name_text_view"
         tools:ignore="ContentDescription" />

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +26,9 @@ import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import android.widget.Button
+import android.widget.EditText
+
 
 //    TODO("В этом фрагменте после внедрения авторизации требуется изменить хардкод юзера на залогиненного пользователя!!!!")
 @AndroidEntryPoint
@@ -111,12 +115,16 @@ class OpenClaimFragment : Fragment() {
 
         val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
             override fun onCard(claimComment: ClaimCommentWithCreator) {
-                val action = OpenClaimFragmentDirections
-                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                        claimComment,
-                        claim.claim.id!!
-                    )
-                findNavController().navigate(action)
+                if (user.id == claimComment.creator.id) {
+                    val action = OpenClaimFragmentDirections
+                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                            claimComment,
+                            claim.claim.id!!
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    showErrorToast(R.string.no_comment_editing_rights)
+                }
             }
         })
 
@@ -190,7 +198,9 @@ class OpenClaimFragment : Fragment() {
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
         binding.titleTextView.text = fullClaim.claim.title
         binding.planeDateTextView.text =
-            fullClaim.claim.planExecuteDate?.let { Utils.showDateTimeInOne(it) }
+            fullClaim.claim.planExecuteDate?.let { Utils.showDate(it) }
+        binding.planTimeTextView.text =
+            fullClaim.claim.planExecuteDate?.let { Utils.showTime(it) }
         binding.descriptionTextView.text = fullClaim.claim.description
         binding.authorNameTextView.text = Utils.fullUserNameGenerator(
             fullClaim.creator.lastName.toString(),
@@ -198,7 +208,9 @@ class OpenClaimFragment : Fragment() {
             fullClaim.creator.middleName.toString()
         )
         binding.createDataTextView.text =
-            fullClaim.claim.createDate?.let { Utils.showDateTimeInOne(it) }
+            fullClaim.claim.createDate?.let { Utils.showDate(it) }
+        binding.createTimeTextView.text =
+            fullClaim.claim.createDate?.let { Utils.showTime(it) }
         binding.statusLabelTextView.text =
             displayingStatusOfClaim(fullClaim.claim.status!!)
 
@@ -220,7 +232,7 @@ class OpenClaimFragment : Fragment() {
 
         binding.editProcessingImageButton.apply {
             if (fullClaim.claim.status == Claim.Status.OPEN) {
-                this.setImageResource(R.drawable.background_app)
+                this.setImageResource(R.drawable.ic_pen)
                 this.isClickable = true
                 this.setOnClickListener {
                     val action = OpenClaimFragmentDirections
@@ -228,7 +240,7 @@ class OpenClaimFragment : Fragment() {
                     findNavController().navigate(action)
                 }
             } else {
-                this.setImageResource(R.drawable.ic_edit_non_clickable)
+                this.setImageResource(R.drawable.ic_pen_light)
                 this.isClickable = false
                 this.setOnClickListener {
                     showErrorToast(R.string.inability_to_edit_claim)
@@ -295,70 +307,101 @@ class OpenClaimFragment : Fragment() {
                 }
 
                 R.id.throw_off_list_item -> {
-                    val dialog = CreateCommentDialogFragment.newInstance(
-                        text = "",
-                        hint = "Description",
-                        isMultiline = true
+                    val view = requireActivity().layoutInflater.inflate(
+                        R.layout.fragment_dialog_comment_create,
+                        null
                     )
-                    dialog.onOk = {
-                        val text = dialog.editText.text
-                        if (text.isNotBlank()) {
-                            claimCardViewModel.changeClaimStatus(
-                                fullClaim.claim.id!!,
-                                Claim.Status.OPEN,
-                                executorId = null,
-                                claimComment = ClaimComment(
-                                    claimId = fullClaim.claim.id,
-                                    description = text.toString(),
-                                    creatorId = user.id,
-                                    createDate = LocalDateTime.now()
-                                        .toEpochSecond(
-                                            ZoneId.of("Europe/Moscow").rules.getOffset(
-                                                Instant.now()
+
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(view)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .create()
+
+                    dialog.setOnShowListener {
+                        val buttonOk: Button =
+                            (dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        val buttonCancel: Button =
+                            (dialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+                        buttonOk.setOnClickListener {
+                            val editText = view.findViewById<EditText>(R.id.editText)
+                            val text = editText.text
+                            if (text.isBlank()) {
+                                showErrorToast(R.string.toast_empty_field)
+                            } else {
+                                claimCardViewModel.changeClaimStatus(
+                                    fullClaim.claim.id!!,
+                                    Claim.Status.OPEN,
+                                    executorId = null,
+                                    claimComment = ClaimComment(
+                                        claimId = fullClaim.claim.id,
+                                        description = text.toString(),
+                                        creatorId = user.id,
+                                        createDate = LocalDateTime.now()
+                                            .toEpochSecond(
+                                                ZoneId.of("Europe/Moscow").rules.getOffset(
+                                                    Instant.now()
+                                                )
                                             )
-                                        )
+                                    )
                                 )
-                            )
+                                dialog.dismiss()
+                            }
+                        }
+                        buttonCancel.setOnClickListener {
                             dialog.dismiss()
-                        } else {
-                            showErrorToast(R.string.toast_empty_field)
                         }
                     }
-                    dialog.show(parentFragmentManager, "CreateCommentDialog")
-
+                    dialog.show()
                     true
                 }
 
                 R.id.executes_list_item -> {
-                    val dialog = CreateCommentDialogFragment.newInstance(
-                        text = "",
-                        hint = "Description",
-                        isMultiline = true
+                    val view = requireActivity().layoutInflater.inflate(
+                        R.layout.fragment_dialog_comment_create,
+                        null
                     )
-                    dialog.onOk = {
-                        val text = dialog.editText.text
-                        if (text.isNotBlank()) {
-                            claimCardViewModel.changeClaimStatus(
-                                fullClaim.claim.id!!,
-                                Claim.Status.EXECUTED,
-                                executorId = fullClaim.executor?.id,
-                                claimComment = ClaimComment(
-                                    claimId = fullClaim.claim.id,
-                                    description = text.toString(),
-                                    creatorId = user.id,
-                                    createDate = LocalDateTime.now().toEpochSecond(
-                                        ZoneId.of("Europe/Moscow").rules.getOffset(
-                                            Instant.now()
+
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(view)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .create()
+
+                    dialog.setOnShowListener {
+                        val buttonOk: Button =
+                            (dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        val buttonCancel: Button =
+                            (dialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+                        buttonOk.setOnClickListener {
+                            val editText = view.findViewById<EditText>(R.id.editText)
+                            val text = editText.text
+                            if (text.isBlank()) {
+                                showErrorToast(R.string.toast_empty_field)
+                            } else {
+                                claimCardViewModel.changeClaimStatus(
+                                    fullClaim.claim.id!!,
+                                    Claim.Status.EXECUTED,
+                                    executorId = fullClaim.executor?.id,
+                                    claimComment = ClaimComment(
+                                        claimId = fullClaim.claim.id,
+                                        description = text.toString(),
+                                        creatorId = user.id,
+                                        createDate = LocalDateTime.now().toEpochSecond(
+                                            ZoneId.of("Europe/Moscow").rules.getOffset(
+                                                Instant.now()
+                                            )
                                         )
                                     )
                                 )
-                            )
+                                dialog.dismiss()
+                            }
+                        }
+                        buttonCancel.setOnClickListener {
                             dialog.dismiss()
-                        } else {
-                            showErrorToast(R.string.toast_empty_field)
                         }
                     }
-                    dialog.show(parentFragmentManager, "CreateCommentDialog")
+                    dialog.show()
                     true
                 }
                 else -> {

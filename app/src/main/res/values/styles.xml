@@ -113,7 +113,22 @@
             14sp
         </item>
         <item name="android:textColor">
-            #535353
+            #575757
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
+    </style>
+
+    <style name="card_claim_comment_time_text_style">
+        <item name="android:textSize">
+            14sp
+        </item>
+        <item name="android:textColor">
+            #8F8F8F
         </item>
         <item name="android:layout_marginTop">
             6dp
@@ -129,6 +144,21 @@
         </item>
         <item name="android:textColor">
             #DE000000
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
+    </style>
+
+    <style name="card_time_text_style">
+        <item name="android:textSize">
+            16sp
+        </item>
+        <item name="android:textColor">
+            #535353
         </item>
         <item name="android:layout_marginTop">
             6dp
@@ -193,7 +223,7 @@
 
     <style name="PlanTimeTextStyle">
         <item name="android:textSize"> 12sp </item>
-        <item name="android:textColor"> #878787 </item>
+        <item name="android:textColor"> #535353 </item>
     </style>
 
     <style name="TopAppBarTitle">

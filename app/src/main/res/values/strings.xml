@@ -148,9 +148,11 @@
     <string name="creating">Creating</string>
     <string name="genitive_comment">Comment</string>
     <string name="all_news">All news</string>
-    <string name="all_claims">all_claims</string>
+    <string name="all_claims">all claims</string>
     <string name="enter">Enter</string>
     <string name="login">login</string>
     <string name="irrevocable_deletion">Are you sure you want to permanently delete the document? These changes cannot be reversed in the future.</string>
     <string name="splashscreen_image">Splashscreen image</string>
+    <string name="no_action_without_comment">Action is not possible without comment</string>
+    <string name="no_comment_editing_rights">Comment can only be edited by its creator</string>
 </resources>

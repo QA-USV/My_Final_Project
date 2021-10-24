@@ -126,6 +126,8 @@
             android:id="@+id/claim_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:layout_gravity="center"
             android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

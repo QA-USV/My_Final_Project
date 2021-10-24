@@ -152,4 +152,6 @@
     <string name="login">логин</string>
     <string name="irrevocable_deletion">Вы уверены, что хотите безвозвратно удалить документ? Данные изменения нельзя будет отменить в будущем.</string>
     <string name="splashscreen_image">Картинка загрузочного экрана</string>
+    <string name="no_action_without_comment">Действие не возможно без комментария</string>
+    <string name="no_comment_editing_rights">Редактировать комментарий может только его создатель</string>
 </resources>

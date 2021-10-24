@@ -77,7 +77,6 @@ class CreateEditClaimCommentFragment : Fragment() {
                     ).show()
                     return@setOnClickListener
                 }
-
             }
         } else {
             binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.customAppBarTitleTextView.apply {

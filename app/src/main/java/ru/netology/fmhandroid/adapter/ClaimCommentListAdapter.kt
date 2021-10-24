@@ -5,14 +5,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemCommentBinding
 import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
 
 
 interface OnClaimCommentItemClickListener {
     fun onCard(claimComment: ClaimCommentWithCreator) {}
 }
+
+// Временная переменная. После авторизации заменить на залогиненного юзера
+val user = User(
+    id = 1,
+    login = "User-1",
+    password = "abcd",
+    firstName = "Дмитрий",
+    lastName = "Винокуров",
+    middleName = "Владимирович",
+    phoneNumber = "+79109008765",
+    email = "Vinokurov@mail.ru",
+    deleted = false
+)
 
 class ClaimCommentListAdapter(
     private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener
@@ -55,8 +70,16 @@ class ClaimCommentListAdapter(
                         }
                     }
                 }
+                commentDateTextView.text =
+                    claimComment.claimComment.createDate?.let {Utils.showDate(it)}
                 commentTimeTextView.text =
-                    claimComment.claimComment.createDate?.let { Utils.showDateTimeInOne(it) }
+                    claimComment.claimComment.createDate?.let { Utils.showTime(it) }
+
+                if(claimComment.creator.id != user.id) {
+                    editLightImageButton.setImageResource(R.drawable.ic_pen_light)
+                } else {
+                    editLightImageButton.setImageResource(R.drawable.ic_pen)
+                }
 
                 editLightImageButton.setOnClickListener {
                     onClaimCommentItemClickListener.onCard(claimComment)

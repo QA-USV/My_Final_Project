@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/claim_list_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     app:strokeWidth="2dp"
     app:cardCornerRadius="0dp"
     app:strokeColor="@color/claim_stroke_color"
@@ -85,8 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginEnd="@dimen/card_view_padding"
-            app:layout_constraintEnd_toStartOf="@id/plan_date_material_text_view"
-            app:layout_constraintTop_toTopOf="@id/plan_date_material_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/plan_date_label_material_text_view"
             tools:text="21-00" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -98,7 +102,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAlignment="viewEnd"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/plan_time_material_text_view"
             app:layout_constraintTop_toTopOf="@+id/plan_date_label_material_text_view"
             tools:text="@sample/posts.json/data/edited" />
 
