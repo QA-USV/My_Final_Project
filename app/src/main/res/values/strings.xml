@@ -155,4 +155,5 @@
     <string name="splashscreen_image">Splashscreen image</string>
     <string name="no_action_without_comment">Action is not possible without comment</string>
     <string name="no_comment_editing_rights">Comment can only be edited by its creator</string>
+    <string name="app_background_image">app background image</string>
 </resources>
