@@ -1,42 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_app"
     tools:context=".ui.MainFragment">
 
-    <include
-        android:id="@+id/container_custom_app_bar_include_on_fragment_main"
-        layout="@layout/top_custom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/background_top_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitStart"
+        android:src="@drawable/main_background3168x3168" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/background_bottom_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitEnd"
+        android:src="@drawable/main_background3168x3168" />
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/container_custom_app_bar_include_on_fragment_main"
+            layout="@layout/top_custom_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="30dp">
+            android:layout_height="wrap_content" />
 
-            <include
-                android:id="@+id/container_list_news_include_on_fragment_main"
-                layout="@layout/container_list_news"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp" />
+                android:orientation="vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="30dp">
 
-            <include
-                android:id="@+id/container_list_claim_include_on_fragment_main"
-                layout="@layout/container_list_claim"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/container_list_news_include_on_fragment_main"
+                    layout="@layout/container_list_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp" />
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+                <include
+                    android:id="@+id/container_list_claim_include_on_fragment_main"
+                    layout="@layout/container_list_claim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</RelativeLayout>
