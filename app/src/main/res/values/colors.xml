@@ -30,4 +30,10 @@
     <color name="splash_screen_title_4">#DBFFFE</color>
     <color name="splash_screen_title_5">#E4FFE3</color>
     <color name="splash_screen_title_6">#FAF0D6</color>
+    <color name="splash_screen_title_color_1">#6B2900</color>
+    <color name="splash_screen_title_color_2">#610140</color>
+    <color name="splash_screen_title_color_3">#004381</color>
+    <color name="splash_screen_title_color_4">#00817F</color>
+    <color name="splash_screen_title_color_5">#005919</color>
+    <color name="splash_screen_title_color_6">#643C01</color>
 </resources>
