@@ -60,7 +60,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+<TextView
         android:id="@+id/all_claims_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

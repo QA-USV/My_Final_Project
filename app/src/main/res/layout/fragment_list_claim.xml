@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <include
-        android:id="@+id/container_list_claim_include"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/container_list_claim" />
+        <include
+            android:id="@+id/container_list_claim_include"
+            layout="@layout/container_list_claim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 </LinearLayout>
