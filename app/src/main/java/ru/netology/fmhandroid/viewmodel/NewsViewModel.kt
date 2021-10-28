@@ -39,6 +39,17 @@ class NewsViewModel @Inject constructor(
 
     val data = newsRepository.data
 
+    fun getAllNews() {
+        viewModelScope.launch {
+            try {
+                newsRepository.getAllNews()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                loadNewsExceptionEvent.emit(Unit)
+            }
+        }
+    }
+
     fun save(newsItem: News) {
         viewModelScope.launch {
             try {

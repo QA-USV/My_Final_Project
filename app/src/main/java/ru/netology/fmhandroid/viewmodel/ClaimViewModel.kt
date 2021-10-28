@@ -30,7 +30,7 @@ class ClaimViewModel @Inject constructor(
         }
     }
 
-    suspend fun getAllClaims() {
+    fun getAllClaims() {
         viewModelScope.launch {
             try {
                 claimRepository.getAllClaims()

@@ -42,19 +42,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        lifecycleScope.launch {
-            viewModelNews.loadNewsExceptionEvent.collect {
-                showErrorToast(R.string.error)
-            }
-            viewModelClaim.claimsLoadException.collect {
-                showErrorToast(R.string.error)
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentMainBinding.bind(view)
 
         val mainMenu = PopupMenu(
@@ -83,7 +75,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 else -> false
             }
         }
-
 
         binding.containerListClaimIncludeOnFragmentMain.apply {
             filtersMaterialButton.visibility = View.GONE
@@ -160,6 +151,26 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val newsListAdapter = NewsListAdapter()
         binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter =
             newsListAdapter
+
+        lifecycleScope.launch {
+            binding.mainSwipeRefresh.setOnRefreshListener {
+                viewModelNews.getAllNews()
+                viewModelClaim.getAllClaims()
+
+                lifecycleScope.launchWhenResumed {
+                    viewModelClaim.claimsLoadException.collect {
+                        showErrorToast(R.string.error)
+                    }
+                }
+
+                binding.mainSwipeRefresh.isRefreshing = false
+            }
+            viewModelClaim.dataOpenInProgress.collectLatest { state ->
+                claimListAdapter.submitList(state.take(n = 6))
+                binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
+                    state.isEmpty()
+            }
+        }
 
         lifecycleScope.launchWhenCreated {
             filterNews(newsListAdapter)

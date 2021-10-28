@@ -4,10 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
-import dagger.hilt.android.qualifiers.ActivityContext
 import retrofit2.Response
-import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
