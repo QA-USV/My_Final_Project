@@ -10,9 +10,10 @@
 
   <ImageView
       android:id="@+id/splashscreen_image_view"
-      android:layout_width="match_parent"
-      android:layout_height="250dp"
-      android:src="@drawable/image_splashscreen_1"
+      android:layout_width="wrap_content"
+      android:layout_height="300dp"
+      tools:src="@drawable/image_splashscreen_1"
+      android:scaleType="centerInside"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +29,7 @@
       android:gravity="center_horizontal"
       tools:text="Любая помощь важна и нужна"
       android:textSize="16sp"
+      tools:textColor="@color/splash_screen_title_color_1"
       tools:background="@drawable/background_splash_screen_title_1"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/splashscreen_image_view"
