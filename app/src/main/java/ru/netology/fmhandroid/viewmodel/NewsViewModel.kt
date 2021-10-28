@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val newsItemCreatedEvent = Events()
-    val loadNewsExceptionEvent = Events()
+    val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val saveNewsItemExceptionEvent = Events()
     val editNewsItemSavedEvent = Events()
     val editNewsItemExceptionEvent = Events()
@@ -30,7 +31,7 @@ class NewsViewModel @Inject constructor(
             newsRepository.getAllNews()
                 .catch { e ->
                     e.printStackTrace()
-                    Events.produceEvents(loadNewsExceptionEvent)
+                    loadNewsExceptionEvent.emit(Unit)
                 }.collect()
 
         }
@@ -84,14 +85,14 @@ class NewsViewModel @Inject constructor(
         newsRepository.filterNewsByCategory(newsCategoryId)
             .catch { e ->
                 e.printStackTrace()
-                Events.produceEvents(loadNewsExceptionEvent)
+                loadNewsExceptionEvent.emit(Unit)
             }
 
     suspend fun filterNewsByPublishDate(dateStart: Long, dateEnd: Long) =
         newsRepository.filterNewsByPublishDate(dateStart, dateEnd)
             .catch { e ->
                 e.printStackTrace()
-                Events.produceEvents(loadNewsExceptionEvent)
+                loadNewsExceptionEvent.emit(Unit)
             }
 
     suspend fun filterNewsByCategoryAndPublishDate(
@@ -102,6 +103,6 @@ class NewsViewModel @Inject constructor(
         newsCategoryId, dateStart, dateEnd
     ).catch { e ->
         e.printStackTrace()
-        Events.produceEvents(loadNewsExceptionEvent)
+        loadNewsExceptionEvent.emit(Unit)
     }
 }

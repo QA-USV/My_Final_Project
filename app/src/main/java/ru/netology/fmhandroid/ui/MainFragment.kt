@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -41,13 +42,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        lifecycleScope.launch {
+            viewModelNews.loadNewsExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+            viewModelClaim.claimsLoadException.collect {
+                showErrorToast(R.string.error)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
 
-        val mainMenu = PopupMenu(context, binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton)
+        val mainMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton
+        )
         mainMenu.inflate(R.menu.menu_main)
         mainMenu.menu.removeItem(R.id.menu_item_main)
         binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton.setOnClickListener {
@@ -103,17 +116,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val claimListAdapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(fullClaim: FullClaim) {
                 fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
-                        val action = MainFragmentDirections
-                            .actionMainFragmentToOpenClaimFragment(fullClaim)
-                        findNavController().navigate(action)
+                val action = MainFragmentDirections
+                    .actionMainFragmentToOpenClaimFragment(fullClaim)
+                findNavController().navigate(action)
             }
         })
 
-        binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter = claimListAdapter
+        binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter =
+            claimListAdapter
         lifecycleScope.launchWhenCreated {
             viewModelClaim.dataOpenInProgress.collectLatest { state ->
-                claimListAdapter.submitList(state.take( n = 6))
-                binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible = state.isEmpty()
+                claimListAdapter.submitList(state.take(n = 6))
+                binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
+                    state.isEmpty()
             }
         }
 
@@ -143,7 +158,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         val newsListAdapter = NewsListAdapter()
-        binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter = newsListAdapter
+        binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter =
+            newsListAdapter
 
         lifecycleScope.launchWhenCreated {
             filterNews(newsListAdapter)
@@ -202,5 +218,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     state.isEmpty()
             }
         }
+    }
+
+    private fun showErrorToast(text: Int) {
+        Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
