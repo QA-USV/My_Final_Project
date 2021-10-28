@@ -103,16 +103,19 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+
+            viewModel.loadNewsExceptionEvent.collect {
+                dialog.setMessage(R.string.error)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
+
+            }
+
             Events.events.collect {
                 when (it) {
-                    viewModel.loadNewsExceptionEvent ->
-                        dialog.setMessage(R.string.error)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
-
                     viewModel.removeNewsItemExceptionEvent ->
                         dialog.setMessage(R.string.error_removing)
                             .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
