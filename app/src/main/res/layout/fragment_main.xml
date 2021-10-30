@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_background_image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/app_background_3168x3168" />
+                android:src="@drawable/app_background_1920x1920" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
