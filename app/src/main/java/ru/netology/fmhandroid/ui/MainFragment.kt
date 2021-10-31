@@ -35,8 +35,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModelClaim: ClaimViewModel by viewModels()
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
-
-    private var data: Flow<List<NewsWithCreators>>? = null
     private val viewModelNews: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,8 +116,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launchWhenCreated {
             viewModelClaim.dataOpenInProgress.collectLatest { state ->
                 claimListAdapter.submitList(state.take(n = 6))
-                binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
-                    state.isEmpty()
             }
         }
 
@@ -151,6 +147,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val newsListAdapter = NewsListAdapter()
         binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter =
             newsListAdapter
+        lifecycleScope.launchWhenCreated {
+            viewModelNews.data.collect { state ->
+                newsListAdapter.submitList(state.filter {
+                    it.news.newsItem.publishEnabled
+                }.take(n = 3))
+            }
+        }
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
@@ -162,9 +165,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         showErrorToast(R.string.error)
                     }
                 }
-
                 binding.mainSwipeRefresh.isRefreshing = false
             }
+
+            viewModelNews.data.collectLatest { state ->
+                newsListAdapter.submitList(state.filter {
+                    it.news.newsItem.publishEnabled
+                }.take(n = 3))
+            }
+
             viewModelClaim.dataOpenInProgress.collectLatest { state ->
                 claimListAdapter.submitList(state.take(n = 6))
                 binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
@@ -172,9 +181,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
-            filterNews(newsListAdapter)
-        }
 // срабатывает при клике на claim card?!
 //
 //        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -190,45 +196,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 //                    .show()
 //            }
 //        }
-    }
-
-    private suspend fun filterNews(adapter: NewsListAdapter) {
-        setFragmentResultListener("requestKey") { _, bundle ->
-            val args = bundle.getParcelable<NewsFilterArgs>("filterArgs")
-            lifecycleScope.launch {
-                if (args?.category == null && args?.dates == null) data = viewModelNews.data
-                args?.category?.let { category ->
-                    data = when (args.dates) {
-                        null -> viewModelNews.filterNewsByCategory(
-                            Utils.convertNewsCategory(
-                                category
-                            )
-                        )
-                        else -> viewModelNews.filterNewsByCategoryAndPublishDate(
-                            Utils.convertNewsCategory(category), args.dates[0], args.dates[1]
-                        )
-                    }
-                }
-                if (args?.category == null) {
-                    data =
-                        args?.dates?.let { viewModelNews.filterNewsByPublishDate(it[0], it[1]) }
-                }
-                submitList(adapter, data)
-            }
-        }
-        if (data == null) submitList(adapter, viewModelNews.data) else submitList(adapter, data)
-    }
-
-    private fun submitList(adapter: NewsListAdapter, data: Flow<List<NewsWithCreators>>?) {
-        lifecycleScope.launch {
-            data?.collectLatest { state ->
-                adapter.submitList(state.filter {
-                    it.news.newsItem.publishEnabled
-                }.take(n = 3))
-                binding.containerListNewsIncludeOnFragmentMain.emptyTextTextView.isVisible =
-                    state.isEmpty()
-            }
-        }
     }
 
     private fun showErrorToast(text: Int) {

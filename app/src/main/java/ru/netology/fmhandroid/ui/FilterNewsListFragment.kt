@@ -119,8 +119,8 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
                 vPublishDateEndPicker.text.toString().isNotBlank()
             ) {
                 dates = listOf(
-                    saveDateTime(vPublishDateStartPicker.text.toString(), "00-00"),
-                    saveDateTime(vPublishDateEndPicker.text.toString(), "23-59")
+                    saveDateTime(vPublishDateStartPicker.text.toString(), "00:00"),
+                    saveDateTime(vPublishDateEndPicker.text.toString(), "23:59")
                 )
                 navigateUp(category, dates)
 

@@ -79,7 +79,7 @@ class ClaimListAdapter(
             oldItem: FullClaim,
             newItem: FullClaim
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.claim.id == newItem.claim.id
         }
 
         override fun areContentsTheSame(

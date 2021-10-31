@@ -3,11 +3,13 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.News
+import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
 import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
@@ -29,15 +31,11 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             newsRepository.saveCategories()
             newsRepository.getAllNews()
-                .catch { e ->
-                    e.printStackTrace()
-                    loadNewsExceptionEvent.emit(Unit)
-                }.collect()
-
         }
     }
 
-    val data = newsRepository.data
+    val data: Flow<List<NewsWithCreators>>
+    get() = newsRepository.data
 
     fun getAllNews() {
         viewModelScope.launch {

@@ -6,7 +6,7 @@ import ru.netology.fmhandroid.dto.NewsWithCreators
 
 interface NewsRepository {
     val data: Flow<List<NewsWithCreators>>
-    suspend fun getAllNews(): Flow<List<News>>
+    suspend fun getAllNews(): List<News>
     suspend fun editNewsItem(newsItem: News): News
     suspend fun saveNewsItem(newsItem: News): News
     suspend fun removeNewsItemById(id: Int)

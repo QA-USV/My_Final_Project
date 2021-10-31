@@ -11,32 +11,35 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import okhttp3.internal.notifyAll
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
+import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
-class ClaimListFragment : Fragment() {
+class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
-    private val viewModel: ClaimViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private lateinit var binding: FragmentListClaimBinding
+
+    private val viewModel: ClaimViewModel by viewModels()
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentListClaimBinding.inflate(inflater, container, false)
+        binding = FragmentListClaimBinding.bind(view)
 
         val menuFiltering =
             PopupMenu(context, binding.containerListClaimInclude.filtersMaterialButton)
@@ -78,11 +81,22 @@ class ClaimListFragment : Fragment() {
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(fullClaim: FullClaim) {
                 fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
-                        val action = ClaimListFragmentDirections
-                            .actionClaimListFragmentToOpenClaimFragment(fullClaim)
-                        findNavController().navigate(action)
+                val action = ClaimListFragmentDirections
+                    .actionClaimListFragmentToOpenClaimFragment(fullClaim)
+                findNavController().navigate(action)
             }
         })
+
+        lifecycleScope.launch {
+            binding.claimListSwipeRefresh.setOnRefreshListener {
+                viewModel.getAllClaims()
+                binding.claimListSwipeRefresh.isRefreshing = false
+            }
+            viewModel.dataOpenInProgress.collectLatest { state ->
+                adapter.submitList(state)
+                binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+            }
+        }
 
         menuFiltering.setOnMenuItemClickListener { menuItem ->
             claimListFiltering(menuItem, adapter, binding)
@@ -107,8 +121,6 @@ class ClaimListFragment : Fragment() {
         binding.containerListClaimInclude.addNewClaimMaterialButton.setOnClickListener {
             findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
         }
-
-        return binding.root
     }
 
     private fun claimListFiltering(

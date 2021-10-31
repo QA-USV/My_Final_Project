@@ -76,7 +76,7 @@ class NewsListAdapter :
 
 class NewsDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
     override fun areItemsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
-        return oldItem.news.newsItem.id == newItem.news.newsItem.id
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {

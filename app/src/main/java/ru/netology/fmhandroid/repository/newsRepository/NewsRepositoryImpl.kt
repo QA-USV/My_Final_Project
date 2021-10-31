@@ -1,9 +1,7 @@
 package ru.netology.fmhandroid.repository.newsRepository
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import ru.netology.fmhandroid.api.NewsApi
 import ru.netology.fmhandroid.dao.NewsCategoryDao
 import ru.netology.fmhandroid.dao.NewsDao
@@ -26,7 +24,7 @@ class NewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi
 ) : NewsRepository {
     override val data: Flow<List<NewsWithCreators>>
-        get() = newsDao.getAllNews()
+        get() = newsDao.getAllNews().flowOn(Dispatchers.Default)
 
     //* Тестовые переменные. Подлежат удалению в будущем *
 
@@ -82,12 +80,12 @@ class NewsRepositoryImpl @Inject constructor(
         listOf(advertisement, salary, union, birthday, holiday, massage, gratitude, help)
     //-------------------------------------------------------------//
 
-    override suspend fun getAllNews(): Flow<List<News>> = flow {
-        Utils.makeRequest(
+    override suspend fun getAllNews(): List<News> {
+         return Utils.makeRequest(
             request = { newsApi.getAllNews() },
             onSuccess = { body ->
                 newsDao.insert(body.toEntity())
-                emit(body)
+                body
             }
         )
     }
