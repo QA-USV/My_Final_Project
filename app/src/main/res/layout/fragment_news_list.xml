@@ -10,9 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <include
-        android:id="@+id/container_list_news_include"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/news_list_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/container_list_news" />
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/container_list_news_include"
+            layout="@layout/container_list_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

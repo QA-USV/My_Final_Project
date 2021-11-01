@@ -92,6 +92,23 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
         }
 
+        lifecycleScope.launch {
+            binding.newsListSwipeRefresh.setOnRefreshListener {
+                viewModel.getAllNews()
+                binding.newsListSwipeRefresh.isRefreshing = false
+                lifecycleScope.launch {
+                    viewModel.data.collectLatest { state ->
+                        submitList(adapter, viewModel.data)
+                        binding.containerListNewsInclude.newsListRecyclerView.post {
+                            binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
+                                0
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
         with(binding) {
             containerListNewsInclude.editNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(
