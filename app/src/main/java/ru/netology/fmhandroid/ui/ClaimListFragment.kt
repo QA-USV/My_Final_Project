@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -91,10 +92,18 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             binding.claimListSwipeRefresh.setOnRefreshListener {
                 viewModel.getAllClaims()
                 binding.claimListSwipeRefresh.isRefreshing = false
-            }
-            viewModel.dataOpenInProgress.collectLatest { state ->
-                adapter.submitList(state)
-                binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+                lifecycleScope.launch {
+                    viewModel.dataOpenInProgress.collectLatest { state ->
+                        adapter.submitList(state)
+                        binding.containerListClaimInclude.claimListRecyclerView.post {
+                            binding.containerListClaimInclude.claimListRecyclerView.scrollToPosition(
+                                0
+                            )
+                        }
+                        binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+                            state.isEmpty()
+                    }
+                }
             }
         }
 
