@@ -20,7 +20,6 @@ import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.*
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant

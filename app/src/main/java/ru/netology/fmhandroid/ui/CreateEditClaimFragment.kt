@@ -44,13 +44,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
 
     //временно, пока нет авторизации
     private val creatorId = 1
-
-//    private val claimViewModel: ClaimViewModel by viewModels(
-//        ownerProducer = ::requireParentFragment
-//    )
-    private val claimCardViewModel: ClaimCardViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -157,7 +151,6 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                         }
                         else -> {
                             claimCardViewModel.updateClaim(fillClaim())
-                            findNavController().navigateUp()
                         }
                     }
                 }

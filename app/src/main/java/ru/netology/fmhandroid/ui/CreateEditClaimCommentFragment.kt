@@ -28,25 +28,25 @@ class CreateEditClaimCommentFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            claimCardViewModel.claimCommentCreateExceptionEvent.collect {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.error,
-                    Toast.LENGTH_SHORT
-                )
-            }
-            claimCardViewModel.updateClaimCommentExceptionEvent.collect {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.error,
-                    Toast.LENGTH_SHORT
-                )
-            }
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        lifecycleScope.launch {
+//            claimCardViewModel.claimCommentCreateExceptionEvent.collect {
+//                Toast.makeText(
+//                    requireContext(),
+//                    R.string.error,
+//                    Toast.LENGTH_SHORT
+//                )
+//            }
+//            claimCardViewModel.updateClaimCommentExceptionEvent.collect {
+//                Toast.makeText(
+//                    requireContext(),
+//                    R.string.error,
+//                    Toast.LENGTH_SHORT
+//                )
+//            }
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -125,28 +125,28 @@ class CreateEditClaimCommentFragment : Fragment() {
                     }
 
                     if (newCommentDescription.isNotBlank()) {
-                    claimCardViewModel.createClaimComment(
-                        ClaimComment(
-                            claimId = claimId,
-                            description = newCommentDescription,
-                            creatorId = 1,
-                            createDate = LocalDateTime.now().toEpochSecond(
-                                ZoneId.of("Europe/Moscow").rules.getOffset(
-                                    Instant.now()
+                        claimCardViewModel.createClaimComment(
+                            ClaimComment(
+                                claimId = claimId,
+                                description = newCommentDescription,
+                                creatorId = 1,
+                                createDate = LocalDateTime.now().toEpochSecond(
+                                    ZoneId.of("Europe/Moscow").rules.getOffset(
+                                        Instant.now()
+                                    )
                                 )
                             )
                         )
-                    )
-                    findNavController().navigateUp()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.toast_empty_field,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@launch
+                        findNavController().navigateUp()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.toast_empty_field,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@launch
+                    }
                 }
-            }
             }
         }
 
