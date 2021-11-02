@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
@@ -24,6 +27,26 @@ class CreateEditClaimCommentFragment : Fragment() {
     private val claimCardViewModel: ClaimCardViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            claimCardViewModel.claimCommentCreateExceptionEvent.collect {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.error,
+                    Toast.LENGTH_SHORT
+                )
+            }
+            claimCardViewModel.updateClaimCommentExceptionEvent.collect {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.error,
+                    Toast.LENGTH_SHORT
+                )
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,7 +115,16 @@ class CreateEditClaimCommentFragment : Fragment() {
 
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
 
-                if (newCommentDescription.isNotBlank()) {
+                lifecycleScope.launch {
+                    claimCardViewModel.updateClaimCommentExceptionEvent.collect {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.error,
+                            Toast.LENGTH_SHORT
+                        )
+                    }
+
+                    if (newCommentDescription.isNotBlank()) {
                     claimCardViewModel.createClaimComment(
                         ClaimComment(
                             claimId = claimId,
@@ -112,8 +144,9 @@ class CreateEditClaimCommentFragment : Fragment() {
                         R.string.toast_empty_field,
                         Toast.LENGTH_LONG
                     ).show()
-                    return@setOnClickListener
+                    return@launch
                 }
+            }
             }
         }
 

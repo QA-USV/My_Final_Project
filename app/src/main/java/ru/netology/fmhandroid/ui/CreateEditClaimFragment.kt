@@ -65,15 +65,20 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             }
         }
         lifecycleScope.launch {
+            claimCardViewModel.claimUpdateExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
+        lifecycleScope.launch {
             claimCardViewModel.claimCreatedEvent.collect {
                 findNavController().navigateUp()
             }
         }
-//        lifecycleScope.launch {
-//            claimCardViewModel.claimUpdatedEvent.collect {
-//                findNavController().navigateUp()
-//            }
-//        }
+        lifecycleScope.launch {
+            claimCardViewModel.claimUpdatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

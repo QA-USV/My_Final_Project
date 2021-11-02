@@ -30,25 +30,23 @@ class ClaimCardViewModel @Inject constructor(
     val claimUpdatedEvent = MutableSharedFlow<Unit>()
     val claimCreatedEvent = MutableSharedFlow<Unit>()
     val createClaimExceptionEvent = MutableSharedFlow<Unit>()
-
-    val claimCommentsLoadExceptionEvent = Events()
-    val claimCommentCreateExceptionEvent = Events()
-    val updateClaimCommentExceptionEvent = Events()
-    val loadClaimExceptionEvent = Events()
-    val claimLoadedEvent = Events()
-    val claimCommentCreatedEvent = Events()
-    val claimCommentsLoadedEvent = Events()
-    val claimCommentUpdatedEvent = Events()
-
+    val claimCommentsLoadExceptionEvent = MutableSharedFlow<Unit>()
+    val claimCommentsLoadedEvent = MutableSharedFlow<Unit>()
+    val claimLoadedEvent = MutableSharedFlow<Unit>()
+    val loadClaimExceptionEvent = MutableSharedFlow<Unit>()
+    val claimCommentCreatedEvent = MutableSharedFlow<Unit>()
+    val claimCommentUpdatedEvent = MutableSharedFlow<Unit>()
+    val claimCommentCreateExceptionEvent = MutableSharedFlow<Unit>()
+    val updateClaimCommentExceptionEvent = MutableSharedFlow<Unit>()
 
     fun createClaimComment(claimComment: ClaimComment) {
         viewModelScope.launch {
             try {
                 claimComment.claimId?.let { claimRepository.saveClaimComment(it, claimComment) }
-                Events.produceEvents(claimCommentCreatedEvent)
+                claimCommentCreatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(claimCommentCreateExceptionEvent)
+                claimCommentCreateExceptionEvent.emit(Unit)
             }
         }
     }
@@ -57,10 +55,10 @@ class ClaimCardViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.changeClaimComment(comment)
-                Events.produceEvents(claimCommentUpdatedEvent)
+                claimCommentUpdatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(updateClaimCommentExceptionEvent)
+                updateClaimCommentExceptionEvent.emit(Unit)
             }
         }
     }
@@ -93,10 +91,10 @@ class ClaimCardViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getAllCommentsForClaim(id)
-                Events.produceEvents(claimCommentsLoadedEvent)
+                claimCommentsLoadedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(claimCommentsLoadExceptionEvent)
+                claimCommentsLoadExceptionEvent.emit(Unit)
             }
         }
     }
@@ -105,10 +103,10 @@ class ClaimCardViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 claimRepository.getClaimById(claimId)
-                Events.produceEvents(claimLoadedEvent)
+                claimLoadedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(loadClaimExceptionEvent)
+                loadClaimExceptionEvent.emit(Unit)
             }
         }
     }
