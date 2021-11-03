@@ -17,7 +17,7 @@ import kotlin.properties.Delegates
 @HiltViewModel
 class ClaimCardViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
-): ViewModel() {
+) : ViewModel() {
     private var claimId by Delegates.notNull<Int>()
 
     val dataFullClaim: Flow<FullClaim> by lazy {
@@ -136,5 +136,4 @@ class ClaimCardViewModel @Inject constructor(
     fun init(claimId: Int) {
         this.claimId = claimId
     }
-
 }

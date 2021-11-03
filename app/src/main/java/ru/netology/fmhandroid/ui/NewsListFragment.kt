@@ -22,8 +22,10 @@ import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.ui.NewsControlPanelFragment.Companion.revert
 import ru.netology.fmhandroid.utils.Events
+import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
+import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class NewsListFragment : Fragment(R.layout.fragment_news_list) {
@@ -176,6 +178,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             data?.collectLatest { state ->
                 adapter.submitList(state.filter {
                     it.news.newsItem.publishEnabled
+                            && Utils.fromLongToLocalDateTime(it.news.newsItem.publishDate!!) <= LocalDateTime.now()
                 })
                 binding.containerListNewsInclude.emptyTextTextView.isVisible = state.isEmpty()
             }

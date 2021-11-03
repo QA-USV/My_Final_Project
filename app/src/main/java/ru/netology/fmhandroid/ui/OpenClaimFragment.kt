@@ -68,12 +68,12 @@ class OpenClaimFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
                 renderingContentOfClaim(fullClaim, fullClaim.executor)
             }
         }
-
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangedEvent.collect {
                 claimCardViewModel.dataFullClaim.collect { fullClaim ->
@@ -81,7 +81,6 @@ class OpenClaimFragment : Fragment() {
                 }
             }
         }
-
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangeExceptionEvent.collect {
                 showErrorToast(R.string.error)
@@ -129,7 +128,7 @@ class OpenClaimFragment : Fragment() {
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimCommentUpdatedEvent.collect {
                 claimCardViewModel.dataFullClaim.collect {
                     adapter.submitList(it.comments)

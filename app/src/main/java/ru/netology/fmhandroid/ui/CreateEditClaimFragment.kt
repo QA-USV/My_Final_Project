@@ -27,7 +27,6 @@ import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
-import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
 import java.time.Instant
 import java.time.LocalDateTime
@@ -237,6 +236,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             )
         }
     }
+
     private fun showErrorToast(text: Int) {
         Toast.makeText(
             requireContext(),

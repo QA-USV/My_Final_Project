@@ -1,9 +1,7 @@
 package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,46 +21,43 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @AndroidEntryPoint
-class CreateEditClaimCommentFragment : Fragment() {
-    private val claimCardViewModel: ClaimCardViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_comment) {
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
+    lateinit var binding: FragmentCreateEditCommentBinding
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        lifecycleScope.launch {
-//            claimCardViewModel.claimCommentCreateExceptionEvent.collect {
-//                Toast.makeText(
-//                    requireContext(),
-//                    R.string.error,
-//                    Toast.LENGTH_SHORT
-//                )
-//            }
-//            claimCardViewModel.updateClaimCommentExceptionEvent.collect {
-//                Toast.makeText(
-//                    requireContext(),
-//                    R.string.error,
-//                    Toast.LENGTH_SHORT
-//                )
-//            }
-//        }
-//    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        lifecycleScope.launch {
+            claimCardViewModel.claimCommentCreateExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
+        lifecycleScope.launch {
+            claimCardViewModel.updateClaimCommentExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
+        lifecycleScope.launch {
+            claimCardViewModel.claimCommentCreatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
+        lifecycleScope.launch {
+            claimCardViewModel.claimCommentUpdatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentCreateEditCommentBinding.bind(view)
 
         val args: CreateEditClaimCommentFragmentArgs by navArgs()
         val comment: ClaimCommentWithCreator? = args.argComment
         val claimId: Int = args.argClaimId
-
-        val binding = FragmentCreateEditCommentBinding.inflate(
-            inflater,
-            container,
-            false
-        )
 
         with(binding) {
             containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.mainMenuImageButton.visibility =
@@ -91,13 +86,8 @@ class CreateEditClaimCommentFragment : Fragment() {
                             description = binding.commentTextInputLayout.editText?.text.toString()
                         )
                     )
-                    findNavController().navigateUp()
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.toast_empty_field,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    showErrorToast(R.string.toast_empty_field)
                     return@setOnClickListener
                 }
             }
@@ -115,37 +105,21 @@ class CreateEditClaimCommentFragment : Fragment() {
 
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
 
-                lifecycleScope.launch {
-                    claimCardViewModel.updateClaimCommentExceptionEvent.collect {
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.error,
-                            Toast.LENGTH_SHORT
-                        )
-                    }
-
-                    if (newCommentDescription.isNotBlank()) {
-                        claimCardViewModel.createClaimComment(
-                            ClaimComment(
-                                claimId = claimId,
-                                description = newCommentDescription,
-                                creatorId = 1,
-                                createDate = LocalDateTime.now().toEpochSecond(
-                                    ZoneId.of("Europe/Moscow").rules.getOffset(
-                                        Instant.now()
-                                    )
+                if (newCommentDescription.isNotBlank()) {
+                    claimCardViewModel.createClaimComment(
+                        ClaimComment(
+                            claimId = claimId,
+                            description = newCommentDescription,
+                            creatorId = 1,
+                            createDate = LocalDateTime.now().toEpochSecond(
+                                ZoneId.of("Europe/Moscow").rules.getOffset(
+                                    Instant.now()
                                 )
                             )
                         )
-                        findNavController().navigateUp()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.toast_empty_field,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        return@launch
-                    }
+                    )
+                } else {
+                    showErrorToast(R.string.toast_empty_field)
                 }
             }
         }
@@ -153,7 +127,13 @@ class CreateEditClaimCommentFragment : Fragment() {
         binding.cancelButton.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
 
-        return binding.root
+    private fun showErrorToast(text: Int) {
+        Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
