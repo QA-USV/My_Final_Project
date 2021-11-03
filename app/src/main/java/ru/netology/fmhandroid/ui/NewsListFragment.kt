@@ -21,7 +21,6 @@ import ru.netology.fmhandroid.databinding.FragmentNewsListBinding
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.ui.NewsControlPanelFragment.Companion.revert
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
@@ -81,8 +80,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            Events.events.collect {
-                viewModel.loadNewsExceptionEvent
+            viewModel.loadNewsExceptionEvent.collect {
                 val activity = activity ?: return@collect
                 val dialog = AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.error)
@@ -99,7 +97,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
                 viewModel.getAllNews()
                 binding.newsListSwipeRefresh.isRefreshing = false
                 lifecycleScope.launch {
-                    viewModel.data.collectLatest { state ->
+                    viewModel.data.collectLatest {
                         submitList(adapter, viewModel.data)
                         binding.containerListNewsInclude.newsListRecyclerView.post {
                             binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(

@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
@@ -28,6 +30,20 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
     private val viewModel: ClaimViewModel by viewModels()
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            viewModel.claimsLoadException.collect{
+                Toast.makeText(
+                    requireContext(),
+                    R.string.error,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

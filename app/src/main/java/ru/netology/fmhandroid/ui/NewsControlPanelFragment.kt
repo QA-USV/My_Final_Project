@@ -24,7 +24,6 @@ import ru.netology.fmhandroid.adapter.NewsOnInteractionListener
 import ru.netology.fmhandroid.databinding.FragmentNewsControlPanelBinding
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
@@ -114,16 +113,15 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
 
             }
 
-            Events.events.collect {
-                when (it) {
-                    viewModel.removeNewsItemExceptionEvent ->
-                        dialog.setMessage(R.string.error_removing)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
-                }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.removeNewsItemExceptionEvent.collect {
+                dialog.setMessage(R.string.error_removing)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
             }
         }
 

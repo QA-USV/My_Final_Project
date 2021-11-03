@@ -1,6 +1,9 @@
 package ru.netology.fmhandroid.utils
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -14,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 object Utils {
 
@@ -54,7 +58,6 @@ object Utils {
     }
 
     //Save date and time from pickers, and convert it to String in fragment
-
     fun saveDateTime(date: String, time: String): Long {
         val dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -94,40 +97,6 @@ object Utils {
         return formatter.format(localDateTime)
     }
 
-    fun showDateTimeInOne(dateTime: Long): String {
-        val localDateTime = LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(dateTime),
-            ZoneId.systemDefault()
-        )
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "HH:mm dd.MM.yyyy",
-            Locale.getDefault()
-        )
-        return formatter.format(localDateTime)
-    }
-
-    //-----------------------------------------------------------------------------------------------
-
-    fun convertDate(dateTime: String): String {
-
-        val localDateTime = LocalDateTime.parse(dateTime.toString())
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "dd.MM.yyy",
-            Locale.getDefault()
-        )
-        return formatter.format(localDateTime)
-    }
-
-    fun convertTime(dateTime: Long): String {
-
-        val localDateTime = LocalDateTime.parse(dateTime.toString())
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "HH:mm",
-            Locale.getDefault()
-        )
-        return formatter.format(localDateTime)
-    }
-
     suspend fun <T, R> makeRequest(
         request: suspend () -> Response<T>,
         onSuccess: suspend (body: T) -> R
@@ -160,5 +129,44 @@ object Utils {
         val imm =
             view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun isOnline(context: Context): Boolean {
+        var result = false // Returns connection. false: none; true: mobile data or wifi
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cm?.run {
+                cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                    when {
+                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                            result = true
+                        }
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                            result = true
+                        }
+                        hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
+                            result = true
+                        }
+                    }
+                }
+            }
+        } else {
+            cm?.run {
+                cm.activeNetworkInfo?.run {
+                    when (type) {
+                        ConnectivityManager.TYPE_WIFI -> {
+                            result = true
+                        }
+                        ConnectivityManager.TYPE_MOBILE -> {
+                            result = true
+                        }
+                        ConnectivityManager.TYPE_VPN -> {
+                            result = true
+                        }
+                    }
+                }
+            }
+        }
+        return result
     }
 }

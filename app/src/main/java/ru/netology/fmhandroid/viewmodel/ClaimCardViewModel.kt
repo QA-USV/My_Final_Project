@@ -10,7 +10,6 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
-import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

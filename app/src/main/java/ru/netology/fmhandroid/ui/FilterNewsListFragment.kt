@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentFilterNewsBinding
 import ru.netology.fmhandroid.dto.NewsFilterArgs
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
@@ -49,13 +48,12 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            Events.events.collect {
-                viewModel.loadNewsCategoriesExceptionEvent
+            viewModel.loadNewsCategoriesExceptionEvent.collect {
                 val activity = activity ?: return@collect
                 val dialog = android.app.AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.error)
-                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                        dialog.cancel()
+                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                        alertDialog.cancel()
                     }
                     .create()
                     .show()
@@ -110,7 +108,7 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
 
         var category: String? = null
         binding.newsItemCategoryTextAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
-                category = if (position >= 0) parent.getItemAtPosition(position).toString() else null
+            category = if (position >= 0) parent.getItemAtPosition(position).toString() else null
         }
 
         var dates: List<Long>? = null
@@ -132,8 +130,8 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
                 val activity = activity ?: return@setOnClickListener
                 val dialog = android.app.AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.wrong_news_date_period)
-                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                        dialog.cancel()
+                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                        alertDialog.cancel()
                     }
                     .create()
                     .show()
@@ -156,4 +154,3 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         findNavController().navigateUp()
     }
 }
-
