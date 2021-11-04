@@ -29,10 +29,8 @@ class ClaimCardViewModel @Inject constructor(
     val claimUpdatedEvent = MutableSharedFlow<Unit>()
     val claimCreatedEvent = MutableSharedFlow<Unit>()
     val createClaimExceptionEvent = MutableSharedFlow<Unit>()
-    val claimCommentsLoadExceptionEvent = MutableSharedFlow<Unit>()
+    private val claimCommentsLoadExceptionEvent = MutableSharedFlow<Unit>()
     val claimCommentsLoadedEvent = MutableSharedFlow<Unit>()
-    val claimLoadedEvent = MutableSharedFlow<Unit>()
-    val loadClaimExceptionEvent = MutableSharedFlow<Unit>()
     val claimCommentCreatedEvent = MutableSharedFlow<Unit>()
     val claimCommentUpdatedEvent = MutableSharedFlow<Unit>()
     val claimCommentCreateExceptionEvent = MutableSharedFlow<Unit>()
@@ -94,18 +92,6 @@ class ClaimCardViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 claimCommentsLoadExceptionEvent.emit(Unit)
-            }
-        }
-    }
-
-    fun getClaimById(claimId: Int) {
-        viewModelScope.launch {
-            try {
-                claimRepository.getClaimById(claimId)
-                claimLoadedEvent.emit(Unit)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                loadClaimExceptionEvent.emit(Unit)
             }
         }
     }

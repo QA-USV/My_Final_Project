@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,12 +37,14 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            viewModel.claimsLoadException.collect{
-                Toast.makeText(
-                    requireContext(),
-                    R.string.error,
-                    Toast.LENGTH_LONG
-                ).show()
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.claimsLoadException.collect {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
@@ -90,17 +94,23 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
             override fun onCard(fullClaim: FullClaim) {
                 fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
-                val action = ClaimListFragmentDirections
-                    .actionClaimListFragmentToOpenClaimFragment(fullClaim)
-                findNavController().navigate(action)
+                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        claimCardViewModel.claimCommentsLoadedEvent.collect {
+                            val action = ClaimListFragmentDirections
+                                .actionClaimListFragmentToOpenClaimFragment(fullClaim)
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
             }
         })
 
-        lifecycleScope.launch {
-            binding.claimListSwipeRefresh.setOnRefreshListener {
-                viewModel.getAllClaims()
-                binding.claimListSwipeRefresh.isRefreshing = false
-                lifecycleScope.launch {
+        binding.claimListSwipeRefresh.setOnRefreshListener {
+            viewModel.getAllClaims()
+            binding.claimListSwipeRefresh.isRefreshing = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.dataOpenInProgress.collectLatest { state ->
                         adapter.submitList(state)
                         binding.containerListClaimInclude.claimListRecyclerView.post {
@@ -114,6 +124,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                 }
             }
         }
+
 
         menuFiltering.setOnMenuItemClickListener { menuItem ->
             claimListFiltering(menuItem, adapter, binding)
