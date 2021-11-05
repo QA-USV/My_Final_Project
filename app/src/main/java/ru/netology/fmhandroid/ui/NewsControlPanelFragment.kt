@@ -9,7 +9,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -154,6 +156,25 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         }
 
         binding.newsListRecyclerView.adapter = adapter
+
+        binding.newsControlPanelSwipeToRefresh.setOnRefreshListener {
+            viewModel.getAllNews()
+            binding.newsControlPanelSwipeToRefresh.isRefreshing = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.data.collectLatest { state ->
+                        adapter.submitList(state)
+                        binding.newsListRecyclerView.post {
+                            binding.newsListRecyclerView.scrollToPosition(
+                                0
+                            )
+                        }
+                        binding.errorLoadingGroup.isVisible =
+                            state.isEmpty()
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun filterNews(adapter: NewsControlPanelListAdapter) {
