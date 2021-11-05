@@ -7,10 +7,10 @@
     android:id="@+id/claim_list_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="12dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     app:strokeWidth="2dp"
     app:cardCornerRadius="0dp"
     app:strokeColor="@color/claim_stroke_color"
@@ -19,7 +19,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="24dp">
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/claim_header_image_view"
