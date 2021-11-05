@@ -3,7 +3,6 @@ package ru.netology.fmhandroid.ui
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -20,7 +19,6 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditNewsBinding
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
@@ -43,6 +41,32 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        lifecycleScope.launch {
+            viewModel.saveNewsItemExceptionEvent.collect {
+                showErrorToast(R.string.error_saving)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.editNewsItemExceptionEvent.collect {
+                showErrorToast(R.string.error_saving)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.loadNewsCategoriesExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.newsItemCreatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.editNewsItemSavedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -126,21 +150,6 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                         null -> viewModel.save(fillNewsItem())
                         else -> viewModel.edit(fillNewsItem())
                     }
-
-                    lifecycleScope.launchWhenStarted {
-                        Events.events.collect { event ->
-                            when (event) {
-                                viewModel.saveNewsItemExceptionEvent -> {
-                                    showErrorToast(R.string.error_saving)
-                                    return@collect
-                                }
-                                viewModel.editNewsItemExceptionEvent -> {
-                                    showErrorToast(R.string.error_saving)
-                                    return@collect
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -163,17 +172,6 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            Events.events.collect { event ->
-                when (event) {
-                    viewModel.loadNewsCategoriesExceptionEvent ->
-                        showErrorToast(R.string.error)
-                    viewModel.newsItemCreatedEvent, viewModel.editNewsItemSavedEvent ->
-                        findNavController().navigateUp()
                 }
             }
         }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.netology.fmhandroid">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -15,7 +17,8 @@
         android:name=".application.FhmApplication">
 
         <activity android:name=".ui.SplashScreenActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +26,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.AppActivity">
+        <activity android:name=".ui.AppActivity"
+            android:exported="false">
             <nav-graph android:value="@navigation/nav_main" />
 
             <intent-filter>

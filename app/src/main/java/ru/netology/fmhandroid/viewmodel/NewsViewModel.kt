@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
-import ru.netology.fmhandroid.utils.Events
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,13 +17,13 @@ class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    val newsItemCreatedEvent = Events()
+    val newsItemCreatedEvent = MutableSharedFlow<Unit>()
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
-    val saveNewsItemExceptionEvent = Events()
-    val editNewsItemSavedEvent = Events()
-    val editNewsItemExceptionEvent = Events()
-    val removeNewsItemExceptionEvent = Events()
-    val loadNewsCategoriesExceptionEvent = Events()
+    val saveNewsItemExceptionEvent = MutableSharedFlow<Unit>()
+    val editNewsItemSavedEvent = MutableSharedFlow<Unit>()
+    val editNewsItemExceptionEvent = MutableSharedFlow<Unit>()
+    val removeNewsItemExceptionEvent = MutableSharedFlow<Unit>()
+    val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
 
     init {
         viewModelScope.launch {
@@ -51,10 +50,10 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 newsRepository.saveNewsItem(newsItem)
-                Events.produceEvents(newsItemCreatedEvent)
+                newsItemCreatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(saveNewsItemExceptionEvent)
+                saveNewsItemExceptionEvent.emit(Unit)
             }
         }
     }
@@ -63,10 +62,10 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 newsRepository.editNewsItem(newsItem)
-                Events.produceEvents(editNewsItemSavedEvent)
+                editNewsItemSavedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(editNewsItemExceptionEvent)
+                editNewsItemExceptionEvent.emit(Unit)
             }
         }
     }
@@ -77,7 +76,7 @@ class NewsViewModel @Inject constructor(
                 newsRepository.removeNewsItemById(id)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Events.produceEvents(removeNewsItemExceptionEvent)
+                removeNewsItemExceptionEvent.emit(Unit)
             }
         }
     }
@@ -86,7 +85,7 @@ class NewsViewModel @Inject constructor(
         newsRepository.getAllNewsCategories()
             .catch { e ->
                 e.printStackTrace()
-                Events.produceEvents(loadNewsCategoriesExceptionEvent)
+                loadNewsCategoriesExceptionEvent.emit(Unit)
             }
 
     suspend fun filterNewsByCategory(newsCategoryId: Int) =

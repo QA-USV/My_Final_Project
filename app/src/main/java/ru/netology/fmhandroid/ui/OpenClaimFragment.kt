@@ -20,7 +20,6 @@ import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.*
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
@@ -69,12 +68,12 @@ class OpenClaimFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
                 renderingContentOfClaim(fullClaim, fullClaim.executor)
             }
         }
-
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangedEvent.collect {
                 claimCardViewModel.dataFullClaim.collect { fullClaim ->
@@ -82,7 +81,6 @@ class OpenClaimFragment : Fragment() {
                 }
             }
         }
-
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangeExceptionEvent.collect {
                 showErrorToast(R.string.error)
@@ -130,9 +128,8 @@ class OpenClaimFragment : Fragment() {
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            Events.events.collect {
-                claimCardViewModel.claimCommentUpdatedEvent
+        lifecycleScope.launchWhenResumed {
+            claimCardViewModel.claimCommentUpdatedEvent.collect {
                 claimCardViewModel.dataFullClaim.collect {
                     adapter.submitList(it.comments)
                 }

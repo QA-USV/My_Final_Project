@@ -6,12 +6,10 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,9 +19,6 @@ import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.dto.FullClaim
-import ru.netology.fmhandroid.dto.NewsFilterArgs
-import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
@@ -98,7 +93,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
 
             allClaimsTextView.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
+                if (Utils.isOnline(requireContext())) {
+                    findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
+                } else {
+                 showErrorToast(R.string.error)
+                }
             }
         }
 
@@ -140,7 +139,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
 
             allNewsTextView.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_newsListFragment)
+                if (Utils.isOnline(requireContext())) {
+                    findNavController().navigate(R.id.action_mainFragment_to_newsListFragment)
+                } else {
+                    showErrorToast(R.string.error)
+                }
             }
         }
 
@@ -180,22 +183,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     state.isEmpty()
             }
         }
-
-// срабатывает при клике на claim card?!
-//
-//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-//            Events.events.collect {
-//                viewModelNews.loadNewsExceptionEvent
-//                val activity = activity ?: return@collect
-//                val dialog = AlertDialog.Builder(activity)
-//                dialog.setMessage(R.string.error)
-//                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
-//                        alertDialog.cancel()
-//                    }
-//                    .create()
-//                    .show()
-//            }
-//        }
     }
 
     private fun showErrorToast(text: Int) {

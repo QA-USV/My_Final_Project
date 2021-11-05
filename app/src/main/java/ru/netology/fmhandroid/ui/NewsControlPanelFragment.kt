@@ -9,7 +9,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +26,6 @@ import ru.netology.fmhandroid.adapter.NewsOnInteractionListener
 import ru.netology.fmhandroid.databinding.FragmentNewsControlPanelBinding
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.utils.Events
 import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
@@ -114,16 +115,15 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
 
             }
 
-            Events.events.collect {
-                when (it) {
-                    viewModel.removeNewsItemExceptionEvent ->
-                        dialog.setMessage(R.string.error_removing)
-                            .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                                dialog.cancel()
-                            }
-                            .create()
-                            .show()
-                }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.removeNewsItemExceptionEvent.collect {
+                dialog.setMessage(R.string.error_removing)
+                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
             }
         }
 
@@ -156,6 +156,25 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         }
 
         binding.newsListRecyclerView.adapter = adapter
+
+        binding.newsControlPanelSwipeToRefresh.setOnRefreshListener {
+            viewModel.getAllNews()
+            binding.newsControlPanelSwipeToRefresh.isRefreshing = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.data.collectLatest { state ->
+                        adapter.submitList(state)
+                        binding.newsListRecyclerView.post {
+                            binding.newsListRecyclerView.scrollToPosition(
+                                0
+                            )
+                        }
+                        binding.errorLoadingGroup.isVisible =
+                            state.isEmpty()
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun filterNews(adapter: NewsControlPanelListAdapter) {

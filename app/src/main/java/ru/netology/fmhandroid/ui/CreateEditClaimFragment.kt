@@ -27,7 +27,6 @@ import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
-import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
 import java.time.Instant
 import java.time.LocalDateTime
@@ -44,13 +43,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
 
     //временно, пока нет авторизации
     private val creatorId = 1
-
-//    private val claimViewModel: ClaimViewModel by viewModels(
-//        ownerProducer = ::requireParentFragment
-//    )
-    private val claimCardViewModel: ClaimCardViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val claimCardViewModel: ClaimCardViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -65,15 +58,20 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             }
         }
         lifecycleScope.launch {
+            claimCardViewModel.claimUpdateExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
+        lifecycleScope.launch {
             claimCardViewModel.claimCreatedEvent.collect {
                 findNavController().navigateUp()
             }
         }
-//        lifecycleScope.launch {
-//            claimCardViewModel.claimUpdatedEvent.collect {
-//                findNavController().navigateUp()
-//            }
-//        }
+        lifecycleScope.launch {
+            claimCardViewModel.claimUpdatedEvent.collect {
+                findNavController().navigateUp()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -152,7 +150,6 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                         }
                         else -> {
                             claimCardViewModel.updateClaim(fillClaim())
-                            findNavController().navigateUp()
                         }
                     }
                 }
@@ -239,6 +236,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             )
         }
     }
+
     private fun showErrorToast(text: Int) {
         Toast.makeText(
             requireContext(),
