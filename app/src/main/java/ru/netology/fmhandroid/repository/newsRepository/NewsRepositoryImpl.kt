@@ -1,7 +1,9 @@
 package ru.netology.fmhandroid.repository.newsRepository
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.api.NewsApi
 import ru.netology.fmhandroid.dao.NewsCategoryDao
 import ru.netology.fmhandroid.dao.NewsDao
@@ -23,9 +25,6 @@ class NewsRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
     private val newsApi: NewsApi
 ) : NewsRepository {
-    override val data: Flow<List<NewsWithCreators>>
-        get() = newsDao.getAllNews().flowOn(Dispatchers.Default)
-
     //* Тестовые переменные. Подлежат удалению в будущем *
 
     val advertisement = News.Category(
@@ -78,16 +77,27 @@ class NewsRepositoryImpl @Inject constructor(
 
     private val categories =
         listOf(advertisement, salary, union, birthday, holiday, massage, gratitude, help)
+
     //-------------------------------------------------------------//
 
-    override suspend fun getAllNews(): List<News> {
-         return Utils.makeRequest(
-            request = { newsApi.getAllNews() },
-            onSuccess = { body ->
-                newsDao.insert(body.toEntity())
-                body
-            }
-        )
+    override suspend fun refreshNews() = Utils.makeRequest(
+        request = { newsApi.getAllNews() },
+        onSuccess = { body ->
+            newsDao.insert(body.toEntity())
+        }
+    )
+
+    override fun getAllNews(
+        coroutineScope: CoroutineScope,
+        publishEnabled: Boolean?,
+        publishDateBefore: Long?
+    ): Flow<List<NewsWithCreators>> {
+        val result: Flow<List<NewsWithCreators>> = newsDao.getAllNews(
+            publishEnabled = publishEnabled,
+            publishDateBefore = publishDateBefore
+        ).flowOn(Dispatchers.Default)
+        coroutineScope.launch { refreshNews() }
+        return result
     }
 
     override suspend fun editNewsItem(newsItem: News): News =

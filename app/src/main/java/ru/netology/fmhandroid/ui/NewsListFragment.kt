@@ -79,6 +79,20 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             filterNews(adapter)
         }
 
+        lifecycleScope.launchWhenStarted {
+            viewModel.data.collectLatest {
+                binding.newsListSwipeRefresh.isRefreshing = false
+                adapter.submitList(it)
+                binding.containerListNewsInclude.emptyTextTextView.isVisible = it.isEmpty()
+
+                binding.containerListNewsInclude.newsListRecyclerView.post {
+                    binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
+                        0
+                    )
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.loadNewsExceptionEvent.collect {
                 val activity = activity ?: return@collect
@@ -92,22 +106,10 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
         }
 
-        lifecycleScope.launch {
-            binding.newsListSwipeRefresh.setOnRefreshListener {
-                viewModel.getAllNews()
-                binding.newsListSwipeRefresh.isRefreshing = false
-                lifecycleScope.launch {
-                    viewModel.data.collectLatest {
-                        submitList(adapter, viewModel.data)
-                        binding.containerListNewsInclude.newsListRecyclerView.post {
-                            binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
-                                0
-                            )
-                        }
-                    }
-                }
-            }
+        binding.newsListSwipeRefresh.setOnRefreshListener {
+            viewModel.onRefresh()
         }
+
 
         with(binding) {
             containerListNewsInclude.editNewsMaterialButton.setOnClickListener {
@@ -117,24 +119,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
 
             containerListNewsInclude.sortNewsMaterialButton.setOnClickListener {
-                if (data == null) data = viewModel.data
-                lifecycleScope.launch {
-                    if (binding.containerListNewsInclude.sortNewsMaterialButton.isChecked) {
-                        containerListNewsInclude.newsListRecyclerView.revert(
-                            true,
-                            requireActivity()
-                        )
-                        data?.collectLatest { state ->
-                            adapter.submitList(state.reversed())
-                        }
-                    } else {
-                        containerListNewsInclude.newsListRecyclerView.revert(
-                            true,
-                            requireActivity()
-                        )
-                        submitList(adapter, data)
-                    }
-                }
+                viewModel.onSortDirectionButtonClicked()
             }
 
             containerCustomAppBarIncludeOnFragmentNewsList.mainMenuImageButton.setOnClickListener {

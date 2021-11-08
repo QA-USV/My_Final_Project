@@ -10,7 +10,7 @@ import ru.netology.fmhandroid.entity.ClaimEntity
 
 @Dao
 interface ClaimDao {
-    // Сортируй тут по датам дурачок :)
+
     @Query(
         "SELECT * FROM ClaimEntity ORDER BY planExecuteDate ASC, createDate DESC"
     )

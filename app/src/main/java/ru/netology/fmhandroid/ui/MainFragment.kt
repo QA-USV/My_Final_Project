@@ -160,7 +160,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
-                viewModelNews.getAllNews()
+                viewModelNews.onRefresh()
                 viewModelClaim.getAllClaims()
 
                 lifecycleScope.launchWhenResumed {

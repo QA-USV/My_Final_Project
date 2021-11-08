@@ -6,17 +6,21 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.R
+import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
+import ru.netology.fmhandroid.ui.OpenClaimFragmentDirections
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimCardViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
-) : ViewModel() {
+) : ViewModel(), OnClaimCommentItemClickListener {
     private var claimId by Delegates.notNull<Int>()
 
     val dataFullClaim: Flow<FullClaim> by lazy {
@@ -35,6 +39,7 @@ class ClaimCardViewModel @Inject constructor(
     val claimCommentUpdatedEvent = MutableSharedFlow<Unit>()
     val claimCommentCreateExceptionEvent = MutableSharedFlow<Unit>()
     val updateClaimCommentExceptionEvent = MutableSharedFlow<Unit>()
+    val showNoCommentEditingRightsError = MutableSharedFlow<Unit>()
 
     fun createClaimComment(claimComment: ClaimComment) {
         viewModelScope.launch {
@@ -121,4 +126,19 @@ class ClaimCardViewModel @Inject constructor(
     fun init(claimId: Int) {
         this.claimId = claimId
     }
+
+    // region OnClaimCommentItemClickListener
+    override fun onCard(claimComment: ClaimCommentWithCreator) {
+        if (user.id == claimComment.creator.id) {
+            val action = OpenClaimFragmentDirections
+                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                    claimComment,
+                    claim.claim.id!!
+                )
+            findNavController().navigate(action)
+        } else viewModelScope.launch {
+            showNoCommentEditingRightsError.emit(Unit)
+        }
+    }
+// endregion OnClaimCommentItemClickListener
 }

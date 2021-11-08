@@ -9,8 +9,14 @@ import ru.netology.fmhandroid.entity.NewsEntity
 @Dao
 interface NewsDao {
     @Transaction
-    @Query("SELECT * FROM NewsEntity ORDER BY publishDate DESC")
-    fun getAllNews(): Flow<List<NewsWithCreators>>
+    @Query(
+        """SELECT * FROM NewsEntity
+            WHERE (:publishEnabled IS NULL OR :publishEnabled = publishEnabled)
+            AND (:publishDateBefore IS NULL OR publishDate <= :publishDateBefore)
+            ORDER BY publishDate DESC
+        """
+    )
+    fun getAllNews(publishEnabled: Boolean? = null, publishDateBefore: Long? = null): Flow<List<NewsWithCreators>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(newsItem: NewsEntity)

@@ -13,7 +13,7 @@ import ru.netology.fmhandroid.utils.Utils
 
 
 interface OnClaimCommentItemClickListener {
-    fun onCard(claimComment: ClaimCommentWithCreator) {}
+    fun onCard(claimComment: ClaimCommentWithCreator)
 }
 
 // Временная переменная. После авторизации заменить на залогиненного юзера

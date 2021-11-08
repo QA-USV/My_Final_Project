@@ -2,13 +2,17 @@ package ru.netology.fmhandroid.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
+import ru.netology.fmhandroid.ui.OpenClaimFragmentDirections
 import javax.inject.Inject
 
 @HiltViewModel

@@ -3,19 +3,22 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
+import ru.netology.fmhandroid.utils.Utils
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
+
+    private val sortDirection = MutableStateFlow(SortDirection.ASC)
 
     val newsItemCreatedEvent = MutableSharedFlow<Unit>()
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
@@ -28,22 +31,38 @@ class NewsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             newsRepository.saveCategories()
-            newsRepository.getAllNews()
         }
     }
 
-    val data: Flow<List<NewsWithCreators>>
-    get() = newsRepository.data
+    val data: Flow<List<NewsWithCreators>> by lazy {
+        newsRepository.getAllNews(
+            viewModelScope,
+            publishEnabled = true,
+            // Вынести в Utils
+            publishDateBefore = LocalDateTime.now().atZone(
+                ZoneId.systemDefault()
+            ).toInstant().toEpochMilli()
+        ).combine(sortDirection) { news, sortDirection ->
+            when(sortDirection) {
+                SortDirection.ASC -> news
+                SortDirection.DESC -> news.reversed()
+            }
+        }
+    }
 
-    fun getAllNews() {
+    fun onRefresh() {
         viewModelScope.launch {
             try {
-                newsRepository.getAllNews()
+                newsRepository.refreshNews()
             } catch (e: Exception) {
                 e.printStackTrace()
                 loadNewsExceptionEvent.emit(Unit)
             }
         }
+    }
+
+    fun onSortDirectionButtonClicked() {
+        sortDirection.value = sortDirection.value.reverse()
     }
 
     fun save(newsItem: News) {
@@ -111,5 +130,14 @@ class NewsViewModel @Inject constructor(
     ).catch { e ->
         e.printStackTrace()
         loadNewsExceptionEvent.emit(Unit)
+    }
+
+    enum class SortDirection {
+        ASC,
+        DESC;
+        fun reverse() = when(this) {
+            ASC -> DESC
+            DESC -> ASC
+        }
     }
 }

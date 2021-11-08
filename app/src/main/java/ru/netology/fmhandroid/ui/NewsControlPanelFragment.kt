@@ -158,7 +158,7 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         binding.newsListRecyclerView.adapter = adapter
 
         binding.newsControlPanelSwipeToRefresh.setOnRefreshListener {
-            viewModel.getAllNews()
+            viewModel.onRefresh()
             binding.newsControlPanelSwipeToRefresh.isRefreshing = false
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
