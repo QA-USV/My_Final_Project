@@ -127,7 +127,45 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
 
         menuFiltering.setOnMenuItemClickListener { menuItem ->
-            claimListFiltering(menuItem, adapter, binding)
+            when (menuItem.itemId) {
+
+                R.id.open_list_item -> {
+                    menuItem.isChecked = !menuItem.isChecked
+                    true
+                }
+
+                R.id.in_progress_list_item -> {
+                    menuItem.isChecked = !menuItem.isChecked
+                    true
+                }
+
+                R.id.cancel_list_item -> {
+                    menuItem.isChecked = !menuItem.isChecked
+                    true
+                }
+
+                R.id.executes_list_item -> {
+                    menuItem.isChecked = !menuItem.isChecked
+                    true
+                }
+                R.id.confirm_list_item -> {
+                    val firstStatus: Claim.Status? =
+                        if (menuFiltering.menu.getItem(R.id.open_list_item).isChecked) Claim.Status.OPEN else null
+                    val secondStatus: Claim.Status? =
+                        if (menuFiltering.menu.getItem(R.id.in_progress_list_item).isChecked) Claim.Status.IN_PROGRESS else null
+                    val thirdStatus: Claim.Status? =
+                        if (menuFiltering.menu.getItem(R.id.cancel_list_item).isChecked) Claim.Status.CANCELLED else null
+                    val fourthStatus: Claim.Status? =
+                        if (menuFiltering.menu.getItem(R.id.executes_list_item).isChecked) Claim.Status.EXECUTED else null
+
+                    true
+                }
+                R.id.cancel_filtering_list_item -> {
+
+                    true
+                }
+                else -> false
+            }
         }
 
         binding.containerListClaimInclude.claimListRecyclerView.adapter = adapter
@@ -151,66 +189,66 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         }
     }
 
-    private fun claimListFiltering(
-        menuItem: MenuItem,
-        adapter: ClaimListAdapter,
-        binding: FragmentListClaimBinding
-    ) = when (menuItem.itemId) {
-
-        R.id.open_list_item -> {
-            lifecycleScope.launchWhenCreated {
-                viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.claim.status == Claim.Status.OPEN })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-                        state.isEmpty()
-                }
-            }
-            true
-        }
-
-        R.id.take_to_work_list_item -> {
-            lifecycleScope.launchWhenCreated {
-                viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.claim.status == Claim.Status.IN_PROGRESS })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-                        state.isEmpty()
-                }
-            }
-            true
-        }
-
-        R.id.cancel_list_item -> {
-            lifecycleScope.launchWhenCreated {
-                viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.claim.status == Claim.Status.CANCELLED })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-                        state.isEmpty()
-                }
-            }
-            true
-        }
-
-        R.id.executes_list_item -> {
-            lifecycleScope.launchWhenCreated {
-                viewModel.data.collectLatest { state ->
-                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED })
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-                        state.isEmpty()
-                }
-            }
-            true
-        }
-
-        R.id.cancel_filtering_list_item -> {
-            lifecycleScope.launchWhenCreated {
-                viewModel.dataOpenInProgress.collectLatest { state ->
-                    adapter.submitList(state)
-                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-                        state.isEmpty()
-                }
-            }
-            true
-        }
-        else -> false
-    }
+//    private fun claimListFiltering(
+//        menuItem: MenuItem,
+//        adapter: ClaimListAdapter,
+//        binding: FragmentListClaimBinding
+//    ) = when (menuItem.itemId) {
+//
+//        R.id.open_list_item -> {
+//            lifecycleScope.launchWhenCreated {
+//                viewModel.data.collectLatest { state ->
+//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.OPEN })
+//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+//                        state.isEmpty()
+//                }
+//            }
+//            true
+//        }
+//
+//        R.id.in_progress_list_item -> {
+//            lifecycleScope.launchWhenCreated {
+//                viewModel.data.collectLatest { state ->
+//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.IN_PROGRESS })
+//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+//                        state.isEmpty()
+//                }
+//            }
+//            true
+//        }
+//
+//        R.id.cancel_list_item -> {
+//            lifecycleScope.launchWhenCreated {
+//                viewModel.data.collectLatest { state ->
+//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.CANCELLED })
+//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+//                        state.isEmpty()
+//                }
+//            }
+//            true
+//        }
+//
+//        R.id.executes_list_item -> {
+//            lifecycleScope.launchWhenCreated {
+//                viewModel.data.collectLatest { state ->
+//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED })
+//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+//                        state.isEmpty()
+//                }
+//            }
+//            true
+//        }
+//
+//        R.id.cancel_filtering_list_item -> {
+//            lifecycleScope.launchWhenCreated {
+//                viewModel.dataOpenInProgress.collectLatest { state ->
+//                    adapter.submitList(state)
+//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
+//                        state.isEmpty()
+//                }
+//            }
+//            true
+//        }
+//        else -> false
+//    }
 }

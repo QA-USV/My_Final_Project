@@ -129,16 +129,16 @@ class ClaimCardViewModel @Inject constructor(
 
     // region OnClaimCommentItemClickListener
     override fun onCard(claimComment: ClaimCommentWithCreator) {
-        if (user.id == claimComment.creator.id) {
-            val action = OpenClaimFragmentDirections
-                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                    claimComment,
-                    claim.claim.id!!
-                )
-            findNavController().navigate(action)
-        } else viewModelScope.launch {
-            showNoCommentEditingRightsError.emit(Unit)
-        }
+//        if (user.id == claimComment.creator.id) {
+//            val action = OpenClaimFragmentDirections
+//                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+//                    claimComment,
+//                    claim.claim.id!!
+//                )
+//            findNavController().navigate(action)
+//        } else viewModelScope.launch {
+//            showNoCommentEditingRightsError.emit(Unit)
+//        }
     }
 // endregion OnClaimCommentItemClickListener
 }

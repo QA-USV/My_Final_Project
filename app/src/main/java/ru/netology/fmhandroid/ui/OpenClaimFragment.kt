@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
-import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.utils.Utils
@@ -268,7 +267,7 @@ class OpenClaimFragment : Fragment() {
 
         statusProcessingMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.take_to_work_list_item -> {
+                R.id.in_progress_list_item -> {
 
                     // Изменить claimExecutor на залогиненного пользователя !!!
                     claimCardViewModel.changeClaimStatus(

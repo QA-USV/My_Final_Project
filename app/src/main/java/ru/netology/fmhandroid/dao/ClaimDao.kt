@@ -16,6 +16,24 @@ interface ClaimDao {
     )
     fun getAllClaims(): Flow<List<FullClaim>>
 
+    @Transaction
+    @Query(
+        """
+       SELECT * FROM ClaimEntity
+       WHERE (:firstStatus IS NULL OR :firstStatus = status)
+       AND (:secondStatus IS NULL OR :secondStatus = status)
+       AND (:thirdStatus IS NULL OR :thirdStatus = status)
+       AND (:fourthStatus IS NULL OR :fourthStatus = status)
+       ORDER BY planExecuteDate ASC, createDate DESC
+    """
+    )
+    fun getClaimsByStatus(
+        firstStatus: Claim.Status?,
+        secondStatus: Claim.Status?,
+        thirdStatus: Claim.Status?,
+        fourthStatus: Claim.Status?
+    ): Flow<List<FullClaim>>
+
     @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate ASC, createDate DESC")
     fun getClaimsOpenAndInProgressStatuses(
         firstStatus: Claim.Status,

@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
-import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
@@ -31,6 +30,7 @@ class NewsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             newsRepository.saveCategories()
+            newsRepository.refreshNews()
         }
     }
 
