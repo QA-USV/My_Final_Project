@@ -1,8 +1,10 @@
 package ru.netology.fmhandroid.repository.claimRepository
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dto.Claim
@@ -19,25 +21,29 @@ class ClaimRepositoryImpl @Inject constructor(
     private val claimDao: ClaimDao,
 ) : ClaimRepository {
 
-    override val dataOpenInProgress: Flow<List<FullClaim>>
-        get() = claimDao.getClaimsOpenAndInProgressStatuses(
-            Claim.Status.OPEN,
-            Claim.Status.IN_PROGRESS
+//    override val dataOpenInProgress: Flow<List<FullClaim>>
+//        get() = claimDao.getClaimsOpenAndInProgressStatuses(
+//            Claim.Status.OPEN,
+//            Claim.Status.IN_PROGRESS
+//        ).flowOn(Dispatchers.Default)
+
+    override fun getClaimsByStatus(
+        coroutineScope: CoroutineScope,
+        vararg statuses: Claim.Status
+    ): Flow<List<FullClaim>> {
+        val result = claimDao.getClaimsByStatus(
+            *statuses
         ).flowOn(Dispatchers.Default)
-
-    override val data: Flow<List<FullClaim>>
-        get() = claimDao.getAllClaims()
-            .flowOn(Dispatchers.Default)
-
-    override suspend fun getAllClaims(): List<Claim> {
-        return makeRequest(
-            request = { claimApi.getAllClaims() },
-            onSuccess = { body ->
-                claimDao.insertClaim(body.toEntity())
-                body
-            }
-        )
+        coroutineScope.launch { refreshClaims() }
+        return result
     }
+
+    override suspend fun refreshClaims() = makeRequest(
+        request = { claimApi.getAllClaims() },
+        onSuccess = { body ->
+            claimDao.insertClaim(body.toEntity())
+        }
+    )
 
     override suspend fun editClaim(editedClaim: Claim): Claim = makeRequest(
         request = { claimApi.updateClaim(editedClaim) },

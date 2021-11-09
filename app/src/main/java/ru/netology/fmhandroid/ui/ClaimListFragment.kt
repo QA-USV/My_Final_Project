@@ -1,7 +1,6 @@
 package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -107,11 +106,11 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         })
 
         binding.claimListSwipeRefresh.setOnRefreshListener {
-            viewModel.getAllClaims()
+            viewModel.onRefresh()
             binding.claimListSwipeRefresh.isRefreshing = false
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.dataOpenInProgress.collectLatest { state ->
+                    viewModel.data.collectLatest { state ->
                         adapter.submitList(state)
                         binding.containerListClaimInclude.claimListRecyclerView.post {
                             binding.containerListClaimInclude.claimListRecyclerView.scrollToPosition(
@@ -149,19 +148,29 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                     true
                 }
                 R.id.confirm_list_item -> {
-                    val firstStatus: Claim.Status? =
-                        if (menuFiltering.menu.getItem(R.id.open_list_item).isChecked) Claim.Status.OPEN else null
-                    val secondStatus: Claim.Status? =
-                        if (menuFiltering.menu.getItem(R.id.in_progress_list_item).isChecked) Claim.Status.IN_PROGRESS else null
-                    val thirdStatus: Claim.Status? =
-                        if (menuFiltering.menu.getItem(R.id.cancel_list_item).isChecked) Claim.Status.CANCELLED else null
-                    val fourthStatus: Claim.Status? =
-                        if (menuFiltering.menu.getItem(R.id.executes_list_item).isChecked) Claim.Status.EXECUTED else null
+                    if (menuFiltering.menu.getItem(R.id.open_list_item).isChecked)
+                        Claim.Status.OPEN
 
+                    if (menuFiltering.menu.getItem(R.id.in_progress_list_item).isChecked) {
+                        Claim.Status.IN_PROGRESS
+                    }
+                    if (menuFiltering.menu.getItem(R.id.cancel_list_item).isChecked) {
+                        Claim.Status.CANCELLED
+                    }
+                    if (menuFiltering.menu.getItem(R.id.executes_list_item).isChecked) {
+                        Claim.Status.EXECUTED
+                    }
+
+                    viewModel.onFilterClaimsMenuItemClicked(
+                        *listOf<Claim.Status>().toTypedArray()
+                    )
                     true
                 }
                 R.id.cancel_filtering_list_item -> {
-
+                    viewModel.onFilterClaimsMenuItemClicked(
+                        Claim.Status.OPEN,
+                        Claim.Status.IN_PROGRESS,
+                    )
                     true
                 }
                 else -> false
@@ -170,7 +179,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
         binding.containerListClaimInclude.claimListRecyclerView.adapter = adapter
         lifecycleScope.launchWhenCreated {
-            viewModel.dataOpenInProgress.collectLatest { state ->
+            viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
                 binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
             }

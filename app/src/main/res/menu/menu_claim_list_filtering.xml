@@ -14,12 +14,12 @@
         android:id="@+id/cancel_list_item"
         android:title="@string/cancelled"
         android:checkable="true"
-        android:checked="false"/>
+        android:checked="true"/>
     <item
         android:id="@+id/executes_list_item"
         android:title="@string/executes"
         android:checkable="true"
-        android:checked="false"/>
+        android:checked="true"/>
     <item
         android:id="@+id/confirm_list_item"
         android:title="@string/confirm" />

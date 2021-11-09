@@ -113,7 +113,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter =
             claimListAdapter
         lifecycleScope.launchWhenCreated {
-            viewModelClaim.dataOpenInProgress.collectLatest { state ->
+            viewModelClaim.data.collectLatest { state ->
                 claimListAdapter.submitList(state.take(n = 6))
             }
         }
@@ -161,7 +161,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
                 viewModelNews.onRefresh()
-                viewModelClaim.getAllClaims()
+                viewModelClaim.onRefresh()
 
                 lifecycleScope.launchWhenResumed {
                     viewModelClaim.claimsLoadException.collect {
@@ -177,7 +177,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }.take(n = 3))
             }
 
-            viewModelClaim.dataOpenInProgress.collectLatest { state ->
+            viewModelClaim.data.collectLatest { state ->
                 claimListAdapter.submitList(state.take(n = 6))
                 binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
                     state.isEmpty()
