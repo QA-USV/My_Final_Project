@@ -7,7 +7,7 @@ import ru.netology.fmhandroid.dto.*
 interface ClaimRepository {
     fun getClaimsByStatus(
         coroutineScope: CoroutineScope,
-        vararg statuses: Claim.Status
+        listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>>
 //    val dataOpenInProgress: Flow<List<FullClaim>>
     suspend fun refreshClaims()

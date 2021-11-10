@@ -24,16 +24,17 @@ class ClaimViewModel @Inject constructor(
         )
     )
 
-    val data: Flow<List<FullClaim>> = statusesFlow.flatMapConcat { statuses ->
+    val data: Flow<List<FullClaim>> = statusesFlow.flatMapMerge { statuses ->
         claimRepository.getClaimsByStatus(
             viewModelScope,
             statuses
         )
     }
 
-    fun onFilterClaimsMenuItemClicked(vararg statuses: Claim.Status) {
-
-
+    fun onFilterClaimsMenuItemClicked(statuses: List<Claim.Status>) {
+        viewModelScope.launch {
+            statusesFlow.emit(statuses)
+        }
     }
 
     fun onRefresh() {

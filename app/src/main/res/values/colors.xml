@@ -36,4 +36,5 @@
     <color name="splash_screen_title_color_4">#00817F</color>
     <color name="splash_screen_title_color_5">#005919</color>
     <color name="splash_screen_title_color_6">#643C01</color>
+    <color name="filtering_claim_title_text_color">#01A19F</color>
 </resources>

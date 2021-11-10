@@ -2,8 +2,10 @@ package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.checkbox.MaterialCheckBox
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -52,10 +55,6 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentListClaimBinding.bind(view)
-
-        val menuFiltering =
-            PopupMenu(context, binding.containerListClaimInclude.filtersMaterialButton)
-        menuFiltering.inflate(R.menu.menu_claim_list_filtering)
 
         val mainMenu = PopupMenu(
             context,
@@ -124,61 +123,8 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             }
         }
 
-
-        menuFiltering.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-
-                R.id.open_list_item -> {
-                    menuItem.isChecked = !menuItem.isChecked
-                    true
-                }
-
-                R.id.in_progress_list_item -> {
-                    menuItem.isChecked = !menuItem.isChecked
-                    true
-                }
-
-                R.id.cancel_list_item -> {
-                    menuItem.isChecked = !menuItem.isChecked
-                    true
-                }
-
-                R.id.executes_list_item -> {
-                    menuItem.isChecked = !menuItem.isChecked
-                    true
-                }
-                R.id.confirm_list_item -> {
-                    if (menuFiltering.menu.getItem(R.id.open_list_item).isChecked)
-                        Claim.Status.OPEN
-
-                    if (menuFiltering.menu.getItem(R.id.in_progress_list_item).isChecked) {
-                        Claim.Status.IN_PROGRESS
-                    }
-                    if (menuFiltering.menu.getItem(R.id.cancel_list_item).isChecked) {
-                        Claim.Status.CANCELLED
-                    }
-                    if (menuFiltering.menu.getItem(R.id.executes_list_item).isChecked) {
-                        Claim.Status.EXECUTED
-                    }
-
-                    viewModel.onFilterClaimsMenuItemClicked(
-                        *listOf<Claim.Status>().toTypedArray()
-                    )
-                    true
-                }
-                R.id.cancel_filtering_list_item -> {
-                    viewModel.onFilterClaimsMenuItemClicked(
-                        Claim.Status.OPEN,
-                        Claim.Status.IN_PROGRESS,
-                    )
-                    true
-                }
-                else -> false
-            }
-        }
-
         binding.containerListClaimInclude.claimListRecyclerView.adapter = adapter
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
                 binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
@@ -186,7 +132,43 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         }
 
         binding.containerListClaimInclude.filtersMaterialButton.setOnClickListener {
-            menuFiltering.show()
+            val view = requireActivity().layoutInflater.inflate(
+                R.layout.claim_filtering_dialog,
+                null
+            )
+
+            val dialog = AlertDialog.Builder(requireContext())
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+
+            dialog.setOnShowListener {
+                val buttonOk: Button =
+                    (dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                val buttonCancel: Button =
+                    (dialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+                buttonOk.setOnClickListener {
+                    val checkedStatusList = mutableListOf<Claim.Status>()
+
+                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked)
+                       checkedStatusList.add(Claim.Status.OPEN)
+                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked)
+                        checkedStatusList.add(Claim.Status.IN_PROGRESS)
+                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked)
+                        checkedStatusList.add(Claim.Status.EXECUTED)
+                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked)
+                        checkedStatusList.add(Claim.Status.CANCELLED)
+
+                    viewModel.onFilterClaimsMenuItemClicked(checkedStatusList)
+
+                    dialog.dismiss()
+                }
+                buttonCancel.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+            dialog.show()
         }
 
         binding.containerCustomAppBarIncludeOnFragmentListClaim.mainMenuImageButton.setOnClickListener {
@@ -197,67 +179,4 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
         }
     }
-
-//    private fun claimListFiltering(
-//        menuItem: MenuItem,
-//        adapter: ClaimListAdapter,
-//        binding: FragmentListClaimBinding
-//    ) = when (menuItem.itemId) {
-//
-//        R.id.open_list_item -> {
-//            lifecycleScope.launchWhenCreated {
-//                viewModel.data.collectLatest { state ->
-//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.OPEN })
-//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-//                        state.isEmpty()
-//                }
-//            }
-//            true
-//        }
-//
-//        R.id.in_progress_list_item -> {
-//            lifecycleScope.launchWhenCreated {
-//                viewModel.data.collectLatest { state ->
-//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.IN_PROGRESS })
-//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-//                        state.isEmpty()
-//                }
-//            }
-//            true
-//        }
-//
-//        R.id.cancel_list_item -> {
-//            lifecycleScope.launchWhenCreated {
-//                viewModel.data.collectLatest { state ->
-//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.CANCELLED })
-//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-//                        state.isEmpty()
-//                }
-//            }
-//            true
-//        }
-//
-//        R.id.executes_list_item -> {
-//            lifecycleScope.launchWhenCreated {
-//                viewModel.data.collectLatest { state ->
-//                    adapter.submitList(state.filter { it.claim.status == Claim.Status.EXECUTED })
-//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-//                        state.isEmpty()
-//                }
-//            }
-//            true
-//        }
-//
-//        R.id.cancel_filtering_list_item -> {
-//            lifecycleScope.launchWhenCreated {
-//                viewModel.dataOpenInProgress.collectLatest { state ->
-//                    adapter.submitList(state)
-//                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-//                        state.isEmpty()
-//                }
-//            }
-//            true
-//        }
-//        else -> false
-//    }
 }

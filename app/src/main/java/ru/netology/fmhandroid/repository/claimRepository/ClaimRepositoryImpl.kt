@@ -29,10 +29,10 @@ class ClaimRepositoryImpl @Inject constructor(
 
     override fun getClaimsByStatus(
         coroutineScope: CoroutineScope,
-        vararg statuses: Claim.Status
+        listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>> {
         val result = claimDao.getClaimsByStatus(
-            *statuses
+            listStatuses
         ).flowOn(Dispatchers.Default)
         coroutineScope.launch { refreshClaims() }
         return result

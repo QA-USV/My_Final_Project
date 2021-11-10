@@ -20,12 +20,12 @@ interface ClaimDao {
     @Query(
         """
        SELECT * FROM ClaimEntity
-       WHERE (status IN (:statuses))
+       WHERE (status IN (:listStatuses))
        ORDER BY planExecuteDate ASC, createDate DESC
     """
     )
     fun getClaimsByStatus(
-        vararg statuses: Claim.Status
+        listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>>
 
     @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate ASC, createDate DESC")
