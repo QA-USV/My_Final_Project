@@ -104,10 +104,10 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             args.argClaim?.let { claim ->
                 titleTextInputLayout.editText?.setText(claim.claim.title)
                 dateInPlanTextInputLayout.editText?.setText(
-                    claim.claim.planExecuteDate?.let { Utils.showDate(it) }
+                    claim.claim.planExecuteDate?.let { Utils.formatDate(it) }
                 )
                 timeInPlanTextInputLayout.editText?.setText(
-                    claim.claim.planExecuteDate?.let { Utils.showTime(it) }
+                    claim.claim.planExecuteDate?.let { Utils.formatTime(it) }
                 )
                 descriptionTextInputLayout.editText?.setText(claim.claim.description)
 

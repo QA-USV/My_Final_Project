@@ -18,8 +18,9 @@ interface NewsOnInteractionListener {
 
 class NewsControlPanelListAdapter(
     private val onInteractionListener: NewsOnInteractionListener
-) : ListAdapter<NewsWithCreators, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(NewsControlPanelDiffCallBack())
-{
+) : ListAdapter<NewsWithCreators, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(
+    NewsControlPanelDiffCallBack()
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsControlPanelViewHolder {
         val binding = ItemNewsControlPanelBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -31,7 +32,7 @@ class NewsControlPanelListAdapter(
     }
 
     override fun onBindViewHolder(holder: NewsControlPanelViewHolder, position: Int) {
-        getItem(position)?.let {
+        getItem(position).let {
             holder.bind(it)
         }
     }
@@ -41,54 +42,56 @@ class NewsControlPanelListAdapter(
         private val onInteractionListener: NewsOnInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(newsItemWithCreator: NewsWithCreators) = binding.apply {
-            newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
-            newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
-            newsItemPublicationDateTextView.text =
-                newsItemWithCreator.news.newsItem.publishDate?.let { Utils.showDate(it) }
-            newsItemCreateDateTextView.text =
-                newsItemWithCreator.news.newsItem.createDate?.let { Utils.showDate(it) }
-            newsItemAuthorNameTextView.text = itemView.resources.getString(
-                R.string.full_name_format,
-                newsItemWithCreator.user.lastName,
-                newsItemWithCreator.user.firstName?.first()?.plus("."),
-                newsItemWithCreator.user.middleName?.first()?.plus(".")
-            )
+        fun bind(newsItemWithCreator: NewsWithCreators) {
+            with(binding) {
+                newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
+                newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
+                newsItemPublicationDateTextView.text =
+                    newsItemWithCreator.news.newsItem.publishDate?.let { Utils.formatDate(it) }
+                newsItemCreateDateTextView.text =
+                    newsItemWithCreator.news.newsItem.createDate?.let { Utils.formatDate(it) }
+                newsItemAuthorNameTextView.text = itemView.resources.getString(
+                    R.string.full_name_format,
+                    newsItemWithCreator.user.lastName,
+                    newsItemWithCreator.user.firstName?.first()?.plus("."),
+                    newsItemWithCreator.user.middleName?.first()?.plus(".")
+                )
 
-            setCategoryIcon(newsItemWithCreator)
+                setCategoryIcon(newsItemWithCreator)
 
-            newsItemMaterialCardView.setOnClickListener {
-                when (newsItemDescriptionTextView.visibility) {
-                    View.GONE -> {
-                        newsItemDescriptionTextView.visibility = View.VISIBLE
-                        viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+                newsItemMaterialCardView.setOnClickListener {
+                    when (newsItemDescriptionTextView.visibility) {
+                        View.GONE -> {
+                            newsItemDescriptionTextView.visibility = View.VISIBLE
+                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+                        }
+                        else -> {
+                            newsItemDescriptionTextView.visibility = View.GONE
+                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+                        }
                     }
-                    else -> {
-                        newsItemDescriptionTextView.visibility = View.GONE
-                        viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+                }
+
+                when (newsItemWithCreator.news.newsItem.publishEnabled) {
+                    true -> {
+                        newsItemPublishedTextView.text =
+                            itemView.context.getString(R.string.news_control_panel_active)
+                        newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_check_24)
+                    }
+                    false -> {
+                        newsItemPublishedTextView.text =
+                            itemView.context.getString(R.string.news_control_panel_not_active)
+                        newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_clear_24)
                     }
                 }
-            }
 
-            when (newsItemWithCreator.news.newsItem.publishEnabled) {
-                true -> {
-                    newsItemPublishedTextView.text =
-                        itemView.context.getString(R.string.news_control_panel_active)
-                    newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_check_24)
+                editNewsItemImageView.setOnClickListener {
+                    onInteractionListener.onEdit(newsItemWithCreator)
                 }
-                false -> {
-                    newsItemPublishedTextView.text =
-                        itemView.context.getString(R.string.news_control_panel_not_active)
-                    newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_clear_24)
+
+                deleteNewsItemImageView.setOnClickListener {
+                    onInteractionListener.onRemove(newsItemWithCreator)
                 }
-            }
-
-            editNewsItemImageView.setOnClickListener {
-                onInteractionListener.onEdit(newsItemWithCreator)
-            }
-
-            deleteNewsItemImageView.setOnClickListener {
-                onInteractionListener.onRemove(newsItemWithCreator)
             }
         }
 

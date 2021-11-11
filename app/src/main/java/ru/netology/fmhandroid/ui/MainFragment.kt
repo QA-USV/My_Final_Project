@@ -53,10 +53,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
         mainMenu.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_item_users -> {
-                    // Дописать переход на фрагмент со списком пользователей!!!
-                    true
-                }
                 R.id.menu_item_claims -> {
                     findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
                     true

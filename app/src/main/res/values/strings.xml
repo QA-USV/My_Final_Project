@@ -157,4 +157,5 @@
     <string name="no_comment_editing_rights">Comment can only be edited by its creator</string>
     <string name="app_background_image">app background image</string>
     <string name="confirm">Confirm</string>
+    <string name="filtering">Filtering</string>
 </resources>

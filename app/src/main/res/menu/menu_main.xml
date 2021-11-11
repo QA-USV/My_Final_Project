@@ -4,9 +4,6 @@
         android:id="@+id/menu_item_main"
         android:title="@string/main" />
     <item
-        android:id="@+id/menu_item_users"
-        android:title="@string/users" />
-    <item
         android:id="@+id/menu_item_claims"
         android:title="@string/claims" />
     <item

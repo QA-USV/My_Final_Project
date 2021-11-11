@@ -156,4 +156,5 @@
     <string name="no_comment_editing_rights">Редактировать комментарий может только его создатель</string>
     <string name="app_background_image">Подложка основных экранов приложения</string>
     <string name="confirm">Подтвердить</string>
+    <string name="filtering">Фильтрация</string>
 </resources>

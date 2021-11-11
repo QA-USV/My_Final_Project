@@ -59,10 +59,6 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                     findNavController().navigate(R.id.action_newsControlPanelFragment_to_mainFragment)
                     true
                 }
-                R.id.menu_item_users -> {
-                    // Дописать переход на фрагмент со списком пользователей!!!
-                    true
-                }
                 R.id.menu_item_claims -> {
                     findNavController().navigate(R.id.action_newsControlPanelFragment_to_claimListFragment)
                     true

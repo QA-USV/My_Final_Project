@@ -73,7 +73,7 @@ object Utils {
             .toLocalDateTime()
     }
 
-    fun showDate(date: Long): String {
+    fun formatDate(date: Long): String {
         val localDateTime = LocalDateTime.ofInstant(
             Instant.ofEpochSecond(date),
             ZoneId.systemDefault()
@@ -85,7 +85,7 @@ object Utils {
         return formatter.format(localDateTime)
     }
 
-    fun showTime(date: Long): String {
+    fun formatTime(date: Long): String {
         val localDateTime = LocalDateTime.ofInstant(
             Instant.ofEpochSecond(date),
             ZoneId.systemDefault()
@@ -117,7 +117,7 @@ object Utils {
         }
     }
 
-    fun shortUserNameGenerator(lastName: String, firstName: String, middleName: String): String {
+    fun generateShortUserName(lastName: String, firstName: String, middleName: String): String {
         return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
     }
 

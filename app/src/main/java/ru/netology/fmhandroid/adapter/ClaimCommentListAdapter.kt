@@ -46,7 +46,7 @@ class ClaimCommentListAdapter(
     }
 
     override fun onBindViewHolder(holder: ClaimCommentViewHolder, position: Int) {
-        getItem(position)?.let {
+        getItem(position).let {
             holder.bind(it)
         }
     }
@@ -57,12 +57,12 @@ class ClaimCommentListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(claimComment: ClaimCommentWithCreator) {
-            binding.apply {
+            with(binding) {
                 commentDescriptionTextView.text = claimComment.claimComment.description
                 commentatorNameTextView.text = claimComment.creator.lastName?.let { lastName ->
                     claimComment.creator.firstName?.let { firstName ->
                         claimComment.creator.middleName?.let { middleName ->
-                            Utils.shortUserNameGenerator(
+                            Utils.generateShortUserName(
                                 lastName,
                                 firstName,
                                 middleName
@@ -71,16 +71,13 @@ class ClaimCommentListAdapter(
                     }
                 }
                 commentDateTextView.text =
-                    claimComment.claimComment.createDate?.let {Utils.showDate(it)}
+                    claimComment.claimComment.createDate?.let { Utils.formatDate(it) }
                 commentTimeTextView.text =
-                    claimComment.claimComment.createDate?.let { Utils.showTime(it) }
+                    claimComment.claimComment.createDate?.let { Utils.formatTime(it) }
 
-                if(claimComment.creator.id != user.id) {
-                    editLightImageButton.setImageResource(R.drawable.ic_pen_light)
-                } else {
-                    editLightImageButton.setImageResource(R.drawable.ic_pen)
-                }
-
+                editLightImageButton.setImageResource(
+                    if (claimComment.creator.id != user.id) R.drawable.ic_pen_light else R.drawable.ic_pen
+                )
                 editLightImageButton.setOnClickListener {
                     onClaimCommentItemClickListener.onCard(claimComment)
                 }

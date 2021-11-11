@@ -25,7 +25,7 @@ class NewsListAdapter :
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        getItem(position)?.let {
+        getItem(position).let {
             holder.bind(it)
         }
     }
@@ -33,23 +33,25 @@ class NewsListAdapter :
     class NewsViewHolder(
         private val binding: ItemNewsBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(newsItemWithCreator: NewsWithCreators) = binding.apply {
-            newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
-            newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
-            newsItemDateTextView.text =
-                newsItemWithCreator.news.newsItem.publishDate?.let { Utils.showDate(it) }
+        fun bind(newsItemWithCreator: NewsWithCreators) {
+            with(binding) {
+                newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
+                newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
+                newsItemDateTextView.text =
+                    newsItemWithCreator.news.newsItem.publishDate?.let { Utils.formatDate(it) }
 
-            setCategory(newsItemWithCreator)
+                setCategory(newsItemWithCreator)
 
-            newsItemMaterialCardView.setOnClickListener {
-                when (newsItemGroup.visibility) {
-                    View.GONE -> {
-                        newsItemGroup.visibility = View.VISIBLE
-                        viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
-                    }
-                    else -> {
-                        newsItemGroup.visibility = View.GONE
-                        viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+                newsItemMaterialCardView.setOnClickListener {
+                    when (newsItemGroup.visibility) {
+                        View.GONE -> {
+                            newsItemGroup.visibility = View.VISIBLE
+                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+                        }
+                        else -> {
+                            newsItemGroup.visibility = View.GONE
+                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+                        }
                     }
                 }
             }

@@ -12,7 +12,6 @@ import ru.netology.fmhandroid.utils.Utils
 
 interface OnClaimItemClickListener {
     fun onCard(fullClaim: FullClaim) {}
-    fun onDescription(fullClaim: FullClaim) {}
 }
 
 class ClaimListAdapter(
@@ -31,7 +30,7 @@ class ClaimListAdapter(
     }
 
     override fun onBindViewHolder(holder: ClaimViewHolder, position: Int) {
-        getItem(position)?.let {
+        getItem(position).let {
             holder.bind(it)
         }
     }
@@ -42,11 +41,11 @@ class ClaimListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(fullClaim: FullClaim) {
-            binding.apply {
+            with(binding) {
                 if (fullClaim.claim.executorId == null) {
                     executorNameMaterialTextView.setText(R.string.not_assigned)
                 } else {
-                    executorNameMaterialTextView.text = Utils.shortUserNameGenerator(
+                    executorNameMaterialTextView.text = Utils.generateShortUserName(
                         fullClaim.executor?.lastName.toString(),
                         fullClaim.executor?.firstName.toString(),
                         fullClaim.executor?.middleName.toString()
@@ -55,13 +54,13 @@ class ClaimListAdapter(
                 planTimeMaterialTextView.text = fullClaim
                     .claim
                     .planExecuteDate?.let {
-                        Utils.showTime(
+                        Utils.formatTime(
                             it
                         )
                     }
                 planDateMaterialTextView.text = fullClaim
                     .claim.planExecuteDate?.let {
-                        Utils.showDate(
+                        Utils.formatDate(
                             it
                         )
                     }

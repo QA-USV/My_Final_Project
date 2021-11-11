@@ -69,10 +69,6 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                     findNavController().navigate(R.id.action_claimListFragment_to_mainFragment)
                     true
                 }
-                R.id.menu_item_users -> {
-                    // дописать переход на фрагмент со списком пользователей
-                    true
-                }
                 R.id.menu_item_news -> {
                     findNavController().navigate(R.id.action_claimListFragment_to_newsListFragment)
                     true
@@ -143,22 +139,21 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()
 
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.statusesFlow.collectLatest {
+                    it.map { status ->
+                        displayingCurrentStatusesInCheckboxes(status, view)
+                    }
+                }
+            }
+
             dialog.setOnShowListener {
                 val buttonOk: Button =
                     (dialog).getButton(AlertDialog.BUTTON_POSITIVE)
                 val buttonCancel: Button =
                     (dialog).getButton(AlertDialog.BUTTON_NEGATIVE)
                 buttonOk.setOnClickListener {
-                    val checkedStatusList = mutableListOf<Claim.Status>()
-
-                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked)
-                       checkedStatusList.add(Claim.Status.OPEN)
-                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked)
-                        checkedStatusList.add(Claim.Status.IN_PROGRESS)
-                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked)
-                        checkedStatusList.add(Claim.Status.EXECUTED)
-                    if (view.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked)
-                        checkedStatusList.add(Claim.Status.CANCELLED)
+                    val checkedStatusList = mutableListOfClaimStatus(view)
 
                     viewModel.onFilterClaimsMenuItemClicked(checkedStatusList)
 
@@ -177,6 +172,42 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
         binding.containerListClaimInclude.addNewClaimMaterialButton.setOnClickListener {
             findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
+        }
+    }
+
+    private fun mutableListOfClaimStatus(view: View): MutableList<Claim.Status> {
+        val checkedStatusList = mutableListOf<Claim.Status>()
+
+        if (view.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked)
+            checkedStatusList.add(Claim.Status.OPEN)
+        if (view.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked)
+            checkedStatusList.add(Claim.Status.IN_PROGRESS)
+        if (view.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked)
+            checkedStatusList.add(Claim.Status.EXECUTED)
+        if (view.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked)
+            checkedStatusList.add(Claim.Status.CANCELLED)
+        return checkedStatusList
+    }
+
+    private fun displayingCurrentStatusesInCheckboxes(
+        status: Claim.Status,
+        view: View
+    ) {
+        if (status == Claim.Status.OPEN) {
+            view.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked =
+                true
+        }
+        if (status == Claim.Status.IN_PROGRESS) {
+            view.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked =
+                true
+        }
+        if (status == Claim.Status.EXECUTED) {
+            view.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked =
+                true
+        }
+        if (status == Claim.Status.CANCELLED) {
+            view.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked =
+                true
         }
     }
 }

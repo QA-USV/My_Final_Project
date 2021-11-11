@@ -181,9 +181,9 @@ class OpenClaimFragment : Fragment() {
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
         binding.titleTextView.text = fullClaim.claim.title
         binding.planeDateTextView.text =
-            fullClaim.claim.planExecuteDate?.let { Utils.showDate(it) }
+            fullClaim.claim.planExecuteDate?.let { Utils.formatDate(it) }
         binding.planTimeTextView.text =
-            fullClaim.claim.planExecuteDate?.let { Utils.showTime(it) }
+            fullClaim.claim.planExecuteDate?.let { Utils.formatTime(it) }
         binding.descriptionTextView.text = fullClaim.claim.description
         binding.authorNameTextView.text = Utils.fullUserNameGenerator(
             fullClaim.creator.lastName.toString(),
@@ -191,9 +191,9 @@ class OpenClaimFragment : Fragment() {
             fullClaim.creator.middleName.toString()
         )
         binding.createDataTextView.text =
-            fullClaim.claim.createDate?.let { Utils.showDate(it) }
+            fullClaim.claim.createDate?.let { Utils.formatDate(it) }
         binding.createTimeTextView.text =
-            fullClaim.claim.createDate?.let { Utils.showTime(it) }
+            fullClaim.claim.createDate?.let { Utils.formatTime(it) }
         binding.statusLabelTextView.text =
             displayingStatusOfClaim(fullClaim.claim.status!!)
 
