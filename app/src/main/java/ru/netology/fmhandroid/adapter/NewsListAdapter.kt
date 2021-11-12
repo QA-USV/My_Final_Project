@@ -12,7 +12,7 @@ import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.utils.Utils
 
 class NewsListAdapter :
-    ListAdapter<NewsWithCreators, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack()) {
+    ListAdapter<NewsWithCreators, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = ItemNewsBinding.inflate(
@@ -76,9 +76,9 @@ class NewsListAdapter :
     }
 }
 
-class NewsDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
+private object NewsDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
     override fun areItemsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
-        return oldItem == newItem
+        return oldItem.news.newsItem.id == newItem.news.newsItem.id
     }
 
     override fun areContentsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {

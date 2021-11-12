@@ -19,7 +19,7 @@ interface NewsOnInteractionListener {
 class NewsControlPanelListAdapter(
     private val onInteractionListener: NewsOnInteractionListener
 ) : ListAdapter<NewsWithCreators, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(
-    NewsControlPanelDiffCallBack()
+    NewsControlPanelDiffCallBack
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsControlPanelViewHolder {
         val binding = ItemNewsControlPanelBinding.inflate(
@@ -113,7 +113,7 @@ class NewsControlPanelListAdapter(
     }
 }
 
-class NewsControlPanelDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
+private object NewsControlPanelDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
     override fun areItemsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
         return oldItem.news.newsItem.id == newItem.news.newsItem.id
     }

@@ -33,7 +33,7 @@ class ClaimCommentListAdapter(
     private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener
 ) :
     ListAdapter<ClaimCommentWithCreator, ClaimCommentListAdapter.ClaimCommentViewHolder>(
-        ClaimCommentDiffCallback()
+        ClaimCommentDiffCallback
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClaimCommentViewHolder {
@@ -85,12 +85,12 @@ class ClaimCommentListAdapter(
         }
     }
 
-    class ClaimCommentDiffCallback : DiffUtil.ItemCallback<ClaimCommentWithCreator>() {
+    private object ClaimCommentDiffCallback : DiffUtil.ItemCallback<ClaimCommentWithCreator>() {
         override fun areItemsTheSame(
             oldItem: ClaimCommentWithCreator,
             newItem: ClaimCommentWithCreator
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.claimComment.id == newItem.claimComment.id
         }
 
         override fun areContentsTheSame(

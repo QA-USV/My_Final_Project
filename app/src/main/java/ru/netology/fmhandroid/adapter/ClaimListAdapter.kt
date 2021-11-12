@@ -17,7 +17,7 @@ interface OnClaimItemClickListener {
 class ClaimListAdapter(
     private val onClaimItemClickListener: OnClaimItemClickListener
 ) : ListAdapter<FullClaim, ClaimListAdapter.ClaimViewHolder>(
-    ClaimDiffCallback()
+    ClaimDiffCallback
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClaimViewHolder {
@@ -42,15 +42,16 @@ class ClaimListAdapter(
 
         fun bind(fullClaim: FullClaim) {
             with(binding) {
-                if (fullClaim.claim.executorId == null) {
-                    executorNameMaterialTextView.setText(R.string.not_assigned)
-                } else {
+                if (fullClaim.executor != null) {
                     executorNameMaterialTextView.text = Utils.generateShortUserName(
-                        fullClaim.executor?.lastName.toString(),
-                        fullClaim.executor?.firstName.toString(),
-                        fullClaim.executor?.middleName.toString()
+                        fullClaim.executor.lastName!!,
+                        fullClaim.executor.firstName!!,
+                        fullClaim.executor.middleName!!
                     )
+                } else {
+                    executorNameMaterialTextView.setText(R.string.not_assigned)
                 }
+
                 planTimeMaterialTextView.text = fullClaim
                     .claim
                     .planExecuteDate?.let {
@@ -64,7 +65,7 @@ class ClaimListAdapter(
                             it
                         )
                     }
-                themeMaterialTextView.text = fullClaim.claim.title
+                descriptionMaterialTextView.text = fullClaim.claim.title
 
                 claimListCard.setOnClickListener {
                     onClaimItemClickListener.onCard(fullClaim)
@@ -73,7 +74,7 @@ class ClaimListAdapter(
         }
     }
 
-    class ClaimDiffCallback : DiffUtil.ItemCallback<FullClaim>() {
+    private object ClaimDiffCallback : DiffUtil.ItemCallback<FullClaim>() {
         override fun areItemsTheSame(
             oldItem: FullClaim,
             newItem: FullClaim

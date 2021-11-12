@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/theme_material_text_view"
+            android:id="@+id/description_material_text_view"
             style="@style/PatientAndExecutorTextSize"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/theme_material_text_view" />
+            app:layout_constraintTop_toBottomOf="@id/description_material_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/plan_date_label_material_text_view"
