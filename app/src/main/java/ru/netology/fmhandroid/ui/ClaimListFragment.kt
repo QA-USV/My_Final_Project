@@ -1,7 +1,9 @@
 package ru.netology.fmhandroid.ui
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -135,8 +137,8 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
             val dialog = AlertDialog.Builder(requireContext())
                 .setView(view)
-                .setPositiveButton(android.R.string.ok, null)
-                .setNegativeButton(android.R.string.cancel, null)
+//                .setPositiveButton(android.R.string.ok, null)
+//                .setNegativeButton(android.R.string.cancel, null)
                 .create()
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -149,9 +151,9 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
             dialog.setOnShowListener {
                 val buttonOk: Button =
-                    (dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                    view.findViewById(R.id.claim_list_filter_ok_material_button)
                 val buttonCancel: Button =
-                    (dialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+                    view.findViewById(R.id.claim_filter_cancel_material_button)
                 buttonOk.setOnClickListener {
                     val checkedStatusList = mutableListOfClaimStatus(view)
 
@@ -164,6 +166,15 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                 }
             }
             dialog.show()
+            val displayRectangle = Rect()
+            val window: Window = requireActivity().window
+
+            window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
+
+            dialog.window!!.setLayout(
+                (displayRectangle.width() *
+                        0.8f).toInt(), (displayRectangle.height() * 0.6f).toInt()
+            )
         }
 
         binding.containerCustomAppBarIncludeOnFragmentListClaim.mainMenuImageButton.setOnClickListener {
