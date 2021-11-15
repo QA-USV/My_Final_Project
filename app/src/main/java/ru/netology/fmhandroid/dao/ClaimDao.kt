@@ -3,9 +3,7 @@ package ru.netology.fmhandroid.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.dto.FullClaim
-import ru.netology.fmhandroid.entity.ClaimCommentEntity
 import ru.netology.fmhandroid.entity.ClaimEntity
 
 @Dao
@@ -28,17 +26,8 @@ interface ClaimDao {
         listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>>
 
-    @Query("SELECT * FROM ClaimCommentEntity WHERE claimId = :claimId")
-    fun getClaimComments(claimId: Int): Flow<List<ClaimCommentWithCreator>>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claim: ClaimEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertComment(comments: List<ClaimCommentEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertComment(comment: ClaimCommentEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claims: List<ClaimEntity>)
@@ -50,7 +39,7 @@ interface ClaimDao {
     suspend fun deleteClaimById(id: Int)
 }
 
-class WishClaimStatusConverter {
+class ClaimClaimStatusConverter {
 
     @TypeConverter
     fun toClaimStatus(status: String): Claim.Status = Claim.Status.valueOf(status)

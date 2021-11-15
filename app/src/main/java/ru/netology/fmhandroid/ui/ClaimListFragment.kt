@@ -137,8 +137,6 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
             val dialog = AlertDialog.Builder(requireContext())
                 .setView(view)
-//                .setPositiveButton(android.R.string.ok, null)
-//                .setNegativeButton(android.R.string.cancel, null)
                 .create()
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {

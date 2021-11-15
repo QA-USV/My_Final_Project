@@ -20,4 +20,7 @@ object DaoModule {
 
     @Provides
     fun provideNewsCategoryDao(db: AppDb): NewsCategoryDao = db.newsCategoryDao()
+
+    @Provides
+    fun provideClaimCommentDao(db: AppDb): ClaimCommentDao = db.claimCommentDao()
 }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.api.ClaimApi
+import ru.netology.fmhandroid.dao.ClaimCommentDao
 import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
@@ -19,6 +20,7 @@ import javax.inject.Singleton
 class ClaimRepositoryImpl @Inject constructor(
     private val claimApi: ClaimApi,
     private val claimDao: ClaimDao,
+    private val claimCommentDao: ClaimCommentDao
 ) : ClaimRepository {
 
     override fun getClaimsByStatus(
@@ -60,7 +62,7 @@ class ClaimRepositoryImpl @Inject constructor(
     override suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment> = makeRequest(
         request = { claimApi.getAllClaimComments(id) },
         onSuccess = { body ->
-            claimDao.insertComment(body.toEntity())
+            claimCommentDao.insertComment(body.toEntity())
             body
         }
     )
@@ -69,7 +71,7 @@ class ClaimRepositoryImpl @Inject constructor(
         makeRequest(
             request = { claimApi.saveClaimComment(claimId, comment) },
             onSuccess = { body ->
-                claimDao.insertComment(body.toEntity())
+                claimCommentDao.insertComment(body.toEntity())
                 body
             }
         )
@@ -92,7 +94,7 @@ class ClaimRepositoryImpl @Inject constructor(
             onSuccess = { body ->
                 claimDao.insertClaim(body.toEntity())
                 if (!claimComment.description.isNullOrBlank()) {
-                    claimDao.insertComment(claimComment.toEntity())
+                    claimCommentDao.insertComment(claimComment.toEntity())
                 }
                 body
             }
@@ -101,7 +103,7 @@ class ClaimRepositoryImpl @Inject constructor(
     override suspend fun changeClaimComment(comment: ClaimComment): ClaimComment = makeRequest(
         request = { claimApi.updateClaimComment(comment) },
         onSuccess = { body ->
-            claimDao.insertComment(body.toEntity())
+            claimCommentDao.insertComment(body.toEntity())
             body
         }
     )

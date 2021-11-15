@@ -28,31 +28,3 @@ data class Claim(
         OPEN
     }
 }
-
-@kotlinx.parcelize.Parcelize
-data class FullClaim(
-    @Embedded
-    val claim: Claim,
-
-    @Relation(
-        entity = UserEntity::class,
-        parentColumn = "creatorId",
-        entityColumn = "id"
-    )
-    val creator: User,
-
-    @Relation(
-        entity = UserEntity::class,
-        parentColumn = "executorId",
-        entityColumn = "id"
-    )
-    val executor: User?,
-
-    @Relation(
-        entity = ClaimCommentEntity::class,
-        parentColumn = "id",
-        entityColumn = "claimId"
-    )
-    val comments: List<ClaimCommentWithCreator>?
-
-) : Parcelable
