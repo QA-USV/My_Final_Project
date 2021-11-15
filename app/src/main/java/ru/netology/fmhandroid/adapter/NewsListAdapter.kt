@@ -62,7 +62,7 @@ class NewsListAdapter :
             binding.categoryIconImageView.setImageResource(
                 when (newsItemWithCreator.news.category.id) {
                     1 -> R.raw.icon_advertisement
-                    2 -> R.raw.icon_bithday
+                    2 -> R.raw.icon_birthday
                     3 -> R.raw.icon_salary
                     4 -> R.raw.icon_union
                     5 -> R.raw.icon_holiday

@@ -28,12 +28,6 @@ interface ClaimDao {
         listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>>
 
-    @Query("SELECT * FROM ClaimEntity WHERE status LIKE :firstStatus OR status LIKE :secondStatus ORDER BY planExecuteDate ASC, createDate DESC")
-    fun getClaimsOpenAndInProgressStatuses(
-        firstStatus: Claim.Status,
-        secondStatus: Claim.Status
-    ): Flow<List<FullClaim>>
-
     @Query("SELECT * FROM ClaimCommentEntity WHERE claimId = :claimId")
     fun getClaimComments(claimId: Int): Flow<List<ClaimCommentWithCreator>>
 

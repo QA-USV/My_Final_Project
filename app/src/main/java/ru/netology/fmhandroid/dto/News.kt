@@ -27,6 +27,10 @@ data class News(
         override fun toString(): String {
             return name
         }
+
+        enum class Type {
+            Advertisement, Salary, Union, Birthday, Holiday, Massage, Gratitude, Help, Unknown
+        }
     }
 }
 

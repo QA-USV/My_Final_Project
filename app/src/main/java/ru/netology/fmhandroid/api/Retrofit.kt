@@ -22,9 +22,3 @@ fun okhttp(vararg interceptors: Interceptor): OkHttpClient = OkHttpClient.Builde
         }
     }
     .build()
-
-fun retrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
-    .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl(BASE_URL)
-    .client(client)
-    .build()

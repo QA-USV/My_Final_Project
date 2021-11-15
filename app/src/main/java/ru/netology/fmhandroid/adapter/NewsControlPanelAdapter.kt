@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemNewsControlPanelBinding
+import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.extensions.getType
 import ru.netology.fmhandroid.utils.Utils
 
 interface NewsOnInteractionListener {
@@ -96,19 +98,18 @@ class NewsControlPanelListAdapter(
         }
 
         private fun setCategoryIcon(newsItem: NewsWithCreators) {
-            binding.categoryIconImageView.setImageResource(
-                when (newsItem.news.category.id) {
-                    1 -> R.raw.icon_advertisement
-                    2 -> R.raw.icon_bithday
-                    3 -> R.raw.icon_salary
-                    4 -> R.raw.icon_union
-                    5 -> R.raw.icon_holiday
-                    6 -> R.raw.icon_massage
-                    7 -> R.raw.icon_gratitude
-                    8 -> R.raw.icon_help
-                    else -> return
-                }
-            )
+            val iconResId = when (newsItem.news.category.getType()) {
+                News.Category.Type.Advertisement -> R.raw.icon_advertisement
+                News.Category.Type.Salary -> R.raw.icon_birthday
+                News.Category.Type.Union -> R.raw.icon_salary
+                News.Category.Type.Birthday -> R.raw.icon_union
+                News.Category.Type.Holiday -> R.raw.icon_holiday
+                News.Category.Type.Massage -> R.raw.icon_massage
+                News.Category.Type.Gratitude -> R.raw.icon_gratitude
+                News.Category.Type.Help -> R.raw.icon_help
+                News.Category.Type.Unknown -> return
+            }
+            binding.categoryIconImageView.setImageResource(iconResId)
         }
     }
 }

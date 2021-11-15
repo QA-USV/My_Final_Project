@@ -21,12 +21,6 @@ class ClaimRepositoryImpl @Inject constructor(
     private val claimDao: ClaimDao,
 ) : ClaimRepository {
 
-//    override val dataOpenInProgress: Flow<List<FullClaim>>
-//        get() = claimDao.getClaimsOpenAndInProgressStatuses(
-//            Claim.Status.OPEN,
-//            Claim.Status.IN_PROGRESS
-//        ).flowOn(Dispatchers.Default)
-
     override fun getClaimsByStatus(
         coroutineScope: CoroutineScope,
         listStatuses: List<Claim.Status>
