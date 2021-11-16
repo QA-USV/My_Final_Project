@@ -100,9 +100,9 @@ class NewsControlPanelListAdapter(
         private fun setCategoryIcon(newsItem: NewsWithCreators) {
             val iconResId = when (newsItem.news.category.getType()) {
                 News.Category.Type.Advertisement -> R.raw.icon_advertisement
-                News.Category.Type.Salary -> R.raw.icon_birthday
-                News.Category.Type.Union -> R.raw.icon_salary
-                News.Category.Type.Birthday -> R.raw.icon_union
+                News.Category.Type.Salary -> R.raw.icon_salary
+                News.Category.Type.Union -> R.raw.icon_union
+                News.Category.Type.Birthday -> R.raw.icon_birthday
                 News.Category.Type.Holiday -> R.raw.icon_holiday
                 News.Category.Type.Massage -> R.raw.icon_massage
                 News.Category.Type.Gratitude -> R.raw.icon_gratitude

@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.netology.fmhandroid.api.NetworkModule.providesRetrofit
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -12,22 +12,22 @@ import javax.inject.Singleton
 object ApiModule {
     @Provides
     @Singleton
-    fun provideClaimApi(): ClaimApi {
-        return providesRetrofit()
+    fun provideClaimApi(retrofit: Retrofit): ClaimApi {
+        return retrofit
             .create(ClaimApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideUserApi(): UserApi {
-        return providesRetrofit()
+    fun provideUserApi(retrofit: Retrofit): UserApi {
+        return retrofit
             .create(UserApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideNewsApi(): NewsApi {
-        return providesRetrofit()
+    fun provideNewsApi(retrofit: Retrofit): NewsApi {
+        return retrofit
             .create(NewsApi::class.java)
     }
 }

@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemNewsBinding
+import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.extensions.getType
 import ru.netology.fmhandroid.utils.Utils
 
 class NewsListAdapter :
@@ -40,7 +42,7 @@ class NewsListAdapter :
                 newsItemDateTextView.text =
                     newsItemWithCreator.news.newsItem.publishDate?.let { Utils.formatDate(it) }
 
-                setCategory(newsItemWithCreator)
+                setCategoryIcon(newsItemWithCreator)
 
                 newsItemMaterialCardView.setOnClickListener {
                     when (newsItemGroup.visibility) {
@@ -57,21 +59,19 @@ class NewsListAdapter :
             }
         }
 
-        private fun setCategory(newsItemWithCreator: NewsWithCreators) {
-            binding.newsItemCategoryTextView.text = newsItemWithCreator.news.category.name
-            binding.categoryIconImageView.setImageResource(
-                when (newsItemWithCreator.news.category.id) {
-                    1 -> R.raw.icon_advertisement
-                    2 -> R.raw.icon_birthday
-                    3 -> R.raw.icon_salary
-                    4 -> R.raw.icon_union
-                    5 -> R.raw.icon_holiday
-                    6 -> R.raw.icon_massage
-                    7 -> R.raw.icon_gratitude
-                    8 -> R.raw.icon_help
-                    else -> return
-                }
-            )
+        private fun setCategoryIcon(newsItem: NewsWithCreators) {
+            val iconResId = when (newsItem.news.category.getType()) {
+                News.Category.Type.Advertisement -> R.raw.icon_advertisement
+                News.Category.Type.Salary -> R.raw.icon_salary
+                News.Category.Type.Union -> R.raw.icon_union
+                News.Category.Type.Birthday -> R.raw.icon_birthday
+                News.Category.Type.Holiday -> R.raw.icon_holiday
+                News.Category.Type.Massage -> R.raw.icon_massage
+                News.Category.Type.Gratitude -> R.raw.icon_gratitude
+                News.Category.Type.Help -> R.raw.icon_help
+                News.Category.Type.Unknown -> return
+            }
+            binding.categoryIconImageView.setImageResource(iconResId)
         }
     }
 }

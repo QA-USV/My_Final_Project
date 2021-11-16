@@ -63,14 +63,23 @@ object Utils {
         val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
         val localDate = LocalDate.parse(date, dateFormatter)
         val localTime = LocalTime.parse(time, timeFormatter)
-        return LocalDateTime.of(localDate, localTime)
-            .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(Instant.now()))
+        val localDateTime = LocalDateTime.of(localDate, localTime)
+        return fromLocalDateTimeToTimeStamp(localDateTime)
     }
 
     fun fromLongToLocalDateTime(value: Long): LocalDateTime {
         val instant = Instant.ofEpochSecond(value)
-        return instant.atZone(ZoneId.of("Europe/Moscow"))
+        return instant.atZone(
+            ZoneId.systemDefault()
+        )
             .toLocalDateTime()
+    }
+
+    fun fromLocalDateTimeToTimeStamp(date: LocalDateTime): Long {
+        return date.toEpochSecond(
+            ZoneId.systemDefault()
+                .rules.getOffset(Instant.now())
+        )
     }
 
     fun formatDate(date: Long): String {
@@ -117,8 +126,9 @@ object Utils {
         }
     }
 
+    // TODO переделать в ресурсы, форматированную строку сделай
     fun generateShortUserName(lastName: String, firstName: String, middleName: String): String {
-        return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
+        return "$lastName ${firstName.first()}. ${middleName.first()}."
     }
 
     fun fullUserNameGenerator(lastName: String, firstName: String, middleName: String): String {

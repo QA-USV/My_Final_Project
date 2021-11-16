@@ -20,7 +20,6 @@ import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.databinding.FragmentNewsListBinding
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.ui.NewsControlPanelFragment.Companion.revert
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
@@ -71,7 +70,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
 
         val adapter = NewsListAdapter()
 
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             filterNews(adapter)
         }
 

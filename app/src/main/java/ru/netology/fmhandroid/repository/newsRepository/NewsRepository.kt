@@ -26,6 +26,7 @@ interface NewsRepository {
 
     // Метод подлежит удалению после реализации добавления новых категорий
     suspend fun saveCategories()
+    //
     fun getAllNews(
         coroutineScope: CoroutineScope,
         publishEnabled: Boolean? = null,

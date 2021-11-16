@@ -221,17 +221,18 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         with(binding) {
             return Claim(
                 id = args.argClaim?.claim?.id,
-                title = titleTextInputLayout.editText?.text.toString(),
-                description = descriptionTextInputLayout.editText?.text.toString(),
+                title = titleEditText.text.toString(),
+                description = descriptionEditText.text.toString(),
                 executorId = executor?.id,
-                createDate = args.argClaim?.claim?.createDate ?: LocalDateTime.now()
-                    .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(Instant.now())),
+                createDate = args.argClaim?.claim?.createDate ?: Utils.fromLocalDateTimeToTimeStamp(
+                    LocalDateTime.now()
+                ),
                 //* Временное поле. Подлежит удалению после введения регистрации/аутентификации *
                 creatorId = 1,
                 //------------------------------------------------------------------------------//
                 planExecuteDate = saveDateTime(
-                    dateInPlanTextInputLayout.editText?.text.toString(),
-                    timeInPlanTextInputLayout.editText?.text.toString()
+                    dateInPlanTextInputEditText.text.toString(),
+                    timeInPlanTextInputEditText.text.toString()
                 )
             )
         }

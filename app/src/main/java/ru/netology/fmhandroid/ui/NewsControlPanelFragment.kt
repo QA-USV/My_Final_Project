@@ -125,17 +125,11 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
 
         with(binding) {
             sortNewsMaterialButton.setOnClickListener {
-                if (data == null) data = viewModel.data
-                lifecycleScope.launch {
-                    if (binding.sortNewsMaterialButton.isChecked) {
-                        newsListRecyclerView.revert(true, requireActivity())
-                        data?.collectLatest { state ->
-                            adapter.submitList(state.reversed())
-                        }
-                    } else {
-                        newsListRecyclerView.revert(true, requireActivity())
-                        submitList(adapter, data)
-                    }
+                viewModel.onSortDirectionButtonClicked()
+                binding.newsListRecyclerView.post {
+                    binding.newsListRecyclerView.scrollToPosition(
+                        0
+                    )
                 }
             }
 
@@ -204,14 +198,6 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                 adapter.submitList(state)
                 binding.emptyTextTextView.isVisible = state.isEmpty()
             }
-        }
-    }
-
-    companion object {
-        fun RecyclerView.revert(stackFromEnd: Boolean, requireActivity: Activity) {
-            val linearLayoutManager = LinearLayoutManager(requireActivity)
-            linearLayoutManager.stackFromEnd = stackFromEnd
-            layoutManager = linearLayoutManager
         }
     }
 }
