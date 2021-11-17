@@ -107,6 +107,9 @@
         <action
             android:id="@+id/action_filterNewsFragment_to_newsControlPanelFragment"
             app:destination="@id/newsControlPanelFragment" />
+        <argument
+            android:name="backStackTagArgs"
+            app:argType="integer" />
     </fragment>
 
     <fragment

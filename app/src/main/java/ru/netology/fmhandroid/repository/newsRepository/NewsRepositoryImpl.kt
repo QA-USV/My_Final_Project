@@ -90,11 +90,17 @@ class NewsRepositoryImpl @Inject constructor(
     override fun getAllNews(
         coroutineScope: CoroutineScope,
         publishEnabled: Boolean?,
-        publishDateBefore: Long?
+        publishDateBefore: Long?,
+        newsCategoryId: Int?,
+        dateStart: Long?,
+        dateEnd: Long?
     ): Flow<List<NewsWithCreators>> {
         val result: Flow<List<NewsWithCreators>> = newsDao.getAllNews(
             publishEnabled = publishEnabled,
-            publishDateBefore = publishDateBefore
+            publishDateBefore = publishDateBefore,
+            newsCategoryId = newsCategoryId,
+            dateStart = dateStart,
+            dateEnd = dateEnd
         ).flowOn(Dispatchers.Default)
         coroutineScope.launch { refreshNews() }
         return result
@@ -126,28 +132,27 @@ class NewsRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun filterNewsByCategory(newsCategoryId: Int): Flow<List<NewsWithCreators>> =
-        newsDao.filterNewsByCategory(newsCategoryId)
-            .catch { e -> from(e) }
+//    override suspend fun filterNewsByCategory(newsCategoryId: Int): Flow<List<NewsWithCreators>> =
+//        newsDao.filterNewsByCategory(newsCategoryId)
+//            .catch { e -> from(e) }
+//
+//    override suspend fun filterNewsByPublishDate(
+//        dateStart: Long,
+//        dateEnd: Long
+//    ): Flow<List<NewsWithCreators>> =
+//        newsDao.filterNewsByPublishDate(dateStart, dateEnd)
+//            .catch { e -> from(e) }
+//
+//    override suspend fun filterNewsByCategoryAndPublishDate(
+//        newsCategoryId: Int,
+//        dateStart: Long,
+//        dateEnd: Long
+//    ): Flow<List<NewsWithCreators>> =
+//        newsDao.filterNewsByCategoryAndPublishDate(newsCategoryId, dateStart, dateEnd)
+//            .catch { e -> from(e) }
 
-    override suspend fun filterNewsByPublishDate(
-        dateStart: Long,
-        dateEnd: Long
-    ): Flow<List<NewsWithCreators>> =
-        newsDao.filterNewsByPublishDate(dateStart, dateEnd)
-            .catch { e -> from(e) }
-
-    override suspend fun filterNewsByCategoryAndPublishDate(
-        newsCategoryId: Int,
-        dateStart: Long,
-        dateEnd: Long
-    ): Flow<List<NewsWithCreators>> =
-        newsDao.filterNewsByCategoryAndPublishDate(newsCategoryId, dateStart, dateEnd)
-            .catch { e -> from(e) }
-
-    override suspend fun getAllNewsCategories(): Flow<List<News.Category>> =
+    override fun getAllNewsCategories(): Flow<List<News.Category>> =
         newsCategoryDao.getAllNewsCategories().map { it.toNewsCategoryDto() }
-            .catch { e -> from(e) }
 
     // Метод подлежит удалению после реализации добавления новых категорий
     override suspend fun saveCategories() =

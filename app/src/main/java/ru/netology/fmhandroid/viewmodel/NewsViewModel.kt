@@ -20,12 +20,7 @@ class NewsViewModel @Inject constructor(
 
     private val sortDirection = MutableStateFlow(SortDirection.ASC)
 
-    val newsItemCreatedEvent = MutableSharedFlow<Unit>()
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
-    val saveNewsItemExceptionEvent = MutableSharedFlow<Unit>()
-    val editNewsItemSavedEvent = MutableSharedFlow<Unit>()
-    val editNewsItemExceptionEvent = MutableSharedFlow<Unit>()
-    val removeNewsItemExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
 
     init {
@@ -42,7 +37,7 @@ class NewsViewModel @Inject constructor(
             // Вынести в Utils
             publishDateBefore = Utils.fromLocalDateTimeToTimeStamp(LocalDateTime.now())
         ).combine(sortDirection) { news, sortDirection ->
-            when(sortDirection) {
+            when (sortDirection) {
                 SortDirection.ASC -> news
                 SortDirection.DESC -> news.reversed()
             }
@@ -64,41 +59,6 @@ class NewsViewModel @Inject constructor(
         sortDirection.value = sortDirection.value.reverse()
     }
 
-    fun save(newsItem: News) {
-        viewModelScope.launch {
-            try {
-                newsRepository.saveNewsItem(newsItem)
-                newsItemCreatedEvent.emit(Unit)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                saveNewsItemExceptionEvent.emit(Unit)
-            }
-        }
-    }
-
-    fun edit(newsItem: News) {
-        viewModelScope.launch {
-            try {
-                newsRepository.editNewsItem(newsItem)
-                editNewsItemSavedEvent.emit(Unit)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                editNewsItemExceptionEvent.emit(Unit)
-            }
-        }
-    }
-
-    fun remove(id: Int) {
-        viewModelScope.launch {
-            try {
-                newsRepository.removeNewsItemById(id)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                removeNewsItemExceptionEvent.emit(Unit)
-            }
-        }
-    }
-
     suspend fun getAllNewsCategories() =
         newsRepository.getAllNewsCategories()
             .catch { e ->
@@ -106,35 +66,51 @@ class NewsViewModel @Inject constructor(
                 loadNewsCategoriesExceptionEvent.emit(Unit)
             }
 
-    suspend fun filterNewsByCategory(newsCategoryId: Int) =
-        newsRepository.filterNewsByCategory(newsCategoryId)
-            .catch { e ->
-                e.printStackTrace()
-                loadNewsExceptionEvent.emit(Unit)
-            }
-
-    suspend fun filterNewsByPublishDate(dateStart: Long, dateEnd: Long) =
-        newsRepository.filterNewsByPublishDate(dateStart, dateEnd)
-            .catch { e ->
-                e.printStackTrace()
-                loadNewsExceptionEvent.emit(Unit)
-            }
-
-    suspend fun filterNewsByCategoryAndPublishDate(
-        newsCategoryId: Int,
-        dateStart: Long,
-        dateEnd: Long
-    ) = newsRepository.filterNewsByCategoryAndPublishDate(
-        newsCategoryId, dateStart, dateEnd
-    ).catch { e ->
-        e.printStackTrace()
-        loadNewsExceptionEvent.emit(Unit)
+    fun onFilterNewsClicked(
+        newsCategoryId: Int?,
+        dateStart: Long?,
+        dateEnd: Long?
+    ) {
+        newsRepository.getAllNews(
+            viewModelScope,
+            publishEnabled = true,
+            publishDateBefore = Utils.fromLocalDateTimeToTimeStamp(LocalDateTime.now()),
+            newsCategoryId,
+            dateStart,
+            dateEnd
+        )
     }
+
+//    suspend fun filterNewsByCategory(newsCategoryId: Int) =
+//        newsRepository.filterNewsByCategory(newsCategoryId)
+//            .catch { e ->
+//                e.printStackTrace()
+//                loadNewsExceptionEvent.emit(Unit)
+//            }
+//
+//    suspend fun filterNewsByPublishDate(dateStart: Long, dateEnd: Long) =
+//        newsRepository.filterNewsByPublishDate(dateStart, dateEnd)
+//            .catch { e ->
+//                e.printStackTrace()
+//                loadNewsExceptionEvent.emit(Unit)
+//            }
+//
+//    suspend fun filterNewsByCategoryAndPublishDate(
+//        newsCategoryId: Int,
+//        dateStart: Long,
+//        dateEnd: Long
+//    ) = newsRepository.filterNewsByCategoryAndPublishDate(
+//        newsCategoryId, dateStart, dateEnd
+//    ).catch { e ->
+//        e.printStackTrace()
+//        loadNewsExceptionEvent.emit(Unit)
+//    }
 
     enum class SortDirection {
         ASC,
         DESC;
-        fun reverse() = when(this) {
+
+        fun reverse() = when (this) {
             ASC -> DESC
             DESC -> ASC
         }
