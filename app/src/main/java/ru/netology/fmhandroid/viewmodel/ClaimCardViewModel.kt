@@ -132,6 +132,7 @@ class ClaimCardViewModel @Inject constructor(
     override fun onCard(claimComment: ClaimCommentWithCreator) {
 //        if (user.id == claimComment.creator.id) {
 //            val action = OpenClaimFragmentDirections
+//
 //                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
 //                    claimComment,
 //                    claim.claim.id!!

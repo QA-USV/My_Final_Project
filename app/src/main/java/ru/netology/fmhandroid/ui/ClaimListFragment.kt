@@ -130,13 +130,13 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         }
 
         binding.containerListClaimInclude.filtersMaterialButton.setOnClickListener {
-            val view = requireActivity().layoutInflater.inflate(
+            val dialogView = requireActivity().layoutInflater.inflate(
                 R.layout.claim_filtering_dialog,
                 null
             )
 
             val dialog = AlertDialog.Builder(requireContext())
-                .setView(view)
+                .setView(dialogView)
                 .create()
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {

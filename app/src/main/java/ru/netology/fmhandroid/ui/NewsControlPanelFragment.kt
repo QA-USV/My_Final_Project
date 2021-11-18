@@ -146,12 +146,7 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             }
 
             filterNewsMaterialButton.setOnClickListener {
-                val action =
-                    NewsControlPanelFragmentDirections
-                        .actionNewsControlPanelFragmentToFilterNewsFragment(
-                            R.id.newsControlPanelFragment
-                        )
-                findNavController().navigate(action)
+                findNavController().navigate(R.id.action_newsControlPanelFragment_to_filterNewsFragment)
             }
         }
 

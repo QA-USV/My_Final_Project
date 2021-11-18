@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.databinding.FragmentNewsListBinding
+import ru.netology.fmhandroid.dto.NewsFilterArgs
+import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
 @AndroidEntryPoint
@@ -67,7 +70,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
 //            filterNews(adapter)
 //        }
 
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.data.collectLatest {
                 binding.newsListSwipeRefresh.isRefreshing = false
                 adapter.submitList(it)
@@ -115,14 +118,19 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
 
             containerListNewsInclude.filterNewsMaterialButton.setOnClickListener {
-                val action =
-                    NewsListFragmentDirections
-                        .actionNewsListFragmentToFilterNewsFragment(R.id.filterNewsFragment)
-                findNavController().navigate(action)
+                findNavController().navigate(R.id.action_newsListFragment_to_filterNewsFragment)
             }
         }
 
         binding.containerListNewsInclude.newsListRecyclerView.adapter = adapter
+
+        setFragmentResultListener("requestKey") { _, bundle ->
+            val args = bundle.getParcelable<NewsFilterArgs>("filterArgs")
+            viewModel.onFilterNewsClicked(args?.category?.let { convertNewsCategory(it) },
+                args?.dates?.get(0),
+                args?.dates?.get(1)
+            )
+        }
     }
 
 //    private suspend fun filterNews(adapter: NewsListAdapter) {
