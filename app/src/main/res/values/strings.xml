@@ -158,4 +158,5 @@
     <string name="app_background_image">app background image</string>
     <string name="confirm">Confirm</string>
     <string name="filtering">Filtering</string>
+    <string name="status_claim_canceled">Canceled</string>
 </resources>

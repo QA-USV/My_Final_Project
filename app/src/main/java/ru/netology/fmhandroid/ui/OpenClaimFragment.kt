@@ -26,6 +26,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import android.widget.Button
 import android.widget.EditText
+import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 
 
 //    TODO("В этом фрагменте после внедрения авторизации требуется изменить хардкод юзера на залогиненного пользователя!!!!")
@@ -58,7 +59,7 @@ class OpenClaimFragment : Fragment() {
 
         claimCardViewModel.init(claimId)
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
                 renderingContentOfClaim(fullClaim, fullClaim.executor)
             }
@@ -68,18 +69,6 @@ class OpenClaimFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        lifecycleScope.launchWhenResumed {
-            claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                renderingContentOfClaim(fullClaim, fullClaim.executor)
-            }
-        }
-        lifecycleScope.launchWhenResumed {
-            claimCardViewModel.claimStatusChangedEvent.collect {
-                claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                    renderingContentOfClaim(fullClaim, fullClaim.executor)
-                }
-            }
-        }
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimStatusChangeExceptionEvent.collect {
                 showErrorToast(R.string.error)
@@ -112,7 +101,23 @@ class OpenClaimFragment : Fragment() {
 
         val adapter = ClaimCommentListAdapter(claimCardViewModel)
 
+//        val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
+//            override fun onCard(claimComment: ClaimCommentWithCreator) {
+//                if (user.id == claimComment.creator.id) {
+//                    val action = OpenClaimFragmentDirections
+//                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+//                            claimComment,
+//                            claim.claim.id!!
+//                        )
+//                    findNavController().navigate(action)
+//                } else {
+//                    showErrorToast(R.string.no_comment_editing_rights)
+//                }
+//            }
+//        })
+
         binding.claimCommentsListRecyclerView.adapter = adapter
+
 
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimCommentUpdatedEvent.collect {
@@ -127,6 +132,17 @@ class OpenClaimFragment : Fragment() {
                 adapter.submitList(it.comments)
             }
         }
+
+        lifecycleScope.launchWhenResumed {
+            claimCardViewModel.openClaimCommentEvent.collect {
+                val action = OpenClaimFragmentDirections
+                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                        it,
+                        claim.claim.id!!
+                    )
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun showErrorToast(text: Int) {
@@ -139,7 +155,7 @@ class OpenClaimFragment : Fragment() {
 
     private fun displayingStatusOfClaim(claimStatus: Claim.Status) =
         when (claimStatus) {
-            Claim.Status.CANCELLED -> getString(R.string.cancel)
+            Claim.Status.CANCELLED -> getString(R.string.status_claim_canceled)
             Claim.Status.EXECUTED -> getString(R.string.executed)
             Claim.Status.IN_PROGRESS -> getString(R.string.in_progress)
             Claim.Status.OPEN -> getString(R.string.status_open)
@@ -195,7 +211,7 @@ class OpenClaimFragment : Fragment() {
         binding.createTimeTextView.text =
             fullClaim.claim.createDate?.let { Utils.formatTime(it) }
         binding.statusLabelTextView.text =
-            displayingStatusOfClaim(fullClaim.claim.status!!)
+            fullClaim.claim.status?.let { displayingStatusOfClaim(it) }
 
         statusMenuVisibility(
             fullClaim.claim.status!!,

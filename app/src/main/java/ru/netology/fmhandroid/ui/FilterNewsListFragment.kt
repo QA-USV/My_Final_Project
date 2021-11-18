@@ -27,7 +27,7 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
     private lateinit var binding: FragmentFilterNewsBinding
     private lateinit var vPublishDateStartPicker: TextInputEditText
     private lateinit var vPublishDateEndPicker: TextInputEditText
-    private val viewModel: NewsViewModel by viewModels()
+    private val newsListViewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,7 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         binding = FragmentFilterNewsBinding.bind(view)
 
         lifecycleScope.launch {
-            viewModel.getAllNewsCategories().collect {
+            newsListViewModel.getAllNewsCategories().collect {
                 val newsCategoryItems = it
 
                 val adapter = ArrayAdapter(requireContext(), R.layout.menu_item, newsCategoryItems)
@@ -48,7 +48,7 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.loadNewsCategoriesExceptionEvent.collect {
+            newsListViewModel.loadNewsCategoriesExceptionEvent.collect {
                 val activity = activity ?: return@collect
                 val dialog = android.app.AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.error)
@@ -146,6 +146,20 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
     }
 
     private fun navigateUp(category: String?, dates: List<Long>?) {
+//        val categoryId: Int? = if (category != null) Utils.convertNewsCategory(category) else null
+//        if (parentFragmentId == R.id.newsControlPanelFragment) {
+//            newsControlPanelViewModel.onFilterNewsClicked(
+//                categoryId,
+//                dateStart = dates?.get(0),
+//                dateEnd = dates?.get(1)
+//            )
+//        } else {
+//            newsListViewModel.onFilterNewsClicked(
+//                categoryId,
+//                dateStart = dates?.get(0),
+//                dateEnd = dates?.get(1)
+//            )
+//        }
         val newsFilterArgs = NewsFilterArgs(
             category,
             dates

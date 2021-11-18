@@ -157,4 +157,5 @@
     <string name="app_background_image">Подложка основных экранов приложения</string>
     <string name="confirm">Подтвердить</string>
     <string name="filtering">Фильтрация</string>
+    <string name="status_claim_canceled">Отменена</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.dto.FullClaim
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
 
 interface OnClaimItemClickListener {
@@ -42,11 +43,12 @@ class ClaimListAdapter(
 
         fun bind(fullClaim: FullClaim) {
             with(binding) {
-                if (fullClaim.executor != null) {
+                val executor = fullClaim.executor
+                if (executor != null) {
                     executorNameMaterialTextView.text = Utils.generateShortUserName(
-                        fullClaim.executor.lastName!!,
-                        fullClaim.executor.firstName!!,
-                        fullClaim.executor.middleName!!
+                        executor.lastName!!,
+                        executor.firstName!!,
+                        executor.middleName!!
                     )
                 } else {
                     executorNameMaterialTextView.setText(R.string.not_assigned)

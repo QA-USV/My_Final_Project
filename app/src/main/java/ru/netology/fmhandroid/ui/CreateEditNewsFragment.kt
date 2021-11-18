@@ -24,14 +24,14 @@ import ru.netology.fmhandroid.utils.Utils.convertNewsCategory
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
-import ru.netology.fmhandroid.viewmodel.NewsViewModel
+import ru.netology.fmhandroid.viewmodel.NewsControlPanelViewModel
 import java.time.*
 import java.time.Instant.now
 import java.util.*
 
 @AndroidEntryPoint
 class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
-    private val viewModel: NewsViewModel by viewModels()
+    private val viewModel: NewsControlPanelViewModel by viewModels()
     private val args: CreateEditNewsFragmentArgs by navArgs()
 
     private lateinit var vPublishDatePicker: TextInputEditText
@@ -50,11 +50,6 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
         lifecycleScope.launch {
             viewModel.editNewsItemExceptionEvent.collect {
                 showErrorToast(R.string.error_saving)
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.loadNewsCategoriesExceptionEvent.collect {
-                showErrorToast(R.string.error)
             }
         }
         lifecycleScope.launch {
@@ -126,12 +121,12 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 val activity = activity ?: return@setOnClickListener
                 val dialog = AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.cancellation)
-                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                        dialog.dismiss()
+                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                        alertDialog.dismiss()
                         findNavController().navigateUp()
                     }
-                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        dialog.cancel()
+                    .setNegativeButton(R.string.cancel) { alertDialog, _ ->
+                        alertDialog.cancel()
                     }
                     .create()
                     .show()
