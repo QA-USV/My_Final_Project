@@ -5,12 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
-import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +17,15 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val sortDirection = MutableStateFlow(SortDirection.ASC)
+    private val clearFilter = Filter(
+        newsCategoryId = null,
+        dateStart = null,
+        dateEnd = null
+    )
+
+    private val filterFlow = MutableStateFlow(
+        clearFilter
+    )
 
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
@@ -31,15 +38,20 @@ class NewsViewModel @Inject constructor(
     }
 
     val data: Flow<List<NewsWithCreators>> by lazy {
-        newsRepository.getAllNews(
-            viewModelScope,
-            publishEnabled = true,
-            // Вынести в Utils
-            publishDateBefore = Utils.fromLocalDateTimeToTimeStamp(LocalDateTime.now())
-        ).combine(sortDirection) { news, sortDirection ->
-            when (sortDirection) {
-                SortDirection.ASC -> news
-                SortDirection.DESC -> news.reversed()
+        filterFlow.flatMapMerge { filter ->
+            newsRepository.getAllNews(
+                viewModelScope,
+                publishEnabled = true,
+                // Вынести в Utils
+                publishDateBefore = Utils.fromLocalDateTimeToTimeStamp(LocalDateTime.now()),
+                newsCategoryId = filter.newsCategoryId,
+                dateStart = filter.dateStart,
+                dateEnd = filter.dateEnd
+            ).combine(sortDirection) { news, sortDirection ->
+                when (sortDirection) {
+                    SortDirection.ASC -> news
+                    SortDirection.DESC -> news.reversed()
+                }
             }
         }
     }
@@ -48,6 +60,7 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 newsRepository.refreshNews()
+                filterFlow.value = clearFilter
             } catch (e: Exception) {
                 e.printStackTrace()
                 loadNewsExceptionEvent.emit(Unit)
@@ -71,13 +84,10 @@ class NewsViewModel @Inject constructor(
         dateStart: Long?,
         dateEnd: Long?
     ) {
-        newsRepository.getAllNews(
-            viewModelScope,
-            publishEnabled = true,
-            publishDateBefore = Utils.fromLocalDateTimeToTimeStamp(LocalDateTime.now()),
-            newsCategoryId,
-            dateStart,
-            dateEnd
+        filterFlow.value = Filter(
+            newsCategoryId = newsCategoryId,
+            dateStart = dateStart,
+            dateEnd = dateEnd
         )
     }
 
@@ -115,4 +125,10 @@ class NewsViewModel @Inject constructor(
             DESC -> ASC
         }
     }
+
+    private class Filter(
+        val newsCategoryId: Int?,
+        val dateStart: Long?,
+        val dateEnd: Long?
+    )
 }

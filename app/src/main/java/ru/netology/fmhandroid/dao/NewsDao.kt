@@ -14,7 +14,8 @@ interface NewsDao {
             WHERE (:publishEnabled IS NULL OR :publishEnabled = publishEnabled)
             AND (:publishDateBefore IS NULL OR publishDate <= :publishDateBefore)
             AND (:newsCategoryId IS NULL OR :newsCategoryId = newsCategoryId)
-            AND (:dateStart IS NULL AND :dateEnd IS NULL OR publishDate BETWEEN :dateStart AND :dateEnd)
+            AND (:dateStart IS NULL OR publishDate >= :dateStart)
+            AND (:dateEnd IS NULL OR publishDate <= :dateEnd)
             ORDER BY publishDate DESC
         """
     )
@@ -70,3 +71,5 @@ interface NewsCategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(category: NewsCategoryEntity)
 }
+
+// AND (:dateStart IS NULL AND :dateEnd IS NULL OR publishDate BETWEEN :dateStart AND :dateEnd)

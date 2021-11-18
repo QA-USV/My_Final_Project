@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/claim_filter_dialog_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/card_view_padding">
+    android:padding="24dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/claim_filter_dialog_title"
@@ -20,6 +19,7 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/item_filter_open"
+        style="@style/LargeBlackTextStyle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -30,6 +30,7 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/item_filter_in_progress"
+        style="@style/LargeBlackTextStyle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_view_padding"
@@ -40,6 +41,7 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/item_filter_executed"
+        style="@style/LargeBlackTextStyle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_view_padding"
@@ -50,6 +52,7 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/item_filter_cancelled"
+        style="@style/LargeBlackTextStyle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_view_padding"
@@ -66,16 +69,20 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-        android:id="@+id/claim_filter_cancel_material_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel" />
+            android:id="@+id/claim_filter_cancel_material_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textColor="@color/filtering_claim_title_text_color"
+            app:strokeColor="@color/filtering_claim_title_text_color"
+            app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/claim_list_filter_ok_material_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:text="@android:string/ok"/>
+            android:text="@android:string/ok" />
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -99,22 +99,22 @@ class OpenClaimFragment : Fragment() {
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
             .setText(R.string.claim)
 
-//        val adapter = ClaimCommentListAdapter(claimCardViewModel)
+        val adapter = ClaimCommentListAdapter(claimCardViewModel)
 
-        val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
-            override fun onCard(claimComment: ClaimCommentWithCreator) {
-                if (user.id == claimComment.creator.id) {
-                    val action = OpenClaimFragmentDirections
-                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                            claimComment,
-                            claim.claim.id!!
-                        )
-                    findNavController().navigate(action)
-                } else {
-                    showErrorToast(R.string.no_comment_editing_rights)
-                }
-            }
-        })
+//        val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
+//            override fun onCard(claimComment: ClaimCommentWithCreator) {
+//                if (user.id == claimComment.creator.id) {
+//                    val action = OpenClaimFragmentDirections
+//                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+//                            claimComment,
+//                            claim.claim.id!!
+//                        )
+//                    findNavController().navigate(action)
+//                } else {
+//                    showErrorToast(R.string.no_comment_editing_rights)
+//                }
+//            }
+//        })
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
@@ -132,6 +132,17 @@ class OpenClaimFragment : Fragment() {
                 adapter.submitList(it.comments)
             }
         }
+
+        lifecycleScope.launchWhenResumed {
+            claimCardViewModel.openClaimCommentEvent.collect {
+                val action = OpenClaimFragmentDirections
+                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                        it,
+                        claim.claim.id!!
+                    )
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun showErrorToast(text: Int) {
@@ -144,7 +155,7 @@ class OpenClaimFragment : Fragment() {
 
     private fun displayingStatusOfClaim(claimStatus: Claim.Status) =
         when (claimStatus) {
-            Claim.Status.CANCELLED -> getString(R.string.cancel)
+            Claim.Status.CANCELLED -> getString(R.string.status_claim_canceled)
             Claim.Status.EXECUTED -> getString(R.string.executed)
             Claim.Status.IN_PROGRESS -> getString(R.string.in_progress)
             Claim.Status.OPEN -> getString(R.string.status_open)
@@ -200,7 +211,7 @@ class OpenClaimFragment : Fragment() {
         binding.createTimeTextView.text =
             fullClaim.claim.createDate?.let { Utils.formatTime(it) }
         binding.statusLabelTextView.text =
-            displayingStatusOfClaim(fullClaim.claim.status!!)
+            fullClaim.claim.status?.let { displayingStatusOfClaim(it) }
 
         statusMenuVisibility(
             fullClaim.claim.status!!,

@@ -9,10 +9,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
-import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.FullClaim
+import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.ui.OpenClaimFragmentDirections
 import javax.inject.Inject
@@ -28,6 +25,20 @@ class ClaimCardViewModel @Inject constructor(
         claimRepository.getClaimById(claimId)
     }
 
+    // Временная переменная. После авторизации заменить на залогиненного юзера
+    val user = User(
+        id = 1,
+        login = "User-1",
+        password = "abcd",
+        firstName = "Дмитрий",
+        lastName = "Винокуров",
+        middleName = "Владимирович",
+        phoneNumber = "+79109008765",
+        email = "Vinokurov@mail.ru",
+        deleted = false
+    )
+
+    val openClaimCommentEvent = MutableSharedFlow<ClaimCommentWithCreator>()
     val claimStatusChangedEvent = MutableSharedFlow<Unit>()
     val claimStatusChangeExceptionEvent = MutableSharedFlow<Unit>()
     val claimUpdateExceptionEvent = MutableSharedFlow<Unit>()
@@ -130,17 +141,12 @@ class ClaimCardViewModel @Inject constructor(
 
     // region OnClaimCommentItemClickListener
     override fun onCard(claimComment: ClaimCommentWithCreator) {
-//        if (user.id == claimComment.creator.id) {
-//            val action = OpenClaimFragmentDirections
-//
-//                .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-//                    claimComment,
-//                    claim.claim.id!!
-//                )
-//            findNavController().navigate(action)
-//        } else viewModelScope.launch {
-//            showNoCommentEditingRightsError.emit(Unit)
-//        }
+        viewModelScope.launch {
+            if (user.id == claimComment.creator.id) {
+                openClaimCommentEvent.emit(claimComment)
+            } else
+                showNoCommentEditingRightsError.emit(Unit)
+        }
     }
 // endregion OnClaimCommentItemClickListener
 }
