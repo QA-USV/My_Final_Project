@@ -1,14 +1,9 @@
 package ru.netology.fmhandroid.ui
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.Constraints
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +11,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.checkbox.MaterialCheckBox
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +19,6 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
-import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
@@ -131,40 +124,8 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         }
 
         binding.containerListClaimInclude.filtersMaterialButton.setOnClickListener {
-            val dialogView = requireActivity().layoutInflater.inflate(
-                R.layout.claim_filtering_dialog,
-                null
-            )
-
-            val dialog = AlertDialog.Builder(requireContext())
-                .setView(dialogView)
-                .create()
-
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.statusesFlow.collectLatest {
-                    it.map { status ->
-                        displayingCurrentStatusesInCheckboxes(status, dialogView)
-                    }
-                }
-            }
-
-            dialog.setOnShowListener {
-                val buttonOk: Button =
-                    dialogView.findViewById(R.id.claim_list_filter_ok_material_button)
-                val buttonCancel: Button =
-                    dialogView.findViewById(R.id.claim_filter_cancel_material_button)
-                buttonOk.setOnClickListener {
-                    val checkedStatusList = mutableListOfClaimStatus(dialogView)
-
-                    viewModel.onFilterClaimsMenuItemClicked(checkedStatusList)
-
-                    dialog.dismiss()
-                }
-                buttonCancel.setOnClickListener {
-                    dialog.dismiss()
-                }
-            }
-            dialog.show()
+            val dialog = ClaimListFilteringDialogFragment()
+            dialog.show(childFragmentManager, "custom")
         }
 
         binding.containerCustomAppBarIncludeOnFragmentListClaim.mainMenuImageButton.setOnClickListener {
@@ -173,42 +134,6 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
         binding.containerListClaimInclude.addNewClaimMaterialButton.setOnClickListener {
             findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
-        }
-    }
-
-    private fun mutableListOfClaimStatus(dialogView: View): MutableList<Claim.Status> {
-        val checkedStatusList = mutableListOf<Claim.Status>()
-
-        if (dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked)
-            checkedStatusList.add(Claim.Status.OPEN)
-        if (dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked)
-            checkedStatusList.add(Claim.Status.IN_PROGRESS)
-        if (dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked)
-            checkedStatusList.add(Claim.Status.EXECUTED)
-        if (dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked)
-            checkedStatusList.add(Claim.Status.CANCELLED)
-        return checkedStatusList
-    }
-
-    private fun displayingCurrentStatusesInCheckboxes(
-        status: Claim.Status,
-        dialogView: View
-    ) {
-
-        dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked =
-            status == Claim.Status.OPEN
-
-        if (status == Claim.Status.IN_PROGRESS) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked =
-                true
-        }
-        if (status == Claim.Status.EXECUTED) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked =
-                true
-        }
-        if (status == Claim.Status.CANCELLED) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked =
-                true
         }
     }
 }

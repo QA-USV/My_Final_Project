@@ -26,7 +26,6 @@ import ru.netology.fmhandroid.viewmodel.NewsControlPanelViewModel
 class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) {
     private lateinit var binding: FragmentNewsControlPanelBinding
     private val viewModel: NewsControlPanelViewModel by viewModels()
-//    private var data: Flow<List<NewsWithCreators>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,10 +86,6 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                     .show()
             }
         })
-
-//        lifecycleScope.launchWhenCreated {
-//            filterNews(adapter)
-//        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -157,38 +152,4 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             binding.newsControlPanelSwipeToRefresh.isRefreshing = false
         }
     }
-
-//    private suspend fun filterNews(adapter: NewsControlPanelListAdapter) {
-//        setFragmentResultListener("requestKey") { _, bundle ->
-//            val args = bundle.getParcelable<NewsFilterArgs>("filterArgs")
-//            lifecycleScope.launch {
-//                if (args?.category == null && args?.dates == null) data = viewModel.data
-//                args?.category?.let { category ->
-//                    data = when (args.dates) {
-//                        null -> viewModel.filterNewsByCategory(convertNewsCategory(category))
-//                        else -> viewModel.filterNewsByCategoryAndPublishDate(
-//                            convertNewsCategory(category), args.dates[0], args.dates[1]
-//                        )
-//                    }
-//                }
-//                if (args?.category == null) {
-//                    data = args?.dates?.let { viewModel.filterNewsByPublishDate(it[0], it[1]) }
-//                }
-//                submitList(adapter, data)
-//            }
-//        }
-//        if (data == null) submitList(adapter, viewModel.data) else submitList(adapter, data)
-//    }
-//
-//    private fun submitList(
-//        adapter: NewsControlPanelListAdapter,
-//        data: Flow<List<NewsWithCreators>>?
-//    ) {
-//        lifecycleScope.launch {
-//            data?.collectLatest { state ->
-//                adapter.submitList(state)
-//                binding.emptyTextTextView.isVisible = state.isEmpty()
-//            }
-//        }
-//    }
 }

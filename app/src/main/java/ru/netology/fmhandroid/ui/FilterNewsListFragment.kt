@@ -139,27 +139,12 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
             } else navigateUp(category, dates)
         }
 
-
         binding.cancelButton.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
     private fun navigateUp(category: String?, dates: List<Long>?) {
-//        val categoryId: Int? = if (category != null) Utils.convertNewsCategory(category) else null
-//        if (parentFragmentId == R.id.newsControlPanelFragment) {
-//            newsControlPanelViewModel.onFilterNewsClicked(
-//                categoryId,
-//                dateStart = dates?.get(0),
-//                dateEnd = dates?.get(1)
-//            )
-//        } else {
-//            newsListViewModel.onFilterNewsClicked(
-//                categoryId,
-//                dateStart = dates?.get(0),
-//                dateEnd = dates?.get(1)
-//            )
-//        }
         val newsFilterArgs = NewsFilterArgs(
             category,
             dates

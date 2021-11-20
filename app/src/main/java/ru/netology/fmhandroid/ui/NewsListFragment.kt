@@ -24,7 +24,6 @@ import ru.netology.fmhandroid.viewmodel.NewsViewModel
 class NewsListFragment : Fragment(R.layout.fragment_news_list) {
     private lateinit var binding: FragmentNewsListBinding
 
-    //    private var data: Flow<List<NewsWithCreators>>? = null
     private val viewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,10 +65,6 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
 
         val adapter = NewsListAdapter()
 
-//        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-//            filterNews(adapter)
-//        }
-
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.data.collectLatest {
                 binding.newsListSwipeRefresh.isRefreshing = false
@@ -101,7 +96,6 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             viewModel.onRefresh()
         }
 
-
         with(binding) {
             containerListNewsInclude.editNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(
@@ -126,44 +120,11 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
 
         setFragmentResultListener("requestKey") { _, bundle ->
             val args = bundle.getParcelable<NewsFilterArgs>("filterArgs")
-            viewModel.onFilterNewsClicked(args?.category?.let { convertNewsCategory(it) },
+            viewModel.onFilterNewsClicked(
+                args?.category?.let { convertNewsCategory(it) },
                 args?.dates?.get(0),
                 args?.dates?.get(1)
             )
         }
     }
-
-//    private suspend fun filterNews(adapter: NewsListAdapter) {
-//        setFragmentResultListener("requestKey") { _, bundle ->
-//            val args = bundle.getParcelable<NewsFilterArgs>("filterArgs")
-//            lifecycleScope.launch {
-//                if (args?.category == null && args?.dates == null) data = viewModel.data
-//                args?.category?.let { category ->
-//                    data = when (args.dates) {
-//                        null -> viewModel.filterNewsByCategory(convertNewsCategory(category))
-//                        else -> viewModel.filterNewsByCategoryAndPublishDate(
-//                            convertNewsCategory(category), args.dates[0], args.dates[1]
-//                        )
-//                    }
-//                }
-//                if (args?.category == null) {
-//                    data = args?.dates?.let { viewModel.filterNewsByPublishDate(it[0], it[1]) }
-//                }
-//                submitList(adapter, data)
-//            }
-//        }
-//        if (data == null) submitList(adapter, viewModel.data) else submitList(adapter, data)
-//    }
-//
-//    private fun submitList(adapter: NewsListAdapter, data: Flow<List<NewsWithCreators>>?) {
-//        lifecycleScope.launch {
-//            data?.collectLatest { state ->
-//                adapter.submitList(state.filter {
-//                    it.news.newsItem.publishEnabled
-//                            && Utils.fromLongToLocalDateTime(it.news.newsItem.publishDate!!) <= LocalDateTime.now()
-//                })
-//                binding.containerListNewsInclude.emptyTextTextView.isVisible = state.isEmpty()
-//            }
-//        }
-//    }
 }

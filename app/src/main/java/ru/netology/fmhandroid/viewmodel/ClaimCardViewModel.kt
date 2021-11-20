@@ -1,17 +1,14 @@
 package ru.netology.fmhandroid.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
-import ru.netology.fmhandroid.ui.OpenClaimFragmentDirections
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
