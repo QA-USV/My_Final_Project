@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -59,6 +60,7 @@ class ClaimListFilteringDialogFragment: DialogFragment() {
         return dialog
     }
 
+
     private fun mutableListOfClaimStatus(dialogView: View): MutableList<Claim.Status> {
         val checkedStatusList = mutableListOf<Claim.Status>()
 
@@ -77,23 +79,14 @@ class ClaimListFilteringDialogFragment: DialogFragment() {
         status: Claim.Status,
         dialogView: View
     ) {
-
-        if (status == Claim.Status.OPEN) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_open).isChecked =
-                true
+        fun check(@IdRes id: Int) {
+            dialogView.findViewById<MaterialCheckBox>(id).isChecked = true
         }
-
-        if (status == Claim.Status.IN_PROGRESS) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_in_progress).isChecked =
-                true
-        }
-        if (status == Claim.Status.EXECUTED) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_executed).isChecked =
-                true
-        }
-        if (status == Claim.Status.CANCELLED) {
-            dialogView.findViewById<MaterialCheckBox>(R.id.item_filter_cancelled).isChecked =
-                true
+        when(status) {
+            Claim.Status.CANCELLED -> check(R.id.item_filter_cancelled)
+            Claim.Status.EXECUTED -> check(R.id.item_filter_executed)
+            Claim.Status.IN_PROGRESS -> check(R.id.item_filter_in_progress)
+            Claim.Status.OPEN -> check(R.id.item_filter_open)
         }
     }
 }

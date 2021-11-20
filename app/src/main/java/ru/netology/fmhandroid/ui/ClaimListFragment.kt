@@ -17,9 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
-import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
-import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
@@ -84,12 +82,11 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         val adapter = ClaimListAdapter(viewModel)
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.opeClaimEvent.collectLatest {
-                if (findNavController().currentDestination?.id == R.id.claimListFragment) {
+            viewModel.openClaimEvent.collectLatest {
                     val action = ClaimListFragmentDirections
                         .actionClaimListFragmentToOpenClaimFragment(it)
                     findNavController().navigate(action)
-                }
+
             }
         }
 

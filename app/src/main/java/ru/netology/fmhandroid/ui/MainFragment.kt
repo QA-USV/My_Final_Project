@@ -18,7 +18,6 @@ import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.utils.Utils
-import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
@@ -32,6 +31,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        lifecycleScope.launchWhenStarted {
+            claimViewModel.openClaimEvent.collectLatest {
+                val action = MainFragmentDirections
+                    .actionMainFragmentToOpenClaimFragment(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,15 +103,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         val claimListAdapter = ClaimListAdapter(claimViewModel)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            claimViewModel.opeClaimEvent.collectLatest {
-                if (findNavController().currentDestination?.id == R.id.mainFragment) {
-                    val action = MainFragmentDirections
-                        .actionMainFragmentToOpenClaimFragment(it)
-                    findNavController().navigate(action)
-                }
-            }
-        }
 
         binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter =
             claimListAdapter
