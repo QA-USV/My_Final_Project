@@ -1,21 +1,26 @@
 package ru.netology.fmhandroid.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
+import ru.netology.fmhandroid.ui.ClaimListFragmentDirections
 import javax.inject.Inject
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
     private val claimRepository: ClaimRepository
-) : ViewModel() {
+) : ViewModel(), OnClaimItemClickListener {
 
     val claimsLoadException = MutableSharedFlow<Unit>()
+    val claimCommentsLoadedEvent = MutableSharedFlow<Unit>()
+    val claimCommentsLoadExceptionEvent = MutableSharedFlow<Unit>()
+    val opeClaimEvent = MutableSharedFlow<FullClaim>()
 
     val statusesFlow = MutableStateFlow(
         listOf(
@@ -47,4 +52,26 @@ class ClaimViewModel @Inject constructor(
             }
         }
     }
+
+    fun getAllClaimComments(id: Int) {
+        viewModelScope.launch {
+            try {
+                claimRepository.getAllCommentsForClaim(id)
+                claimCommentsLoadedEvent.emit(Unit)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                claimCommentsLoadExceptionEvent.emit(Unit)
+            }
+        }
+    }
+
+    override fun onCard(fullClaim: FullClaim) {
+        fullClaim.claim.id?.let { getAllClaimComments(it) }
+        viewModelScope.launch {
+            claimCommentsLoadedEvent.collect {
+                opeClaimEvent.emit(fullClaim)
+            }
+        }
+    }
 }
+

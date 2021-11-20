@@ -16,9 +16,7 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.NewsListAdapter
-import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
-import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
@@ -28,8 +26,7 @@ import ru.netology.fmhandroid.viewmodel.NewsViewModel
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
 
-    private val viewModelClaim: ClaimViewModel by viewModels()
-    private val claimCardViewModel: ClaimCardViewModel by viewModels()
+    private val claimViewModel: ClaimViewModel by viewModels()
     private val viewModelNews: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,24 +89,27 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 if (Utils.isOnline(requireContext())) {
                     findNavController().navigate(R.id.action_mainFragment_to_claimListFragment)
                 } else {
-                 showErrorToast(R.string.error)
+                    showErrorToast(R.string.error)
                 }
             }
         }
 
-        val claimListAdapter = ClaimListAdapter(object : OnClaimItemClickListener {
-            override fun onCard(fullClaim: FullClaim) {
-                fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
-                val action = MainFragmentDirections
-                    .actionMainFragmentToOpenClaimFragment(fullClaim)
-                findNavController().navigate(action)
+        val claimListAdapter = ClaimListAdapter(claimViewModel)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            claimViewModel.opeClaimEvent.collectLatest {
+                if (findNavController().currentDestination?.id == R.id.mainFragment) {
+                    val action = MainFragmentDirections
+                        .actionMainFragmentToOpenClaimFragment(it)
+                    findNavController().navigate(action)
+                }
             }
-        })
+        }
 
         binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter =
             claimListAdapter
         lifecycleScope.launchWhenCreated {
-            viewModelClaim.data.collectLatest { state ->
+            claimViewModel.data.collectLatest { state ->
                 claimListAdapter.submitList(state.take(n = 6))
             }
         }
@@ -157,10 +157,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
                 viewModelNews.onRefresh()
-                viewModelClaim.onRefresh()
+                claimViewModel.onRefresh()
 
                 lifecycleScope.launchWhenResumed {
-                    viewModelClaim.claimsLoadException.collect {
+                    claimViewModel.claimsLoadException.collect {
                         showErrorToast(R.string.error)
                     }
                 }
@@ -173,7 +173,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }.take(n = 3))
             }
 
-            viewModelClaim.data.collectLatest { state ->
+            claimViewModel.data.collectLatest { state ->
                 claimListAdapter.submitList(state.take(n = 6))
                 binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
                     state.isEmpty()

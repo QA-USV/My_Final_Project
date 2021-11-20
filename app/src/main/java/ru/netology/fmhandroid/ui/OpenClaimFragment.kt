@@ -101,23 +101,7 @@ class OpenClaimFragment : Fragment() {
 
         val adapter = ClaimCommentListAdapter(claimCardViewModel)
 
-//        val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
-//            override fun onCard(claimComment: ClaimCommentWithCreator) {
-//                if (user.id == claimComment.creator.id) {
-//                    val action = OpenClaimFragmentDirections
-//                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-//                            claimComment,
-//                            claim.claim.id!!
-//                        )
-//                    findNavController().navigate(action)
-//                } else {
-//                    showErrorToast(R.string.no_comment_editing_rights)
-//                }
-//            }
-//        })
-
         binding.claimCommentsListRecyclerView.adapter = adapter
-
 
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.claimCommentUpdatedEvent.collect {

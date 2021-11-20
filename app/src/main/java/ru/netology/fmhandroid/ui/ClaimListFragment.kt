@@ -81,20 +81,17 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             root.setBackgroundResource(R.drawable.background_app)
         }
 
-        val adapter = ClaimListAdapter(object : OnClaimItemClickListener {
-            override fun onCard(fullClaim: FullClaim) {
-                fullClaim.claim.id?.let { claimCardViewModel.getAllClaimComments(it) }
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        claimCardViewModel.claimCommentsLoadedEvent.collect {
-                            val action = ClaimListFragmentDirections
-                                .actionClaimListFragmentToOpenClaimFragment(fullClaim)
-                            findNavController().navigate(action)
-                        }
-                    }
+        val adapter = ClaimListAdapter(viewModel)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.opeClaimEvent.collectLatest {
+                if (findNavController().currentDestination?.id == R.id.claimListFragment) {
+                    val action = ClaimListFragmentDirections
+                        .actionClaimListFragmentToOpenClaimFragment(it)
+                    findNavController().navigate(action)
                 }
             }
-        })
+        }
 
         binding.claimListSwipeRefresh.setOnRefreshListener {
             viewModel.onRefresh()
