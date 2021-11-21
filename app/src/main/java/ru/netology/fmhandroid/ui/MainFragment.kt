@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +25,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
 
     private val claimViewModel: ClaimViewModel by viewModels()
-    private val viewModelNews: NewsViewModel by viewModels()
+    private val newsViewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +102,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         val claimListAdapter = ClaimListAdapter(claimViewModel)
 
-
         binding.containerListClaimIncludeOnFragmentMain.claimListRecyclerView.adapter =
             claimListAdapter
         lifecycleScope.launchWhenCreated {
@@ -145,7 +143,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter =
             newsListAdapter
         lifecycleScope.launchWhenCreated {
-            viewModelNews.data.collect { state ->
+            newsViewModel.data.collect { state ->
                 newsListAdapter.submitList(state.filter {
                     it.news.newsItem.publishEnabled
                 }.take(n = 3))
@@ -154,7 +152,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
-                viewModelNews.onRefresh()
+                newsViewModel.onRefresh()
                 claimViewModel.onRefresh()
 
                 lifecycleScope.launchWhenResumed {
@@ -163,18 +161,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     }
                 }
                 binding.mainSwipeRefresh.isRefreshing = false
-            }
-
-            viewModelNews.data.collectLatest { state ->
-                newsListAdapter.submitList(state.filter {
-                    it.news.newsItem.publishEnabled
-                }.take(n = 3))
-            }
-
-            claimViewModel.data.collectLatest { state ->
-                claimListAdapter.submitList(state.take(n = 6))
-                binding.containerListClaimIncludeOnFragmentMain.emptyClaimListGroup.isVisible =
-                    state.isEmpty()
             }
         }
     }

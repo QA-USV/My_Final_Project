@@ -131,5 +131,5 @@ class ClaimCardViewModel @Inject constructor(
                 showNoCommentEditingRightsError.emit(Unit)
         }
     }
-// endregion OnClaimCommentItemClickListener
+    // endregion OnClaimCommentItemClickListener
 }

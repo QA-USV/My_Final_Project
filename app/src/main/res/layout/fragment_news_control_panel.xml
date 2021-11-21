@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_background_image"
             android:scaleType="centerCrop"
-            android:src="@drawable/app_background_3168x3168" />
+            android:src="@drawable/app_background_1920x1920" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/news_control_panel_swipe_to_refresh"

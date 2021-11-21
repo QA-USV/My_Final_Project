@@ -158,4 +158,5 @@
     <string name="confirm">Подтвердить</string>
     <string name="filtering">Фильтрация</string>
     <string name="status_claim_canceled">Отменена</string>
+    <string name="claim_comments_load_error">Ошибка при загрузке комментариев</string>
 </resources>

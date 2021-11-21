@@ -60,7 +60,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<TextView
+    <TextView
         android:id="@+id/all_claims_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,68 +71,68 @@
         android:textColor="@color/execution_priority_low"
         android:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/all_claims_cards_block_constraint_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-
-        <ImageView
-            android:id="@+id/empty_claim_list_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/empty_list_image"
-            app:layout_constraintBottom_toTopOf="@+id/empty_claim_list_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/empty_claim_list_text_view"
-            style="@style/EmptyListTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_view_padding"
-            android:text="@string/empty_claim_list_text"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/claim_retry_text_view"
-            app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
-            app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_image_view"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/claim_retry_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_view_padding"
-            android:text="@string/refresh"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_text_view" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/empty_claim_list_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="empty_claim_list_image_view, empty_claim_list_text_view, claim_retry_text_view" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/claim_list_recycler_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/all_claims_cards_block_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:layout_gravity="center"
-            android:clipToPadding="true"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_claim"
-            tools:itemCount="2"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/empty_claim_list_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_list_image"
+                app:layout_constraintBottom_toTopOf="@+id/empty_claim_list_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/empty_claim_list_text_view"
+                style="@style/EmptyListTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_view_padding"
+                android:text="@string/empty_claim_list_text"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/claim_retry_text_view"
+                app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
+                app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_image_view"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/claim_retry_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_view_padding"
+                android:text="@string/refresh"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_text_view" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/empty_claim_list_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="empty_claim_list_image_view, empty_claim_list_text_view, claim_retry_text_view" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/claim_list_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipToPadding="true"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_claim" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

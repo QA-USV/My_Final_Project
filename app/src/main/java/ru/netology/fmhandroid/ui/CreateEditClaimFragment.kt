@@ -28,9 +28,7 @@ import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
 
 @AndroidEntryPoint
@@ -42,7 +40,6 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     private var executor: User? = null
 
     //временно, пока нет авторизации
-    private val creatorId = 1
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -118,12 +115,12 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 val activity = activity ?: return@setOnClickListener
                 val dialog = AlertDialog.Builder(activity)
                 dialog.setMessage(R.string.cancellation)
-                    .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                        dialog.dismiss()
+                    .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                        alertDialog.dismiss()
                         findNavController().navigateUp()
                     }
-                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        dialog.cancel()
+                    .setNegativeButton(R.string.cancel) { alertDialog, _ ->
+                        alertDialog.cancel()
                     }
                     .create()
                     .show()
@@ -138,8 +135,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     descriptionTextInputLayout.editText?.text.isNullOrBlank()
                 ) {
                     dialog.setMessage(R.string.empty_fields)
-                        .setPositiveButton(R.string.fragment_positive_button) { dialog, _ ->
-                            dialog.cancel()
+                        .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
+                            alertDialog.cancel()
                         }
                         .create()
                         .show()

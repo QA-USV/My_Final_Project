@@ -53,6 +53,13 @@ class ClaimViewModel @Inject constructor(
 
     override fun onCard(fullClaim: FullClaim) {
         viewModelScope.launch {
+            try {
+                fullClaim.claim.id?.let { claimRepository.getAllCommentsForClaim(it) }
+                claimCommentsLoadedEvent.emit(Unit)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                claimCommentsLoadExceptionEvent.emit(Unit)
+            }
             openClaimEvent.emit(fullClaim)
         }
     }

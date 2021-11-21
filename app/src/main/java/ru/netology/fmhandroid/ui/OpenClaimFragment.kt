@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,26 +16,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
-import ru.netology.fmhandroid.dto.*
+import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.FullClaim
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
-import android.widget.Button
-import android.widget.EditText
-import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 
 
 //    TODO("В этом фрагменте после внедрения авторизации требуется изменить хардкод юзера на залогиненного пользователя!!!!")
 @AndroidEntryPoint
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
-
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
 
     val claimId: Int by lazy {
@@ -59,9 +59,18 @@ class OpenClaimFragment : Fragment() {
 
         claimCardViewModel.init(claimId)
 
-        lifecycleScope.launchWhenCreated {
-            claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                renderingContentOfClaim(fullClaim, fullClaim.executor)
+        lifecycleScope.launchWhenResumed {
+            claimCardViewModel.openClaimCommentEvent.collect {
+                val action = it.claimComment.claimId?.let { it1 ->
+                    OpenClaimFragmentDirections
+                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                            it,
+                            it1
+                        )
+                }
+                if (action != null) {
+                    findNavController().navigate(action)
+                }
             }
         }
     }
@@ -89,9 +98,6 @@ class OpenClaimFragment : Fragment() {
 
         binding = FragmentOpenClaimBinding.bind(view)
 
-        val args: OpenClaimFragmentArgs by navArgs()
-        val claim = args.argClaim
-
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarTitleTextView.visibility =
             View.GONE
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.mainMenuImageButton.visibility =
@@ -103,28 +109,10 @@ class OpenClaimFragment : Fragment() {
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
-        lifecycleScope.launchWhenResumed {
-            claimCardViewModel.claimCommentUpdatedEvent.collect {
-                claimCardViewModel.dataFullClaim.collect {
-                    adapter.submitList(it.comments)
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            claimCardViewModel.dataFullClaim.collect {
-                adapter.submitList(it.comments)
-            }
-        }
-
-        lifecycleScope.launchWhenResumed {
-            claimCardViewModel.openClaimCommentEvent.collect {
-                val action = OpenClaimFragmentDirections
-                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                        it,
-                        claim.claim.id!!
-                    )
-                findNavController().navigate(action)
+        lifecycleScope.launchWhenStarted {
+            claimCardViewModel.dataFullClaim.collect { fullClaim ->
+                renderingContentOfClaim(fullClaim, fullClaim.executor)
+                adapter.submitList(fullClaim.comments)
             }
         }
     }

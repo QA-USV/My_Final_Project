@@ -18,16 +18,13 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
-import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
 class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
     private lateinit var binding: FragmentListClaimBinding
-
     private val viewModel: ClaimViewModel by viewModels()
-    private val claimCardViewModel: ClaimCardViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +38,24 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                         Toast.LENGTH_LONG
                     ).show()
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.openClaimEvent.collectLatest {
+                val action = ClaimListFragmentDirections
+                    .actionClaimListFragmentToOpenClaimFragment(it)
+                findNavController().navigate(action)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.claimCommentsLoadExceptionEvent.collectLatest {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.claim_comments_load_error,
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -81,32 +96,9 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
         val adapter = ClaimListAdapter(viewModel)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.openClaimEvent.collectLatest {
-                    val action = ClaimListFragmentDirections
-                        .actionClaimListFragmentToOpenClaimFragment(it)
-                    findNavController().navigate(action)
-
-            }
-        }
-
         binding.claimListSwipeRefresh.setOnRefreshListener {
             viewModel.onRefresh()
             binding.claimListSwipeRefresh.isRefreshing = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.data.collectLatest { state ->
-                        adapter.submitList(state)
-                        binding.containerListClaimInclude.claimListRecyclerView.post {
-                            binding.containerListClaimInclude.claimListRecyclerView.scrollToPosition(
-                                0
-                            )
-                        }
-                        binding.containerListClaimInclude.emptyClaimListGroup.isVisible =
-                            state.isEmpty()
-                    }
-                }
-            }
         }
 
         binding.containerListClaimInclude.claimListRecyclerView.adapter = adapter
@@ -114,6 +106,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
                 binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
+
             }
         }
 

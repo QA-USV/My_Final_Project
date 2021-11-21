@@ -123,7 +123,6 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
                 }
             }
         }
-
         binding.cancelButton.setOnClickListener {
             findNavController().navigateUp()
         }
