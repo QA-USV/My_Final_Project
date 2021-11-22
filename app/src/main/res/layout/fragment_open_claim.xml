@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/container_custom_app_bar_include_on_fragment_open_claim"
         layout="@layout/top_custom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -165,7 +164,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/status_label_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#DE000000"
@@ -191,7 +189,6 @@
                     app:layout_constraintTop_toBottomOf="@id/status_icon_image_view">
 
                     <TextView
-                        android:id="@+id/description_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#DE000000"
@@ -310,7 +307,6 @@
                             tools:listitem="@layout/item_comment" />
 
                         <TextView
-                            android:id="@+id/add_comment_label_text_view"
                             style="@style/card_label_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -320,7 +316,6 @@
                             app:layout_constraintTop_toBottomOf="@+id/claim_comments_list_recycler_view" />
 
                         <ImageButton
-                            android:id="@+id/add_comment_image_button"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@android:color/transparent"
@@ -332,7 +327,6 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <ImageButton
-                    android:id="@+id/close_image_button"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -346,7 +340,6 @@
                     app:layout_constraintTop_toBottomOf="@id/comments_material_card_view" />
 
                 <ImageButton
-                    android:id="@+id/status_processing_image_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="24dp"

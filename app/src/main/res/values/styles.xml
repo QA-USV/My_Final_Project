@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="page_title">
-        <item name="android:textSize">
-            20sp
-        </item>
-        <item name="android:letterSpacing">
-            0.01
-        </item>
-        <item name="android:textColor">
-            #FFFFFF
-        </item>
-    </style>
     <!--    -->
     <!--    <style name="location">-->
     <!--        <item name="android:textSize">-->
@@ -82,20 +71,6 @@
         <item name="android:textColor">
             #DE000000
         </item>
-    </style>
-
-    <style name="circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="AppNormalButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <style name="SmallLightGreyTextStyle">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/half_light_grey</item>
     </style>
 
     <style name="SmallBlackTextStyle">
@@ -182,18 +157,6 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="AppToolBarTitle">
-        <item name="android:title">@string/app_name</item>
-        <item name="android:textSize">14sp</item>
-        <item name="textFillColor">@color/white</item>
-    </style>
-
-    <style name="AppToolBarSubTitle">
-        <item name="android:title">@string/app_name</item>
-        <item name="android:textSize">26sp</item>
-        <item name="textFillColor">@color/white</item>
-    </style>
-
     <style name="EmptyListTextStyle">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#878787</item>
@@ -204,11 +167,6 @@
         <item name="iconPadding">0dp</item>
         <item name="android:minWidth">18dp</item>
         <item name="android:minHeight">18dp</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">30%</item>
     </style>
 
     <style name="LabelTextStyle">

@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onStart
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimCommentDao
 import ru.netology.fmhandroid.dao.ClaimDao
@@ -12,6 +12,7 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.entity.toEntity
+import ru.netology.fmhandroid.exceptions.AppException
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,13 +27,9 @@ class ClaimRepositoryImpl @Inject constructor(
     override fun getClaimsByStatus(
         coroutineScope: CoroutineScope,
         listStatuses: List<Claim.Status>
-    ): Flow<List<FullClaim>> {
-        val result = claimDao.getClaimsByStatus(
-            listStatuses
-        ).flowOn(Dispatchers.Default)
-        coroutineScope.launch { refreshClaims() }
-        return result
-    }
+    ) = claimDao.getClaimsByStatus(
+        listStatuses
+    ).flowOn(Dispatchers.Default)
 
     override suspend fun refreshClaims() = makeRequest(
         request = { claimApi.getAllClaims() },

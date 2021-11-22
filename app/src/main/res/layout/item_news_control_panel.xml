@@ -2,7 +2,6 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/news_item_material_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
@@ -47,7 +46,6 @@
                 android:ellipsize="end"/>
 
             <View
-                android:id="@+id/first_separator_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
@@ -74,7 +72,6 @@
                 android:ellipsize="end"/>
 
             <View
-                android:id="@+id/second_separator_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
@@ -102,7 +99,6 @@
                 android:ellipsize="end"/>
 
             <View
-                android:id="@+id/third_separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
@@ -117,7 +113,6 @@
                 />
 
             <View
-                android:id="@+id/fourth_separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
@@ -143,7 +138,6 @@
                 app:layout_constraintTop_toTopOf="@+id/news_item_author_name_text_view" />
 
             <TextView
-                android:id="@+id/news_item_publication_date_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/card_view_padding"
@@ -155,7 +149,6 @@
                 tools:text="@string/news_item_date_format" />
 
             <TextView
-                android:id="@+id/news_item_create_date_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/card_view_padding"
@@ -191,7 +184,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view" />
 
             <TextView
-                android:id="@+id/news_item_published_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/news_item_published_icon_image_view"
@@ -205,7 +197,6 @@
                 android:ellipsize="end"/>
 
             <ImageView
-                android:id="@+id/delete_news_item_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"

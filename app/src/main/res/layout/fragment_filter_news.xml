@@ -32,7 +32,6 @@
         app:layout_constraintTop_toBottomOf="@id/filter_news_title_text_view">
 
         <AutoCompleteTextView
-            android:id="@+id/news_item_category_text_auto_complete_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -53,7 +52,6 @@
         app:layout_constraintTop_toBottomOf="@id/news_item_category_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/news_item_publish_date_start_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/news_item_date_format"
@@ -76,7 +74,6 @@
         app:layout_constraintTop_toBottomOf="@id/news_item_category_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/news_item_publish_date_end_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/news_item_date_format"
@@ -85,7 +82,6 @@
 
 
     <Button
-        android:id="@+id/cancel_button"
         style="@style/cancel_button_style"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -98,7 +94,6 @@
         app:layout_constraintTop_toBottomOf="@id/news_item_publish_date_start_text_input_layout" />
 
     <Button
-        android:id="@+id/filter_button"
         style="@style/cancel_button_style"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

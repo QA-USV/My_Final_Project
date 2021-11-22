@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/claim_list_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
@@ -22,7 +21,6 @@
         android:paddingBottom="12dp">
 
         <ImageView
-            android:id="@+id/claim_header_image_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/claim_header_background"
@@ -130,7 +128,6 @@
             app:layout_constraintTop_toBottomOf="@id/claim_top_divider_image_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/executor_name_material_text_view"
             style="@style/SmallBlackTextStyle"
             android:layout_width="0dp"
             android:layout_height="16dp"
@@ -158,7 +155,6 @@
             app:layout_constraintTop_toBottomOf="@id/plan_date_material_text_view" />
 
         <ImageView
-            android:id="@+id/green_triangle_arrow_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_between_elements"

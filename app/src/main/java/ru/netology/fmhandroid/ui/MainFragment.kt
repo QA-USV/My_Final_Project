@@ -38,6 +38,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 findNavController().navigate(action)
             }
         }
+
+        lifecycleScope.launchWhenResumed {
+            claimViewModel.claimsLoadException.collect {
+                showErrorToast(R.string.error)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -154,12 +160,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             binding.mainSwipeRefresh.setOnRefreshListener {
                 newsViewModel.onRefresh()
                 claimViewModel.onRefresh()
-
-                lifecycleScope.launchWhenResumed {
-                    claimViewModel.claimsLoadException.collect {
-                        showErrorToast(R.string.error)
-                    }
-                }
                 binding.mainSwipeRefresh.isRefreshing = false
             }
         }

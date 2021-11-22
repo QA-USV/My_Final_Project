@@ -31,7 +31,9 @@ class ClaimViewModel @Inject constructor(
         claimRepository.getClaimsByStatus(
             viewModelScope,
             statuses
-        )
+        ).onStart {
+            internalOnRefresh()
+        }
     }
 
     fun onFilterClaimsMenuItemClicked(statuses: List<Claim.Status>) {
@@ -42,12 +44,16 @@ class ClaimViewModel @Inject constructor(
 
     fun onRefresh() {
         viewModelScope.launch {
-            try {
-                claimRepository.refreshClaims()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                claimsLoadException.emit(Unit)
-            }
+            internalOnRefresh()
+        }
+    }
+
+    private suspend fun internalOnRefresh() {
+        try {
+            claimRepository.refreshClaims()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            claimsLoadException.emit(Unit)
         }
     }
 
