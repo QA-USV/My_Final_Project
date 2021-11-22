@@ -117,7 +117,7 @@
     <string name="news_item_date_format">ДД.ММ.ГГГГ</string>
     <string name="news_control_panel_active">Активна</string>
     <string name="news_control_panel_not_active">Не активна</string>
-    <string name="news_control_panel">Панель управления \n новостями</string>
+    <string name="news_control_panel">Панель \n управления</string>
     <string name="edit_news_helper">К панели \n управления \n новостями</string>
     <string name="filter_news_helper">Фильтрация \n новостей</string>
     <string name="sort_news_helper">Сортировка \n новостей</string>
@@ -159,4 +159,9 @@
     <string name="filtering">Фильтрация</string>
     <string name="status_claim_canceled">Отменена</string>
     <string name="claim_comments_load_error">Ошибка при загрузке комментариев</string>
+    <string name="main_menu">Главное меню</string>
+    <string name="add_claim_button">Кнопка добавления новой заявки</string>
+    <string name="filter_claim_list_menu_button">Меню фильтрации списка заявок</string>
+    <string name="sort_news_list_button">Кнопка сортировки списка новостей</string>
+    <string name="add_news_button">Кнопка добавления новости</string>
 </resources>

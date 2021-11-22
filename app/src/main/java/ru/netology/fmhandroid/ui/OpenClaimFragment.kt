@@ -109,7 +109,7 @@ class OpenClaimFragment : Fragment() {
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
                 renderingContentOfClaim(fullClaim, fullClaim.executor)
                 adapter.submitList(fullClaim.comments)

@@ -19,8 +19,8 @@
 
     <ImageButton
         android:id="@+id/edit_light_image_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="32dp"
+        android:layout_height="48dp"
         android:layout_marginTop="6dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/button_edit_comment"

@@ -117,7 +117,7 @@
     <string name="news_item_date_format">DD.MM.YYYY</string>
     <string name="news_control_panel_active">Active</string>
     <string name="news_control_panel_not_active">Not active</string>
-    <string name="news_control_panel">News control panel</string>
+    <string name="news_control_panel">Control panel</string>
     <string name="edit_news_helper">Тo the news \n control panel</string>
     <string name="filter_news_helper">Filter \n news</string>
     <string name="sort_news_helper">Sort \n news</string>
@@ -160,4 +160,9 @@
     <string name="filtering">Filtering</string>
     <string name="status_claim_canceled">Canceled</string>
     <string name="claim_comments_load_error">Error loading comments</string>
+    <string name="main_menu">Main menu</string>
+    <string name="add_claim_button">Add new claim button</string>
+    <string name="filter_claim_list_menu_button">Filter claim list menu button</string>
+    <string name="sort_news_list_button">Sort news list button</string>
+    <string name="add_news_button">Add news button</string>
 </resources>
