@@ -75,10 +75,10 @@ class ClaimCommentListAdapter(
                 commentTimeTextView.text =
                     claimComment.claimComment.createDate?.let { Utils.formatTime(it) }
 
-                editLightImageButton.setImageResource(
+                editCommentImageButton.setImageResource(
                     if (claimComment.creator.id != user.id) R.drawable.ic_pen_light else R.drawable.ic_pen
                 )
-                editLightImageButton.setOnClickListener {
+                editCommentImageButton.setOnClickListener {
                     onClaimCommentItemClickListener.onCard(claimComment)
                 }
             }

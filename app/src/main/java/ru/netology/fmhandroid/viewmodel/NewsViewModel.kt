@@ -54,20 +54,21 @@ class NewsViewModel @Inject constructor(
                     SortDirection.DESC -> news.reversed()
                 }
             }
-        }.catch {
-            loadNewsExceptionEvent.emit(Unit)
-        }
+        }.onStart { internalOnRefresh() }
     }
 
     fun onRefresh() {
         viewModelScope.launch {
-            try {
-                newsRepository.refreshNews()
-                filterFlow.value = clearFilter
-            } catch (e: Exception) {
-                e.printStackTrace()
-                loadNewsExceptionEvent.emit(Unit)
-            }
+            internalOnRefresh()
+        }
+    }
+
+    private suspend fun internalOnRefresh() {
+        try {
+            newsRepository.refreshNews()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            loadNewsExceptionEvent.emit(Unit)
         }
     }
 

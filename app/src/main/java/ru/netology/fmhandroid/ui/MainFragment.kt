@@ -44,6 +44,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 showErrorToast(R.string.error)
             }
         }
+
+        lifecycleScope.launchWhenResumed {
+            newsViewModel.loadNewsExceptionEvent.collect {
+                showErrorToast(R.string.error)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

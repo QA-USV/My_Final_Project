@@ -20,7 +20,6 @@ import javax.inject.Singleton
 class NewsRepositoryImpl @Inject constructor(
     private val newsDao: NewsDao,
     private val newsCategoryDao: NewsCategoryDao,
-    private val userDao: UserDao,
     private val newsApi: NewsApi
 ) : NewsRepository {
     //* Тестовые переменные. Подлежат удалению в будущем *
@@ -98,7 +97,7 @@ class NewsRepositoryImpl @Inject constructor(
         newsCategoryId = newsCategoryId,
         dateStart = dateStart,
         dateEnd = dateEnd
-    ).flowOn(Dispatchers.Default).onStart { refreshNews() }
+    ).flowOn(Dispatchers.Default)
 
     override suspend fun editNewsItem(newsItem: News): News =
         Utils.makeRequest(

@@ -18,6 +18,7 @@
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt velit quis orci maximus, non porttitor ipsum porttitor. Aenean at mi et magna molestie hendrerit nec sed ipsum." />
 
     <ImageButton
+        android:id="@+id/edit_comment_image_button"
         android:layout_width="32dp"
         android:layout_height="48dp"
         android:layout_marginTop="6dp"

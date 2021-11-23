@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/container_custom_app_bar_include_on_fragment_news_control_panel"
         layout="@layout/top_custom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -30,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/sort_news_material_button"
             style="@style/materialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +90,7 @@
             android:src="@drawable/app_background_1920x1920" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/news_control_panel_swipe_to_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -96,6 +99,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/news_list_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="6dp"
@@ -133,6 +137,7 @@
                     app:layout_constraintTop_toBottomOf="@id/retry_loading_title_text_view" />
 
                 <androidx.constraintlayout.widget.Group
+                    android:id="@+id/error_loading_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
