@@ -77,13 +77,6 @@ class NewsRepositoryImpl @Inject constructor(
 
     //-------------------------------------------------------------//
 
-    override suspend fun refreshNews() = Utils.makeRequest(
-        request = { newsApi.getAllNews() },
-        onSuccess = { body ->
-            newsDao.insert(body.toEntity())
-        }
-    )
-
     override fun getAllNews(
         coroutineScope: CoroutineScope,
         publishEnabled: Boolean?,
@@ -98,6 +91,13 @@ class NewsRepositoryImpl @Inject constructor(
         dateStart = dateStart,
         dateEnd = dateEnd
     ).flowOn(Dispatchers.Default)
+
+    override suspend fun refreshNews() = Utils.makeRequest(
+        request = { newsApi.getAllNews() },
+        onSuccess = { body ->
+            newsDao.insert(body.toEntity())
+        }
+    )
 
     override suspend fun editNewsItem(newsItem: News): News =
         Utils.makeRequest(
@@ -124,25 +124,6 @@ class NewsRepositoryImpl @Inject constructor(
                 newsDao.removeNewsItemById(id)
             }
         )
-
-//    override suspend fun filterNewsByCategory(newsCategoryId: Int): Flow<List<NewsWithCreators>> =
-//        newsDao.filterNewsByCategory(newsCategoryId)
-//            .catch { e -> from(e) }
-//
-//    override suspend fun filterNewsByPublishDate(
-//        dateStart: Long,
-//        dateEnd: Long
-//    ): Flow<List<NewsWithCreators>> =
-//        newsDao.filterNewsByPublishDate(dateStart, dateEnd)
-//            .catch { e -> from(e) }
-//
-//    override suspend fun filterNewsByCategoryAndPublishDate(
-//        newsCategoryId: Int,
-//        dateStart: Long,
-//        dateEnd: Long
-//    ): Flow<List<NewsWithCreators>> =
-//        newsDao.filterNewsByCategoryAndPublishDate(newsCategoryId, dateStart, dateEnd)
-//            .catch { e -> from(e) }
 
     override fun getAllNewsCategories(): Flow<List<News.Category>> =
         newsCategoryDao.getAllNewsCategories().map { it.toNewsCategoryDto() }

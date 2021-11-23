@@ -95,31 +95,6 @@ class NewsViewModel @Inject constructor(
         )
     }
 
-//    suspend fun filterNewsByCategory(newsCategoryId: Int) =
-//        newsRepository.filterNewsByCategory(newsCategoryId)
-//            .catch { e ->
-//                e.printStackTrace()
-//                loadNewsExceptionEvent.emit(Unit)
-//            }
-//
-//    suspend fun filterNewsByPublishDate(dateStart: Long, dateEnd: Long) =
-//        newsRepository.filterNewsByPublishDate(dateStart, dateEnd)
-//            .catch { e ->
-//                e.printStackTrace()
-//                loadNewsExceptionEvent.emit(Unit)
-//            }
-//
-//    suspend fun filterNewsByCategoryAndPublishDate(
-//        newsCategoryId: Int,
-//        dateStart: Long,
-//        dateEnd: Long
-//    ) = newsRepository.filterNewsByCategoryAndPublishDate(
-//        newsCategoryId, dateStart, dateEnd
-//    ).catch { e ->
-//        e.printStackTrace()
-//        loadNewsExceptionEvent.emit(Unit)
-//    }
-
     enum class SortDirection {
         ASC,
         DESC;
