@@ -310,7 +310,6 @@
                             tools:listitem="@layout/item_comment" />
 
                         <TextView
-                            android:id="@+id/add_comment_label_text_view"
                             style="@style/card_label_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

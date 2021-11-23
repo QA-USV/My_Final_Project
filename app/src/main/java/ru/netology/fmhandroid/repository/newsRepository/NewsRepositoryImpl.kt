@@ -3,7 +3,6 @@ package ru.netology.fmhandroid.repository.newsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.api.NewsApi
 import ru.netology.fmhandroid.dao.NewsCategoryDao
 import ru.netology.fmhandroid.dao.NewsDao
@@ -13,7 +12,6 @@ import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.entity.toNewsCategoryDto
 import ru.netology.fmhandroid.entity.toNewsCategoryEntity
-import ru.netology.fmhandroid.exceptions.AppException.Companion.from
 import ru.netology.fmhandroid.utils.Utils
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +20,6 @@ import javax.inject.Singleton
 class NewsRepositoryImpl @Inject constructor(
     private val newsDao: NewsDao,
     private val newsCategoryDao: NewsCategoryDao,
-    private val userDao: UserDao,
     private val newsApi: NewsApi
 ) : NewsRepository {
     //* Тестовые переменные. Подлежат удалению в будущем *
@@ -94,17 +91,13 @@ class NewsRepositoryImpl @Inject constructor(
         newsCategoryId: Int?,
         dateStart: Long?,
         dateEnd: Long?
-    ): Flow<List<NewsWithCreators>> {
-        val result: Flow<List<NewsWithCreators>> = newsDao.getAllNews(
-            publishEnabled = publishEnabled,
-            publishDateBefore = publishDateBefore,
-            newsCategoryId = newsCategoryId,
-            dateStart = dateStart,
-            dateEnd = dateEnd
-        ).flowOn(Dispatchers.Default)
-        coroutineScope.launch { refreshNews() }
-        return result
-    }
+    ) = newsDao.getAllNews(
+        publishEnabled = publishEnabled,
+        publishDateBefore = publishDateBefore,
+        newsCategoryId = newsCategoryId,
+        dateStart = dateStart,
+        dateEnd = dateEnd
+    ).flowOn(Dispatchers.Default)
 
     override suspend fun editNewsItem(newsItem: News): News =
         Utils.makeRequest(

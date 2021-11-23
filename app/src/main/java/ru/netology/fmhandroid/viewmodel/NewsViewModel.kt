@@ -6,8 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
 import ru.netology.fmhandroid.utils.Utils
+import java.io.IOException
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -33,7 +35,6 @@ class NewsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             newsRepository.saveCategories()
-            newsRepository.refreshNews()
         }
     }
 
@@ -53,18 +54,21 @@ class NewsViewModel @Inject constructor(
                     SortDirection.DESC -> news.reversed()
                 }
             }
-        }
+        }.onStart { internalOnRefresh() }
     }
 
     fun onRefresh() {
         viewModelScope.launch {
-            try {
-                newsRepository.refreshNews()
-                filterFlow.value = clearFilter
-            } catch (e: Exception) {
-                e.printStackTrace()
-                loadNewsExceptionEvent.emit(Unit)
-            }
+            internalOnRefresh()
+        }
+    }
+
+    private suspend fun internalOnRefresh() {
+        try {
+            newsRepository.refreshNews()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            loadNewsExceptionEvent.emit(Unit)
         }
     }
 

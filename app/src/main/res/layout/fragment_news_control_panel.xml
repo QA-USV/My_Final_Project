@@ -13,14 +13,12 @@
         android:layout_height="wrap_content" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/news_top_bar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@color/light_grey"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/news_control_fragment_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -85,7 +83,6 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/background_top_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_background_image"
@@ -147,7 +144,6 @@
                     app:constraint_referenced_ids="retry_loading_title_text_view,retry_loading_button" />
 
                 <TextView
-                    android:id="@+id/empty_text_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -159,7 +155,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ProgressBar
-                    android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
