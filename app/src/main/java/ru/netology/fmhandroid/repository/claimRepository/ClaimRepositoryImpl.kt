@@ -34,7 +34,7 @@ class ClaimRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun editClaim(editedClaim: Claim): Claim = makeRequest(
+    override suspend fun modificationOfExistingClaim(editedClaim: Claim): Claim = makeRequest(
         request = { claimApi.updateClaim(editedClaim) },
         onSuccess = { body ->
             claimDao.insertClaim(body.toEntity())
@@ -42,7 +42,7 @@ class ClaimRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun saveClaim(claim: Claim): Claim = makeRequest(
+    override suspend fun createNewClaim(claim: Claim): Claim = makeRequest(
         request = { claimApi.saveClaim(claim) },
         onSuccess = { body ->
             claimDao.insertClaim(body.toEntity())

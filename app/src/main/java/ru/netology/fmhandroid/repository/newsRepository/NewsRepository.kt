@@ -7,8 +7,8 @@ import ru.netology.fmhandroid.dto.NewsWithCreators
 
 interface NewsRepository {
     suspend fun refreshNews()
-    suspend fun editNewsItem(newsItem: News): News
-    suspend fun saveNewsItem(newsItem: News): News
+    suspend fun modificationOfExistingNews(newsItem: News): News
+    suspend fun createNews(newsItem: News): News
     suspend fun removeNewsItemById(id: Int)
     fun getAllNewsCategories(): Flow<List<News.Category>>
     // Метод подлежит удалению после реализации добавления новых категорий

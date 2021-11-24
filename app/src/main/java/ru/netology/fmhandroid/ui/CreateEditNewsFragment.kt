@@ -150,8 +150,8 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
         }
 
         lifecycleScope.launch {
-            viewModel.getAllNewsCategories().collect {
-                val newsCategoryItems = it
+            viewModel.getAllNewsCategories().collect { category ->
+                val newsCategoryItems = category.map { it.name }
 
                 with(binding) {
                     val adapter =
@@ -162,7 +162,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                         val selectedItem = parent.getItemAtPosition(position)
                         val title = binding.newsItemTitleTextInputEditText
                         newsCategoryItems.forEach { category ->
-                            if (title.text.isNullOrBlank() || title.text.toString() == category.name) {
+                            if (title.text.isNullOrBlank() || title.text.toString() == category) {
                                 title.setText(selectedItem.toString())
                             }
                         }

@@ -10,11 +10,16 @@ interface ClaimRepository {
         listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>>
     suspend fun refreshClaims()
-    suspend fun editClaim(editedClaim: Claim): Claim
-    suspend fun saveClaim(claim: Claim): Claim
+    suspend fun modificationOfExistingClaim(editedClaim: Claim): Claim
+    suspend fun createNewClaim(claim: Claim): Claim
     fun getClaimById(id: Int): Flow<FullClaim>
     suspend fun getAllCommentsForClaim(id: Int): List<ClaimComment>
     suspend fun saveClaimComment(claimId: Int, comment: ClaimComment): ClaimComment
+    /**
+     * При переводе заявки из статуса OPEN -> IN PROGRESS заявке назначается исполнитель
+     * При переводе заявки из статуса IN PROGRESS -> OPEN с заявки снимается исполнитель
+     * При действиях "Сбросить" и "Исполнить" исполнитель обязан оставить объясняющий комментарий
+     * **/
     suspend fun changeClaimStatus(
         claimId: Int,
         newStatus: Claim.Status,

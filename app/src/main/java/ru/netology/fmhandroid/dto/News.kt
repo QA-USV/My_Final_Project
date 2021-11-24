@@ -23,9 +23,6 @@ data class News(
         val name: String,
         val deleted: Boolean
     ) : Parcelable {
-        override fun toString(): String {
-            return name
-        }
 
         enum class Type {
             Advertisement, Salary, Union, Birthday, Holiday, Massage, Gratitude, Help, Unknown

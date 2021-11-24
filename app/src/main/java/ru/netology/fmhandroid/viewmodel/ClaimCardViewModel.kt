@@ -74,7 +74,7 @@ class ClaimCardViewModel @Inject constructor(
     fun save(claim: Claim) {
         viewModelScope.launch {
             try {
-                claimRepository.saveClaim(claim)
+                claimRepository.createNewClaim(claim)
                 claimCreatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -86,7 +86,7 @@ class ClaimCardViewModel @Inject constructor(
     fun updateClaim(updatedClaim: Claim) {
         viewModelScope.launch {
             try {
-                claimRepository.editClaim(updatedClaim)
+                claimRepository.modificationOfExistingClaim(updatedClaim)
                 claimUpdatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()

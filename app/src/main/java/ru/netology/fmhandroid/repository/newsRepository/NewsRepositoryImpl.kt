@@ -99,7 +99,7 @@ class NewsRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun editNewsItem(newsItem: News): News =
+    override suspend fun modificationOfExistingNews(newsItem: News): News =
         Utils.makeRequest(
             request = { newsApi.editNewsItem(newsItem) },
             onSuccess = { body ->
@@ -108,7 +108,7 @@ class NewsRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun saveNewsItem(newsItem: News): News =
+    override suspend fun createNews(newsItem: News): News =
         Utils.makeRequest(
             request = { newsApi.saveNewsItem(newsItem) },
             onSuccess = { body ->
