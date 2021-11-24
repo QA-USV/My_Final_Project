@@ -31,8 +31,7 @@ class ClaimCardViewModel @Inject constructor(
         lastName = "Винокуров",
         middleName = "Владимирович",
         phoneNumber = "+79109008765",
-        email = "Vinokurov@mail.ru",
-        deleted = false
+        email = "Vinokurov@mail.ru"
     )
 
     val openClaimCommentEvent = MutableSharedFlow<ClaimCommentWithCreator>()
@@ -51,7 +50,7 @@ class ClaimCardViewModel @Inject constructor(
     fun createClaimComment(claimComment: ClaimComment) {
         viewModelScope.launch {
             try {
-                claimComment.claimId?.let { claimRepository.saveClaimComment(it, claimComment) }
+                claimRepository.saveClaimComment(claimComment.claimId, claimComment)
                 claimCommentCreatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()

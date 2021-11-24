@@ -40,7 +40,7 @@ class NewsListAdapter :
                 newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
                 newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
                 newsItemDateTextView.text =
-                    newsItemWithCreator.news.newsItem.publishDate?.let { Utils.formatDate(it) }
+                    Utils.formatDate(newsItemWithCreator.news.newsItem.publishDate)
 
                 setCategoryIcon(newsItemWithCreator)
 

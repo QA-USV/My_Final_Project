@@ -23,11 +23,11 @@ object Utils {
 
     object EmptyComment {
         val emptyClaimComment = ClaimComment(
-            id = null,
-            claimId = null,
+            id = 0,
+            claimId = 0,
             description = "",
-            creatorId = null,
-            createDate = null,
+            creatorId = 0,
+            createDate = 0,
         )
     }
 
@@ -65,14 +65,6 @@ object Utils {
         val localTime = LocalTime.parse(time, timeFormatter)
         val localDateTime = LocalDateTime.of(localDate, localTime)
         return fromLocalDateTimeToTimeStamp(localDateTime)
-    }
-
-    fun fromLongToLocalDateTime(value: Long): LocalDateTime {
-        val instant = Instant.ofEpochSecond(value)
-        return instant.atZone(
-            ZoneId.systemDefault()
-        )
-            .toLocalDateTime()
     }
 
     fun fromLocalDateTimeToTimeStamp(date: LocalDateTime): Long {

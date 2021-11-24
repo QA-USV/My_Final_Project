@@ -9,10 +9,10 @@ import ru.netology.fmhandroid.entity.UserEntity
 @Parcelize
 data class ClaimComment(
     val id: Int? = null,
-    val claimId: Int? = null,
-    val description: String? = null,
-    val creatorId: Int? = null,
-    val createDate: Long? = null,
+    val claimId: Int,
+    val description: String,
+    val creatorId: Int,
+    val createDate: Long,
 ) : Parcelable
 
 @kotlinx.parcelize.Parcelize

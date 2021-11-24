@@ -101,10 +101,10 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             args.argClaim?.let { claim ->
                 titleTextInputLayout.editText?.setText(claim.claim.title)
                 dateInPlanTextInputLayout.editText?.setText(
-                    claim.claim.planExecuteDate?.let { Utils.formatDate(it) }
+                    Utils.formatDate(claim.claim.planExecuteDate)
                 )
                 timeInPlanTextInputLayout.editText?.setText(
-                    claim.claim.planExecuteDate?.let { Utils.formatTime(it) }
+                    Utils.formatTime(claim.claim.planExecuteDate)
                 )
                 descriptionTextInputLayout.editText?.setText(claim.claim.description)
 
@@ -160,9 +160,9 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     R.layout.menu_item,
                     it.map { user ->
                         fullUserNameGenerator(
-                            user.lastName!!,
-                            user.firstName!!,
-                            user.middleName!!
+                            user.lastName,
+                            user.firstName,
+                            user.middleName
                         )
                     })
                 binding.executorDropMenuAutoCompleteTextView.apply {
@@ -230,7 +230,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 planExecuteDate = saveDateTime(
                     dateInPlanTextInputEditText.text.toString(),
                     timeInPlanTextInputEditText.text.toString()
-                )
+                ),
+                status = Claim.Status.OPEN
             )
         }
     }

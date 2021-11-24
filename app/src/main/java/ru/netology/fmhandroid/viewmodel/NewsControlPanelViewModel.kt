@@ -12,11 +12,19 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class NewsControlPanelViewModel @Inject constructor (
+class NewsControlPanelViewModel @Inject constructor(
     private val newsRepository: NewsRepository
-        ): ViewModel() {
+) : ViewModel() {
 
+    private val clearFilter = Filter(
+        newsCategoryId = null,
+        dateStart = null,
+        dateEnd = null
+    )
     private val sortDirection = MutableStateFlow(NewsViewModel.SortDirection.ASC)
+    private val filterFlow = MutableStateFlow(
+        clearFilter
+    )
 
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val newsItemCreatedEvent = MutableSharedFlow<Unit>()
@@ -25,16 +33,19 @@ class NewsControlPanelViewModel @Inject constructor (
     val editNewsItemExceptionEvent = MutableSharedFlow<Unit>()
     val removeNewsItemExceptionEvent = MutableSharedFlow<Unit>()
 
-    val data: Flow<List<NewsWithCreators>> by lazy {
+    val data: Flow<List<NewsWithCreators>> = filterFlow.flatMapMerge { filter ->
         newsRepository.getAllNews(
-            viewModelScope
+            viewModelScope,
+            newsCategoryId = filter.newsCategoryId,
+            dateStart = filter.dateStart,
+            dateEnd = filter.dateEnd
         ).combine(sortDirection) { news, sortDirection ->
-            when(sortDirection) {
+            when (sortDirection) {
                 NewsViewModel.SortDirection.ASC -> news
                 NewsViewModel.SortDirection.DESC -> news.reversed()
             }
         }
-    }
+    }.onStart { internalOnRefresh() }
 
     fun onRefresh() {
         viewModelScope.launch {
@@ -47,6 +58,15 @@ class NewsControlPanelViewModel @Inject constructor (
         }
     }
 
+    private suspend fun internalOnRefresh() {
+        try {
+            newsRepository.refreshNews()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            loadNewsExceptionEvent.emit(Unit)
+        }
+    }
+
     fun onSortDirectionButtonClicked() {
         sortDirection.value = sortDirection.value.reverse()
     }
@@ -56,10 +76,7 @@ class NewsControlPanelViewModel @Inject constructor (
         dateStart: Long?,
         dateEnd: Long?
     ) {
-        newsRepository.getAllNews(
-            viewModelScope,
-            publishEnabled = null,
-            publishDateBefore = null,
+        filterFlow.value = Filter(
             newsCategoryId,
             dateStart,
             dateEnd
@@ -103,13 +120,9 @@ class NewsControlPanelViewModel @Inject constructor (
 
     fun getAllNewsCategories() = newsRepository.getAllNewsCategories()
 
-
-    enum class SortDirection {
-        ASC,
-        DESC;
-        fun reverse() = when(this) {
-            ASC -> DESC
-            DESC -> ASC
-        }
-    }
+    private class Filter(
+        val newsCategoryId: Int?,
+        val dateStart: Long?,
+        val dateEnd: Long?
+    )
 }

@@ -10,15 +10,14 @@ import ru.netology.fmhandroid.entity.UserEntity
 @Parcelize
 data class Claim(
     val id: Int? = null,
-    val title: String? = null,
-    val description: String? = null,
-    val creatorId: Int? = null,
+    val title: String,
+    val description: String,
+    val creatorId: Int,
     var executorId: Int? = null,
-    val createDate: Long? = null,
-    val planExecuteDate: Long? = null,
+    val createDate: Long,
+    val planExecuteDate: Long,
     val factExecuteDate: Long? = null,
-    var status: Status? = null,
-    val deleted: Boolean = false,
+    var status: Status,
 ) : Parcelable {
 
     enum class Status {

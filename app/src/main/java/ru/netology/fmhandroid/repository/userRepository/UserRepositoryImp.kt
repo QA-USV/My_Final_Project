@@ -14,8 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepositoryImp @Inject constructor(
-    private val userDao: UserDao,
-    private val userApi: UserApi
+    private val userDao: UserDao
 ) : UserRepository {
     override val data: Flow<List<User>>
         get() = userDao.getAllUsers()
@@ -32,7 +31,6 @@ class UserRepositoryImp @Inject constructor(
             middleName = "Владимирович",
             phoneNumber = "+79109008765",
             email = "Vinokurov@mail.ru",
-            deleted = false
         ),
             User(
                 id = 2,
@@ -43,7 +41,6 @@ class UserRepositoryImp @Inject constructor(
                 middleName = "Григорьевич",
                 phoneNumber = "+79108009876",
                 email = "Viktyuk@mail.ru",
-                deleted = false
             ),
             User(
                 id = 3,
@@ -54,21 +51,8 @@ class UserRepositoryImp @Inject constructor(
                 middleName = "Вениаминовна",
                 phoneNumber = "+79001237645",
                 email = "VVS-P@yandex.ru",
-                deleted = false
             )
         )
         userDao.insert(temporaryUserList.toEntity())
-    }
-
-    override suspend fun saveUser(user: User) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateUser(user: User) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getUserById(id: Long): User {
-        TODO("Not yet implemented")
     }
 }

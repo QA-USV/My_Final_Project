@@ -8,15 +8,14 @@ import ru.netology.fmhandroid.entity.UserEntity
 
 @kotlinx.parcelize.Parcelize
 data class News(
-    val id: Int? = 0,
-    val newsCategoryId: Int? = null,
+    val id: Int? = null,
+    val newsCategoryId: Int,
     val title: String = "",
     val description: String = "",
     val creatorId: Int = 1,
-    val createDate: Long? = null,
-    val publishDate: Long? = null,
+    val createDate: Long,
+    val publishDate: Long,
     val publishEnabled: Boolean = false,
-    val deleted: Boolean = false,
 ) : Parcelable {
     @kotlinx.parcelize.Parcelize
     data class Category(

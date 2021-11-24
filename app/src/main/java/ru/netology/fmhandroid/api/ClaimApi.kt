@@ -12,14 +12,8 @@ interface ClaimApi {
     @GET("claims/open-in-progress")
     suspend fun getClaimsInOpenAndInProgressStatus() : Response<List<Claim>>
 
-    @GET("claims/{id}")
-    suspend fun getClaimById(@Path("id") id: Int): Response<Claim>
-
     @GET("claims/{id}/comments")
     suspend fun getAllClaimComments(@Path("id") id: Int): Response<List<ClaimComment>>
-
-    @GET("claims/comments/{id}")
-    suspend fun getClaimCommentById(@Path("id") id: Int): Response<ClaimComment>
 
     @POST("claims")
     suspend fun saveClaim(@Body claim: Claim): Response<Claim>

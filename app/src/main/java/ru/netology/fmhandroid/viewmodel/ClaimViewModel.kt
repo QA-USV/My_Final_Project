@@ -70,4 +70,3 @@ class ClaimViewModel @Inject constructor(
         }
     }
 }
-

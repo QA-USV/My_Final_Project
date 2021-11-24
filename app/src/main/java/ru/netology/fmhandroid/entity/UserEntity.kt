@@ -9,23 +9,21 @@ import ru.netology.fmhandroid.dto.User
 data class UserEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int?,
+    val id: Int,
     @ColumnInfo(name = "login")
-    var login: String?,
+    var login: String,
     @ColumnInfo(name = "password")
-    var password: String?,
+    var password: String,
     @ColumnInfo(name = "firstName")
-    var firstName: String?,
+    var firstName: String,
     @ColumnInfo(name = "lastName")
-    var lastName: String?,
+    var lastName: String,
     @ColumnInfo(name = "middleName")
-    var middleName: String?,
+    var middleName: String,
     @ColumnInfo(name = "phoneNumber")
-    var phoneNumber: String?,
+    var phoneNumber: String,
     @ColumnInfo(name = "email")
-    var email: String?,
-    @ColumnInfo(name = "deleted")
-    val deleted: Boolean
+    var email: String,
 ) {
     fun toDto() = User(
         id = id,
@@ -36,7 +34,6 @@ data class UserEntity(
         middleName = middleName,
         phoneNumber = phoneNumber,
         email = email,
-        deleted = deleted
     )
 }
 
@@ -51,5 +48,4 @@ fun User.toEntity() = UserEntity(
     middleName = middleName,
     phoneNumber = phoneNumber,
     email = email,
-    deleted = deleted
 )

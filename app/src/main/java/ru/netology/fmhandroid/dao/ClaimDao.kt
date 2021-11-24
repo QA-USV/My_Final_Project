@@ -34,9 +34,6 @@ interface ClaimDao {
 
     @Query("SELECT * FROM ClaimEntity WHERE id = :id")
     fun getClaimById(id: Int): Flow<FullClaim>
-
-    @Query("UPDATE ClaimEntity Set deleted = 1 WHERE id = :id")
-    suspend fun deleteClaimById(id: Int)
 }
 
 class ClaimClaimStatusConverter {

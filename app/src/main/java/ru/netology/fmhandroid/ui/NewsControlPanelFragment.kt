@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +20,9 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.NewsControlPanelListAdapter
 import ru.netology.fmhandroid.adapter.NewsOnInteractionListener
 import ru.netology.fmhandroid.databinding.FragmentNewsControlPanelBinding
+import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.NewsControlPanelViewModel
 
 @AndroidEntryPoint
@@ -150,6 +153,15 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         binding.newsControlPanelSwipeToRefresh.setOnRefreshListener {
             viewModel.onRefresh()
             binding.newsControlPanelSwipeToRefresh.isRefreshing = false
+        }
+
+        setFragmentResultListener("requestKey") { _, bundle ->
+            val args = bundle.getParcelable<NewsFilterArgs>("filterArgs")
+            viewModel.onFilterNewsClicked(
+                args?.category?.let { Utils.convertNewsCategory(it) },
+                args?.dates?.get(0),
+                args?.dates?.get(1)
+            )
         }
     }
 }

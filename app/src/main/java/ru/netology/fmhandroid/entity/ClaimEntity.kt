@@ -11,23 +11,21 @@ data class ClaimEntity(
     @ColumnInfo(name = "id")
     val id: Int?,
     @ColumnInfo(name = "title")
-    val title: String?,
+    val title: String,
     @ColumnInfo(name = "description")
-    val description: String?,
+    val description: String,
     @ColumnInfo(name = "creatorId")
-    val creatorId: Int?,
+    val creatorId: Int,
     @ColumnInfo(name = "executorId")
     val executorId: Int?,
     @ColumnInfo(name = "createDate")
-    val createDate: Long?,
+    val createDate: Long,
     @ColumnInfo(name = "planExecuteDate")
-    val planExecuteDate: Long?,
+    val planExecuteDate: Long,
     @ColumnInfo(name = "factExecuteDate")
     val factExecuteDate: Long?,
     @ColumnInfo(name = "status")
-    val status: Claim.Status?,
-    @ColumnInfo(name = "deleted")
-    val deleted: Boolean
+    val status: Claim.Status,
 ) {
     fun toDto() = Claim(
         id = id,
@@ -38,8 +36,7 @@ data class ClaimEntity(
         createDate = createDate,
         planExecuteDate = planExecuteDate,
         factExecuteDate = factExecuteDate,
-        status = status,
-        deleted = deleted
+        status = status
     )
 }
 
@@ -54,6 +51,5 @@ fun Claim.toEntity() = ClaimEntity(
     createDate = createDate,
     planExecuteDate = planExecuteDate,
     factExecuteDate = factExecuteDate,
-    status = status,
-    deleted = deleted
+    status = status
 )

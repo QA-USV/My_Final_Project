@@ -52,12 +52,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        claimViewModel.onRefresh()
-//        newsViewModel.onRefresh()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

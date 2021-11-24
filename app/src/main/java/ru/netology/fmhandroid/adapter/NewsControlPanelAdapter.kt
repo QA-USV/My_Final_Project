@@ -49,14 +49,14 @@ class NewsControlPanelListAdapter(
                 newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
                 newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
                 newsItemPublicationDateTextView.text =
-                    newsItemWithCreator.news.newsItem.publishDate?.let { Utils.formatDate(it) }
+                    Utils.formatDate(newsItemWithCreator.news.newsItem.publishDate)
                 newsItemCreateDateTextView.text =
-                    newsItemWithCreator.news.newsItem.createDate?.let { Utils.formatDate(it) }
+                    Utils.formatDate(newsItemWithCreator.news.newsItem.createDate)
                 newsItemAuthorNameTextView.text = itemView.resources.getString(
                     R.string.full_name_format,
                     newsItemWithCreator.user.lastName,
-                    newsItemWithCreator.user.firstName?.first()?.plus("."),
-                    newsItemWithCreator.user.middleName?.first()?.plus(".")
+                    newsItemWithCreator.user.firstName.first().plus("."),
+                    newsItemWithCreator.user.middleName.first().plus(".")
                 )
 
                 setCategoryIcon(newsItemWithCreator)

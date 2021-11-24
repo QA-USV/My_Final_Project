@@ -11,13 +11,13 @@ data class ClaimCommentEntity(
     @ColumnInfo(name = "id")
     val id: Int?,
     @ColumnInfo(name = "claimId")
-    val claimId: Int?,
+    val claimId: Int,
     @ColumnInfo(name = "description")
-    val description: String?,
+    val description: String,
     @ColumnInfo(name = "creatorId")
-    val creatorId: Int?,
+    val creatorId: Int,
     @ColumnInfo(name = "createDate")
-    val createDate: Long?
+    val createDate: Long
 ) {
     fun toDto() = ClaimComment(
         id = id,

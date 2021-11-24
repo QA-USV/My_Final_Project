@@ -25,8 +25,7 @@ val user = User(
     lastName = "Винокуров",
     middleName = "Владимирович",
     phoneNumber = "+79109008765",
-    email = "Vinokurov@mail.ru",
-    deleted = false
+    email = "Vinokurov@mail.ru"
 )
 
 class ClaimCommentListAdapter(
@@ -59,21 +58,17 @@ class ClaimCommentListAdapter(
         fun bind(claimComment: ClaimCommentWithCreator) {
             with(binding) {
                 commentDescriptionTextView.text = claimComment.claimComment.description
-                commentatorNameTextView.text = claimComment.creator.lastName?.let { lastName ->
-                    claimComment.creator.firstName?.let { firstName ->
-                        claimComment.creator.middleName?.let { middleName ->
-                            Utils.generateShortUserName(
-                                lastName,
-                                firstName,
-                                middleName
-                            )
-                        }
-                    }
-                }
+                commentatorNameTextView.text =
+                    Utils.generateShortUserName(
+                        claimComment.creator.lastName,
+                        claimComment.creator.firstName,
+                        claimComment.creator.middleName
+                    )
+
                 commentDateTextView.text =
-                    claimComment.claimComment.createDate?.let { Utils.formatDate(it) }
+                    Utils.formatDate(claimComment.claimComment.createDate)
                 commentTimeTextView.text =
-                    claimComment.claimComment.createDate?.let { Utils.formatTime(it) }
+                    Utils.formatTime(claimComment.claimComment.createDate)
 
                 editCommentImageButton.setImageResource(
                     if (claimComment.creator.id != user.id) R.drawable.ic_pen_light else R.drawable.ic_pen

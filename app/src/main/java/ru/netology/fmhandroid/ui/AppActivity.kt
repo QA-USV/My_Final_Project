@@ -15,7 +15,5 @@ class AppActivity : AppCompatActivity() {
 
         // Костыль!!! Убрать!!! (Only for test!)
         val viewModel: UserViewModel by viewModels()
-
-        val bla = viewModel
     }
 }

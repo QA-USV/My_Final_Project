@@ -48,5 +48,3 @@ interface NewsCategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(category: NewsCategoryEntity)
 }
-
-// AND (:dateStart IS NULL AND :dateEnd IS NULL OR publishDate BETWEEN :dateStart AND :dateEnd)

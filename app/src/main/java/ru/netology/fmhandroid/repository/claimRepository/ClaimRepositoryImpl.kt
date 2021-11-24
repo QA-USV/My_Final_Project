@@ -2,17 +2,13 @@ package ru.netology.fmhandroid.repository.claimRepository
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onStart
 import ru.netology.fmhandroid.api.ClaimApi
 import ru.netology.fmhandroid.dao.ClaimCommentDao
 import ru.netology.fmhandroid.dao.ClaimDao
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.entity.toEntity
-import ru.netology.fmhandroid.exceptions.AppException
 import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -90,9 +86,7 @@ class ClaimRepositoryImpl @Inject constructor(
             },
             onSuccess = { body ->
                 claimDao.insertClaim(body.toEntity())
-                if (!claimComment.description.isNullOrBlank()) {
-                    claimCommentDao.insertComment(claimComment.toEntity())
-                }
+                claimCommentDao.insertComment(claimComment.toEntity())
                 body
             }
         )

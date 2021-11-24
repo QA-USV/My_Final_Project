@@ -94,10 +94,10 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 newsItemCategoryTextAutoCompleteTextView.setText(newsItem.news.category.name)
                 newsItemTitleTextInputEditText.setText(newsItem.news.newsItem.title)
                 newsItemPublishDateTextInputEditText.setText(
-                    newsItem.news.newsItem.publishDate?.let { Utils.formatDate(it) }
+                    Utils.formatDate(newsItem.news.newsItem.publishDate)
                 )
                 newsItemPublishTimeTextInputEditText.setText(
-                    newsItem.news.newsItem.publishDate?.let { Utils.formatTime(it) }
+                    Utils.formatTime(newsItem.news.newsItem.publishDate)
                 )
                 newsItemDescriptionTextInputEditText.setText(newsItem.news.newsItem.description)
                 switcher.isChecked = newsItem.news.newsItem.publishEnabled

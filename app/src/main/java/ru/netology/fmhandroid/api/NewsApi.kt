@@ -14,9 +14,6 @@ interface NewsApi {
     @POST("news")
     suspend fun saveNewsItem(@Body newsItem: News): Response<News>
 
-    @GET("news/{id}")
-    suspend fun getNewsById(@Path("id") id: Int): Response<News>
-
     @DELETE("news/{id}")
     suspend fun removeNewsItemById(@Path("id") id: Int): Response<Unit>
 }

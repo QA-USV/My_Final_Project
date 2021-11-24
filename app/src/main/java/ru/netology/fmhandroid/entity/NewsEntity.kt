@@ -11,7 +11,7 @@ data class NewsEntity(
     @ColumnInfo(name = "id")
     val id: Int?,
     @ColumnInfo(name = "newsCategoryId")
-    val newsCategoryId: Int? = null,
+    val newsCategoryId: Int,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "description")
@@ -19,13 +19,11 @@ data class NewsEntity(
     @ColumnInfo(name = "creatorId")
     val creatorId: Int,
     @ColumnInfo(name = "createDate")
-    val createDate: Long? = null,
+    val createDate: Long,
     @ColumnInfo(name = "publishDate")
-    val publishDate: Long? = null,
+    val publishDate: Long,
     @ColumnInfo(name = "publishEnabled")
     val publishEnabled: Boolean = false,
-    @ColumnInfo(name = "deleted")
-    val deleted: Boolean = false
 ) {
     fun toDto() = News(
         id = id,
@@ -35,8 +33,7 @@ data class NewsEntity(
         creatorId = creatorId,
         createDate = createDate,
         publishDate = publishDate,
-        publishEnabled = publishEnabled,
-        deleted = deleted,
+        publishEnabled = publishEnabled
     )
 }
 
@@ -50,8 +47,7 @@ fun News.toEntity() = NewsEntity(
     creatorId = creatorId,
     createDate = createDate,
     publishDate = publishDate,
-    publishEnabled = publishEnabled,
-    deleted = deleted,
+    publishEnabled = publishEnabled
 )
 
 @Entity(tableName = "NewsCategoryEntity")

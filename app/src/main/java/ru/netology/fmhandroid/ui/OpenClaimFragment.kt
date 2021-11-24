@@ -51,7 +51,6 @@ class OpenClaimFragment : Fragment() {
         middleName = "Владимирович",
         phoneNumber = "+79109008765",
         email = "Vinokurov@mail.ru",
-        deleted = false
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,16 +60,12 @@ class OpenClaimFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             claimCardViewModel.openClaimCommentEvent.collect {
-                val action = it.claimComment.claimId?.let { it1 ->
-                    OpenClaimFragmentDirections
-                        .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
-                            it,
-                            it1
-                        )
-                }
-                if (action != null) {
-                    findNavController().navigate(action)
-                }
+                val action = OpenClaimFragmentDirections
+                    .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
+                        it,
+                        it.claimComment.claimId
+                    )
+                findNavController().navigate(action)
             }
         }
     }
@@ -168,25 +163,20 @@ class OpenClaimFragment : Fragment() {
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
         binding.titleTextView.text = fullClaim.claim.title
-        binding.planeDateTextView.text =
-            fullClaim.claim.planExecuteDate?.let { Utils.formatDate(it) }
-        binding.planTimeTextView.text =
-            fullClaim.claim.planExecuteDate?.let { Utils.formatTime(it) }
+        binding.planeDateTextView.text = Utils.formatDate(fullClaim.claim.planExecuteDate)
+        binding.planTimeTextView.text = Utils.formatTime(fullClaim.claim.planExecuteDate)
         binding.descriptionTextView.text = fullClaim.claim.description
         binding.authorNameTextView.text = Utils.fullUserNameGenerator(
-            fullClaim.creator.lastName.toString(),
-            fullClaim.creator.firstName.toString(),
-            fullClaim.creator.middleName.toString()
+            fullClaim.creator.lastName,
+            fullClaim.creator.firstName,
+            fullClaim.creator.middleName
         )
-        binding.createDataTextView.text =
-            fullClaim.claim.createDate?.let { Utils.formatDate(it) }
-        binding.createTimeTextView.text =
-            fullClaim.claim.createDate?.let { Utils.formatTime(it) }
-        binding.statusLabelTextView.text =
-            fullClaim.claim.status?.let { displayingStatusOfClaim(it) }
+        binding.createDataTextView.text = Utils.formatDate(fullClaim.claim.createDate)
+        binding.createTimeTextView.text = Utils.formatTime(fullClaim.claim.createDate)
+        binding.statusLabelTextView.text = displayingStatusOfClaim(fullClaim.claim.status)
 
         statusMenuVisibility(
-            fullClaim.claim.status!!,
+            fullClaim.claim.status,
             statusProcessingMenu
         )
 

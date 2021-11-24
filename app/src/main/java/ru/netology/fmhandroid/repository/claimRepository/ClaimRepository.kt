@@ -9,7 +9,6 @@ interface ClaimRepository {
         coroutineScope: CoroutineScope,
         listStatuses: List<Claim.Status>
     ): Flow<List<FullClaim>>
-//    val dataOpenInProgress: Flow<List<FullClaim>>
     suspend fun refreshClaims()
     suspend fun editClaim(editedClaim: Claim): Claim
     suspend fun saveClaim(claim: Claim): Claim
