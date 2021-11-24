@@ -86,7 +86,7 @@ class NewsControlPanelViewModel @Inject constructor(
     fun save(newsItem: News) {
         viewModelScope.launch {
             try {
-                newsRepository.saveNewsItem(newsItem)
+                newsRepository.createNews(newsItem)
                 newsItemCreatedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -98,7 +98,7 @@ class NewsControlPanelViewModel @Inject constructor(
     fun edit(newsItem: News) {
         viewModelScope.launch {
             try {
-                newsRepository.editNewsItem(newsItem)
+                newsRepository.modificationOfExistingNews(newsItem)
                 editNewsItemSavedEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()

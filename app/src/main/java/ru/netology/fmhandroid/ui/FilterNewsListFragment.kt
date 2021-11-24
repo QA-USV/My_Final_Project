@@ -39,8 +39,8 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         binding = FragmentFilterNewsBinding.bind(view)
 
         lifecycleScope.launch {
-            newsListViewModel.getAllNewsCategories().collect {
-                val newsCategoryItems = it
+            newsListViewModel.getAllNewsCategories().collect {  category ->
+                val newsCategoryItems = category.map { it.name }
 
                 val adapter = ArrayAdapter(requireContext(), R.layout.menu_item, newsCategoryItems)
                 binding.newsItemCategoryTextAutoCompleteTextView.setAdapter(adapter)
