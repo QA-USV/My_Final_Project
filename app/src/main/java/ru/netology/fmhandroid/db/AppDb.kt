@@ -22,9 +22,9 @@ import ru.netology.fmhandroid.entity.*
     ClaimClaimStatusConverter::class
 )
 abstract class AppDb : RoomDatabase() {
-    abstract fun userDao(): UserDao
-    abstract fun claimDao(): ClaimDao
-    abstract fun claimCommentDao(): ClaimCommentDao
-    abstract fun newsDao(): NewsDao
-    abstract fun newsCategoryDao(): NewsCategoryDao
+    abstract fun getUserDao(): UserDao
+    abstract fun getClaimDao(): ClaimDao
+    abstract fun getClaimCommentDao(): ClaimCommentDao
+    abstract fun getNewsDao(): NewsDao
+    abstract fun getNewsCategoryDao(): NewsCategoryDao
 }
