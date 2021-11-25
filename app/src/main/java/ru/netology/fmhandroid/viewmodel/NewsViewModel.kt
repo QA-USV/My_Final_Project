@@ -5,11 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
-import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
 import ru.netology.fmhandroid.utils.Utils
-import java.io.IOException
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -32,18 +31,11 @@ class NewsViewModel @Inject constructor(
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
 
-    init {
-        viewModelScope.launch {
-            newsRepository.saveCategories()
-        }
-    }
-
     val data: Flow<List<NewsWithCreators>> by lazy {
         filterFlow.flatMapMerge { filter ->
             newsRepository.getAllNews(
                 viewModelScope,
                 publishEnabled = true,
-                // Вынести в Utils
                 publishDateBefore = Utils.fromLocalDateTimeToTimeStamp(LocalDateTime.now()),
                 newsCategoryId = filter.newsCategoryId,
                 dateStart = filter.dateStart,
@@ -93,6 +85,12 @@ class NewsViewModel @Inject constructor(
             dateStart = dateStart,
             dateEnd = dateEnd
         )
+    }
+
+    fun initializationListNewsCategories(listNewsCategories: List<News.Category>) {
+        viewModelScope.launch {
+            newsRepository.saveNewsCategories(listNewsCategories)
+        }
     }
 
     enum class SortDirection {

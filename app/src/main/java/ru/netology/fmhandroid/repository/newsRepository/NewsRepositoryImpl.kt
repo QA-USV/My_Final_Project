@@ -2,13 +2,13 @@ package ru.netology.fmhandroid.repository.newsRepository
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import ru.netology.fmhandroid.api.NewsApi
 import ru.netology.fmhandroid.dao.NewsCategoryDao
 import ru.netology.fmhandroid.dao.NewsDao
-import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.entity.toEntity
 import ru.netology.fmhandroid.entity.toNewsCategoryDto
 import ru.netology.fmhandroid.entity.toNewsCategoryEntity
@@ -22,60 +22,6 @@ class NewsRepositoryImpl @Inject constructor(
     private val newsCategoryDao: NewsCategoryDao,
     private val newsApi: NewsApi
 ) : NewsRepository {
-    //* Тестовые переменные. Подлежат удалению в будущем *
-
-    val advertisement = News.Category(
-        1,
-        "Объявление",
-        false
-    )
-
-    val birthday = News.Category(
-        2,
-        "День рождения",
-        false
-    )
-
-    val salary = News.Category(
-        3,
-        "Зарплата",
-        false
-    )
-
-    val union = News.Category(
-        4,
-        "Профсоюз",
-        false
-    )
-
-    val holiday = News.Category(
-        5,
-        "Праздник",
-        false
-    )
-
-    val massage = News.Category(
-        6,
-        "Массаж",
-        false
-    )
-
-    val gratitude = News.Category(
-        7,
-        "Благодарность",
-        false
-    )
-
-    val help = News.Category(
-        8,
-        "Нужна помощь",
-        false
-    )
-
-    private val categories =
-        listOf(advertisement, salary, union, birthday, holiday, massage, gratitude, help)
-
-    //-------------------------------------------------------------//
 
     override fun getAllNews(
         coroutineScope: CoroutineScope,
@@ -128,7 +74,6 @@ class NewsRepositoryImpl @Inject constructor(
     override fun getAllNewsCategories(): Flow<List<News.Category>> =
         newsCategoryDao.getAllNewsCategories().map { it.toNewsCategoryDto() }
 
-    // Метод подлежит удалению после реализации добавления новых категорий
-    override suspend fun saveCategories() =
-        newsCategoryDao.insert(categories.toNewsCategoryEntity())
+    override suspend fun saveNewsCategories(listNewsCategories: List<News.Category>) =
+        newsCategoryDao.insert(listNewsCategories.toNewsCategoryEntity())
 }

@@ -47,4 +47,7 @@ interface NewsCategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(category: NewsCategoryEntity)
+
+    @Query("SELECT * FROM NewsCategoryEntity")
+    fun getNewsCategoryList(): List<NewsCategoryEntity>
 }

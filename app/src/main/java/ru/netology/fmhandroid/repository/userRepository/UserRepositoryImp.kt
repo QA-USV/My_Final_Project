@@ -22,16 +22,17 @@ class UserRepositoryImp @Inject constructor(
             .flowOn(Dispatchers.Default)
 
     override suspend fun getAllUsers() {
-        val temporaryUserList = mutableListOf(User(
-            id = 1,
-            login = "User-1",
-            password = "abcd",
-            firstName = "Дмитрий",
-            lastName = "Винокуров",
-            middleName = "Владимирович",
-            phoneNumber = "+79109008765",
-            email = "Vinokurov@mail.ru",
-        ),
+        val temporaryUserList = listOf(
+            User(
+                id = 1,
+                login = "User-1",
+                password = "abcd",
+                firstName = "Дмитрий",
+                lastName = "Винокуров",
+                middleName = "Владимирович",
+                phoneNumber = "+79109008765",
+                email = "Vinokurov@mail.ru",
+            ),
             User(
                 id = 2,
                 login = "User-2",

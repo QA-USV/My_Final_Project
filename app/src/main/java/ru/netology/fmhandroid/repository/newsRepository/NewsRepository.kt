@@ -11,9 +11,7 @@ interface NewsRepository {
     suspend fun createNews(newsItem: News): News
     suspend fun removeNewsItemById(id: Int)
     fun getAllNewsCategories(): Flow<List<News.Category>>
-    // Метод подлежит удалению после реализации добавления новых категорий
-    suspend fun saveCategories()
-    //
+    suspend fun saveNewsCategories(listNewsCategories: List<News.Category>)
     fun getAllNews(
         coroutineScope: CoroutineScope,
         publishEnabled: Boolean? = null,
