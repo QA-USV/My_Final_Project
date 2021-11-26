@@ -1,11 +1,7 @@
 package ru.netology.fmhandroid.dto
 
 import android.os.Parcelable
-import androidx.room.Embedded
-import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
-import ru.netology.fmhandroid.entity.ClaimCommentEntity
-import ru.netology.fmhandroid.entity.UserEntity
 
 @Parcelize
 data class Claim(

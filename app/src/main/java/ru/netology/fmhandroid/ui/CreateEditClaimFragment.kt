@@ -37,9 +37,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     private lateinit var vTimePicker: TextInputEditText
     private lateinit var binding: FragmentCreateEditClaimBinding
     private val args: CreateEditClaimFragmentArgs by navArgs()
-    private var executor: User? = null
-
     //временно, пока нет авторизации
+    private var executor: User? = null
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -107,8 +106,6 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     Utils.formatTime(claim.claim.planExecuteDate)
                 )
                 descriptionTextInputLayout.editText?.setText(claim.claim.description)
-
-                // реализовать работу с чекбоксами видимости
             }
 
             cancelButton.setOnClickListener {
