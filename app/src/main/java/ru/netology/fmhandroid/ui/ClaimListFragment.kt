@@ -88,12 +88,6 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             }
         }
 
-        binding.apply {
-            containerListClaimInclude.expandMaterialButton.visibility = View.GONE
-            containerListClaimInclude.allClaimsTextView.visibility = View.GONE
-            root.setBackgroundResource(R.drawable.background_app)
-        }
-
         val adapter = ClaimListAdapter(viewModel)
 
         binding.claimListSwipeRefresh.setOnRefreshListener {
