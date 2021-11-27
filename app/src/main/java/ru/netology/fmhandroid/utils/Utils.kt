@@ -120,7 +120,7 @@ object Utils {
 
     // TODO переделать в ресурсы, форматированную строку сделай
     fun generateShortUserName(lastName: String, firstName: String, middleName: String): String {
-        return "$lastName ${firstName.first()}. ${middleName.first()}."
+        return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
     }
 
     fun fullUserNameGenerator(lastName: String, firstName: String, middleName: String): String {
