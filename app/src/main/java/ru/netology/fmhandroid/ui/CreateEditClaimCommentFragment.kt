@@ -59,13 +59,10 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
         val comment: ClaimCommentWithCreator? = args.argComment
         val claimId: Int = args.argClaimId
 
-        with(binding) {
-            containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.mainMenuImageButton.visibility =
-                View.GONE
-            containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.authorizationImageButton.visibility =
-                View.GONE
-            containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.ourMissionImageButton.visibility =
-                View.GONE
+        with(binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment) {
+            mainMenuImageButton.visibility = View.GONE
+            authorizationImageButton.visibility = View.GONE
+            ourMissionImageButton.visibility = View.GONE
         }
 
         if (comment != null) {
