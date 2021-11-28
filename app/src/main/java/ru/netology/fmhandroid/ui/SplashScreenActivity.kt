@@ -1,5 +1,6 @@
 package ru.netology.fmhandroid.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +12,7 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ActivitySplashScreenBinding
 import ru.netology.fmhandroid.dto.SplashScreen
 
+@SuppressLint("CustomSplashScreen")
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
     private val splashscreenImages = listOf(

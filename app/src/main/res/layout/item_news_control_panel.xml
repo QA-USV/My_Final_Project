@@ -13,7 +13,8 @@
     android:clickable="true"
     android:focusable="true"
     android:outlineSpotShadowColor="@color/execution_priority_low"
-    app:cardElevation="10dp">
+    app:cardElevation="10dp"
+    tools:targetApi="p">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,7 +31,8 @@
                 android:padding="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/news_item_title_text_view"/>
+                app:layout_constraintEnd_toStartOf="@+id/news_item_title_text_view"
+                android:contentDescription="@string/news_category_image" />
 
             <TextView
                 android:id="@+id/news_item_title_text_view"
@@ -184,7 +186,8 @@
                 android:layout_marginStart="@dimen/card_view_padding"
                 android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view"
+                android:contentDescription="@string/news_publish_icon" />
 
             <TextView
                 android:id="@+id/news_item_published_text_view"
@@ -208,7 +211,8 @@
                 android:layout_marginTop="24dp"
                 android:src="@drawable/icon_delete"
                 app:layout_constraintEnd_toStartOf="@+id/edit_news_item_image_view"
-                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view"
+                android:contentDescription="@string/news_delete_button" />
 
             <ImageView
                 android:id="@+id/edit_news_item_image_view"
@@ -218,7 +222,8 @@
                 android:layout_marginTop="24dp"
                 android:src="@drawable/icon_edit"
                 app:layout_constraintEnd_toStartOf="@id/view_news_item_image_view"
-                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view"
+                android:contentDescription="@string/news_edit_button" />
 
             <ImageView
                 android:id="@+id/view_news_item_image_view"
@@ -231,7 +236,8 @@
                 android:padding="0dp"
                 android:src="@drawable/expand_more_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/news_item_author_name_text_view"
+                android:contentDescription="@string/expand_news_button" />
 
             <TextView
                 android:id="@+id/news_item_description_text_view"
@@ -245,6 +251,5 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:visibility="gone"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -26,21 +26,8 @@ data class ClaimEntity(
     val factExecuteDate: Long?,
     @ColumnInfo(name = "status")
     val status: Claim.Status,
-) {
-    fun toDto() = Claim(
-        id = id,
-        title = title,
-        description = description,
-        creatorId = creatorId,
-        executorId = executorId,
-        createDate = createDate,
-        planExecuteDate = planExecuteDate,
-        factExecuteDate = factExecuteDate,
-        status = status
-    )
-}
+)
 
-fun List<ClaimEntity>.toDto(): List<Claim> = map(ClaimEntity::toDto)
 fun List<Claim>.toEntity(): List<ClaimEntity> = map(Claim::toEntity)
 fun Claim.toEntity() = ClaimEntity(
     id = id,

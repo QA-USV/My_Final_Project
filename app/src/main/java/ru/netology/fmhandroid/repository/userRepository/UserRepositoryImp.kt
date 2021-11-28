@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import ru.netology.fmhandroid.api.UserApi
 import ru.netology.fmhandroid.dao.UserDao
 import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.entity.toDto

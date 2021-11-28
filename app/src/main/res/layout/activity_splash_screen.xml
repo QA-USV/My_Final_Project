@@ -5,20 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.SplashScreenActivity">
 
   <ImageView
       android:id="@+id/splashscreen_image_view"
       android:layout_width="wrap_content"
       android:layout_height="300dp"
-      tools:src="@drawable/image_splashscreen_1"
       android:scaleType="centerInside"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintBottom_toTopOf="@id/splashscreen_text_view"
-      android:contentDescription="@string/splashscreen_image" />
+      android:contentDescription="@string/splashscreen_image"
+      tools:src="@drawable/image_splashscreen_1" />
 
   <TextView
       android:id="@+id/splashscreen_text_view"

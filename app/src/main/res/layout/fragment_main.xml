@@ -50,7 +50,8 @@
                         android:id="@+id/container_list_claim_include_on_fragment_main"
                         layout="@layout/container_list_claim"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        tools:ignore="DuplicateIncludedIds" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </RelativeLayout>

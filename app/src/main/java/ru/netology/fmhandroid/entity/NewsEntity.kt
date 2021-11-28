@@ -24,20 +24,8 @@ data class NewsEntity(
     val publishDate: Long,
     @ColumnInfo(name = "publishEnabled")
     val publishEnabled: Boolean = false,
-) {
-    fun toDto() = News(
-        id = id,
-        newsCategoryId,
-        title = title,
-        description = description,
-        creatorId = creatorId,
-        createDate = createDate,
-        publishDate = publishDate,
-        publishEnabled = publishEnabled
-    )
-}
+)
 
-fun List<NewsEntity>.toDto(): List<News> = map(NewsEntity::toDto)
 fun List<News>.toEntity(): List<NewsEntity> = map(News::toEntity)
 fun News.toEntity() = NewsEntity(
     id = id,

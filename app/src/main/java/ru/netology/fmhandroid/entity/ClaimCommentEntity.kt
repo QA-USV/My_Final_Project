@@ -18,17 +18,8 @@ data class ClaimCommentEntity(
     val creatorId: Int,
     @ColumnInfo(name = "createDate")
     val createDate: Long
-) {
-    fun toDto() = ClaimComment(
-        id = id,
-        claimId = claimId,
-        description = description,
-        creatorId = creatorId,
-        createDate = createDate
-    )
-}
+)
 
-fun List<ClaimCommentEntity>.toDto(): List<ClaimComment> = map(ClaimCommentEntity::toDto)
 fun List<ClaimComment>.toEntity(): List<ClaimCommentEntity> = map(ClaimComment::toEntity)
 fun ClaimComment.toEntity() = ClaimCommentEntity(
     id = id,

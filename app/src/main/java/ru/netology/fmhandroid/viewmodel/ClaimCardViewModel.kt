@@ -35,7 +35,7 @@ class ClaimCardViewModel @Inject constructor(
     )
 
     val openClaimCommentEvent = MutableSharedFlow<ClaimCommentWithCreator>()
-    val claimStatusChangedEvent = MutableSharedFlow<Unit>()
+    private val claimStatusChangedEvent = MutableSharedFlow<Unit>()
     val claimStatusChangeExceptionEvent = MutableSharedFlow<Unit>()
     val claimUpdateExceptionEvent = MutableSharedFlow<Unit>()
     val claimUpdatedEvent = MutableSharedFlow<Unit>()
@@ -45,7 +45,7 @@ class ClaimCardViewModel @Inject constructor(
     val claimCommentUpdatedEvent = MutableSharedFlow<Unit>()
     val claimCommentCreateExceptionEvent = MutableSharedFlow<Unit>()
     val updateClaimCommentExceptionEvent = MutableSharedFlow<Unit>()
-    val showNoCommentEditingRightsError = MutableSharedFlow<Unit>()
+    private val showNoCommentEditingRightsError = MutableSharedFlow<Unit>()
 
     fun createClaimComment(claimComment: ClaimComment) {
         viewModelScope.launch {

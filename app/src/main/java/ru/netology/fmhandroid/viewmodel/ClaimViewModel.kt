@@ -16,7 +16,7 @@ class ClaimViewModel @Inject constructor(
 ) : ViewModel(), OnClaimItemClickListener {
 
     val claimsLoadException = MutableSharedFlow<Unit>()
-    val claimCommentsLoadedEvent = MutableSharedFlow<Unit>()
+    private val claimCommentsLoadedEvent = MutableSharedFlow<Unit>()
     val claimCommentsLoadExceptionEvent = MutableSharedFlow<Unit>()
     val openClaimEvent = MutableSharedFlow<FullClaim>()
 

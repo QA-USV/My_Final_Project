@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">First moscow \nhospice</string>
     <string name="claims">Claims</string>
     <string name="claim">Claim</string>
@@ -93,4 +93,9 @@
     <string name="filter_claim_list_menu_button">Filter claim list menu button</string>
     <string name="sort_news_list_button">Sort news list button</string>
     <string name="add_news_button">Add news button</string>
+    <string name="news_category_image">News category icon</string>
+    <string name="news_publish_icon">News publish icon</string>
+    <string name="news_delete_button">News delete button</string>
+    <string name="news_edit_button">News editing button</string>
+    <string name="expand_news_button">Expand news card button</string>
 </resources>

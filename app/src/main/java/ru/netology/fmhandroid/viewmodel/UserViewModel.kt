@@ -21,20 +21,4 @@ class UserViewModel @Inject constructor(
             userRepository.getAllUsers()
         }
     }
-
-    suspend fun getAllUsers() {
-        userRepository.getAllUsers()
-    }
-
-    suspend fun saveUser() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun updateUser() {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun getUserById() {
-        TODO("Not yet implemented")
-    }
 }
