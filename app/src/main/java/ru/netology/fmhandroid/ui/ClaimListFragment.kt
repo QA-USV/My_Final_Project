@@ -99,8 +99,14 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
-                binding.containerListClaimInclude.emptyClaimListGroup.isVisible = state.isEmpty()
-
+                if (state.isEmpty()) {
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible = true
+                    binding.containerListClaimInclude.claimRetryMaterialButton.setOnClickListener {
+                        binding.claimListSwipeRefresh.isRefreshing = true
+                        viewModel.onRefresh()
+                        binding.claimListSwipeRefresh.isRefreshing = false
+                    }
+                }
             }
         }
 

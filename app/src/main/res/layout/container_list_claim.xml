@@ -108,14 +108,14 @@
                 android:layout_marginTop="@dimen/card_view_padding"
                 android:text="@string/empty_claim_list_text"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/claim_retry_text_view"
+                app:layout_constraintBottom_toTopOf="@+id/claim_retry_material_button"
                 app:layout_constraintEnd_toEndOf="@id/empty_claim_list_image_view"
                 app:layout_constraintStart_toStartOf="@id/empty_claim_list_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/empty_claim_list_image_view"
                 app:layout_constraintVertical_bias="0.0" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/claim_retry_text_view"
+                android:id="@+id/claim_retry_material_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/card_view_padding"
@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="empty_claim_list_image_view, empty_claim_list_text_view, claim_retry_text_view" />
+                app:constraint_referenced_ids="empty_claim_list_image_view, empty_claim_list_text_view, claim_retry_material_button" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/claim_list_recycler_view"

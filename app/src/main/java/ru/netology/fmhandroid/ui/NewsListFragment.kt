@@ -69,7 +69,14 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             viewModel.data.collectLatest {
                 binding.newsListSwipeRefresh.isRefreshing = false
                 adapter.submitList(it)
-                binding.containerListNewsInclude.emptyTextTextView.isVisible = it.isEmpty()
+                if (it.isEmpty()) {
+                    binding.containerListNewsInclude.emptyNewsListGroup.isVisible = true
+                    binding.containerListNewsInclude.newsRetryMaterialButton.setOnClickListener {
+                        binding.newsListSwipeRefresh.isRefreshing = true
+                        viewModel.onRefresh()
+                        binding.newsListSwipeRefresh.isRefreshing = false
+                    }
+                }
 
                 binding.containerListNewsInclude.newsListRecyclerView.post {
                     binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
