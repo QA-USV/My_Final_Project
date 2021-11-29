@@ -1,7 +1,9 @@
 package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -96,7 +98,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         }
 
         binding.containerListClaimInclude.claimListRecyclerView.adapter = adapter
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
                 if (state.isEmpty()) {

@@ -27,13 +27,12 @@ class ClaimViewModel @Inject constructor(
         )
     )
 
-    val data: Flow<List<FullClaim>> = statusesFlow.flatMapMerge { statuses ->
+    val data: Flow<List<FullClaim>> = statusesFlow.flatMapLatest { statuses ->
+        internalOnRefresh()
         claimRepository.getClaimsByStatus(
             viewModelScope,
             statuses
-        ).onStart {
-            internalOnRefresh()
-        }
+        )
     }
 
     fun onFilterClaimsMenuItemClicked(statuses: List<Claim.Status>) {
