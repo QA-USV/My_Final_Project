@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -101,6 +102,10 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.data.collectLatest { state ->
                 adapter.submitList(state)
+
+                delay(200)
+                binding.containerListClaimInclude.claimListRecyclerView.smoothScrollToPosition(0)
+
                 if (state.isEmpty()) {
                     binding.containerListClaimInclude.emptyClaimListGroup.isVisible = true
                     binding.containerListClaimInclude.claimRetryMaterialButton.setOnClickListener {
