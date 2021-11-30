@@ -52,6 +52,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textAlignment="viewEnd"
+            android:textIsSelectable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/title_material_text_view"
             app:layout_constraintTop_toTopOf="parent"

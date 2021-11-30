@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:minHeight="32dp"
         android:paddingEnd="30dp"
+        android:textIsSelectable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
