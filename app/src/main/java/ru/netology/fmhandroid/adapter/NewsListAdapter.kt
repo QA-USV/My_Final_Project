@@ -13,7 +13,11 @@ import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.extensions.getType
 import ru.netology.fmhandroid.utils.Utils
 
-class NewsListAdapter :
+interface OnNewsItemClickListener {
+    fun onCard(newsItem: News)
+}
+
+class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListener) :
     ListAdapter<NewsWithCreators, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -23,7 +27,7 @@ class NewsListAdapter :
             false
         )
 
-        return NewsViewHolder(binding)
+        return NewsViewHolder(binding, onNewsItemClickListener)
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
@@ -34,6 +38,7 @@ class NewsListAdapter :
 
     class NewsViewHolder(
         private val binding: ItemNewsBinding,
+        private val onNewsItemClickListener: OnNewsItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItemWithCreator: NewsWithCreators) {
             with(binding) {
@@ -43,18 +48,27 @@ class NewsListAdapter :
                     Utils.formatDate(newsItemWithCreator.news.newsItem.publishDate)
 
                 setCategoryIcon(newsItemWithCreator)
+                if (newsItemWithCreator.news.newsItem.isOpen) {
+                    newsItemGroup.visibility = View.VISIBLE
+                    viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+                } else {
+                    newsItemGroup.visibility = View.GONE
+                    viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+                }
 
                 newsItemMaterialCardView.setOnClickListener {
-                    when (newsItemGroup.visibility) {
-                        View.GONE -> {
-                            newsItemGroup.visibility = View.VISIBLE
-                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
-                        }
-                        else -> {
-                            newsItemGroup.visibility = View.GONE
-                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
-                        }
-                    }
+                    onNewsItemClickListener.onCard(newsItemWithCreator.news.newsItem)
+//                    when (newsItemGroup.visibility) {
+//                        View.GONE -> {
+//                            newsItemGroup.visibility = View.VISIBLE
+//                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+//                        }
+//                        else -> {
+//                            newsItemGroup.visibility = View.GONE
+//                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+//                        }
+//                    }
+
                 }
             }
         }

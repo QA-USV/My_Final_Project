@@ -24,6 +24,8 @@ data class NewsEntity(
     val publishDate: Long,
     @ColumnInfo(name = "publishEnabled")
     val publishEnabled: Boolean = false,
+    @ColumnInfo(name = "isOpen")
+    val isOpen: Boolean = false,
 )
 
 fun List<News>.toEntity(): List<NewsEntity> = map(News::toEntity)
@@ -35,7 +37,8 @@ fun News.toEntity() = NewsEntity(
     creatorId = creatorId,
     createDate = createDate,
     publishDate = publishDate,
-    publishEnabled = publishEnabled
+    publishEnabled = publishEnabled,
+    isOpen = isOpen,
 )
 
 @Entity(tableName = "NewsCategoryEntity")

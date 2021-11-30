@@ -152,7 +152,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-        val newsListAdapter = NewsListAdapter()
+        val newsListAdapter = NewsListAdapter(newsViewModel)
         binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter =
             newsListAdapter
         lifecycleScope.launchWhenCreated {

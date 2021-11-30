@@ -38,6 +38,10 @@ class NewsRepositoryImpl @Inject constructor(
         dateEnd = dateEnd
     ).flowOn(Dispatchers.Default)
 
+    override suspend fun changeIsOpen(newsItem: News) {
+        newsDao.insert(newsItem.toEntity())
+    }
+
     override suspend fun refreshNews() = Utils.makeRequest(
         request = { newsApi.getAllNews() },
         onSuccess = { body ->

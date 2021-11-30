@@ -11,8 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.databinding.FragmentNewsListBinding
@@ -63,7 +65,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             containerListNewsInclude.expandMaterialButton.visibility = View.GONE
         }
 
-        val adapter = NewsListAdapter()
+        val adapter = NewsListAdapter(viewModel)
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.data.collectLatest {
@@ -78,11 +80,11 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
                     }
                 }
 
-                binding.containerListNewsInclude.newsListRecyclerView.post {
-                    binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
-                        0
-                    )
-                }
+//                binding.containerListNewsInclude.newsListRecyclerView.post {
+//                    binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
+//                        0
+//                    )
+//                }
             }
         }
 
@@ -100,7 +102,13 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
 
         binding.newsListSwipeRefresh.setOnRefreshListener {
-            viewModel.onRefresh()
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.onRefresh()
+                delay(200)
+                binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
+                    0
+                )
+            }
         }
 
         with(binding) {

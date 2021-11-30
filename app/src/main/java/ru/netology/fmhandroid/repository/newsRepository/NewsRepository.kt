@@ -20,4 +20,5 @@ interface NewsRepository {
         dateStart: Long? = null,
         dateEnd: Long? = null
     ): Flow<List<NewsWithCreators>>
+    suspend fun changeIsOpen(newsItem: News)
 }
