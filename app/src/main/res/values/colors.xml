@@ -26,4 +26,5 @@
     <color name="splash_screen_title_color_5">#005919</color>
     <color name="splash_screen_title_color_6">#643C01</color>
     <color name="filtering_claim_title_text_color">#01A19F</color>
+    <color name="claim_comment_text_background">#F5F5F5</color>
 </resources>

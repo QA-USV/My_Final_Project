@@ -11,11 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="32dp"
-        android:paddingEnd="30dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textIsSelectable="true"
+        android:background="@color/claim_comment_text_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlSymmetry"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt velit quis orci maximus, non porttitor ipsum porttitor. Aenean at mi et magna molestie hendrerit nec sed ipsum." />
 
     <ImageButton
