@@ -156,11 +156,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.containerListNewsIncludeOnFragmentMain.newsListRecyclerView.adapter =
             newsListAdapter
         lifecycleScope.launchWhenCreated {
-            newsViewModel.data.collect { state ->
-                newsListAdapter.submitList(state.filter {
-                    it.news.newsItem.publishEnabled
-                }.take(n = 3))
-            }
+            newsViewModel.data.collect { it.take(3) }
         }
 
         lifecycleScope.launch {

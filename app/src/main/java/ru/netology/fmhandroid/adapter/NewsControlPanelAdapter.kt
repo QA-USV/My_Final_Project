@@ -14,13 +14,13 @@ import ru.netology.fmhandroid.extensions.getType
 import ru.netology.fmhandroid.utils.Utils
 
 interface NewsOnInteractionListener {
+    fun onCard(newsItem: News)
     fun onEdit(newItemWithCreator: NewsWithCreators)
     fun onRemove(newItemWithCreator: NewsWithCreators)
 }
 
 class NewsControlPanelListAdapter(
-    private val onInteractionListener: NewsOnInteractionListener,
-    private val onNewsItemClickListener: OnNewsItemClickListener
+    private val onInteractionListener: NewsOnInteractionListener
 ) : ListAdapter<NewsWithCreators, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(
     NewsControlPanelDiffCallBack
 ) {
@@ -31,7 +31,7 @@ class NewsControlPanelListAdapter(
             false
         )
 
-        return NewsControlPanelViewHolder(binding, onInteractionListener, onNewsItemClickListener)
+        return NewsControlPanelViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: NewsControlPanelViewHolder, position: Int) {
@@ -42,8 +42,7 @@ class NewsControlPanelListAdapter(
 
     class NewsControlPanelViewHolder(
         private val binding: ItemNewsControlPanelBinding,
-        private val onInteractionListener: NewsOnInteractionListener,
-        private val onNewsItemClickListener: OnNewsItemClickListener
+        private val onInteractionListener: NewsOnInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(newsItemWithCreator: NewsWithCreators) {
@@ -72,17 +71,7 @@ class NewsControlPanelListAdapter(
                 }
 
                 newsItemMaterialCardView.setOnClickListener {
-                    onNewsItemClickListener.onCard(newsItemWithCreator.news.newsItem)
-//                    when (newsItemDescriptionTextView.visibility) {
-//                        View.GONE -> {
-//                            newsItemDescriptionTextView.visibility = View.VISIBLE
-//                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
-//                        }
-//                        else -> {
-//                            newsItemDescriptionTextView.visibility = View.GONE
-//                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
-//                        }
-//                    }
+                    onInteractionListener.onCard(newsItemWithCreator.news.newsItem)
                 }
 
                 when (newsItemWithCreator.news.newsItem.publishEnabled) {

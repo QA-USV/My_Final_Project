@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsControlPanelViewModel @Inject constructor(
     private val newsRepository: NewsRepository
-) : ViewModel(), OnNewsItemClickListener {
+) : ViewModel() {
 
     private val clearFilter = Filter(
         newsCategoryId = null,
@@ -127,7 +127,7 @@ class NewsControlPanelViewModel @Inject constructor(
         val dateEnd: Long?
     )
 
-    override fun onCard(newsItem: News) {
+    fun onCard(newsItem: News) {
         viewModelScope.launch {
             if (newsItem.isOpen) {
                 newsRepository.changeIsOpen(newsItem.copy(isOpen = false))

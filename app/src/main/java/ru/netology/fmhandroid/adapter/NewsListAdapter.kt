@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemNewsBinding
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.extensions.getType
+import ru.netology.fmhandroid.ui.viewdata.NewsViewData
 import ru.netology.fmhandroid.utils.Utils
 
 interface OnNewsItemClickListener {
-    fun onCard(newsItem: News)
+    fun onCard(newsItem: NewsViewData)
 }
 
 class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListener) :
-    ListAdapter<NewsWithCreators, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack) {
+    ListAdapter<NewsViewData, NewsListAdapter.NewsViewHolder>(NewsDiffCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = ItemNewsBinding.inflate(
@@ -40,16 +40,16 @@ class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListen
         private val binding: ItemNewsBinding,
         private val onNewsItemClickListener: OnNewsItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(newsItemWithCreator: NewsWithCreators) {
+        fun bind(news: NewsViewData) {
             with(binding) {
-                newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
-                newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
+                newsItemTitleTextView.text = news.title
+                newsItemDescriptionTextView.text = news.description
                 newsItemDateTextView.text =
-                    Utils.formatDate(newsItemWithCreator.news.newsItem.publishDate)
+                    Utils.formatDate(news.publishDate)
 
-                setCategoryIcon(newsItemWithCreator)
+                setCategoryIcon(news)
 
-                if (newsItemWithCreator.news.newsItem.isOpen) {
+                if (news.isOpen) {
                     newsItemGroup.visibility = View.VISIBLE
                     viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
                 } else {
@@ -58,24 +58,13 @@ class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListen
                 }
 
                 newsItemMaterialCardView.setOnClickListener {
-                    onNewsItemClickListener.onCard(newsItemWithCreator.news.newsItem)
-//                    when (newsItemGroup.visibility) {
-//                        View.GONE -> {
-//                            newsItemGroup.visibility = View.VISIBLE
-//                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
-//                        }
-//                        else -> {
-//                            newsItemGroup.visibility = View.GONE
-//                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
-//                        }
-//                    }
-
+                    onNewsItemClickListener.onCard(news)
                 }
             }
         }
 
-        private fun setCategoryIcon(newsItem: NewsWithCreators) {
-            val iconResId = when (newsItem.news.category.getType()) {
+        private fun setCategoryIcon(news: NewsViewData) {
+            val iconResId = when (news.category.getType()) {
                 News.Category.Type.Advertisement -> R.raw.icon_advertisement
                 News.Category.Type.Salary -> R.raw.icon_salary
                 News.Category.Type.Union -> R.raw.icon_union
@@ -91,12 +80,12 @@ class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListen
     }
 }
 
-private object NewsDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
-    override fun areItemsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
-        return oldItem.news.newsItem.id == newItem.news.newsItem.id
+private object NewsDiffCallBack : DiffUtil.ItemCallback<NewsViewData>() {
+    override fun areItemsTheSame(oldItem: NewsViewData, newItem: NewsViewData): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
+    override fun areContentsTheSame(oldItem: NewsViewData, newItem: NewsViewData): Boolean {
         return oldItem == newItem
     }
 }

@@ -20,6 +20,7 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.NewsControlPanelListAdapter
 import ru.netology.fmhandroid.adapter.NewsOnInteractionListener
 import ru.netology.fmhandroid.databinding.FragmentNewsControlPanelBinding
+import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.utils.Utils
@@ -70,6 +71,10 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
         val dialog = AlertDialog.Builder(activity)
 
         val adapter = NewsControlPanelListAdapter(object : NewsOnInteractionListener {
+            override fun onCard(newsItem: News) {
+                viewModel.onCard(newsItem)
+            }
+
             override fun onEdit(newItemWithCreator: NewsWithCreators) {
                 val action = NewsControlPanelFragmentDirections
                     .actionNewsControlPanelFragmentToCreateEditNewsFragment(newItemWithCreator)
@@ -88,17 +93,13 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                     .create()
                     .show()
             }
-        }, viewModel)
+        })
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state)
-//                    binding.newsListRecyclerView.post {
-//                        binding.newsListRecyclerView.scrollToPosition(
-//                            0
-//                        )
-//                    }
+
                     binding.errorLoadingGroup.isVisible =
                         state.isEmpty()
                 }

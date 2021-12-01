@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.adapter.OnNewsItemClickListener
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
+import ru.netology.fmhandroid.ui.viewdata.NewsViewData
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -28,11 +29,12 @@ class NewsViewModel @Inject constructor(
     private val filterFlow = MutableStateFlow(
         clearFilter
     )
+    private val openNewsIds = MutableStateFlow<Set<Int>>(emptySet())
 
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
 
-    val data: Flow<List<NewsWithCreators>> by lazy {
+    val data: Flow<List<NewsViewData>> by lazy {
         filterFlow.flatMapMerge { filter ->
             newsRepository.getAllNews(
                 viewModelScope,
@@ -45,6 +47,22 @@ class NewsViewModel @Inject constructor(
                 when (sortDirection) {
                     SortDirection.ASC -> news
                     SortDirection.DESC -> news.reversed()
+                }
+            }.combine(openNewsIds) { news, openNewsIds ->
+                news.map {
+                    val newsItem = it.news.newsItem
+                    val id = requireNotNull(newsItem.id) { "News id must not be null" }
+                    NewsViewData(
+                        id = id,
+                        category = it.news.category,
+                        title = newsItem.title,
+                        description = newsItem.description,
+                        creator = it.user,
+                        createDate = newsItem.createDate,
+                        publishDate = newsItem.publishDate,
+                        publishEnabled = newsItem.publishEnabled,
+                        isOpen = openNewsIds.contains(id)
+                    )
                 }
             }
         }.onStart { internalOnRefresh() }
@@ -110,13 +128,8 @@ class NewsViewModel @Inject constructor(
         val dateEnd: Long?
     )
 
-    override fun onCard(newsItem: News) {
-        viewModelScope.launch {
-            if (newsItem.isOpen) {
-                newsRepository.changeIsOpen(newsItem.copy(isOpen = false))
-            } else {
-                newsRepository.changeIsOpen(newsItem.copy(isOpen = true))
-            }
-        }
+    override fun onCard(newsItem: NewsViewData) {
+        if (openNewsIds.value.contains(newsItem.id)) openNewsIds.value -= newsItem.id
+        else openNewsIds.value += newsItem.id
     }
 }
