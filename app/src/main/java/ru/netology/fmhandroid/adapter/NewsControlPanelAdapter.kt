@@ -19,7 +19,8 @@ interface NewsOnInteractionListener {
 }
 
 class NewsControlPanelListAdapter(
-    private val onInteractionListener: NewsOnInteractionListener
+    private val onInteractionListener: NewsOnInteractionListener,
+    private val onNewsItemClickListener: OnNewsItemClickListener
 ) : ListAdapter<NewsWithCreators, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(
     NewsControlPanelDiffCallBack
 ) {
@@ -30,7 +31,7 @@ class NewsControlPanelListAdapter(
             false
         )
 
-        return NewsControlPanelViewHolder(binding, onInteractionListener)
+        return NewsControlPanelViewHolder(binding, onInteractionListener, onNewsItemClickListener)
     }
 
     override fun onBindViewHolder(holder: NewsControlPanelViewHolder, position: Int) {
@@ -41,7 +42,8 @@ class NewsControlPanelListAdapter(
 
     class NewsControlPanelViewHolder(
         private val binding: ItemNewsControlPanelBinding,
-        private val onInteractionListener: NewsOnInteractionListener
+        private val onInteractionListener: NewsOnInteractionListener,
+        private val onNewsItemClickListener: OnNewsItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(newsItemWithCreator: NewsWithCreators) {
@@ -61,17 +63,26 @@ class NewsControlPanelListAdapter(
 
                 setCategoryIcon(newsItemWithCreator)
 
+                if (newsItemWithCreator.news.newsItem.isOpen) {
+                    newsItemDescriptionTextView.visibility = View.VISIBLE
+                    viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+                } else {
+                    newsItemDescriptionTextView.visibility = View.GONE
+                    viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+                }
+
                 newsItemMaterialCardView.setOnClickListener {
-                    when (newsItemDescriptionTextView.visibility) {
-                        View.GONE -> {
-                            newsItemDescriptionTextView.visibility = View.VISIBLE
-                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
-                        }
-                        else -> {
-                            newsItemDescriptionTextView.visibility = View.GONE
-                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
-                        }
-                    }
+                    onNewsItemClickListener.onCard(newsItemWithCreator.news.newsItem)
+//                    when (newsItemDescriptionTextView.visibility) {
+//                        View.GONE -> {
+//                            newsItemDescriptionTextView.visibility = View.VISIBLE
+//                            viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
+//                        }
+//                        else -> {
+//                            newsItemDescriptionTextView.visibility = View.GONE
+//                            viewNewsItemImageView.setImageResource(R.drawable.expand_more_24)
+//                        }
+//                    }
                 }
 
                 when (newsItemWithCreator.news.newsItem.publishEnabled) {

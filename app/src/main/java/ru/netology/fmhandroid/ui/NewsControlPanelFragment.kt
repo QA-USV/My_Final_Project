@@ -88,17 +88,17 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                     .create()
                     .show()
             }
-        })
+        }, viewModel)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state)
-                    binding.newsListRecyclerView.post {
-                        binding.newsListRecyclerView.scrollToPosition(
-                            0
-                        )
-                    }
+//                    binding.newsListRecyclerView.post {
+//                        binding.newsListRecyclerView.scrollToPosition(
+//                            0
+//                        )
+//                    }
                     binding.errorLoadingGroup.isVisible =
                         state.isEmpty()
                 }

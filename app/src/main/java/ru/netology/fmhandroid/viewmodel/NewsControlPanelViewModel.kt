@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.netology.fmhandroid.adapter.OnNewsItemClickListener
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsControlPanelViewModel @Inject constructor(
     private val newsRepository: NewsRepository
-) : ViewModel() {
+) : ViewModel(), OnNewsItemClickListener {
 
     private val clearFilter = Filter(
         newsCategoryId = null,
@@ -125,4 +126,16 @@ class NewsControlPanelViewModel @Inject constructor(
         val dateStart: Long?,
         val dateEnd: Long?
     )
+
+    override fun onCard(newsItem: News) {
+        viewModelScope.launch {
+            if (newsItem.isOpen) {
+                newsRepository.changeIsOpen(newsItem.copy(isOpen = false))
+            } else {
+                newsRepository.changeIsOpen(newsItem.copy(isOpen = true))
+            }
+        }
+    }
+
+
 }

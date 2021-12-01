@@ -48,6 +48,7 @@ class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListen
                     Utils.formatDate(newsItemWithCreator.news.newsItem.publishDate)
 
                 setCategoryIcon(newsItemWithCreator)
+
                 if (newsItemWithCreator.news.newsItem.isOpen) {
                     newsItemGroup.visibility = View.VISIBLE
                     viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
