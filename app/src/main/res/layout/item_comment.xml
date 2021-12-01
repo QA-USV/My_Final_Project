@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/comment_description_text_view"
         style="@style/card_text_style"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="32dp"
         android:paddingStart="10dp"
@@ -17,6 +17,7 @@
         android:background="@color/claim_comment_text_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/edit_comment_image_button"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt velit quis orci maximus, non porttitor ipsum porttitor. Aenean at mi et magna molestie hendrerit nec sed ipsum." />
 
     <ImageButton
