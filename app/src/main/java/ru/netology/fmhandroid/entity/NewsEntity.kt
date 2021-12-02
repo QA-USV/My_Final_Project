@@ -18,6 +18,8 @@ data class NewsEntity(
     val description: String,
     @ColumnInfo(name = "creatorId")
     val creatorId: Int,
+    @ColumnInfo(name = "creatorName")
+    val creatorName: String,
     @ColumnInfo(name = "createDate")
     val createDate: Long,
     @ColumnInfo(name = "publishDate")
@@ -36,6 +38,7 @@ fun News.toEntity() = NewsEntity(
     title = title,
     description = description,
     creatorId = creatorId,
+    creatorName = creatorName,
     createDate = createDate,
     publishDate = publishDate,
     publishEnabled = publishEnabled,

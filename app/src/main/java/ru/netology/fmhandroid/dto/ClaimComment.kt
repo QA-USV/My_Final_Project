@@ -12,6 +12,7 @@ data class ClaimComment(
     val claimId: Int,
     val description: String,
     val creatorId: Int,
+    val creatorName: String,
     val createDate: Long,
 ) : Parcelable
 

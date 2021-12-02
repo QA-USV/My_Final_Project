@@ -13,6 +13,7 @@ data class News(
     val title: String = "",
     val description: String = "",
     val creatorId: Int = 1,
+    val creatorName: String,
     val createDate: Long,
     val publishDate: Long,
     val publishEnabled: Boolean = false,

@@ -16,8 +16,12 @@ data class ClaimEntity(
     val description: String,
     @ColumnInfo(name = "creatorId")
     val creatorId: Int,
+    @ColumnInfo(name = "creatorName")
+    val creatorName: String,
     @ColumnInfo(name = "executorId")
     val executorId: Int?,
+    @ColumnInfo(name = "executorName")
+    val executorName: String?,
     @ColumnInfo(name = "createDate")
     val createDate: Long,
     @ColumnInfo(name = "planExecuteDate")
@@ -34,7 +38,9 @@ fun Claim.toEntity() = ClaimEntity(
     title = title,
     description = description,
     creatorId = creatorId,
+    creatorName = creatorName,
     executorId = executorId,
+    executorName = executorName,
     createDate = createDate,
     planExecuteDate = planExecuteDate,
     factExecuteDate = factExecuteDate,

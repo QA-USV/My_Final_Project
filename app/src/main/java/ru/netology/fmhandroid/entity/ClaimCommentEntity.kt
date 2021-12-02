@@ -16,6 +16,8 @@ data class ClaimCommentEntity(
     val description: String,
     @ColumnInfo(name = "creatorId")
     val creatorId: Int,
+    @ColumnInfo(name = "creatorName")
+    val creatorName: String,
     @ColumnInfo(name = "createDate")
     val createDate: Long
 )
@@ -26,6 +28,7 @@ fun ClaimComment.toEntity() = ClaimCommentEntity(
     claimId = claimId,
     description = description,
     creatorId = creatorId,
+    creatorName = creatorName,
     createDate = createDate
 )
 
