@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.api
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.netology.fmhandroid.BuildConfig
 
-@InstallIn(SingletonComponent::class)
+@InstallIn(ActivityComponent::class)
 @Module
 object NetworkModule {
     @Provides
@@ -20,11 +21,6 @@ object NetworkModule {
                 level = HttpLoggingInterceptor.Level.BODY
             }
         }
-
-    @Provides
-    fun okhttp(interceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(interceptor)
-        .build()
 
     @Provides
     fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()

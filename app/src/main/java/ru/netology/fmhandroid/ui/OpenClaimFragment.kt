@@ -44,13 +44,9 @@ class OpenClaimFragment : Fragment() {
     // Временная переменная. После авторизации заменить на залогиненного юзера
     val user = User(
         id = 1,
-        login = "User-1",
-        password = "abcd",
         firstName = "Дмитрий",
         lastName = "Винокуров",
-        middleName = "Владимирович",
-        phoneNumber = "+79109008765",
-        email = "Vinokurov@mail.ru",
+        middleName = "Владимирович"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

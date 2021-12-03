@@ -1,5 +1,6 @@
 package ru.netology.fmhandroid.repository.claimRepository
 
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -13,7 +14,7 @@ import ru.netology.fmhandroid.utils.Utils.makeRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+@ActivityScoped
 class ClaimRepositoryImpl @Inject constructor(
     private val claimApi: ClaimApi,
     private val claimDao: ClaimDao,
