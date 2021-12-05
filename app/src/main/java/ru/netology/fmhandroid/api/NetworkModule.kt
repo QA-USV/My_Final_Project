@@ -3,15 +3,17 @@ package ru.netology.fmhandroid.api
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.netology.fmhandroid.BuildConfig
+import ru.netology.fmhandroid.api.qualifier.Authorized
+import ru.netology.fmhandroid.api.qualifier.NonAuthorized
+import ru.netology.fmhandroid.auth.AppAuth
 
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 object NetworkModule {
     @Provides
@@ -22,10 +24,35 @@ object NetworkModule {
             }
         }
 
+    @NonAuthorized
     @Provides
-    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideNonAuthorizedRetrofit(@NonAuthorized client: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BuildConfig.BASE_URL)
         .client(client)
+        .build()
+
+    @Authorized
+    @Provides
+    fun provideAuthorizedRetrofit(@Authorized client: OkHttpClient): Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BuildConfig.BASE_URL)
+        .client(client)
+        .build()
+
+    @Authorized
+    @Provides
+    fun authorizedOkhttp(interceptor: HttpLoggingInterceptor, appAuth: AppAuth): OkHttpClient {
+        val authInterceptor = AuthInterceptor(appAuth)
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .addInterceptor(authInterceptor)
+            .build()
+    }
+
+    @NonAuthorized
+    @Provides
+    fun nonAuthorizedOkhttp(interceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(interceptor)
         .build()
 }

@@ -3,32 +3,31 @@ package ru.netology.fmhandroid.api
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import ru.netology.fmhandroid.api.qualifier.Authorized
 import javax.inject.Singleton
 
-@InstallIn(ActivityComponent::class)
-@Module(includes = [AuthorizedNetworkModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(includes = [NetworkModule::class])
 object ApiModule {
     @Provides
-    @ActivityScoped
-    fun provideClaimApi(retrofit: Retrofit): ClaimApi {
+    @Singleton
+    fun provideClaimApi(@Authorized retrofit: Retrofit): ClaimApi {
         return retrofit
             .create(ClaimApi::class.java)
     }
 
     @Provides
-    @ActivityScoped
-    fun provideUserApi(retrofit: Retrofit): UserApi {
+    @Singleton
+    fun provideUserApi(@Authorized retrofit: Retrofit): UserApi {
         return retrofit
             .create(UserApi::class.java)
     }
 
     @Provides
-    @ActivityScoped
-    fun provideNewsApi(retrofit: Retrofit): NewsApi {
+    @Singleton
+    fun provideNewsApi(@Authorized retrofit: Retrofit): NewsApi {
         return retrofit
             .create(NewsApi::class.java)
     }

@@ -3,18 +3,18 @@ package ru.netology.fmhandroid.api
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import ru.netology.fmhandroid.api.qualifier.NonAuthorized
 import javax.inject.Singleton
 
 
-@InstallIn(ActivityComponent::class)
-@Module(includes = [NonAuthorizedNetworkModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(includes = [NetworkModule::class])
 object AuthApiModule {
     @Provides
     @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApi {
+    fun provideAuthApi(@NonAuthorized retrofit: Retrofit): AuthApi {
         return retrofit
             .create(AuthApi::class.java)
     }
