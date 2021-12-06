@@ -6,4 +6,5 @@ import ru.netology.fmhandroid.dto.User
 interface UserRepository {
     val data: Flow<List<User>>
     suspend fun getAllUsers()
+    suspend fun getUserInfo(): User
 }
