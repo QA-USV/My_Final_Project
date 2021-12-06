@@ -98,4 +98,7 @@
     <string name="news_delete_button">News delete button</string>
     <string name="news_edit_button">News editing button</string>
     <string name="expand_news_button">Expand news card button</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
 </resources>

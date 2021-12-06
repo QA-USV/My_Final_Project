@@ -98,4 +98,7 @@
     <string name="news_delete_button">Кнопка удаления новости</string>
     <string name="news_edit_button">Кнопка редактирования новости</string>
     <string name="expand_news_button">Кнопка для раскрытия карточки новости</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
 </resources>
