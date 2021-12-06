@@ -4,7 +4,9 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
+import ru.netology.fmhandroid.api.qualifier.Authorized
 import ru.netology.fmhandroid.auth.AppAuth
+import ru.netology.fmhandroid.dto.User
 
 
 interface AuthApi {

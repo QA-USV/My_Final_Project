@@ -248,7 +248,7 @@ class OpenClaimFragment : Fragment() {
                         claimId = fullClaim.claim.id!!,
                         newClaimStatus = Claim.Status.IN_PROGRESS,
                         executorId = user.id,
-                        claimComment = Utils.EmptyComment.emptyClaimComment
+                        claimComment = Utils.Empty.emptyClaimComment
                     )
                     true
                 }
@@ -258,7 +258,7 @@ class OpenClaimFragment : Fragment() {
                         fullClaim.claim.id!!,
                         Claim.Status.CANCELLED,
                         executorId = null,
-                        claimComment = Utils.EmptyComment.emptyClaimComment
+                        claimComment = Utils.Empty.emptyClaimComment
                     )
                     true
                 }

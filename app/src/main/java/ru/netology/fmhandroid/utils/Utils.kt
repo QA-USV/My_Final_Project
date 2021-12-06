@@ -7,6 +7,7 @@ import android.os.Build
 import android.widget.EditText
 import retrofit2.Response
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.exceptions.UnknownException
@@ -19,15 +20,25 @@ import java.util.*
 
 object Utils {
 
-    object EmptyComment {
+    object Empty {
         val emptyClaimComment = ClaimComment(
             id = 0,
             claimId = 0,
             description = "",
             creatorId = 0,
+            creatorName = "",
             createDate = 0,
         )
+
+        val emptyUser = User(
+            id = 0,
+            admin = false,
+            firstName = "",
+            lastName = "",
+            middleName = ""
+        )
     }
+
 
     fun convertNewsCategory(category: String): Int {
         return when (category) {

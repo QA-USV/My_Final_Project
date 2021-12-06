@@ -7,4 +7,7 @@ import ru.netology.fmhandroid.dto.User
 interface UserApi {
     @GET("user")
     suspend fun getAllUsers(): Response<List<User>>
+
+    @POST("authentication/userInfo")
+    fun getUserInfo(): Response<User>
 }
