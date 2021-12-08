@@ -44,6 +44,7 @@ class OpenClaimFragment : Fragment() {
     // Временная переменная. После авторизации заменить на залогиненного юзера
     val user = User(
         id = 1,
+        admin = false,
         firstName = "Дмитрий",
         lastName = "Винокуров",
         middleName = "Владимирович"
@@ -292,6 +293,8 @@ class OpenClaimFragment : Fragment() {
                                     executorId = null,
                                     claimComment = ClaimComment(
                                         claimId = fullClaim.claim.id,
+                                        //TODO временно, для тестов!
+                                        creatorName = "Тестовое имя",
                                         description = text.toString(),
                                         creatorId = user.id,
                                         createDate = LocalDateTime.now()
@@ -342,6 +345,8 @@ class OpenClaimFragment : Fragment() {
                                     executorId = fullClaim.executor?.id,
                                     claimComment = ClaimComment(
                                         claimId = fullClaim.claim.id,
+                                        //TODO временно, для тестов!
+                                        creatorName = "Тестовое имя",
                                         description = text.toString(),
                                         creatorId = user.id,
                                         createDate = LocalDateTime.now().toEpochSecond(

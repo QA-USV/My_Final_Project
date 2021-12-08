@@ -108,6 +108,8 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
                             claimId = claimId,
                             description = newCommentDescription,
                             creatorId = 1,
+                            //TODO временно, для тестов!
+                            creatorName = "Тестовое имя",
                             createDate = LocalDateTime.now().toEpochSecond(
                                 ZoneId.of("Europe/Moscow").rules.getOffset(
                                     Instant.now()

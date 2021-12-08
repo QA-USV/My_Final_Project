@@ -19,13 +19,10 @@ interface OnClaimCommentItemClickListener {
 // Временная переменная. После авторизации заменить на залогиненного юзера
 val user = User(
     id = 1,
-    login = "User-1",
-    password = "abcd",
+    admin = false,
     firstName = "Дмитрий",
     lastName = "Винокуров",
     middleName = "Владимирович",
-    phoneNumber = "+79109008765",
-    email = "Vinokurov@mail.ru"
 )
 
 class ClaimCommentListAdapter(

@@ -218,6 +218,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 title = titleEditText.text.toString(),
                 description = descriptionEditText.text.toString(),
                 executorId = executor?.id,
+                //TODO нулабельные параметры
+                creatorName = args.argClaim?.claim?.creatorName ?: "???",
                 createDate = args.argClaim?.claim?.createDate ?: Utils.fromLocalDateTimeToTimeStamp(
                     LocalDateTime.now()
                 ),

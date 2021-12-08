@@ -27,33 +27,24 @@ class UserRepositoryImp @Inject constructor(
         val temporaryUserList = listOf(
             User(
                 id = 1,
-                login = "User-1",
-                password = "abcd",
+                admin = false,
                 firstName = "Дмитрий",
                 lastName = "Винокуров",
                 middleName = "Владимирович",
-                phoneNumber = "+79109008765",
-                email = "Vinokurov@mail.ru",
             ),
             User(
                 id = 2,
-                login = "User-2",
-                password = "abcd",
+                admin = false,
                 firstName = "Роман",
                 lastName = "Виктюк",
                 middleName = "Григорьевич",
-                phoneNumber = "+79108009876",
-                email = "Viktyuk@mail.ru",
             ),
             User(
                 id = 3,
-                login = "User-3",
-                password = "abcd",
+                admin = false,
                 firstName = "Валентина",
                 lastName = "Скоморохова-Преображенская",
                 middleName = "Вениаминовна",
-                phoneNumber = "+79001237645",
-                email = "VVS-P@yandex.ru",
             )
         )
         userDao.insert(temporaryUserList.toEntity())

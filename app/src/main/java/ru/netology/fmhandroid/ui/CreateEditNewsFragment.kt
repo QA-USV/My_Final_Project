@@ -232,6 +232,8 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 newsCategoryId = convertNewsCategory(
                     newsItemCategoryTextAutoCompleteTextView.text.toString()
                 ),
+                //TODO нулабельные параметры
+                creatorName = args.newsItemArg?.news?.newsItem?.creatorName ?: "???",
                 createDate = args.newsItemArg?.news?.newsItem?.createDate ?: LocalDateTime.now()
                     .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(now())),
                 //* Временное поле. Подлежит удалению после введения регистрации/аутентификации *
