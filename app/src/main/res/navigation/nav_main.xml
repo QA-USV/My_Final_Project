@@ -142,7 +142,7 @@
         android:id="@+id/mainFragment"
         android:name="ru.netology.fmhandroid.ui.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_newsListFragment"
             app:destination="@id/newsListFragment" />
@@ -159,7 +159,7 @@
     <fragment
         android:id="@+id/authFragment"
         android:name="ru.netology.fmhandroid.ui.AuthFragment"
-        android:label="AuthFragment" >
+        android:label="AuthFragment">
         <action
             android:id="@+id/action_authFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
@@ -167,13 +167,17 @@
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="ru.netology.fmhandroid.ui.SplashScreenFragment"
-        android:label="SplashScreenFragment" >
+        android:label="SplashScreenFragment">
         <action
             android:id="@+id/action_splashScreenFragment_to_authFragment"
-            app:destination="@id/authFragment" />
+            app:destination="@id/authFragment"
+            app:popUpTo="@+id/splashScreenFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashScreenFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@+id/splashScreenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>
