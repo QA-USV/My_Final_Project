@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +27,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
     @Inject
     lateinit var auth: AppAuth
+
     @Inject
     lateinit var userApi: UserApi
     private val authViewModel: AuthViewModel by viewModels()
@@ -145,7 +143,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        hideSystemBars()
+        onFullScreen()
 
         lifecycleScope.launch {
             authViewModel.nonAuthorizedEvent.collectLatest {
@@ -177,28 +175,16 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     override fun onDestroyView() {
         super.onDestroyView()
 
-//        showSystemBars()
+        offFullScreen()
     }
 
-    private fun hideSystemBars() {
+    private fun onFullScreen() {
         val window: Window = requireActivity().window
-        val windowInsetsController =
-            ViewCompat.getWindowInsetsController(window.decorView) ?: return
-        // Configure the behavior of the hidden system bars
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        // Hide both the status bar and the navigation bar
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
 
-    private fun showSystemBars() {
+    private fun offFullScreen() {
         val window: Window = requireActivity().window
-        val windowInsetsController =
-            ViewCompat.getWindowInsetsController(window.decorView) ?: return
-        // Configure the behavior of the hidden system bars
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        // Hide both the status bar and the navigation bar
-        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
     }
 }

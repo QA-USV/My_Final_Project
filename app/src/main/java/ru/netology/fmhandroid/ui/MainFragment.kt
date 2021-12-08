@@ -2,8 +2,12 @@ package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
