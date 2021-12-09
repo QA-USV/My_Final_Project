@@ -21,6 +21,7 @@ import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.NewsListAdapter
 import ru.netology.fmhandroid.databinding.FragmentMainBinding
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
 
@@ -30,6 +31,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val claimViewModel: ClaimViewModel by viewModels()
     private val newsViewModel: NewsViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +85,28 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 else -> false
             }
         }
+
+        val authorizationMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentMain.authorizationImageButton
+        )
+        authorizationMenu.inflate(R.menu.authorization)
+
+        binding.containerCustomAppBarIncludeOnFragmentMain.authorizationImageButton.setOnClickListener {
+            authorizationMenu.show()
+        }
+
+        authorizationMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.authorization_logout_menu_item -> {
+                    authViewModel.logOut()
+                    findNavController().navigate(R.id.action_mainFragment_to_authFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
 
         binding.containerListClaimIncludeOnFragmentMain.apply {
             expandMaterialButton.visibility = View.VISIBLE

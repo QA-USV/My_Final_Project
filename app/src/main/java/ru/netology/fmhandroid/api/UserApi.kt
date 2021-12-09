@@ -9,5 +9,5 @@ interface UserApi {
     suspend fun getAllUsers(): Response<List<User>>
 
     @POST("authentication/userInfo")
-    fun getUserInfo(): Response<User>
+    suspend fun getUserInfo(): Response<User>
 }

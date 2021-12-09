@@ -101,4 +101,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
+    <string name="empty_login_or_password">Login and password cannot be empty</string>
+    <string name="log_out">Log out</string>
+    <string name="wrong_login_or_password">Wrong login or password</string>
 </resources>

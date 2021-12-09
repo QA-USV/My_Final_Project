@@ -101,4 +101,7 @@
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти</string>
+    <string name="empty_login_or_password">Логин и пароль не могут быть пустыми</string>
+    <string name="log_out">Выйти</string>
+    <string name="wrong_login_or_password">Неверный логин или пароль</string>
 </resources>

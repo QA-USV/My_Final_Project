@@ -9,12 +9,12 @@ import ru.netology.fmhandroid.auth.AppAuth
 
 interface AuthApi {
     @POST("authentication/login")
-    fun getTokens(
+    suspend fun getTokens(
         @Body loginData: AppAuth.LoginData
     ): Response<AppAuth.AuthState>
 
     @POST("authentication/refresh")
-    fun refreshTokens(
+    suspend fun refreshTokens(
         @Query("token") refreshToken: String
     ): Response<AppAuth.AuthState>
 }

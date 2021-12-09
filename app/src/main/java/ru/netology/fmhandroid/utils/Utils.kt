@@ -122,7 +122,6 @@ object Utils {
         } catch (e: IOException) {
             throw ServerException
         } catch (e: Exception) {
-            e.printStackTrace()
             throw UnknownException
         }
     }

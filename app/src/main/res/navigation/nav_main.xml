@@ -155,6 +155,9 @@
         <action
             android:id="@+id/action_mainFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
