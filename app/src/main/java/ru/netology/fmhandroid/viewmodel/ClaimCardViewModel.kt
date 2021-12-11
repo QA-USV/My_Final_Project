@@ -14,7 +14,8 @@ import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimCardViewModel @Inject constructor(
-    private val claimRepository: ClaimRepository
+    private val claimRepository: ClaimRepository,
+    authViewModel: AuthViewModel
 ) : ViewModel(), OnClaimCommentItemClickListener {
     private var claimId by Delegates.notNull<Int>()
 
@@ -22,14 +23,7 @@ class ClaimCardViewModel @Inject constructor(
         claimRepository.getClaimById(claimId)
     }
 
-    // Временная переменная. После авторизации заменить на залогиненного юзера
-    val user = User(
-        id = 1,
-        admin = false,
-        firstName = "Дмитрий",
-        lastName = "Винокуров",
-        middleName = "Владимирович",
-    )
+    private val currentUser: User = authViewModel.currentUser
 
     val openClaimCommentEvent = MutableSharedFlow<ClaimCommentWithCreator>()
     private val claimStatusChangedEvent = MutableSharedFlow<Unit>()
@@ -121,7 +115,7 @@ class ClaimCardViewModel @Inject constructor(
     // region OnClaimCommentItemClickListener
     override fun onCard(claimComment: ClaimCommentWithCreator) {
         viewModelScope.launch {
-            if (user.id == claimComment.creator.id) {
+            if (currentUser.id == claimComment.creator.id) {
                 openClaimCommentEvent.emit(claimComment)
             } else
                 showNoCommentEditingRightsError.emit(Unit)

@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.auth.AppAuth
@@ -23,6 +24,11 @@ class AuthViewModel @Inject constructor(
     private var _currentUser = Utils.Empty.emptyUser
     val currentUser: User
         get() = _currentUser
+
+    private var _userList = Utils.Empty.emptyUserList
+    val userList: List<User>
+        get() = _userList
+
 
     val nonAuthorizedEvent = MutableSharedFlow<Unit>()
     val authorizedEvent = MutableSharedFlow<Unit>()
@@ -65,6 +71,7 @@ class AuthViewModel @Inject constructor(
 
     fun logOut() {
         appAuth.deleteTokens()
+        _currentUser = Utils.Empty.emptyUser
     }
 
     private suspend fun getUserInfo() {

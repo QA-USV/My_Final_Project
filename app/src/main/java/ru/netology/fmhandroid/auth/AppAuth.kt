@@ -5,6 +5,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import ru.netology.fmhandroid.dto.User
+import ru.netology.fmhandroid.utils.Utils
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,13 +17,12 @@ class AppAuth @Inject constructor(
     val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val accessTokenKey = "access"
     private val refreshTokenKey = "refresh"
-    val accessToken = prefs.getString(accessTokenKey, null)
-    val refreshToken = prefs.getString(refreshTokenKey, null)
-
-//    init {
-//        val accessToken = prefs.getString("access", null)
-//        val refreshToken = prefs.getString("refresh", null)
-//    }
+    private var _accessToken = prefs.getString(accessTokenKey, null)
+    val accessToken: String?
+        get() = _accessToken
+    private var _refreshToken = prefs.getString(refreshTokenKey, null)
+    val refreshToken: String?
+        get() = _accessToken
 
     fun saveTokens(authState: AuthState) {
         with(prefs.edit()) {
@@ -29,6 +30,8 @@ class AppAuth @Inject constructor(
             putString(refreshTokenKey, authState.refreshToken)
             apply()
         }
+        _accessToken = authState.accessToken
+        _refreshToken = authState.refreshToken
     }
 
     fun deleteTokens() {
@@ -36,6 +39,8 @@ class AppAuth @Inject constructor(
             clear()
             apply()
         }
+        _accessToken = null
+        _refreshToken = null
     }
 
     data class AuthState(

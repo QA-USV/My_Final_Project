@@ -5,7 +5,7 @@ import retrofit2.http.*
 import ru.netology.fmhandroid.dto.User
 
 interface UserApi {
-    @GET("user")
+    @GET("users")
     suspend fun getAllUsers(): Response<List<User>>
 
     @POST("authentication/userInfo")

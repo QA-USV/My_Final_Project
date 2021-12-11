@@ -28,7 +28,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth){
             }
         }
         lifecycleScope.launch {
-            viewModel.getUserInfoExceptionEvent.collectLatest {
+            viewModel.loginExceptionEvent.collectLatest {
                 Toast.makeText(
                     requireContext(),
                     R.string.wrong_login_or_password,

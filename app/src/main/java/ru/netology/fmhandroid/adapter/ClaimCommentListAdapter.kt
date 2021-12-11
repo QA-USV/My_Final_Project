@@ -8,25 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemCommentBinding
 import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
-import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 
 interface OnClaimCommentItemClickListener {
     fun onCard(claimComment: ClaimCommentWithCreator)
 }
 
-// Временная переменная. После авторизации заменить на залогиненного юзера
-val user = User(
-    id = 1,
-    admin = false,
-    firstName = "Дмитрий",
-    lastName = "Винокуров",
-    middleName = "Владимирович",
-)
-
 class ClaimCommentListAdapter(
-    private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener
+    private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener,
+    private val authViewModel: AuthViewModel
 ) :
     ListAdapter<ClaimCommentWithCreator, ClaimCommentListAdapter.ClaimCommentViewHolder>(
         ClaimCommentDiffCallback
@@ -38,7 +30,7 @@ class ClaimCommentListAdapter(
             parent,
             false
         )
-        return ClaimCommentViewHolder(binding, onClaimCommentItemClickListener)
+        return ClaimCommentViewHolder(binding, onClaimCommentItemClickListener, authViewModel)
     }
 
     override fun onBindViewHolder(holder: ClaimCommentViewHolder, position: Int) {
@@ -49,7 +41,8 @@ class ClaimCommentListAdapter(
 
     class ClaimCommentViewHolder(
         private val binding: ItemCommentBinding,
-        private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener
+        private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener,
+        private val authViewModel: AuthViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(claimComment: ClaimCommentWithCreator) {
@@ -68,7 +61,7 @@ class ClaimCommentListAdapter(
                     Utils.formatTime(claimComment.claimComment.createDate)
 
                 editCommentImageButton.setImageResource(
-                    if (claimComment.creator.id != user.id) R.drawable.ic_pen_light else R.drawable.ic_pen
+                    if (claimComment.creator.id != authViewModel.currentUser.id) R.drawable.ic_pen_light else R.drawable.ic_pen
                 )
                 editCommentImageButton.setOnClickListener {
                     onClaimCommentItemClickListener.onCard(claimComment)

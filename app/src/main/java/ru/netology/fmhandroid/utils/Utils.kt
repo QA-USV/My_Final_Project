@@ -37,6 +37,8 @@ object Utils {
             lastName = "",
             middleName = ""
         )
+
+        val emptyUserList = emptyList<User>()
     }
 
 
