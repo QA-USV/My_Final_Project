@@ -128,13 +128,9 @@ object Utils {
         }
     }
 
-    // TODO переделать в ресурсы, форматированную строку сделай
-    fun generateShortUserName(lastName: String, firstName: String, middleName: String): String {
-        return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
-    }
-
-    fun fullUserNameGenerator(lastName: String, firstName: String, middleName: String): String {
-        return "$lastName $firstName $middleName"
+    fun generateShortUserName(fullName: String): String {
+        val parsedName = fullName.trim().split("\\s".toRegex())
+        return "${parsedName[0]} ${parsedName[1].first().uppercase()} ${parsedName[2].first().uppercase()}"
     }
 
     fun isOnline(context: Context): Boolean {

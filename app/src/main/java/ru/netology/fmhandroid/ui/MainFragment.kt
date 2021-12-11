@@ -2,12 +2,8 @@ package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -54,6 +50,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launchWhenResumed {
             newsViewModel.loadNewsExceptionEvent.collect {
                 showErrorToast(R.string.error)
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            authViewModel.userListLoadedEvent.collect {
+                findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)
             }
         }
     }
@@ -107,14 +109,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-
         binding.containerListClaimIncludeOnFragmentMain.apply {
             expandMaterialButton.visibility = View.VISIBLE
             allClaimsTextView.visibility = View.VISIBLE
             filtersMaterialButton.visibility = View.GONE
 
             addNewClaimMaterialButton.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    authViewModel.loadUserList()
+                }
             }
 
             expandMaterialButton.setOnClickListener {

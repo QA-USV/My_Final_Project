@@ -20,12 +20,12 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditClaimBinding
 import ru.netology.fmhandroid.dto.Claim
-import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.utils.Utils.fullUserNameGenerator
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import ru.netology.fmhandroid.viewmodel.UserViewModel
 import java.time.LocalDateTime
@@ -38,8 +38,9 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     private lateinit var binding: FragmentCreateEditClaimBinding
     private val args: CreateEditClaimFragmentArgs by navArgs()
     //временно, пока нет авторизации
-    private var executor: User? = null
+//    private var executor: User? = null
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )

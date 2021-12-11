@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.databinding.FragmentListClaimBinding
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
@@ -26,6 +27,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
     private lateinit var binding: FragmentListClaimBinding
     private val viewModel: ClaimViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +59,12 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                     R.string.claim_comments_load_error,
                     Toast.LENGTH_LONG
                 ).show()
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            authViewModel.userListLoadedEvent.collect {
+                findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)
             }
         }
     }
@@ -125,7 +133,9 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
         }
 
         binding.containerListClaimInclude.addNewClaimMaterialButton.setOnClickListener {
-            findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
+            viewLifecycleOwner.lifecycleScope.launch {
+                authViewModel.loadUserList()
+            }
         }
     }
 }

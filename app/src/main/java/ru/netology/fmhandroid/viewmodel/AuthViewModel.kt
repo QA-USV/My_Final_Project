@@ -3,13 +3,10 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.auth.AppAuth
 import ru.netology.fmhandroid.dto.User
-import ru.netology.fmhandroid.exceptions.ApiException
-import ru.netology.fmhandroid.exceptions.UnknownException
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import ru.netology.fmhandroid.utils.Utils
@@ -29,12 +26,13 @@ class AuthViewModel @Inject constructor(
     val userList: List<User>
         get() = _userList
 
-
     val nonAuthorizedEvent = MutableSharedFlow<Unit>()
     val authorizedEvent = MutableSharedFlow<Unit>()
     val loginExceptionEvent = MutableSharedFlow<Unit>()
     val loginEvent = MutableSharedFlow<Unit>()
     val getUserInfoExceptionEvent = MutableSharedFlow<Unit>()
+    val getUserListExceptionEvent = MutableSharedFlow<Unit>()
+    val userListLoadedEvent = MutableSharedFlow<Unit>()
 
     fun login(login: String, password: String) {
         viewModelScope.launch {
@@ -83,4 +81,13 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    suspend fun loadUserList() {
+        try {
+            _userList = userRepository.getAllUsers()
+            userListLoadedEvent.emit(Unit)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            getUserListExceptionEvent.emit(Unit)
+        }
+    }
 }

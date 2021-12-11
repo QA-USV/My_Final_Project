@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
@@ -22,33 +21,23 @@ import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.FullClaim
-import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-
-//    TODO("В этом фрагменте после внедрения авторизации требуется изменить хардкод юзера на залогиненного пользователя!!!!")
-@AndroidEntryPoint
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
+    private val user = authViewModel.currentUser
 
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
         args.argClaim.claim.id!!
     }
-
-    // Временная переменная. После авторизации заменить на залогиненного юзера
-    val user = User(
-        id = 1,
-        admin = false,
-        firstName = "Дмитрий",
-        lastName = "Винокуров",
-        middleName = "Владимирович"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,13 +86,13 @@ class OpenClaimFragment : Fragment() {
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
             .setText(R.string.claim)
 
-        val adapter = ClaimCommentListAdapter(claimCardViewModel)
+        val adapter = ClaimCommentListAdapter(claimCardViewModel, authViewModel)
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             claimCardViewModel.dataFullClaim.collect { fullClaim ->
-                renderingContentOfClaim(fullClaim, fullClaim.executor)
+                renderingContentOfClaim(fullClaim)
                 adapter.submitList(fullClaim.comments)
             }
         }
@@ -153,21 +142,14 @@ class OpenClaimFragment : Fragment() {
         }
     }
 
-    private fun renderingContentOfClaim(
-        fullClaim: FullClaim,
-        executor: User?
-    ) {
+    private fun renderingContentOfClaim(fullClaim: FullClaim) {
         val statusProcessingMenu = PopupMenu(context, binding.statusProcessingImageButton)
         statusProcessingMenu.inflate(R.menu.menu_claim_status_processing)
         binding.titleTextView.text = fullClaim.claim.title
         binding.planeDateTextView.text = Utils.formatDate(fullClaim.claim.planExecuteDate)
         binding.planTimeTextView.text = Utils.formatTime(fullClaim.claim.planExecuteDate)
         binding.descriptionTextView.text = fullClaim.claim.description
-        binding.authorNameTextView.text = Utils.fullUserNameGenerator(
-            fullClaim.creator.lastName,
-            fullClaim.creator.firstName,
-            fullClaim.creator.middleName
-        )
+        binding.authorNameTextView.text = fullClaim.claim.creatorName
         binding.createDataTextView.text = Utils.formatDate(fullClaim.claim.createDate)
         binding.createTimeTextView.text = Utils.formatTime(fullClaim.claim.createDate)
         binding.statusLabelTextView.text = displayingStatusOfClaim(fullClaim.claim.status)
@@ -178,18 +160,13 @@ class OpenClaimFragment : Fragment() {
         )
 
         binding.executorNameTextView.text =
-            if (fullClaim.executor != null) {
-                Utils.fullUserNameGenerator(
-                    executor?.lastName.toString(),
-                    executor?.firstName.toString(),
-                    executor?.middleName.toString()
-                )
-            } else {
-                getString(R.string.not_assigned)
-            }
+            fullClaim.claim.executorName ?: getString(R.string.not_assigned)
 
         binding.editProcessingImageButton.apply {
-            if (fullClaim.claim.status == Claim.Status.OPEN) {
+            if (
+                (fullClaim.claim.status == Claim.Status.OPEN && fullClaim.claim.creatorId == user.id) ||
+                (fullClaim.claim.status == Claim.Status.OPEN && user.admin)
+            ) {
                 this.setImageResource(R.drawable.ic_pen)
                 this.isClickable = true
                 this.setOnClickListener {
@@ -208,7 +185,6 @@ class OpenClaimFragment : Fragment() {
 
         when (fullClaim.claim.status) {
             Claim.Status.OPEN -> {
-                // Заменить на залогиненного юзера и добавить в условие админа !!
                 statusProcessingMenu.menu.findItem(R.id.cancel_list_item).isEnabled =
                     user.id == fullClaim.claim.creatorId
             }
@@ -293,8 +269,7 @@ class OpenClaimFragment : Fragment() {
                                     executorId = null,
                                     claimComment = ClaimComment(
                                         claimId = fullClaim.claim.id,
-                                        //TODO временно, для тестов!
-                                        creatorName = "Тестовое имя",
+                                        creatorName = fullClaim.claim.creatorName,
                                         description = text.toString(),
                                         creatorId = user.id,
                                         createDate = LocalDateTime.now()
@@ -342,11 +317,10 @@ class OpenClaimFragment : Fragment() {
                                 claimCardViewModel.changeClaimStatus(
                                     fullClaim.claim.id!!,
                                     Claim.Status.EXECUTED,
-                                    executorId = fullClaim.executor?.id,
+                                    executorId = fullClaim.claim.executorId,
                                     claimComment = ClaimComment(
                                         claimId = fullClaim.claim.id,
-                                        //TODO временно, для тестов!
-                                        creatorName = "Тестовое имя",
+                                        creatorName = fullClaim.claim.creatorName,
                                         description = text.toString(),
                                         creatorId = user.id,
                                         createDate = LocalDateTime.now().toEpochSecond(
