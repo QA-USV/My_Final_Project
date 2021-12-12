@@ -49,7 +49,7 @@ class OpenClaimFragment : Fragment() {
                 val action = OpenClaimFragmentDirections
                     .actionOpenClaimFragmentToCreateEditClaimCommentFragment(
                         it,
-                        it.claimComment.claimId
+                        it.claimId
                     )
                 findNavController().navigate(action)
             }
@@ -219,8 +219,6 @@ class OpenClaimFragment : Fragment() {
         statusProcessingMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.in_progress_list_item -> {
-
-                    // Изменить claimExecutor на залогиненного пользователя !!!
                     claimCardViewModel.changeClaimStatus(
                         claimId = fullClaim.claim.id!!,
                         newClaimStatus = Claim.Status.IN_PROGRESS,

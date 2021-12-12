@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
@@ -56,7 +55,7 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
         val binding = FragmentCreateEditCommentBinding.bind(view)
 
         val args: CreateEditClaimCommentFragmentArgs by navArgs()
-        val comment: ClaimCommentWithCreator? = args.argComment
+        val comment: ClaimComment? = args.argComment
         val claimId: Int = args.argClaimId
 
         with(binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment) {
@@ -73,13 +72,13 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
             binding.containerCustomAppBarIncludeOnFragmentCreateEditClaimComment.customAppBarSubTitleTextView
                 .setText(R.string.genitive_comment)
 
-            binding.commentTextInputLayout.editText?.setText(comment.claimComment.description)
+            binding.commentTextInputLayout.editText?.setText(comment.description)
 
             binding.saveButton.setOnClickListener {
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
                 if (newCommentDescription.isNotBlank()) {
                     claimCardViewModel.updateClaimComment(
-                        comment.claimComment.copy(
+                        comment.copy(
                             description = binding.commentTextInputLayout.editText?.text.toString()
                         )
                     )

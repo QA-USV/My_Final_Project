@@ -3,7 +3,7 @@ package ru.netology.fmhandroid.repository.newsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.dto.NewsWithCategory
 
 interface NewsRepository {
     suspend fun refreshNews()
@@ -19,6 +19,6 @@ interface NewsRepository {
         newsCategoryId: Int? = null,
         dateStart: Long? = null,
         dateEnd: Long? = null
-    ): Flow<List<NewsWithCreators>>
+    ): Flow<List<NewsWithCategory>>
     suspend fun changeIsOpen(newsItem: News)
 }

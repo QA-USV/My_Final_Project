@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Relation
 import ru.netology.fmhandroid.entity.NewsCategoryEntity
-import ru.netology.fmhandroid.entity.UserEntity
 
 @kotlinx.parcelize.Parcelize
 data class News(
@@ -43,18 +42,6 @@ data class NewsWithCategory(
         entityColumn = "id"
     )
     val category: News.Category
-) : Parcelable
-
-@kotlinx.parcelize.Parcelize
-data class NewsWithCreators(
-    @Embedded
-    val news: NewsWithCategory,
-    @Relation(
-        entity = UserEntity::class,
-        parentColumn = "creatorId",
-        entityColumn = "id"
-    )
-    val user: User
 ) : Parcelable
 
 @kotlinx.parcelize.Parcelize

@@ -5,4 +5,5 @@ import ru.netology.fmhandroid.utils.Utils
 
 data class AuthUserModel (
     val authUser: User = Utils.Empty.emptyUser
+
         )

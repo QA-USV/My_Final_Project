@@ -8,7 +8,6 @@ import ru.netology.fmhandroid.entity.*
 
 @Database(
     entities = [
-        UserEntity::class,
         ClaimEntity::class,
         ClaimCommentEntity::class,
         NewsEntity::class,
@@ -22,7 +21,6 @@ import ru.netology.fmhandroid.entity.*
     ClaimClaimStatusConverter::class
 )
 abstract class AppDb : RoomDatabase() {
-    abstract fun getUserDao(): UserDao
     abstract fun getClaimDao(): ClaimDao
     abstract fun getClaimCommentDao(): ClaimCommentDao
     abstract fun getNewsDao(): NewsDao

@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnNewsItemClickListener
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.NewsWithCreators
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
 import ru.netology.fmhandroid.ui.viewdata.NewsViewData
 import ru.netology.fmhandroid.utils.Utils
@@ -50,14 +49,15 @@ class NewsViewModel @Inject constructor(
                 }
             }.combine(openNewsIds) { news, openNewsIds ->
                 news.map {
-                    val newsItem = it.news.newsItem
+                    val newsItem = it.newsItem
                     val id = requireNotNull(newsItem.id) { "News id must not be null" }
                     NewsViewData(
                         id = id,
-                        category = it.news.category,
+                        category = it.category,
                         title = newsItem.title,
                         description = newsItem.description,
-                        creator = it.user,
+                        creatorId = it.newsItem.creatorId,
+                        creatorName = it.newsItem.creatorName,
                         createDate = newsItem.createDate,
                         publishDate = newsItem.publishDate,
                         publishEnabled = newsItem.publishEnabled,

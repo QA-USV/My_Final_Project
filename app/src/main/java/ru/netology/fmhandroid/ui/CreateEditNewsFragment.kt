@@ -91,16 +91,16 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                     .setText(R.string.news)
             }
             args.newsItemArg?.let { newsItem ->
-                newsItemCategoryTextAutoCompleteTextView.setText(newsItem.news.category.name)
-                newsItemTitleTextInputEditText.setText(newsItem.news.newsItem.title)
+                newsItemCategoryTextAutoCompleteTextView.setText(newsItem.category.name)
+                newsItemTitleTextInputEditText.setText(newsItem.newsItem.title)
                 newsItemPublishDateTextInputEditText.setText(
-                    Utils.formatDate(newsItem.news.newsItem.publishDate)
+                    Utils.formatDate(newsItem.newsItem.publishDate)
                 )
                 newsItemPublishTimeTextInputEditText.setText(
-                    Utils.formatTime(newsItem.news.newsItem.publishDate)
+                    Utils.formatTime(newsItem.newsItem.publishDate)
                 )
-                newsItemDescriptionTextInputEditText.setText(newsItem.news.newsItem.description)
-                switcher.isChecked = newsItem.news.newsItem.publishEnabled
+                newsItemDescriptionTextInputEditText.setText(newsItem.newsItem.description)
+                switcher.isChecked = newsItem.newsItem.publishEnabled
             }
 
             if (switcher.isChecked) {
@@ -227,14 +227,14 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
     private fun fillNewsItem(): News {
         with(binding) {
             return News(
-                id = args.newsItemArg?.news?.newsItem?.id,
+                id = args.newsItemArg?.newsItem?.id,
                 title = newsItemTitleTextInputEditText.text.toString(),
                 newsCategoryId = convertNewsCategory(
                     newsItemCategoryTextAutoCompleteTextView.text.toString()
                 ),
                 //TODO нулабельные параметры
-                creatorName = args.newsItemArg?.news?.newsItem?.creatorName ?: "???",
-                createDate = args.newsItemArg?.news?.newsItem?.createDate ?: LocalDateTime.now()
+                creatorName = args.newsItemArg?.newsItem?.creatorName ?: "???",
+                createDate = args.newsItemArg?.newsItem?.createDate ?: LocalDateTime.now()
                     .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(now())),
                 //* Временное поле. Подлежит удалению после введения регистрации/аутентификации *
                 creatorId = 1,

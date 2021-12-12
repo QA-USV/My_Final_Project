@@ -7,7 +7,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.viewmodel.NewsViewModel
-import ru.netology.fmhandroid.viewmodel.UserViewModel
 
 @AndroidEntryPoint
 class AppActivity : AppCompatActivity() {
@@ -15,9 +14,6 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 
-        // Костыль!!! Убрать!!! (Only for test!)
-        val viewModel: UserViewModel by viewModels()
-        val bla = viewModel
         val newsViewModel: NewsViewModel by viewModels()
 
         val categories =
@@ -34,5 +30,4 @@ class AppActivity : AppCompatActivity() {
 
         newsViewModel.initializationListNewsCategories(categories)
     }
-
 }

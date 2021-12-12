@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.auth.AppAuth
-import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import ru.netology.fmhandroid.utils.Utils
@@ -18,13 +17,11 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val appAuth: AppAuth
 ) : ViewModel() {
-    private var _currentUser = Utils.Empty.emptyUser
-    val currentUser: User
-        get() = _currentUser
+    var currentUser = Utils.Empty.emptyUser
+        private set
 
-    private var _userList = Utils.Empty.emptyUserList
-    val userList: List<User>
-        get() = _userList
+    var userList = Utils.Empty.emptyUserList
+        private set
 
     val nonAuthorizedEvent = MutableSharedFlow<Unit>()
     val authorizedEvent = MutableSharedFlow<Unit>()
@@ -62,6 +59,8 @@ class AuthViewModel @Inject constructor(
                     )
                     getUserInfo()
                     authorizedEvent.emit(Unit)
+                } finally {
+
                 }
             }
         }
@@ -69,12 +68,12 @@ class AuthViewModel @Inject constructor(
 
     fun logOut() {
         appAuth.deleteTokens()
-        _currentUser = Utils.Empty.emptyUser
+        currentUser = Utils.Empty.emptyUser
     }
 
     private suspend fun getUserInfo() {
         try {
-            _currentUser = userRepository.getUserInfo()
+            currentUser = userRepository.getUserInfo()
         } catch (e: Exception) {
             e.printStackTrace()
             getUserInfoExceptionEvent.emit(Unit)
@@ -83,7 +82,7 @@ class AuthViewModel @Inject constructor(
 
     suspend fun loadUserList() {
         try {
-            _userList = userRepository.getAllUsers()
+            userList = userRepository.getAllUsers()
             userListLoadedEvent.emit(Unit)
         } catch (e: Exception) {
             e.printStackTrace()

@@ -7,20 +7,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemCommentBinding
-import ru.netology.fmhandroid.dto.ClaimCommentWithCreator
+import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 
 interface OnClaimCommentItemClickListener {
-    fun onCard(claimComment: ClaimCommentWithCreator)
+    fun onCard(claimComment: ClaimComment)
 }
 
 class ClaimCommentListAdapter(
     private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener,
     private val authViewModel: AuthViewModel
-) :
-    ListAdapter<ClaimCommentWithCreator, ClaimCommentListAdapter.ClaimCommentViewHolder>(
+) : ListAdapter<ClaimComment, ClaimCommentListAdapter.ClaimCommentViewHolder>(
         ClaimCommentDiffCallback
     ) {
 
@@ -45,42 +44,41 @@ class ClaimCommentListAdapter(
         private val authViewModel: AuthViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(claimComment: ClaimCommentWithCreator) {
+        fun bind(claimComment: ClaimComment) {
             with(binding) {
-                commentDescriptionTextView.text = claimComment.claimComment.description
-                commentatorNameTextView.text =
-                    Utils.generateShortUserName(
-                        claimComment.creator.lastName,
-                        claimComment.creator.firstName,
-                        claimComment.creator.middleName
-                    )
+                commentDescriptionTextView.text = claimComment.description
+                commentatorNameTextView.text = claimComment.creatorName
 
                 commentDateTextView.text =
-                    Utils.formatDate(claimComment.claimComment.createDate)
+                    Utils.formatDate(claimComment.createDate)
                 commentTimeTextView.text =
-                    Utils.formatTime(claimComment.claimComment.createDate)
+                    Utils.formatTime(claimComment.createDate)
 
                 editCommentImageButton.setImageResource(
-                    if (claimComment.creator.id != authViewModel.currentUser.id) R.drawable.ic_pen_light else R.drawable.ic_pen
+                    if (claimComment.creatorId != authViewModel.currentUser.id) R.drawable.ic_pen_light else R.drawable.ic_pen
                 )
                 editCommentImageButton.setOnClickListener {
-                    onClaimCommentItemClickListener.onCard(claimComment)
+                    if (authViewModel.currentUser.id == claimComment.creatorId) {
+                        onClaimCommentItemClickListener.onCard(claimComment)
+                    } else {
+                        return@setOnClickListener
+                    }
                 }
             }
         }
     }
 
-    private object ClaimCommentDiffCallback : DiffUtil.ItemCallback<ClaimCommentWithCreator>() {
+    private object ClaimCommentDiffCallback : DiffUtil.ItemCallback<ClaimComment>() {
         override fun areItemsTheSame(
-            oldItem: ClaimCommentWithCreator,
-            newItem: ClaimCommentWithCreator
+            oldItem: ClaimComment,
+            newItem: ClaimComment
         ): Boolean {
-            return oldItem.claimComment.id == newItem.claimComment.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ClaimCommentWithCreator,
-            newItem: ClaimCommentWithCreator
+            oldItem: ClaimComment,
+            newItem: ClaimComment
         ): Boolean {
             return oldItem == newItem
         }

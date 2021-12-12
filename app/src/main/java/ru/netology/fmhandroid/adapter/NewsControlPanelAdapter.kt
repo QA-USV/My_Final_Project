@@ -9,19 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemNewsControlPanelBinding
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.extensions.getType
 import ru.netology.fmhandroid.utils.Utils
 
 interface NewsOnInteractionListener {
     fun onCard(newsItem: News)
-    fun onEdit(newItemWithCreator: NewsWithCreators)
-    fun onRemove(newItemWithCreator: NewsWithCreators)
+    fun onEdit(newItemWithCategory: NewsWithCategory)
+    fun onRemove(newItemWithCategory: NewsWithCategory)
 }
 
 class NewsControlPanelListAdapter(
     private val onInteractionListener: NewsOnInteractionListener
-) : ListAdapter<NewsWithCreators, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(
+) : ListAdapter<NewsWithCategory, NewsControlPanelListAdapter.NewsControlPanelViewHolder>(
     NewsControlPanelDiffCallBack
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsControlPanelViewHolder {
@@ -45,24 +45,19 @@ class NewsControlPanelListAdapter(
         private val onInteractionListener: NewsOnInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(newsItemWithCreator: NewsWithCreators) {
+        fun bind(newsItem: NewsWithCategory) {
             with(binding) {
-                newsItemTitleTextView.text = newsItemWithCreator.news.newsItem.title
-                newsItemDescriptionTextView.text = newsItemWithCreator.news.newsItem.description
+                newsItemTitleTextView.text = newsItem.newsItem.title
+                newsItemDescriptionTextView.text = newsItem.newsItem.description
                 newsItemPublicationDateTextView.text =
-                    Utils.formatDate(newsItemWithCreator.news.newsItem.publishDate)
+                    Utils.formatDate(newsItem.newsItem.publishDate)
                 newsItemCreateDateTextView.text =
-                    Utils.formatDate(newsItemWithCreator.news.newsItem.createDate)
-                newsItemAuthorNameTextView.text = itemView.resources.getString(
-                    R.string.full_name_format,
-                    newsItemWithCreator.user.lastName,
-                    newsItemWithCreator.user.firstName.first().plus("."),
-                    newsItemWithCreator.user.middleName.first().plus(".")
-                )
+                    Utils.formatDate(newsItem.newsItem.createDate)
+                newsItemAuthorNameTextView.text = newsItem.newsItem.creatorName
 
-                setCategoryIcon(newsItemWithCreator)
+                setCategoryIcon(newsItem)
 
-                if (newsItemWithCreator.news.newsItem.isOpen) {
+                if (newsItem.newsItem.isOpen) {
                     newsItemDescriptionTextView.visibility = View.VISIBLE
                     viewNewsItemImageView.setImageResource(R.drawable.expand_less_24)
                 } else {
@@ -71,10 +66,10 @@ class NewsControlPanelListAdapter(
                 }
 
                 newsItemMaterialCardView.setOnClickListener {
-                    onInteractionListener.onCard(newsItemWithCreator.news.newsItem)
+                    onInteractionListener.onCard(newsItem.newsItem)
                 }
 
-                when (newsItemWithCreator.news.newsItem.publishEnabled) {
+                when (newsItem.newsItem.publishEnabled) {
                     true -> {
                         newsItemPublishedTextView.text =
                             itemView.context.getString(R.string.news_control_panel_active)
@@ -88,17 +83,17 @@ class NewsControlPanelListAdapter(
                 }
 
                 editNewsItemImageView.setOnClickListener {
-                    onInteractionListener.onEdit(newsItemWithCreator)
+                    onInteractionListener.onEdit(newsItem)
                 }
 
                 deleteNewsItemImageView.setOnClickListener {
-                    onInteractionListener.onRemove(newsItemWithCreator)
+                    onInteractionListener.onRemove(newsItem)
                 }
             }
         }
 
-        private fun setCategoryIcon(newsItem: NewsWithCreators) {
-            val iconResId = when (newsItem.news.category.getType()) {
+        private fun setCategoryIcon(newsItem: NewsWithCategory) {
+            val iconResId = when (newsItem.category.getType()) {
                 News.Category.Type.Advertisement -> R.raw.icon_advertisement
                 News.Category.Type.Salary -> R.raw.icon_salary
                 News.Category.Type.Union -> R.raw.icon_union
@@ -114,12 +109,12 @@ class NewsControlPanelListAdapter(
     }
 }
 
-private object NewsControlPanelDiffCallBack : DiffUtil.ItemCallback<NewsWithCreators>() {
-    override fun areItemsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
-        return oldItem.news.newsItem.id == newItem.news.newsItem.id
+private object NewsControlPanelDiffCallBack : DiffUtil.ItemCallback<NewsWithCategory>() {
+    override fun areItemsTheSame(oldItem: NewsWithCategory, newItem: NewsWithCategory): Boolean {
+        return oldItem.newsItem.id == newItem.newsItem.id
     }
 
-    override fun areContentsTheSame(oldItem: NewsWithCreators, newItem: NewsWithCreators): Boolean {
+    override fun areContentsTheSame(oldItem: NewsWithCategory, newItem: NewsWithCategory): Boolean {
         return oldItem == newItem
     }
 }

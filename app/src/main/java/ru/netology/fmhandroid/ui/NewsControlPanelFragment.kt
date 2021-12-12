@@ -22,7 +22,7 @@ import ru.netology.fmhandroid.adapter.NewsOnInteractionListener
 import ru.netology.fmhandroid.databinding.FragmentNewsControlPanelBinding
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsFilterArgs
-import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.NewsControlPanelViewModel
 
@@ -75,16 +75,16 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                 viewModel.onCard(newsItem)
             }
 
-            override fun onEdit(newItemWithCreator: NewsWithCreators) {
+            override fun onEdit(newItemWithCategory: NewsWithCategory) {
                 val action = NewsControlPanelFragmentDirections
-                    .actionNewsControlPanelFragmentToCreateEditNewsFragment(newItemWithCreator)
+                    .actionNewsControlPanelFragmentToCreateEditNewsFragment(newItemWithCategory)
                 findNavController().navigate(action)
             }
 
-            override fun onRemove(newItemWithCreator: NewsWithCreators) {
+            override fun onRemove(newItemWithCategory: NewsWithCategory) {
                 dialog.setMessage(R.string.irrevocable_deletion)
                     .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
-                        newItemWithCreator.news.newsItem.id?.let { viewModel.remove(it) }
+                        newItemWithCategory.newsItem.id?.let { viewModel.remove(it) }
                         alertDialog.cancel()
                     }
                     .setNegativeButton(R.string.cancel) { alertDialog, _ ->

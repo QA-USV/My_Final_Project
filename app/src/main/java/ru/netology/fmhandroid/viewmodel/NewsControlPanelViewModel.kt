@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.netology.fmhandroid.adapter.OnNewsItemClickListener
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.NewsWithCreators
+import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
 import javax.inject.Inject
 
@@ -34,7 +33,7 @@ class NewsControlPanelViewModel @Inject constructor(
     val editNewsItemExceptionEvent = MutableSharedFlow<Unit>()
     val removeNewsItemExceptionEvent = MutableSharedFlow<Unit>()
 
-    val data: Flow<List<NewsWithCreators>> = filterFlow.flatMapMerge { filter ->
+    val data: Flow<List<NewsWithCategory>> = filterFlow.flatMapMerge { filter ->
         newsRepository.getAllNews(
             viewModelScope,
             newsCategoryId = filter.newsCategoryId,
@@ -136,6 +135,4 @@ class NewsControlPanelViewModel @Inject constructor(
             }
         }
     }
-
-
 }

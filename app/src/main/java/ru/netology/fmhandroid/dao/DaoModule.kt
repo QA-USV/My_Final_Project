@@ -14,9 +14,6 @@ object DaoModule {
     fun provideClaimDao(db: AppDb): ClaimDao = db.getClaimDao()
 
     @Provides
-    fun provideUserDao(db: AppDb): UserDao = db.getUserDao()
-
-    @Provides
     fun provideNewsDao(db: AppDb): NewsDao = db.getNewsDao()
 
     @Provides

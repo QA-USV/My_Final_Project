@@ -88,8 +88,7 @@
         android:label="CreateEditClaimCommentFragment">
         <argument
             android:name="argComment"
-            android:defaultValue="@null"
-            app:argType="ru.netology.fmhandroid.dto.ClaimCommentWithCreator"
+            app:argType="ru.netology.fmhandroid.dto.ClaimComment"
             app:nullable="true" />
         <argument
             android:name="argClaimId"
@@ -133,8 +132,7 @@
         android:label="CreateEditNewsFragment">
         <argument
             android:name="newsItemArg"
-            android:defaultValue="@null"
-            app:argType="ru.netology.fmhandroid.dto.NewsWithCreators"
+            app:argType="ru.netology.fmhandroid.dto.NewsWithCategory"
             app:nullable="true" />
     </fragment>
 

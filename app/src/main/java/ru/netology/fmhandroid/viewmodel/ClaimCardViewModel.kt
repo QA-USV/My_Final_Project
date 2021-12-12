@@ -14,8 +14,7 @@ import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimCardViewModel @Inject constructor(
-    private val claimRepository: ClaimRepository,
-    authViewModel: AuthViewModel
+    private val claimRepository: ClaimRepository
 ) : ViewModel(), OnClaimCommentItemClickListener {
     private var claimId by Delegates.notNull<Int>()
 
@@ -23,9 +22,7 @@ class ClaimCardViewModel @Inject constructor(
         claimRepository.getClaimById(claimId)
     }
 
-    private val currentUser: User = authViewModel.currentUser
-
-    val openClaimCommentEvent = MutableSharedFlow<ClaimCommentWithCreator>()
+    val openClaimCommentEvent = MutableSharedFlow<ClaimComment>()
     private val claimStatusChangedEvent = MutableSharedFlow<Unit>()
     val claimStatusChangeExceptionEvent = MutableSharedFlow<Unit>()
     val claimUpdateExceptionEvent = MutableSharedFlow<Unit>()
@@ -36,7 +33,6 @@ class ClaimCardViewModel @Inject constructor(
     val claimCommentUpdatedEvent = MutableSharedFlow<Unit>()
     val claimCommentCreateExceptionEvent = MutableSharedFlow<Unit>()
     val updateClaimCommentExceptionEvent = MutableSharedFlow<Unit>()
-    private val showNoCommentEditingRightsError = MutableSharedFlow<Unit>()
 
     fun createClaimComment(claimComment: ClaimComment) {
         viewModelScope.launch {
@@ -113,12 +109,9 @@ class ClaimCardViewModel @Inject constructor(
     }
 
     // region OnClaimCommentItemClickListener
-    override fun onCard(claimComment: ClaimCommentWithCreator) {
+    override fun onCard(claimComment: ClaimComment) {
         viewModelScope.launch {
-            if (currentUser.id == claimComment.creator.id) {
-                openClaimCommentEvent.emit(claimComment)
-            } else
-                showNoCommentEditingRightsError.emit(Unit)
+            openClaimCommentEvent.emit(claimComment)
         }
     }
     // endregion OnClaimCommentItemClickListener

@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 interface OnClaimItemClickListener {
     fun onCard(fullClaim: FullClaim) {}
@@ -42,17 +43,7 @@ class ClaimListAdapter(
 
         fun bind(fullClaim: FullClaim) {
             with(binding) {
-                val executor = fullClaim.executor
-                if (executor != null) {
-                    executorNameMaterialTextView.text = Utils.generateShortUserName(
-                        executor.lastName,
-                        executor.firstName,
-                        executor.middleName
-                    )
-                } else {
-                    executorNameMaterialTextView.setText(R.string.not_assigned)
-                }
-
+                executorNameMaterialTextView.text = fullClaim.claim.executorName
                 planTimeMaterialTextView.text =
                     Utils.formatTime(
                         fullClaim.claim.planExecuteDate
