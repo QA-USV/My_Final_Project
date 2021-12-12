@@ -30,15 +30,6 @@ object Utils {
             createDate = 0,
         )
 
-        val emptyUser = User(
-            id = 0,
-            admin = false,
-            firstName = "",
-            lastName = "",
-            middleName = ""
-        )
-
-        val emptyUserList = emptyList<User>()
     }
 
 

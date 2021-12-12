@@ -11,6 +11,12 @@ class UserRepositoryImp @Inject constructor(
     private val userApi: UserApi
 ) : UserRepository {
 
+    override lateinit var currentUser: User
+        private set
+
+    override lateinit var userList: List<User>
+        private set
+
     override suspend fun getUserInfo(): User =
         Utils.makeRequest(
             request = { userApi.getUserInfo() },
