@@ -20,11 +20,11 @@ class AuthViewModel @Inject constructor(
     private val appAuth: AppAuth
 ) : ViewModel() {
 
-    val currentUser: User
-        get() = userRepository.currentUser
-
-    val userList: List<User>
-        get() = userRepository.userList
+//    val currentUser: User
+//        get() = userRepository.currentUser
+//
+//    val userList: List<User>
+//        get() = userRepository.userList
 
     val nonAuthorizedEvent = MutableSharedFlow<Unit>()
     val authorizedEvent = MutableSharedFlow<Unit>()
@@ -38,7 +38,7 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 authRepository.login(login, password)
-                getUserInfo()
+//                getUserInfo()
                 loginEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -49,18 +49,21 @@ class AuthViewModel @Inject constructor(
 
     fun authorization() {
         viewModelScope.launch {
-            if (appAuth.accessToken == null) {
+            val authState = appAuth.authState
+            if (authState == null) {
                 nonAuthorizedEvent.emit(Unit)
             } else {
                 try {
-                    getUserInfo()
+
+                    userRepository.getUserInfo()
                     authorizedEvent.emit(Unit)
-                } catch (e: Exception) {
+                } catch (e: ApiException) {
+
                     e.printStackTrace()
                     authRepository.updateTokens(
-                        checkNotNull(appAuth.refreshToken) { "Refresh token value was null." }
+                        authState.refreshToken
                     )
-                    getUserInfo()
+//                    getUserInfo()
                     authorizedEvent.emit(Unit)
                 } finally {
 
@@ -70,17 +73,8 @@ class AuthViewModel @Inject constructor(
     }
 
     fun logOut() {
-        appAuth.deleteTokens()
+        appAuth.authState = null
 //        currentUser = Utils.Empty.emptyUser
-    }
-
-    private suspend fun getUserInfo() {
-        try {
-//            currentUser = userRepository.getUserInfo()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            getUserInfoExceptionEvent.emit(Unit)
-        }
     }
 
     suspend fun loadUserList() {

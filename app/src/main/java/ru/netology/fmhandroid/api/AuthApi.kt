@@ -4,17 +4,18 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
-import ru.netology.fmhandroid.auth.AppAuth
+import ru.netology.fmhandroid.dto.AuthState
+import ru.netology.fmhandroid.dto.LoginData
 
 
 interface AuthApi {
     @POST("authentication/login")
     suspend fun getTokens(
-        @Body loginData: AppAuth.LoginData
-    ): Response<AppAuth.AuthState>
+        @Body loginData: LoginData
+    ): Response<AuthState>
 
     @POST("authentication/refresh")
     suspend fun refreshTokens(
         @Query("token") refreshToken: String
-    ): Response<AppAuth.AuthState>
+    ): Response<AuthState>
 }

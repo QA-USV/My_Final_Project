@@ -12,6 +12,8 @@ import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.api.qualifier.Authorized
 import ru.netology.fmhandroid.api.qualifier.NonAuthorized
 import ru.netology.fmhandroid.auth.AppAuth
+import ru.netology.fmhandroid.repository.authRepository.AuthRepository
+import javax.inject.Provider
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -26,11 +28,12 @@ object NetworkModule {
 
     @NonAuthorized
     @Provides
-    fun provideNonAuthorizedRetrofit(@NonAuthorized client: OkHttpClient): Retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BuildConfig.BASE_URL)
-        .client(client)
-        .build()
+    fun provideNonAuthorizedRetrofit(@NonAuthorized client: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(client)
+            .build()
 
     @Authorized
     @Provides
@@ -42,17 +45,24 @@ object NetworkModule {
 
     @Authorized
     @Provides
-    fun authorizedOkhttp(interceptor: HttpLoggingInterceptor, appAuth: AppAuth): OkHttpClient {
+    fun authorizedOkhttp(
+        interceptor: HttpLoggingInterceptor,
+        appAuth: AppAuth,
+        authRepositoryProvider: Provider<AuthRepository>
+    ): OkHttpClient {
         val authInterceptor = AuthInterceptor(appAuth)
+        val unauthorizedInterceptor = UnauthorizedInterceptor(authRepositoryProvider, appAuth)
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .addInterceptor(authInterceptor)
+            .addInterceptor(unauthorizedInterceptor)
             .build()
     }
 
     @NonAuthorized
     @Provides
-    fun nonAuthorizedOkhttp(interceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(interceptor)
-        .build()
+    fun nonAuthorizedOkhttp(interceptor: HttpLoggingInterceptor): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
 }

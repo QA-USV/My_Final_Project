@@ -6,9 +6,10 @@ import ru.netology.fmhandroid.auth.AppAuth
 
 class AuthInterceptor(private val auth: AppAuth) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = checkNotNull(
-            auth.accessToken
-        ) {"Access token should be defined in 'Login' state"}
+        val token = checkNotNull(auth.authState) {
+            "User must be authorized"
+        }.accessToken
+
         val newRequest = chain.request().newBuilder()
             .addHeader("Authorization", token)
             .build()

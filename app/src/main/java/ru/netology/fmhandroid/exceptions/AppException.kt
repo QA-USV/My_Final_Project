@@ -16,7 +16,7 @@ sealed class AppException(var code: String) : RuntimeException() {
     }
 }
 
-class ApiException(val status: Int, code: String) : AppException(code)
+class ApiException(val statusCode: Int, code: String) : AppException(code)
 object AuthorizationException : AppException("authorization_failed")
 object ServerException : AppException("error_server")
 object DbException : AppException("error_db")
