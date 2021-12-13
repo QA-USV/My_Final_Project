@@ -141,10 +141,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 ) {
                     showErrorToast(R.string.empty_fields)
                 } else {
-                    when (args.newsItemArg) {
-                        null -> viewModel.save(fillNewsItem())
-                        else -> viewModel.edit(fillNewsItem())
-                    }
+                    fillNewsItem()
                 }
             }
         }
@@ -224,28 +221,51 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
         ).show()
     }
 
-    private fun fillNewsItem(): News {
+    private fun fillNewsItem() {
         with(binding) {
-            return News(
-                id = args.newsItemArg?.newsItem?.id,
-                title = newsItemTitleTextInputEditText.text.toString(),
-                newsCategoryId = convertNewsCategory(
-                    newsItemCategoryTextAutoCompleteTextView.text.toString()
-                ),
-                //TODO нулабельные параметры
-                creatorName = args.newsItemArg?.newsItem?.creatorName ?: "???",
-                createDate = args.newsItemArg?.newsItem?.createDate ?: LocalDateTime.now()
-                    .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(now())),
-                //* Временное поле. Подлежит удалению после введения регистрации/аутентификации *
-                creatorId = 1,
-                //------------------------------------------------------------------------------//
-                publishDate = saveDateTime(
-                    newsItemPublishDateTextInputEditText.text.toString(),
-                    newsItemPublishTimeTextInputEditText.text.toString()
-                ),
-                description = newsItemDescriptionTextInputEditText.text.toString(),
-                publishEnabled = switcher.isChecked
-            )
+            val news = args.newsItemArg
+            if (news != null) {
+                val editedNews = News(
+                    id = news.newsItem.id,
+                    title = newsItemTitleTextInputEditText.text.toString(),
+                    newsCategoryId = convertNewsCategory(
+                        newsItemCategoryTextAutoCompleteTextView.text.toString()
+                    ),
+                    creatorName = news.newsItem.creatorName,
+                    createDate = news.newsItem.createDate,
+                    creatorId = news.newsItem.creatorId,
+                    publishDate = saveDateTime(
+                        newsItemPublishDateTextInputEditText.text.toString(),
+                        newsItemPublishTimeTextInputEditText.text.toString()
+                    ),
+                    description = newsItemDescriptionTextInputEditText.text.toString(),
+                    publishEnabled = switcher.isChecked
+                )
+                viewModel.edit(editedNews)
+            } else {
+                val createdNews = News(
+                    id = null,
+                    title = newsItemTitleTextInputEditText.text.toString(),
+                    newsCategoryId = convertNewsCategory(
+                        newsItemCategoryTextAutoCompleteTextView.text.toString()
+                    ),
+                    creatorName = Utils.fullUserNameGenerator(
+                        viewModel.currentUser.lastName,
+                        viewModel.currentUser.firstName,
+                        viewModel.currentUser.middleName
+                    ),
+                    createDate = LocalDateTime.now()
+                        .toEpochSecond(ZoneId.of("Europe/Moscow").rules.getOffset(now())),
+                    creatorId = viewModel.currentUser.id,
+                    publishDate = saveDateTime(
+                        newsItemPublishDateTextInputEditText.text.toString(),
+                        newsItemPublishTimeTextInputEditText.text.toString()
+                    ),
+                    description = newsItemDescriptionTextInputEditText.text.toString(),
+                    publishEnabled = switcher.isChecked
+                )
+                viewModel.save(createdNews)
+            }
         }
     }
 }

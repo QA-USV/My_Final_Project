@@ -7,13 +7,16 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCategory
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
+import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
 class NewsControlPanelViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val clearFilter = Filter(
@@ -25,6 +28,12 @@ class NewsControlPanelViewModel @Inject constructor(
     private val filterFlow = MutableStateFlow(
         clearFilter
     )
+
+    val currentUser: User
+        get() = userRepository.currentUser
+
+    val userList: List<User>
+        get() = userRepository.userList
 
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val newsItemCreatedEvent = MutableSharedFlow<Unit>()

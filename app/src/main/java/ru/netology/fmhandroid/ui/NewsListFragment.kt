@@ -79,12 +79,6 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
                         binding.newsListSwipeRefresh.isRefreshing = false
                     }
                 }
-
-//                binding.containerListNewsInclude.newsListRecyclerView.post {
-//                    binding.containerListNewsInclude.newsListRecyclerView.scrollToPosition(
-//                        0
-//                    )
-//                }
             }
         }
 
