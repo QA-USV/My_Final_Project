@@ -132,14 +132,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                         .create()
                         .show()
                 } else {
-                    when (args.argClaim) {
-                        null -> {
-                            claimCardViewModel.save(fillClaim())
-                        }
-                        else -> {
-                            claimCardViewModel.updateClaim(fillClaim())
-                        }
-                    }
+                    fillClaim()
                 }
             }
         }
@@ -205,25 +198,48 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
         }
     }
 
-    private fun fillClaim(): Claim {
+    private fun fillClaim() {
         with(binding) {
-            return Claim(
-                id = args.argClaim?.claim?.id,
-                title = titleEditText.text.toString(),
-                description = descriptionEditText.text.toString(),
-                executorId = executor?.id,
-                //TODO нулабельные параметры
-                creatorName = args.argClaim?.claim?.creatorName ?: "???",
-                createDate = args.argClaim?.claim?.createDate ?: Utils.fromLocalDateTimeToTimeStamp(
-                    LocalDateTime.now()
-                ),
-                creatorId = claimCardViewModel.currentUser.id,
-                planExecuteDate = saveDateTime(
-                    dateInPlanTextInputEditText.text.toString(),
-                    timeInPlanTextInputEditText.text.toString()
-                ),
-                status = Claim.Status.OPEN
-            )
+            val fullClaim = args.argClaim
+            if (fullClaim != null) {
+                val editedClaim = Claim(
+                    id = fullClaim.claim.id,
+                    title = titleEditText.text.toString(),
+                    description = descriptionEditText.text.toString(),
+                    executorId = fullClaim.claim.executorId,
+                    creatorName = fullClaim.claim.creatorName,
+                    createDate = fullClaim.claim.createDate,
+                    creatorId = fullClaim.claim.creatorId,
+                    planExecuteDate = saveDateTime(
+                        dateInPlanTextInputEditText.text.toString(),
+                        timeInPlanTextInputEditText.text.toString()
+                    ),
+                    status = fullClaim.claim.status
+                )
+                claimCardViewModel.updateClaim(editedClaim)
+            } else {
+                val createdClaim = Claim(
+                    id = null,
+                    title = titleEditText.text.toString(),
+                    description = descriptionEditText.text.toString(),
+                    executorId = executor?.id,
+                    creatorName = fullUserNameGenerator(
+                        lastName = claimCardViewModel.currentUser.lastName,
+                        firstName = claimCardViewModel.currentUser.firstName,
+                        middleName = claimCardViewModel.currentUser.middleName
+                    ),
+                    createDate = Utils.fromLocalDateTimeToTimeStamp(
+                        LocalDateTime.now()
+                    ),
+                    creatorId = claimCardViewModel.currentUser.id,
+                    planExecuteDate = saveDateTime(
+                        dateInPlanTextInputEditText.text.toString(),
+                        timeInPlanTextInputEditText.text.toString()
+                    ),
+                    status = Claim.Status.OPEN
+                )
+                claimCardViewModel.save(createdClaim)
+            }
         }
     }
 
