@@ -64,7 +64,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
 
         lifecycleScope.launchWhenResumed {
             authViewModel.userListLoadedEvent.collect {
-                findNavController().navigate(R.id.action_mainFragment_to_createEditClaimFragment)
+                findNavController().navigate(R.id.action_claimListFragment_to_createEditClaimFragment)
             }
         }
     }

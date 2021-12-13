@@ -6,6 +6,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import ru.netology.fmhandroid.dto.AuthState
 import ru.netology.fmhandroid.dto.LoginData
+import ru.netology.fmhandroid.dto.RefreshRequest
 
 
 interface AuthApi {
@@ -16,6 +17,6 @@ interface AuthApi {
 
     @POST("authentication/refresh")
     suspend fun refreshTokens(
-        @Query("token") refreshToken: String
+        @Body refreshRequest: RefreshRequest
     ): Response<AuthState>
 }
