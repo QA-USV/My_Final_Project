@@ -11,7 +11,7 @@ class UserRepositoryImpl @Inject constructor(
     private val userApi: UserApi
 ) : UserRepository {
 
-    override lateinit var currentUser: User
+    override var currentUser: User = Utils.Empty.emptyUser
         private set
 
     override lateinit var userList: List<User>
@@ -30,6 +30,14 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getAllUsers(): List<User> =
         Utils.makeRequest(
             request = { userApi.getAllUsers() },
-            onSuccess = { body -> body }
+            onSuccess = { body ->
+                body.also {
+                    userList = it
+                }
+            }
         )
+
+    override suspend fun userLogOut() {
+        currentUser = Utils.Empty.emptyUser
+    }
 }

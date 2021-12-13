@@ -20,17 +20,10 @@ class AuthViewModel @Inject constructor(
     private val appAuth: AppAuth
 ) : ViewModel() {
 
-//    val currentUser: User
-//        get() = userRepository.currentUser
-//
-//    val userList: List<User>
-//        get() = userRepository.userList
-
     val nonAuthorizedEvent = MutableSharedFlow<Unit>()
     val authorizedEvent = MutableSharedFlow<Unit>()
     val loginExceptionEvent = MutableSharedFlow<Unit>()
     val loginEvent = MutableSharedFlow<Unit>()
-    val getUserInfoExceptionEvent = MutableSharedFlow<Unit>()
     val getUserListExceptionEvent = MutableSharedFlow<Unit>()
     val userListLoadedEvent = MutableSharedFlow<Unit>()
 
@@ -38,7 +31,7 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 authRepository.login(login, password)
-//                getUserInfo()
+                userRepository.getUserInfo()
                 loginEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -53,33 +46,20 @@ class AuthViewModel @Inject constructor(
             if (authState == null) {
                 nonAuthorizedEvent.emit(Unit)
             } else {
-                try {
-
-                    userRepository.getUserInfo()
-                    authorizedEvent.emit(Unit)
-                } catch (e: ApiException) {
-
-                    e.printStackTrace()
-                    authRepository.updateTokens(
-                        authState.refreshToken
-                    )
-//                    getUserInfo()
-                    authorizedEvent.emit(Unit)
-                } finally {
-
-                }
+                userRepository.getUserInfo()
+                authorizedEvent.emit(Unit)
             }
         }
     }
 
-    fun logOut() {
+    suspend fun logOut() {
         appAuth.authState = null
-//        currentUser = Utils.Empty.emptyUser
+        userRepository.userLogOut()
     }
 
     suspend fun loadUserList() {
         try {
-//            userList = userRepository.getAllUsers()
+            userRepository.getAllUsers()
             userListLoadedEvent.emit(Unit)
         } catch (e: Exception) {
             e.printStackTrace()

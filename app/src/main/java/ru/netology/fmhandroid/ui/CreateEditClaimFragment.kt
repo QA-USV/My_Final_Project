@@ -25,7 +25,6 @@ import ru.netology.fmhandroid.utils.Utils.fullUserNameGenerator
 import ru.netology.fmhandroid.utils.Utils.saveDateTime
 import ru.netology.fmhandroid.utils.Utils.updateDateLabel
 import ru.netology.fmhandroid.utils.Utils.updateTimeLabel
-import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.LocalDateTime
 import java.util.*
@@ -38,7 +37,6 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
     private val args: CreateEditClaimFragmentArgs by navArgs()
     private var executor: User? = null
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
-    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,7 +149,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             val adapter = ArrayAdapter(
                 requireContext(),
                 R.layout.menu_item,
-                authViewModel.userList.map { user ->
+                claimCardViewModel.userList.map { user ->
                     fullUserNameGenerator(
                         user.lastName,
                         user.firstName,
@@ -162,7 +160,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             binding.executorDropMenuAutoCompleteTextView.apply {
                 setAdapter(adapter)
                 setOnItemClickListener { _, _, position, _ ->
-                    executor = authViewModel.userList[position]
+                    executor = claimCardViewModel.userList[position]
                 }
             }
         }
@@ -219,9 +217,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 createDate = args.argClaim?.claim?.createDate ?: Utils.fromLocalDateTimeToTimeStamp(
                     LocalDateTime.now()
                 ),
-                //* Временное поле. Подлежит удалению после введения регистрации/аутентификации *
-                creatorId = 1,
-                //------------------------------------------------------------------------------//
+                creatorId = claimCardViewModel.currentUser.id,
                 planExecuteDate = saveDateTime(
                     dateInPlanTextInputEditText.text.toString(),
                     timeInPlanTextInputEditText.text.toString()

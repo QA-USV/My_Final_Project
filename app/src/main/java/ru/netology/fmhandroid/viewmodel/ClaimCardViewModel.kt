@@ -9,18 +9,26 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.dto.*
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
+import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @HiltViewModel
 class ClaimCardViewModel @Inject constructor(
-    private val claimRepository: ClaimRepository
+    private val claimRepository: ClaimRepository,
+    private val userRepository: UserRepository
 ) : ViewModel(), OnClaimCommentItemClickListener {
     private var claimId by Delegates.notNull<Int>()
 
     val dataFullClaim: Flow<FullClaim> by lazy {
         claimRepository.getClaimById(claimId)
     }
+
+    val currentUser: User
+        get() = userRepository.currentUser
+
+    val userList: List<User>
+        get() = userRepository.userList
 
     val openClaimCommentEvent = MutableSharedFlow<ClaimComment>()
     private val claimStatusChangedEvent = MutableSharedFlow<Unit>()

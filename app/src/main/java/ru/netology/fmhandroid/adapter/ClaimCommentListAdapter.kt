@@ -9,7 +9,7 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.utils.Utils
-import ru.netology.fmhandroid.viewmodel.AuthViewModel
+import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 
 
 interface OnClaimCommentItemClickListener {
@@ -18,10 +18,10 @@ interface OnClaimCommentItemClickListener {
 
 class ClaimCommentListAdapter(
     private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener,
-    private val authViewModel: AuthViewModel
+    private val claimCardViewModel: ClaimCardViewModel
 ) : ListAdapter<ClaimComment, ClaimCommentListAdapter.ClaimCommentViewHolder>(
-        ClaimCommentDiffCallback
-    ) {
+    ClaimCommentDiffCallback
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClaimCommentViewHolder {
         val binding = ItemCommentBinding.inflate(
@@ -29,7 +29,7 @@ class ClaimCommentListAdapter(
             parent,
             false
         )
-        return ClaimCommentViewHolder(binding, onClaimCommentItemClickListener, authViewModel)
+        return ClaimCommentViewHolder(binding, onClaimCommentItemClickListener, claimCardViewModel)
     }
 
     override fun onBindViewHolder(holder: ClaimCommentViewHolder, position: Int) {
@@ -41,7 +41,7 @@ class ClaimCommentListAdapter(
     class ClaimCommentViewHolder(
         private val binding: ItemCommentBinding,
         private val onClaimCommentItemClickListener: OnClaimCommentItemClickListener,
-        private val authViewModel: AuthViewModel
+        private val claimCardViewModel: ClaimCardViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(claimComment: ClaimComment) {
@@ -55,10 +55,10 @@ class ClaimCommentListAdapter(
                     Utils.formatTime(claimComment.createDate)
 
                 editCommentImageButton.setImageResource(
-                    if (claimComment.creatorId != authViewModel.currentUser.id) R.drawable.ic_pen_light else R.drawable.ic_pen
+                    if (claimComment.creatorId != claimCardViewModel.currentUser.id) R.drawable.ic_pen_light else R.drawable.ic_pen
                 )
                 editCommentImageButton.setOnClickListener {
-                    if (authViewModel.currentUser.id == claimComment.creatorId) {
+                    if (claimCardViewModel.currentUser.id == claimComment.creatorId) {
                         onClaimCommentItemClickListener.onCard(claimComment)
                     } else {
                         return@setOnClickListener
