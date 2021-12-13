@@ -37,7 +37,7 @@ class UserRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun userLogOut() {
+    override fun userLogOut() {
         currentUser = Utils.Empty.emptyUser
     }
 }

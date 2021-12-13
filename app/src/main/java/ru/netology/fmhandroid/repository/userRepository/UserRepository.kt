@@ -7,5 +7,5 @@ interface UserRepository {
     val userList: List<User>
     suspend fun getAllUsers(): List<User>
     suspend fun getUserInfo(): User
-    suspend fun userLogOut()
+    fun userLogOut()
 }

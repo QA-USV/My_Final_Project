@@ -6,11 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.auth.AppAuth
-import ru.netology.fmhandroid.dto.User
-import ru.netology.fmhandroid.exceptions.ApiException
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import ru.netology.fmhandroid.repository.userRepository.UserRepository
-import ru.netology.fmhandroid.utils.Utils
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +49,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    suspend fun logOut() {
+    fun logOut() {
         appAuth.authState = null
         userRepository.userLogOut()
     }

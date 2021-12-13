@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.flow.collect
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
+import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
 import ru.netology.fmhandroid.databinding.FragmentOpenClaimBinding
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
@@ -32,7 +33,7 @@ class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
-    private val user = authViewModel.currentUser
+    private val user = claimCardViewModel.currentUser
 
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
@@ -86,7 +87,11 @@ class OpenClaimFragment : Fragment() {
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
             .setText(R.string.claim)
 
-        val adapter = ClaimCommentListAdapter(claimCardViewModel, authViewModel)
+        val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
+            override fun onCard(claimComment: ClaimComment) {
+                claimCardViewModel.onCard(claimComment)
+            }
+        }, claimCardViewModel)
 
         binding.claimCommentsListRecyclerView.adapter = adapter
 
