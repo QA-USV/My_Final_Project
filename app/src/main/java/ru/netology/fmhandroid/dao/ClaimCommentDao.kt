@@ -14,7 +14,7 @@ interface ClaimCommentDao {
     fun getClaimComments(claimId: Int): Flow<List<ClaimComment>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertComment(comments: List<ClaimCommentEntity>)
+    suspend fun insertComments(comments: List<ClaimCommentEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertComment(comment: ClaimCommentEntity)

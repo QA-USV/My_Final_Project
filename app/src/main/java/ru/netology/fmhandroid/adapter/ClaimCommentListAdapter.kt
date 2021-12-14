@@ -11,7 +11,6 @@ import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 
-
 interface OnClaimCommentItemClickListener {
     fun onCard(claimComment: ClaimComment)
 }
@@ -33,9 +32,8 @@ class ClaimCommentListAdapter(
     }
 
     override fun onBindViewHolder(holder: ClaimCommentViewHolder, position: Int) {
-        getItem(position).let {
-            holder.bind(it)
-        }
+        val claimComment = getItem(position)
+        holder.bind(claimComment)
     }
 
     class ClaimCommentViewHolder(

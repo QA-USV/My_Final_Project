@@ -5,11 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.ItemClaimBinding
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.utils.Utils
-import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 interface OnClaimItemClickListener {
     fun onCard(fullClaim: FullClaim) {}
@@ -31,9 +29,8 @@ class ClaimListAdapter(
     }
 
     override fun onBindViewHolder(holder: ClaimViewHolder, position: Int) {
-        getItem(position).let {
-            holder.bind(it)
-        }
+        val fullClaim = getItem(position)
+        holder.bind(fullClaim)
     }
 
     class ClaimViewHolder(

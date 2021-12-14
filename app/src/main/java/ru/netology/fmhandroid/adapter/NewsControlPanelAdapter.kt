@@ -12,6 +12,7 @@ import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.extensions.getType
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.utils.Utils.generateShortUserName
 
 interface NewsOnInteractionListener {
     fun onCard(newsItem: News)
@@ -35,9 +36,8 @@ class NewsControlPanelListAdapter(
     }
 
     override fun onBindViewHolder(holder: NewsControlPanelViewHolder, position: Int) {
-        getItem(position).let {
-            holder.bind(it)
-        }
+        val newsWithCategory = getItem(position)
+        holder.bind(newsWithCategory)
     }
 
     class NewsControlPanelViewHolder(
@@ -53,7 +53,8 @@ class NewsControlPanelListAdapter(
                     Utils.formatDate(newsItem.newsItem.publishDate)
                 newsItemCreateDateTextView.text =
                     Utils.formatDate(newsItem.newsItem.createDate)
-                newsItemAuthorNameTextView.text = newsItem.newsItem.creatorName
+                newsItemAuthorNameTextView.text =
+                    generateShortUserName(newsItem.newsItem.creatorName)
 
                 setCategoryIcon(newsItem)
 
@@ -69,17 +70,14 @@ class NewsControlPanelListAdapter(
                     onInteractionListener.onCard(newsItem.newsItem)
                 }
 
-                when (newsItem.newsItem.publishEnabled) {
-                    true -> {
-                        newsItemPublishedTextView.text =
-                            itemView.context.getString(R.string.news_control_panel_active)
-                        newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_check_24)
-                    }
-                    false -> {
-                        newsItemPublishedTextView.text =
-                            itemView.context.getString(R.string.news_control_panel_not_active)
-                        newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_clear_24)
-                    }
+                if (newsItem.newsItem.publishEnabled) {
+                    newsItemPublishedTextView.text =
+                        itemView.context.getString(R.string.news_control_panel_active)
+                    newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_check_24)
+                } else {
+                    newsItemPublishedTextView.text =
+                        itemView.context.getString(R.string.news_control_panel_not_active)
+                    newsItemPublishedIconImageView.setImageResource(R.drawable.ic_baseline_clear_24)
                 }
 
                 editNewsItemImageView.setOnClickListener {
