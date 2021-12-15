@@ -10,9 +10,7 @@ class AuthInterceptor(private val auth: AppAuth) : Interceptor {
             "User must be authorized"
         }.accessToken
 
-        val newRequest = chain.request().newBuilder()
-            .addHeader("Authorization", token)
-            .build()
+        val newRequest = chain.request().addAuthorizationHeader(token)
         return chain.proceed(newRequest)
     }
 }

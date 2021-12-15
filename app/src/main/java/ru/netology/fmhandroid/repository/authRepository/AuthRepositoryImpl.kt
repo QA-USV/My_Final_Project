@@ -2,6 +2,7 @@ package ru.netology.fmhandroid.repository.authRepository
 
 import ru.netology.fmhandroid.api.AuthApi
 import ru.netology.fmhandroid.auth.AppAuth
+import ru.netology.fmhandroid.dto.AuthState
 import ru.netology.fmhandroid.dto.LoginData
 import ru.netology.fmhandroid.dto.RefreshRequest
 import ru.netology.fmhandroid.utils.Utils
@@ -19,9 +20,12 @@ class AuthRepositoryImpl @Inject constructor(
             onSuccess = { body -> appAuth.authState = body }
         )
 
-    override suspend fun updateTokens(refreshToken: String) =
+    override suspend fun updateTokens(refreshToken: String): AuthState =
         Utils.makeRequest(
             request = { authApi.refreshTokens(RefreshRequest(refreshToken)) },
-            onSuccess = { body -> appAuth.authState = body }
+            onSuccess = { body ->
+                appAuth.authState = body
+                body
+            }
         )
 }

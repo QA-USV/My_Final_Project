@@ -51,11 +51,11 @@ object NetworkModule {
         authRepositoryProvider: Provider<AuthRepository>
     ): OkHttpClient {
         val authInterceptor = AuthInterceptor(appAuth)
-        val unauthorizedInterceptor = UnauthorizedInterceptor(authRepositoryProvider, appAuth)
+        val refreshAuthenticator = RefreshAuthenticator(authRepositoryProvider, appAuth)
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .authenticator(refreshAuthenticator)
             .addInterceptor(authInterceptor)
-            .addInterceptor(unauthorizedInterceptor)
             .build()
     }
 
