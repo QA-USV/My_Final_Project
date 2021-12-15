@@ -133,7 +133,8 @@
         <argument
             android:name="newsItemArg"
             app:argType="ru.netology.fmhandroid.dto.NewsWithCategory"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment

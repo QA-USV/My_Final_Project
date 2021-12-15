@@ -17,9 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository,
-    private val userRepository: UserRepository
-) : ViewModel(), OnNewsItemClickListener {
+    private val newsRepository: NewsRepository
+    ) : ViewModel(), OnNewsItemClickListener {
 
     private val sortDirection = MutableStateFlow(SortDirection.ASC)
     private val clearFilter = Filter(
@@ -28,17 +27,8 @@ class NewsViewModel @Inject constructor(
         dateEnd = null
     )
 
-    private val filterFlow = MutableStateFlow(
-        clearFilter
-    )
+    private val filterFlow = MutableStateFlow(clearFilter)
     private val openNewsIds = MutableStateFlow<Set<Int>>(emptySet())
-
-    val currentUser: User
-        get() = userRepository.currentUser
-
-    val userList: List<User>
-        get() = userRepository.userList
-
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
 

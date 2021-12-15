@@ -44,7 +44,7 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.openClaimEvent.collectLatest {
                 val action = ClaimListFragmentDirections
                     .actionClaimListFragmentToOpenClaimFragment(it)

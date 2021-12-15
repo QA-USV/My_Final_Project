@@ -14,7 +14,7 @@ class UserRepositoryImpl @Inject constructor(
     override var currentUser: User = Utils.Empty.emptyUser
         private set
 
-    override lateinit var userList: List<User>
+    override var userList: List<User> = emptyList()
         private set
 
     override suspend fun getUserInfo(): User =

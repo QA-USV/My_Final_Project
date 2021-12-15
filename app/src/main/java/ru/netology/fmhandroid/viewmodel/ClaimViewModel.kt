@@ -7,12 +7,15 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.FullClaim
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
+import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
-    private val claimRepository: ClaimRepository
+    private val claimRepository: ClaimRepository,
+    private val userRepository: UserRepository
 ) : ViewModel(), OnClaimItemClickListener {
 
     val claimsLoadException = MutableSharedFlow<Unit>()

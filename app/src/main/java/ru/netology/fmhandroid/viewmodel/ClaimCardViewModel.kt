@@ -18,6 +18,7 @@ class ClaimCardViewModel @Inject constructor(
     private val claimRepository: ClaimRepository,
     private val userRepository: UserRepository
 ) : ViewModel(), OnClaimCommentItemClickListener {
+
     private var claimId by Delegates.notNull<Int>()
 
     val dataFullClaim: Flow<FullClaim> by lazy {

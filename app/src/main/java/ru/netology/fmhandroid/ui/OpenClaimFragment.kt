@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
@@ -23,17 +24,15 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.utils.Utils
-import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+@AndroidEntryPoint
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
-    private val authViewModel: AuthViewModel by viewModels()
-    private val user = claimCardViewModel.currentUser
 
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
@@ -169,8 +168,8 @@ class OpenClaimFragment : Fragment() {
 
         binding.editProcessingImageButton.apply {
             if (
-                (fullClaim.claim.status == Claim.Status.OPEN && fullClaim.claim.creatorId == user.id) ||
-                (fullClaim.claim.status == Claim.Status.OPEN && user.admin)
+                (fullClaim.claim.status == Claim.Status.OPEN && fullClaim.claim.creatorId == claimCardViewModel.currentUser.id) ||
+                (fullClaim.claim.status == Claim.Status.OPEN && claimCardViewModel.currentUser.admin)
             ) {
                 this.setImageResource(R.drawable.ic_pen)
                 this.isClickable = true
@@ -191,10 +190,10 @@ class OpenClaimFragment : Fragment() {
         when (fullClaim.claim.status) {
             Claim.Status.OPEN -> {
                 statusProcessingMenu.menu.findItem(R.id.cancel_list_item).isEnabled =
-                    user.id == fullClaim.claim.creatorId
+                    claimCardViewModel.currentUser.id == fullClaim.claim.creatorId
             }
             Claim.Status.IN_PROGRESS -> {
-                if (user.id != fullClaim.claim.executorId) {
+                if (claimCardViewModel.currentUser.id != fullClaim.claim.executorId) {
                     binding.statusProcessingImageButton.setImageResource(R.drawable.ic_status_processing_non_clickable)
                     statusProcessingMenu.menu.clear()
                 }
@@ -227,7 +226,7 @@ class OpenClaimFragment : Fragment() {
                     claimCardViewModel.changeClaimStatus(
                         claimId = fullClaim.claim.id!!,
                         newClaimStatus = Claim.Status.IN_PROGRESS,
-                        executorId = user.id,
+                        executorId = claimCardViewModel.currentUser.id,
                         claimComment = Utils.Empty.emptyClaimComment
                     )
                     true
@@ -274,7 +273,7 @@ class OpenClaimFragment : Fragment() {
                                         claimId = fullClaim.claim.id,
                                         creatorName = fullClaim.claim.creatorName,
                                         description = text.toString(),
-                                        creatorId = user.id,
+                                        creatorId = claimCardViewModel.currentUser.id,
                                         createDate = LocalDateTime.now()
                                             .toEpochSecond(
                                                 ZoneId.of("Europe/Moscow").rules.getOffset(
@@ -325,7 +324,7 @@ class OpenClaimFragment : Fragment() {
                                         claimId = fullClaim.claim.id,
                                         creatorName = fullClaim.claim.creatorName,
                                         description = text.toString(),
-                                        creatorId = user.id,
+                                        creatorId = claimCardViewModel.currentUser.id,
                                         createDate = LocalDateTime.now().toEpochSecond(
                                             ZoneId.of("Europe/Moscow").rules.getOffset(
                                                 Instant.now()
