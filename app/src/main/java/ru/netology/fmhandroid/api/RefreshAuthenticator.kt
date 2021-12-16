@@ -24,7 +24,9 @@ class RefreshAuthenticator(
             val accessToken = runBlocking {
                 authRepository.updateTokens(refreshToken)
             }.accessToken
-            return response.request.addAuthorizationHeader(accessToken)
+            return response.request.newBuilder()
+                .header("Authorization", accessToken)
+                .build()
         }
     }
 }
