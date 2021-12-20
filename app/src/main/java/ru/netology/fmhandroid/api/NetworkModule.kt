@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.api.qualifier.Authorized
 import ru.netology.fmhandroid.api.qualifier.NonAuthorized
+import ru.netology.fmhandroid.api.qualifier.Refresh
 import ru.netology.fmhandroid.auth.AppAuth
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import javax.inject.Provider
@@ -65,4 +66,24 @@ object NetworkModule {
         OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .build()
+
+    @Refresh
+    @Provides
+    fun refreshOkhttp(interceptor: HttpLoggingInterceptor, appAuth: AppAuth): OkHttpClient {
+        val refreshInterceptor = RefreshInterceptor(appAuth)
+        return OkHttpClient.Builder()
+            .addInterceptor(refreshInterceptor)
+            .addInterceptor(interceptor)
+            .build()
+    }
+
+
+    @Refresh
+    @Provides
+    fun provideRefreshRetrofit(@Refresh client: OkHttpClient): Retrofit =
+        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(client)
+            .build()
+
 }
