@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimListAdapter
 import ru.netology.fmhandroid.adapter.NewsListAdapter
@@ -194,7 +195,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
-                newsViewModel.onRefresh()
+                runBlocking {
+                    newsViewModel.onRefresh()
+                }
                 claimViewModel.onRefresh()
                 binding.mainSwipeRefresh.isRefreshing = false
             }

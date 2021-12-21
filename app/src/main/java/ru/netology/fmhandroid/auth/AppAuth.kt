@@ -5,21 +5,21 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.runBlocking
 import ru.netology.fmhandroid.dto.AuthState
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 import kotlin.properties.Delegates
-
-private const val responseMessage = "ERR_INVALID_REFRESH"
 
 @Singleton
 class AppAuth @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-//    private val _noValidTokenEvent = MutableSharedFlow<Unit>()
-//    val noValidTokenEvent = _noValidTokenEvent.asSharedFlow()
 
-    private val _serverErrorStateFlow: MutableStateFlow<Unit> = MutableStateFlow(Unit
+    private val _serverErrorStateFlow: MutableStateFlow<Unit> = MutableStateFlow(
+        Unit
     )
     val serverErrorStateFlow = _serverErrorStateFlow.asStateFlow()
 
@@ -43,13 +43,8 @@ class AppAuth @Inject constructor(
 
     }
 
-    fun createEventFromServerError(
-//        response: Response
-    ) {
-//        val responseCode = response.code
-//        val responseMessage = response.message
+    fun createEventFromServerError() {
         _serverErrorStateFlow.value = Unit
-//            ServerErrorState(responseCode = responseCode, responseMessage = responseMessage)
     }
 
     private fun createInitialAuthState(): AuthState? {
@@ -63,6 +58,4 @@ class AppAuth @Inject constructor(
             )
         }
     }
-
-//    data class ServerErrorState(val responseCode: Int = 0, val responseMessage: String = "")
 }
