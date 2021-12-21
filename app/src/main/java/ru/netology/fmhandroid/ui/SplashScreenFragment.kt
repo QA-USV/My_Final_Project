@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
@@ -155,6 +156,14 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
         lifecycleScope.launch {
             authViewModel.authorizedEvent.collectLatest {
                 findNavController().navigate(R.id.action_splashScreenFragment_to_mainFragment)
+            }
+        }
+
+        lifecycleScope.launch {
+            authViewModel.serverErrorStateFlow.collect {
+                    val action = SplashScreenFragmentDirections
+                        .actionSplashScreenFragmentToAuthFragment()
+                    findNavController().navigate(action)
             }
         }
     }
