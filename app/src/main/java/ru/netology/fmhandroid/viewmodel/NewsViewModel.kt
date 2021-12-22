@@ -31,6 +31,8 @@ class NewsViewModel @Inject constructor(
     private val openNewsIds = MutableStateFlow<Set<Int>>(emptySet())
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
+    val newsListUpdatedEvent = MutableSharedFlow<Unit>()
+
 
     val data: Flow<List<NewsViewData>> by lazy {
         filterFlow.flatMapMerge { filter ->
@@ -76,6 +78,7 @@ class NewsViewModel @Inject constructor(
     private suspend fun internalOnRefresh() {
         try {
             newsRepository.refreshNews()
+            newsListUpdatedEvent.emit(Unit)
         } catch (e: Exception) {
             e.printStackTrace()
             loadNewsExceptionEvent.emit(Unit)

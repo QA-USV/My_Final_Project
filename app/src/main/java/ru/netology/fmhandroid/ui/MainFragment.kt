@@ -42,6 +42,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            newsViewModel.newsListUpdatedEvent.collectLatest {
+                claimViewModel.onRefresh()
+            }
+        }
+
         lifecycleScope.launchWhenResumed {
             claimViewModel.claimsLoadException.collect {
                 showErrorToast(R.string.error)
@@ -195,10 +201,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
-                runBlocking {
                     newsViewModel.onRefresh()
-                }
-                claimViewModel.onRefresh()
                 binding.mainSwipeRefresh.isRefreshing = false
             }
         }
