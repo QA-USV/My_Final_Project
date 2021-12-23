@@ -24,9 +24,6 @@ class AuthViewModel @Inject constructor(
     val getUserListExceptionEvent = MutableSharedFlow<Unit>()
     val userListLoadedEvent = MutableSharedFlow<Unit>()
 
-//    private val _serverErrorStateFlow: MutableStateFlow<AppAuth.ServerErrorState> = MutableStateFlow(
-//        AppAuth.ServerErrorState()
-//    )
     val serverErrorStateFlow = appAuth.serverErrorStateFlow
 
     fun login(login: String, password: String) {

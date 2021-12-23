@@ -4,5 +4,12 @@ import ru.netology.fmhandroid.dto.AuthState
 
 interface AuthRepository {
     suspend fun login(login: String, password: String)
-    suspend fun updateTokens(refreshToken: String): AuthState
+
+    /**
+     * Обновляет токены при помощи [refreshToken]
+     *
+     * @return обновленные токены.
+     * Если [refreshToken] истек возвращает `null`.
+     */
+    suspend fun updateTokens(refreshToken: String): AuthState?
 }

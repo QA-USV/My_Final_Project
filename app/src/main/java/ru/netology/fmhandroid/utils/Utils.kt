@@ -108,13 +108,12 @@ object Utils {
 
     suspend fun <T, R> makeRequest(
         request: suspend () -> Response<T>,
-        onSuccess: suspend (body: T) -> R
+        onSuccess: suspend (body: T) -> R,
+        onFailure: (response: Response<T>) -> R = {throw ApiException(it.code(), it.message())}
     ): R {
         try {
             val response = request()
-            if (!response.isSuccessful) {
-                throw ApiException(response.code(), response.message())
-            }
+            if (!response.isSuccessful) return onFailure(response)
             val body =
                 response.body() ?: throw ApiException(response.code(), response.message())
             return onSuccess(body)

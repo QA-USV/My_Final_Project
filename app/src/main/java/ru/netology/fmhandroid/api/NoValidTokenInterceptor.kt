@@ -9,7 +9,8 @@ class NoValidTokenInterceptor(private val appAuth: AppAuth) : Interceptor {
 
         val request = chain.request()
         val response = chain.proceed(request)
-        if (response.code == 403) {
+        // Истекло время жизни refresh token
+        if (response.code == 401) {
             appAuth.createEventFromServerError()
         }
         return response
