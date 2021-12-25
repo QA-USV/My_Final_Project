@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
@@ -96,9 +98,6 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
                 .setText(R.string.genitive_comment)
 
             binding.saveButton.setOnClickListener {
-                // TODO("Доработать когда будет реализована авторизация
-                //  Вставлять корректный creatorId вместо хардкода")
-
                 val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
 
                 if (newCommentDescription.isNotBlank()) {
@@ -106,9 +105,12 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
                         ClaimComment(
                             claimId = claimId,
                             description = newCommentDescription,
-                            creatorId = 1,
-                            //TODO временно, для тестов!
-                            creatorName = "Тестовое имя",
+                            creatorId = claimCardViewModel.currentUser.id,
+                            creatorName = Utils.fullUserNameGenerator(
+                                claimCardViewModel.currentUser.lastName,
+                                claimCardViewModel.currentUser.firstName,
+                                claimCardViewModel.currentUser.middleName
+                            ),
                             createDate = LocalDateTime.now().toEpochSecond(
                                 ZoneId.of("Europe/Moscow").rules.getOffset(
                                     Instant.now()

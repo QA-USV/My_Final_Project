@@ -16,7 +16,6 @@ data class News(
     val createDate: Long,
     val publishDate: Long,
     val publishEnabled: Boolean = false,
-    // TODO Удалить
      val isOpen: Boolean = false
 ) : Parcelable {
     @kotlinx.parcelize.Parcelize

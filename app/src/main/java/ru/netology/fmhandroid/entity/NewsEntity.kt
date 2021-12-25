@@ -26,7 +26,6 @@ data class NewsEntity(
     val publishDate: Long,
     @ColumnInfo(name = "publishEnabled")
     val publishEnabled: Boolean = false,
-    // TODO "На удаление"
     @ColumnInfo(name = "isOpen")
     val isOpen: Boolean = false,
 )
