@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
-import ru.netology.fmhandroid.dto.*
+import ru.netology.fmhandroid.dto.Claim
+import ru.netology.fmhandroid.dto.ClaimComment
+import ru.netology.fmhandroid.dto.FullClaim
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
 import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject

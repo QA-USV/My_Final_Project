@@ -1,7 +1,6 @@
 package ru.netology.fmhandroid.ui.viewdata
 
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.User
 
 /**
  * Модель представления новости в списке

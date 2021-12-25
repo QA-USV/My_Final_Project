@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.FMHAndroid"
+        android:hardwareAccelerated="false"
         android:name=".application.FhmApplication"
         tools:targetApi="m">
 

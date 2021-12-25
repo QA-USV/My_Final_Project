@@ -3,13 +3,12 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnNewsItemClickListener
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
-import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import ru.netology.fmhandroid.ui.viewdata.NewsViewData
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
@@ -33,7 +32,7 @@ class NewsViewModel @Inject constructor(
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
     val newsListUpdatedEvent = MutableSharedFlow<Unit>()
 
-
+    @FlowPreview
     val data: Flow<List<NewsViewData>> by lazy {
         filterFlow.flatMapMerge { filter ->
             newsRepository.getAllNews(

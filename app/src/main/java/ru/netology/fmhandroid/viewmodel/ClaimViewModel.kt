@@ -1,21 +1,20 @@
 package ru.netology.fmhandroid.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnClaimItemClickListener
 import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.FullClaim
-import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.claimRepository.ClaimRepository
-import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
-    private val claimRepository: ClaimRepository,
-    private val userRepository: UserRepository
+    private val claimRepository: ClaimRepository
 ) : ViewModel(), OnClaimItemClickListener {
 
     val claimsLoadException = MutableSharedFlow<Unit>()
@@ -30,6 +29,7 @@ class ClaimViewModel @Inject constructor(
         )
     )
 
+    @ExperimentalCoroutinesApi
     val data: Flow<List<FullClaim>> = statusesFlow.flatMapLatest { statuses ->
         claimRepository.getClaimsByStatus(
             viewModelScope,
