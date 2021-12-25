@@ -153,9 +153,18 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                 findNavController().navigate(action)
             }
         }
+
         lifecycleScope.launch {
             authViewModel.authorizedEvent.collectLatest {
                 findNavController().navigate(R.id.action_splashScreenFragment_to_mainFragment)
+            }
+        }
+
+        lifecycleScope.launch {
+            authViewModel.serverErrorStateFlow.collectLatest {
+                val action = SplashScreenFragmentDirections
+                    .actionSplashScreenFragmentToAuthFragment()
+                findNavController().navigate(action)
             }
         }
     }

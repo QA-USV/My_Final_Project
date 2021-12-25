@@ -128,14 +128,6 @@ object Utils {
         return "$lastName $firstName $middleName"
     }
 
-    fun generateShortUserNameFromUserDto(
-        lastName: String,
-        firstName: String,
-        middleName: String
-    ): String {
-        return "$lastName ${firstName.first().uppercase()}. ${middleName.first().uppercase()}."
-    }
-
     fun generateShortUserName(fullName: String): String {
         val parsedName = fullName.trim().split("\\s".toRegex())
         return "${parsedName[0]} ${parsedName[1].first().uppercase()} ${

@@ -5,11 +5,8 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.runBlocking
 import ru.netology.fmhandroid.dto.AuthState
-import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import javax.inject.Inject
-import javax.inject.Provider
 import javax.inject.Singleton
 import kotlin.properties.Delegates
 
@@ -58,4 +55,4 @@ class AppAuth @Inject constructor(
             )
         }
     }
- }
+}

@@ -1,18 +1,13 @@
 package ru.netology.fmhandroid.api
 
-import android.util.JsonReader
 import kotlinx.coroutines.runBlocking
-import okhttp3.*
+import okhttp3.Authenticator
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.Route
 import ru.netology.fmhandroid.auth.AppAuth
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import javax.inject.Provider
-import com.google.gson.Gson
-
-
-
-
-private const val invalidLoginToken = "ERR_INVALID_LOGIN"
-private const val invalidRefreshToken = "ERR_INVALID_REFRESH"
 
 class RefreshAuthenticator(
     private val authRepositoryProvider: Provider<AuthRepository>,
@@ -26,12 +21,17 @@ class RefreshAuthenticator(
             val refreshToken = checkNotNull(appAuth.authState) {
                 "user must be authorized"
             }.refreshToken
-            val accessToken = runBlocking {
+            val accessToken: String? = runBlocking {
                 authRepository.updateTokens(refreshToken)
-            }.accessToken
-            return response.request.newBuilder()
-                .header("Authorization", accessToken)
-                .build()
+            }?.accessToken
+            if (appAuth.authState == null) {
+                return null
+            }
+            return accessToken?.let {
+                response.request.newBuilder()
+                    .header("Authorization", it)
+                    .build()
+            }
         }
     }
 }

@@ -17,13 +17,14 @@ class UserRepositoryImpl @Inject constructor(
     override var userList: List<User> = emptyList()
         private set
 
-    override suspend fun getUserInfo(): User =
+    override suspend fun getUserInfo() =
         Utils.makeRequest(
             request = { userApi.getUserInfo() },
             onSuccess = { body ->
-                body.also {
-                    currentUser = it
-                }
+                currentUser = body
+            },
+            onFailure = {
+                currentUser = Utils.Empty.emptyUser
             }
         )
 

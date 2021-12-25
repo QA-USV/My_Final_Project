@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentAuthBinding
+import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 @AndroidEntryPoint
@@ -27,15 +28,15 @@ class AuthFragment : Fragment(R.layout.fragment_auth){
                 findNavController().navigate(R.id.action_authFragment_to_mainFragment)
             }
         }
-        lifecycleScope.launch {
-            viewModel.loginExceptionEvent.collectLatest {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.wrong_login_or_password,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+//        lifecycleScope.launch {
+//            viewModel.loginExceptionEvent.collectLatest {
+//                Toast.makeText(
+//                    requireContext(),
+//                    R.string.wrong_login_or_password,
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +45,14 @@ class AuthFragment : Fragment(R.layout.fragment_auth){
         binding = FragmentAuthBinding.bind(view)
 
         binding.enterButton.setOnClickListener {
+            if (!Utils.isOnline(this.requireContext())) {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.lost_network_connection,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
             if (binding.loginTextInputLayout.editText?.text.isNullOrBlank() || binding.passwordTextInputLayout.editText?.text.isNullOrBlank()) {
                 Toast.makeText(
                     requireContext(),

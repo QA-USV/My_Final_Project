@@ -3,11 +3,7 @@ package ru.netology.fmhandroid.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.viewmodel.AuthViewModel
@@ -35,21 +31,5 @@ class AppActivity : AppCompatActivity() {
             )
 
         newsViewModel.initializationListNewsCategories(categories)
-
-        lifecycleScope.launch {
-            authViewModel.serverErrorStateFlow.collectLatest {
-                val loginFragment = supportFragmentManager.findFragmentById(R.id.authFragment)
-                supportFragmentManager.popBackStackImmediate(
-                    null,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE
-                )
-                if (loginFragment != null) {
-                    supportFragmentManager.beginTransaction()
-                        .add(loginFragment, "login")
-                        .commit()
-                }
-            }
-        }
-
     }
 }
