@@ -15,7 +15,6 @@ import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentCreateEditCommentBinding
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.utils.Utils
-import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
