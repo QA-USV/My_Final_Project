@@ -19,7 +19,6 @@ import java.util.*
 
 
 object Utils {
-
     object Empty {
         val emptyClaimComment = ClaimComment(
             id = 0,
@@ -37,7 +36,6 @@ object Utils {
             middleName = "",
         )
     }
-
 
     fun convertNewsCategory(category: String): Int {
         return when (category) {
@@ -109,7 +107,7 @@ object Utils {
     suspend fun <T, R> makeRequest(
         request: suspend () -> Response<T>,
         onSuccess: suspend (body: T) -> R,
-        onFailure: (response: Response<T>) -> R = {throw ApiException(it.code(), it.message())}
+        onFailure: (response: Response<T>) -> R = { throw ApiException(it.code(), it.message()) }
     ): R {
         try {
             val response = request()
@@ -130,9 +128,9 @@ object Utils {
 
     fun generateShortUserName(fullName: String): String {
         val parsedName = fullName.trim().split("\\s".toRegex())
-        return "${parsedName[0]} ${parsedName[1].first().uppercase()} ${
+        return "${parsedName[0]} ${parsedName[1].first().uppercase()}.${
             parsedName[2].first().uppercase()
-        }"
+        }."
     }
 
     fun isOnline(context: Context): Boolean {
