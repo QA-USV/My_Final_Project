@@ -33,6 +33,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
+        lifecycleScope.launchWhenCreated {
+            claimViewModel.onRefresh()
+        }
+
         lifecycleScope.launchWhenStarted {
             claimViewModel.openClaimEvent.collectLatest {
                 val action = MainFragmentDirections
@@ -42,8 +46,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenStarted {
-            newsViewModel.newsListUpdatedEvent.collectLatest {
-                claimViewModel.onRefresh()
+            claimViewModel.claimListUpdatedEvent.collectLatest {
+                newsViewModel.onRefresh()
             }
         }
 
@@ -200,7 +204,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
-                    newsViewModel.onRefresh()
+                    claimViewModel.onRefresh()
                 binding.mainSwipeRefresh.isRefreshing = false
             }
         }

@@ -65,7 +65,7 @@ class NewsViewModel @Inject constructor(
                     )
                 }
             }
-        }.onStart { internalOnRefresh() }
+        }
     }
 
     fun onRefresh() {

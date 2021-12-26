@@ -32,6 +32,10 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        lifecycleScope.launchWhenCreated {
+            viewModel.onRefresh()
+        }
+
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.claimsLoadException.collect {

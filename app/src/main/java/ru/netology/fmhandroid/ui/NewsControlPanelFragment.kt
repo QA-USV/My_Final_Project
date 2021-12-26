@@ -34,6 +34,10 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.onRefresh()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -53,16 +53,11 @@ class NewsControlPanelViewModel @Inject constructor(
                 NewsViewModel.SortDirection.DESC -> news.reversed()
             }
         }
-    }.onStart { internalOnRefresh() }
+    }
 
     fun onRefresh() {
         viewModelScope.launch {
-            try {
-                newsRepository.refreshNews()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                loadNewsExceptionEvent.emit(Unit)
-            }
+            internalOnRefresh()
         }
     }
 
