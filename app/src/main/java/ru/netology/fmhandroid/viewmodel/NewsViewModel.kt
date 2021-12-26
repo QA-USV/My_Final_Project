@@ -3,6 +3,7 @@ package ru.netology.fmhandroid.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -32,9 +33,9 @@ class NewsViewModel @Inject constructor(
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
     val newsListUpdatedEvent = MutableSharedFlow<Unit>()
 
-    @FlowPreview
+    @ExperimentalCoroutinesApi
     val data: Flow<List<NewsViewData>> by lazy {
-        filterFlow.flatMapMerge { filter ->
+        filterFlow.flatMapLatest { filter ->
             newsRepository.getAllNews(
                 viewModelScope,
                 publishEnabled = true,
