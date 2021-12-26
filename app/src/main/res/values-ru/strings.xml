@@ -3,7 +3,6 @@
     <string name="app_name">Первый московский хоспис</string>
     <string name="claims">Заявки</string>
     <string name="claim">Заявка</string>
-    <string name="full_name_format">%s %s %s</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
     <string name="error">Что-то пошло не так. Попробуйте позднее.</string>
     <string name="retry_loading">Повторить</string>

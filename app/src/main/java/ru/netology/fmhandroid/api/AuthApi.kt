@@ -6,7 +6,6 @@ import retrofit2.http.POST
 import ru.netology.fmhandroid.dto.AuthState
 import ru.netology.fmhandroid.dto.LoginData
 
-
 interface AuthApi {
     @POST("authentication/login")
     suspend fun getTokens(

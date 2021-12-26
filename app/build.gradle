@@ -31,7 +31,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 
     buildTypes {
@@ -54,7 +54,7 @@ dependencies {
     def okhttploggin_version = "4.9.2"
     def fragment_version = "1.4.0"
     def lifecycle_version = "2.4.0"
-    def room_version = "2.4.0"
+    def room_version = '2.4.0'
     def nav_version = '2.3.5'
     def recycler_version = '1.2.1'
     def material_version = '1.4.0'
