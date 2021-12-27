@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -133,9 +134,17 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
 
         with(binding) {
             containerListNewsInclude.editNewsMaterialButton.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_newsListFragment_to_newsControlPanelFragment
-                )
+                if (viewModel.currentUser.admin) {
+                    findNavController().navigate(
+                        R.id.action_newsListFragment_to_newsControlPanelFragment
+                    )
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.no_rules_for_news_control_panel,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
             containerListNewsInclude.sortNewsMaterialButton.setOnClickListener {

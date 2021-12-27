@@ -104,4 +104,5 @@
     <string name="log_out">Log out</string>
     <string name="wrong_login_or_password">Wrong login or password</string>
     <string name="lost_network_connection">There is no internet connection. Check your connection and try again.</string>
+    <string name="no_rules_for_news_control_panel">Only the Administrator can manage news</string>
 </resources>

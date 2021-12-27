@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.adapter.OnNewsItemClickListener
 import ru.netology.fmhandroid.dto.News
+import ru.netology.fmhandroid.dto.User
 import ru.netology.fmhandroid.repository.newsRepository.NewsRepository
+import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import ru.netology.fmhandroid.ui.viewdata.NewsViewData
 import ru.netology.fmhandroid.utils.Utils
 import java.time.LocalDateTime
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val userRepository: UserRepository
     ) : ViewModel(), OnNewsItemClickListener {
 
     private val sortDirection = MutableStateFlow(SortDirection.ASC)
@@ -32,6 +35,9 @@ class NewsViewModel @Inject constructor(
     val loadNewsExceptionEvent = MutableSharedFlow<Unit>()
     val loadNewsCategoriesExceptionEvent = MutableSharedFlow<Unit>()
     val newsListUpdatedEvent = MutableSharedFlow<Unit>()
+
+    val currentUser: User
+        get() = userRepository.currentUser
 
     @ExperimentalCoroutinesApi
     val data: Flow<List<NewsViewData>> by lazy {
