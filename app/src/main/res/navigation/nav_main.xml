@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_newsListFragment_to_claimListFragment"
             app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 
     <fragment
@@ -51,6 +54,9 @@
         <action
             android:id="@+id/action_newsControlPanelFragment_to_newsListFragment"
             app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 
     <fragment
@@ -66,6 +72,9 @@
         <action
             android:id="@+id/action_openClaimFragment_to_createEditClaimFragment"
             app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 
     <fragment
@@ -124,6 +133,9 @@
         <action
             android:id="@+id/action_claimListFragment_to_newsListFragment"
             app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 
     <fragment

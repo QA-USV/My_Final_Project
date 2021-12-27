@@ -24,7 +24,6 @@ import ru.netology.fmhandroid.viewmodel.NewsViewModel
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
-
     private val claimViewModel: ClaimViewModel by viewModels()
     private val newsViewModel: NewsViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()

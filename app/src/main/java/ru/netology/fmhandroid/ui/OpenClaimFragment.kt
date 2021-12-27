@@ -24,6 +24,7 @@ import ru.netology.fmhandroid.dto.Claim
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.FullClaim
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.ClaimCardViewModel
 import java.time.Instant
 import java.time.LocalDateTime
@@ -33,6 +34,7 @@ import java.time.ZoneId
 class OpenClaimFragment : Fragment() {
     private lateinit var binding: FragmentOpenClaimBinding
     private val claimCardViewModel: ClaimCardViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     val claimId: Int by lazy {
         val args by navArgs<OpenClaimFragmentArgs>()
@@ -85,6 +87,27 @@ class OpenClaimFragment : Fragment() {
             View.GONE
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
             .setText(R.string.claim)
+
+        val authorizationMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentOpenClaim.authorizationImageButton
+        )
+        authorizationMenu.inflate(R.menu.authorization)
+
+        binding.containerCustomAppBarIncludeOnFragmentOpenClaim.authorizationImageButton.setOnClickListener {
+            authorizationMenu.show()
+        }
+
+        authorizationMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.authorization_logout_menu_item -> {
+                    authViewModel.logOut()
+                    findNavController().navigate(R.id.action_openClaimFragment_to_authFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
         val adapter = ClaimCommentListAdapter(object : OnClaimCommentItemClickListener {
             override fun onCard(claimComment: ClaimComment) {

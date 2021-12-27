@@ -24,7 +24,6 @@ import ru.netology.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
 class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
-
     private lateinit var binding: FragmentListClaimBinding
     private val viewModel: ClaimViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
@@ -98,6 +97,27 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                 else -> {
                     false
                 }
+            }
+        }
+
+        val authorizationMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentListClaim.authorizationImageButton
+        )
+        authorizationMenu.inflate(R.menu.authorization)
+
+        binding.containerCustomAppBarIncludeOnFragmentListClaim.authorizationImageButton.setOnClickListener {
+            authorizationMenu.show()
+        }
+
+        authorizationMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.authorization_logout_menu_item -> {
+                    authViewModel.logOut()
+                    findNavController().navigate(R.id.action_claimListFragment_to_authFragment)
+                    true
+                }
+                else -> false
             }
         }
 

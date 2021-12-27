@@ -24,12 +24,14 @@ import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsFilterArgs
 import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.utils.Utils
+import ru.netology.fmhandroid.viewmodel.AuthViewModel
 import ru.netology.fmhandroid.viewmodel.NewsControlPanelViewModel
 
 @AndroidEntryPoint
 class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) {
     private lateinit var binding: FragmentNewsControlPanelBinding
     private val viewModel: NewsControlPanelViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,27 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                 }
                 R.id.menu_item_news -> {
                     findNavController().navigate(R.id.action_newsControlPanelFragment_to_newsListFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        val authorizationMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentNewsControlPanel.authorizationImageButton
+        )
+        authorizationMenu.inflate(R.menu.authorization)
+
+        binding.containerCustomAppBarIncludeOnFragmentNewsControlPanel.authorizationImageButton.setOnClickListener {
+            authorizationMenu.show()
+        }
+
+        authorizationMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.authorization_logout_menu_item -> {
+                    authViewModel.logOut()
+                    findNavController().navigate(R.id.action_newsControlPanelFragment_to_authFragment)
                     true
                 }
                 else -> false
