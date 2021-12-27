@@ -37,7 +37,6 @@ class AuthRepositoryImpl @Inject constructor(
             },
             onFailure = {
                 if (it.code() == 401) {
-                    appAuth.createEventFromServerError()
                     appAuth.authState = null
                     null
                 } else {

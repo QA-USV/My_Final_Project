@@ -1,7 +1,10 @@
 package ru.netology.fmhandroid.repository.userRepository
 
+import retrofit2.Response
 import ru.netology.fmhandroid.api.UserApi
 import ru.netology.fmhandroid.dto.User
+import ru.netology.fmhandroid.exceptions.AuthorizationException
+import ru.netology.fmhandroid.exceptions.UnknownException
 import ru.netology.fmhandroid.utils.Utils
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,16 +20,19 @@ class UserRepositoryImpl @Inject constructor(
     override var userList: List<User> = emptyList()
         private set
 
-    override suspend fun getUserInfo() =
-        Utils.makeRequest(
-            request = { userApi.getUserInfo() },
-            onSuccess = { body ->
-                currentUser = body
-            },
-            onFailure = {
-                currentUser = Utils.Empty.emptyUser
+    override suspend fun getUserInfo() {
+        try {
+            val response: Response<User> = userApi.getUserInfo()
+            if (!response.isSuccessful && response.code() == 401) {
+                throw AuthorizationException
             }
-        )
+            currentUser = response.body() ?: throw UnknownException
+        } catch (e: AuthorizationException) {
+            throw AuthorizationException
+        } catch (e: Exception) {
+            throw UnknownException
+        }
+    }
 
     override suspend fun getAllUsers(): List<User> =
         Utils.makeRequest(

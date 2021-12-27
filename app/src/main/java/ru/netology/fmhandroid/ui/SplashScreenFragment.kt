@@ -158,14 +158,6 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                 findNavController().navigate(R.id.action_splashScreenFragment_to_mainFragment)
             }
         }
-
-        lifecycleScope.launch {
-            authViewModel.serverErrorStateFlow.collectLatest {
-                val action = SplashScreenFragmentDirections
-                    .actionSplashScreenFragmentToAuthFragment()
-                findNavController().navigate(action)
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -181,7 +173,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
         }
 
         lifecycleScope.launch {
-            delay(3000)
+            delay(3_000)
             authViewModel.authorization()
         }
     }

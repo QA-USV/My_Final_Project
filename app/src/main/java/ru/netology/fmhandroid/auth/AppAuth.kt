@@ -3,8 +3,6 @@ package ru.netology.fmhandroid.auth
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import ru.netology.fmhandroid.dto.AuthState
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,12 +12,6 @@ import kotlin.properties.Delegates
 class AppAuth @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-
-    private val _serverErrorStateFlow: MutableStateFlow<Unit> = MutableStateFlow(
-        Unit
-    )
-    val serverErrorStateFlow = _serverErrorStateFlow.asStateFlow()
-
     private val prefs: SharedPreferences =
         context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val accessTokenKey = "access"
@@ -37,11 +29,6 @@ class AppAuth @Inject constructor(
             putString(refreshTokenKey, authState?.refreshToken)
             apply()
         }
-
-    }
-
-    fun createEventFromServerError() {
-        _serverErrorStateFlow.value = Unit
     }
 
     private fun createInitialAuthState(): AuthState? {

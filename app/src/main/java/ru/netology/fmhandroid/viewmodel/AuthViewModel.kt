@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.auth.AppAuth
+import ru.netology.fmhandroid.exceptions.AuthorizationException
+import ru.netology.fmhandroid.exceptions.UnknownException
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import ru.netology.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject
@@ -23,8 +25,7 @@ class AuthViewModel @Inject constructor(
     val loginEvent = MutableSharedFlow<Unit>()
     val getUserListExceptionEvent = MutableSharedFlow<Unit>()
     val userListLoadedEvent = MutableSharedFlow<Unit>()
-
-    val serverErrorStateFlow = appAuth.serverErrorStateFlow
+    val authorizationFailedExceptionEvent = MutableSharedFlow<Unit>()
 
     fun login(login: String, password: String) {
         viewModelScope.launch {
@@ -45,8 +46,14 @@ class AuthViewModel @Inject constructor(
             if (authState == null) {
                 nonAuthorizedEvent.emit(Unit)
             } else {
-                userRepository.getUserInfo()
-                authorizedEvent.emit(Unit)
+                try {
+                    userRepository.getUserInfo()
+                    authorizedEvent.emit(Unit)
+                } catch (e: AuthorizationException) {
+                    nonAuthorizedEvent.emit(Unit)
+                } catch (e: UnknownException) {
+                    e.printStackTrace()
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 @AndroidEntryPoint
-class AuthFragment : Fragment(R.layout.fragment_auth){
+class AuthFragment : Fragment(R.layout.fragment_auth) {
     private lateinit var binding: FragmentAuthBinding
     val viewModel: AuthViewModel by viewModels()
 
