@@ -206,7 +206,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     id = fullClaim.claim.id,
                     title = titleEditText.text.toString(),
                     description = descriptionEditText.text.toString(),
-                    executorId = fullClaim.claim.executorId,
+                    executorId = executor?.id,
                     creatorName = fullClaim.claim.creatorName,
                     createDate = fullClaim.claim.createDate,
                     creatorId = fullClaim.claim.creatorId,
