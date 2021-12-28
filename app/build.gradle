@@ -37,13 +37,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            manifestPlaceholders.usesCleartextTraffic = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", '"http://130.193.44.96:8080/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://130.193.44.96//fmh/"'
         }
         debug {
-            manifestPlaceholders.usesCleartextTraffic = true
-            buildConfigField "String", "BASE_URL", '"http://130.193.44.96:8080/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://130.193.44.96//fmh/"'
         }
     }
 }

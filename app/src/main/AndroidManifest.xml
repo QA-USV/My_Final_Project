@@ -16,7 +16,8 @@
         android:theme="@style/Theme.FMHAndroid"
         android:hardwareAccelerated="false"
         android:name=".application.FhmApplication"
-        tools:targetApi="m">
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:targetApi="n">
 
         <activity android:name=".ui.AppActivity"
             android:exported="true">
