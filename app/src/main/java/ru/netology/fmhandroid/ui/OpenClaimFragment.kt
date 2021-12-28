@@ -294,7 +294,11 @@ class OpenClaimFragment : Fragment() {
                                     executorId = null,
                                     claimComment = ClaimComment(
                                         claimId = fullClaim.claim.id,
-                                        creatorName = fullClaim.claim.creatorName,
+                                        creatorName = Utils.fullUserNameGenerator(
+                                            claimCardViewModel.currentUser.lastName,
+                                            claimCardViewModel.currentUser.firstName,
+                                            claimCardViewModel.currentUser.middleName
+                                        ),
                                         description = text.toString(),
                                         creatorId = claimCardViewModel.currentUser.id,
                                         createDate = LocalDateTime.now()
@@ -345,7 +349,11 @@ class OpenClaimFragment : Fragment() {
                                     executorId = fullClaim.claim.executorId,
                                     claimComment = ClaimComment(
                                         claimId = fullClaim.claim.id,
-                                        creatorName = fullClaim.claim.creatorName,
+                                        creatorName = Utils.fullUserNameGenerator(
+                                            claimCardViewModel.currentUser.lastName,
+                                            claimCardViewModel.currentUser.firstName,
+                                            claimCardViewModel.currentUser.middleName
+                                        ),
                                         description = text.toString(),
                                         creatorId = claimCardViewModel.currentUser.id,
                                         createDate = LocalDateTime.now().toEpochSecond(
