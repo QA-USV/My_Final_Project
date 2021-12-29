@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.adapter.ClaimCommentListAdapter
 import ru.netology.fmhandroid.adapter.OnClaimCommentItemClickListener
@@ -197,9 +199,16 @@ class OpenClaimFragment : Fragment() {
                 this.setImageResource(R.drawable.ic_pen)
                 this.isClickable = true
                 this.setOnClickListener {
-                    val action = OpenClaimFragmentDirections
-                        .actionOpenClaimFragmentToCreateEditClaimFragment(fullClaim)
-                    findNavController().navigate(action)
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        authViewModel.userListLoadedEvent.collectLatest {
+                            val action = OpenClaimFragmentDirections
+                                .actionOpenClaimFragmentToCreateEditClaimFragment(fullClaim)
+                            findNavController().navigate(action)
+                        }
+                    }
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        authViewModel.loadUserList()
+                    }
                 }
             } else {
                 this.setImageResource(R.drawable.ic_pen_light)
