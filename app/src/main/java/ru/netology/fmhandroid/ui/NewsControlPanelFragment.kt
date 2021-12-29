@@ -126,8 +126,7 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.data.collectLatest { state ->
                     adapter.submitList(state)
-
-                    binding.errorLoadingGroup.isVisible =
+                    binding.controlPanelEmptyNewsListGroup.isVisible =
                         state.isEmpty()
                 }
             }
@@ -173,6 +172,10 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
 
             filterNewsMaterialButton.setOnClickListener {
                 findNavController().navigate(R.id.action_newsControlPanelFragment_to_filterNewsFragment)
+            }
+
+            controlPanelNewsRetryMaterialButton.setOnClickListener {
+                viewModel.onRefresh()
             }
         }
 

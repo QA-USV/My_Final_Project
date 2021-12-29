@@ -113,55 +113,52 @@
                     app:layout_constraintVertical_bias="0.0"
                     tools:listitem="@layout/item_news_control_panel" />
 
-                <TextView
-                    android:id="@+id/retry_loading_title_text_view"
+                <ImageView
+                    android:id="@+id/control_panel_empty_news_list_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/white"
-                    android:text="@string/error"
-                    app:layout_constraintBottom_toTopOf="@+id/retry_loading_button"
+                    android:src="@drawable/empty_list_image"
+                    app:layout_constraintBottom_toTopOf="@+id/control_panel_empty_news_list_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
-
-                <Button
-                    android:id="@+id/retry_loading_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retry_loading"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/retry_loading_title_text_view" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/error_loading_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="retry_loading_title_text_view,retry_loading_button" />
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/control_panel_empty_news_list_text_view"
+                    style="@style/EmptyListTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/empty_news_list"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="@dimen/card_view_padding"
+                    android:text="@string/empty_claim_list_text"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/control_panel_news_retry_material_button"
+                    app:layout_constraintEnd_toEndOf="@id/control_panel_empty_news_list_image_view"
+                    app:layout_constraintStart_toStartOf="@id/control_panel_empty_news_list_image_view"
+                    app:layout_constraintTop_toBottomOf="@+id/control_panel_empty_news_list_image_view"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                <ProgressBar
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/control_panel_news_retry_material_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_view_padding"
+                    android:text="@string/refresh"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/control_panel_empty_news_list_image_view"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@id/control_panel_empty_news_list_image_view"
+                    app:layout_constraintTop_toBottomOf="@+id/control_panel_empty_news_list_text_view" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/control_panel_empty_news_list_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:constraint_referenced_ids="control_panel_empty_news_list_image_view, control_panel_empty_news_list_text_view, control_panel_news_retry_material_button" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>

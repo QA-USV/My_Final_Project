@@ -1,7 +1,9 @@
 package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,21 +30,28 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 findNavController().navigate(R.id.action_authFragment_to_mainFragment)
             }
         }
-//        lifecycleScope.launch {
-//            viewModel.loginExceptionEvent.collectLatest {
-//                Toast.makeText(
-//                    requireContext(),
-//                    R.string.wrong_login_or_password,
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModel.loginExceptionEvent.collectLatest {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.wrong_login_or_password,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentAuthBinding.bind(view)
+
+        with(binding.containerCustomAppBarIncludeOnFragmentMain) {
+            mainMenuImageButton.visibility = View.GONE
+            authorizationImageButton.visibility = View.GONE
+            ourMissionImageButton.visibility = View.GONE
+        }
 
         binding.enterButton.setOnClickListener {
             if (!Utils.isOnline(this.requireContext())) {
