@@ -35,6 +35,16 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             viewModel.onRefresh()
         }
 
+        lifecycleScope.launchWhenCreated {
+            authViewModel.getUserListExceptionEvent.collectLatest {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.error,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.claimsLoadException.collect {
