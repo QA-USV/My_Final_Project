@@ -9,10 +9,11 @@ import ru.netology.fmhandroid.api.NewsApi
 import ru.netology.fmhandroid.dao.NewsCategoryDao
 import ru.netology.fmhandroid.dao.NewsDao
 import ru.netology.fmhandroid.dto.News
-import ru.netology.fmhandroid.entity.toEntity
-import ru.netology.fmhandroid.entity.toNewsCategoryDto
-import ru.netology.fmhandroid.entity.toNewsCategoryEntity
+import ru.netology.fmhandroid.entity.*
+import ru.netology.fmhandroid.exceptions.ServerException
 import ru.netology.fmhandroid.utils.Utils
+import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,12 +43,33 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.insert(newsItem.toEntity())
     }
 
-    override suspend fun refreshNews() = Utils.makeRequest(
-        request = { newsApi.getAllNews() },
-        onSuccess = { body ->
-            newsDao.insert(body.toEntity())
+//    override suspend fun refreshNews() = Utils.makeRequest(
+//        request = { newsApi.getAllNews() },
+//        onSuccess = { body ->
+////            val databaseId = newsDao.getAllNews().mapNotNull { it.id }.toMutableList()
+////            val apiId = body.mapNotNull { it.id }
+////            databaseId.removeAll(apiId)
+////            databaseId.forEach { newsDao.removeNewsItemById(it) }
+////            val response = body
+//            val apiId = body.map { it.id }
+//            val databaseId = newsDao.getAllNewsList().map{ it.newsItem.id}.toMutableList()
+//            databaseId.removeAll(apiId)
+//            newsDao.removeNewsItemsByIdList(databaseId.toList())
+////            newsDao.removeNewsItemById()
+//            newsDao.insert(body.toEntity())
+//        }
+//    )
+
+    override suspend fun refreshNews() {
+        try {
+            val request = newsApi.getAllNews()
+            val response = request.body() ?: throw ServerException
+            val databaseId = newsDao.getAllNewsList().map{ it.newsItem.id}.toMutableList()
+            newsDao.insert(response.toEntity())
+        } catch (e: Exception) {
+            throw ServerException
         }
-    )
+    }
 
     override suspend fun modificationOfExistingNews(newsItem: News): News =
         Utils.makeRequest(

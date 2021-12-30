@@ -2,6 +2,8 @@ package ru.netology.fmhandroid.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
+import ru.netology.fmhandroid.dto.News
 import ru.netology.fmhandroid.dto.NewsWithCategory
 import ru.netology.fmhandroid.entity.NewsCategoryEntity
 import ru.netology.fmhandroid.entity.NewsEntity
@@ -27,6 +29,9 @@ interface NewsDao {
         dateEnd: Long? = null
     ): Flow<List<NewsWithCategory>>
 
+    @Query("SELECT * FROM NewsEntity")
+    fun getAllNewsList(): List<NewsWithCategory>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(newsItem: NewsEntity)
 
@@ -35,6 +40,12 @@ interface NewsDao {
 
     @Query("DELETE FROM NewsEntity WHERE id = :id")
     suspend fun removeNewsItemById(id: Int)
+
+    @Query("DELETE FROM NewsEntity WHERE id IN (:idList)")
+    suspend fun removeNewsItemsByIdList(idList: List<Int?>)
+
+//    @Query("DELETE FROM NewsEntity")
+//    suspend fun removeNewsItemById()
 }
 
 @Dao
