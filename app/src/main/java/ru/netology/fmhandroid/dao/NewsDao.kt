@@ -29,8 +29,9 @@ interface NewsDao {
         dateEnd: Long? = null
     ): Flow<List<NewsWithCategory>>
 
+    @Transaction
     @Query("SELECT * FROM NewsEntity")
-    fun getAllNewsList(): List<NewsWithCategory>
+    suspend fun getAllNewsList(): List<NewsWithCategory>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(newsItem: NewsEntity)
@@ -43,9 +44,6 @@ interface NewsDao {
 
     @Query("DELETE FROM NewsEntity WHERE id IN (:idList)")
     suspend fun removeNewsItemsByIdList(idList: List<Int?>)
-
-//    @Query("DELETE FROM NewsEntity")
-//    suspend fun removeNewsItemById()
 }
 
 @Dao

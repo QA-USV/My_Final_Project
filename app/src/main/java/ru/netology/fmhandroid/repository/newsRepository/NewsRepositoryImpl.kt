@@ -23,7 +23,6 @@ class NewsRepositoryImpl @Inject constructor(
     private val newsCategoryDao: NewsCategoryDao,
     private val newsApi: NewsApi
 ) : NewsRepository {
-
     override fun getAllNews(
         coroutineScope: CoroutineScope,
         publishEnabled: Boolean?,
@@ -43,33 +42,19 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.insert(newsItem.toEntity())
     }
 
-//    override suspend fun refreshNews() = Utils.makeRequest(
-//        request = { newsApi.getAllNews() },
-//        onSuccess = { body ->
-////            val databaseId = newsDao.getAllNews().mapNotNull { it.id }.toMutableList()
-////            val apiId = body.mapNotNull { it.id }
-////            databaseId.removeAll(apiId)
-////            databaseId.forEach { newsDao.removeNewsItemById(it) }
-////            val response = body
-//            val apiId = body.map { it.id }
-//            val databaseId = newsDao.getAllNewsList().map{ it.newsItem.id}.toMutableList()
-//            databaseId.removeAll(apiId)
-//            newsDao.removeNewsItemsByIdList(databaseId.toList())
-////            newsDao.removeNewsItemById()
-//            newsDao.insert(body.toEntity())
-//        }
-//    )
-
-    override suspend fun refreshNews() {
-        try {
-            val request = newsApi.getAllNews()
-            val response = request.body() ?: throw ServerException
-            val databaseId = newsDao.getAllNewsList().map{ it.newsItem.id}.toMutableList()
-            newsDao.insert(response.toEntity())
-        } catch (e: Exception) {
-            throw ServerException
+    override suspend fun refreshNews() = Utils.makeRequest(
+        request = { newsApi.getAllNews() },
+        onSuccess = { body ->
+            val apiId = body
+                .map { it.id }
+            val databaseId = newsDao.getAllNewsList()
+                .map{ it.newsItem.id}
+                .toMutableList()
+            databaseId.removeAll(apiId)
+            newsDao.removeNewsItemsByIdList(databaseId)
+            newsDao.insert(body.toEntity())
         }
-    }
+    )
 
     override suspend fun modificationOfExistingNews(newsItem: News): News =
         Utils.makeRequest(
