@@ -1,9 +1,7 @@
 package ru.netology.fmhandroid.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +12,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentAuthBinding
-import ru.netology.fmhandroid.utils.Utils
 import ru.netology.fmhandroid.viewmodel.AuthViewModel
 
 @AndroidEntryPoint
@@ -34,8 +31,26 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             viewModel.loginExceptionEvent.collectLatest {
                 Toast.makeText(
                     requireContext(),
+                    R.string.error,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.authorizationFailedExceptionEvent.collectLatest {
+                Toast.makeText(
+                    requireContext(),
                     R.string.wrong_login_or_password,
                     Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.lostConnectionExceptionEvent.collectLatest {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.lost_network_connection,
+                    Toast.LENGTH_LONG
                 ).show()
             }
         }
@@ -54,14 +69,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         }
 
         binding.enterButton.setOnClickListener {
-            if (!Utils.isOnline(this.requireContext())) {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.lost_network_connection,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
             if (binding.loginTextInputLayout.editText?.text.isNullOrBlank() || binding.passwordTextInputLayout.editText?.text.isNullOrBlank()) {
                 Toast.makeText(
                     requireContext(),

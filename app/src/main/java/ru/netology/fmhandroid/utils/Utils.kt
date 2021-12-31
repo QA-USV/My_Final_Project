@@ -8,10 +8,9 @@ import android.widget.EditText
 import retrofit2.Response
 import ru.netology.fmhandroid.dto.ClaimComment
 import ru.netology.fmhandroid.dto.User
-import ru.netology.fmhandroid.exceptions.ApiException
-import ru.netology.fmhandroid.exceptions.ServerException
-import ru.netology.fmhandroid.exceptions.UnknownException
+import ru.netology.fmhandroid.exceptions.*
 import java.io.IOException
+import java.net.ConnectException
 import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -115,8 +114,12 @@ object Utils {
             val body =
                 response.body() ?: throw ApiException(response.code(), response.message())
             return onSuccess(body)
+        } catch (e: ConnectException) {
+            throw LostConnectException
         } catch (e: IOException) {
             throw ServerException
+        } catch (e: AuthorizationException) {
+            throw AuthorizationException
         } catch (e: Exception) {
             throw UnknownException
         }

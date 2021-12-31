@@ -7,9 +7,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ru.netology.fmhandroid.auth.AppAuth
 import ru.netology.fmhandroid.exceptions.AuthorizationException
+import ru.netology.fmhandroid.exceptions.LostConnectException
 import ru.netology.fmhandroid.exceptions.UnknownException
 import ru.netology.fmhandroid.repository.authRepository.AuthRepository
 import ru.netology.fmhandroid.repository.userRepository.UserRepository
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,7 @@ class AuthViewModel @Inject constructor(
     val getUserListExceptionEvent = MutableSharedFlow<Unit>()
     val userListLoadedEvent = MutableSharedFlow<Unit>()
     val authorizationFailedExceptionEvent = MutableSharedFlow<Unit>()
+    val lostConnectionExceptionEvent = MutableSharedFlow<Unit>()
 
     fun login(login: String, password: String) {
         viewModelScope.launch {
@@ -33,6 +36,13 @@ class AuthViewModel @Inject constructor(
                 authRepository.login(login, password)
                 userRepository.getUserInfo()
                 loginEvent.emit(Unit)
+            } catch (e: LostConnectException) {
+                e.printStackTrace()
+                lostConnectionExceptionEvent.emit(Unit)
+            }
+            catch (e: AuthorizationException) {
+                e.printStackTrace()
+                authorizationFailedExceptionEvent.emit(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
                 loginExceptionEvent.emit(Unit)
