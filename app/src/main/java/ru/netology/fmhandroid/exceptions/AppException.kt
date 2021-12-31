@@ -2,7 +2,6 @@ package ru.netology.fmhandroid.exceptions
 
 import android.database.SQLException
 import java.io.IOException
-import java.lang.IllegalArgumentException
 import java.net.ConnectException
 
 sealed class AppException(var code: String) : RuntimeException() {
