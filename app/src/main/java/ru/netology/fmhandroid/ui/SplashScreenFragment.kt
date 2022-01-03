@@ -120,12 +120,6 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
             R.color.splash_screen_title_color_6
         ),
         SplashScreenData(
-            R.drawable.image_splashscreen_15,
-            "Хоспис – это наука помощи и искусство ухода",
-            R.drawable.background_splash_screen_title_1,
-            R.color.splash_screen_title_color_1
-        ),
-        SplashScreenData(
             R.drawable.image_splashscreen_16,
             "Ответственно и осознанно нести добро людям",
             R.drawable.background_splash_screen_title_3,
