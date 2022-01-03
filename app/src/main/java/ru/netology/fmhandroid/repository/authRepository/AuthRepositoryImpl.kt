@@ -30,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
                 // Было бы здорово вынести этот код в отдельную функцию.
                 val gson = Gson()
                 val type = object : TypeToken<JwtResponse>() {}.type
-                val errorResponse: JwtResponse? = gson.fromJson(it.errorBody()!!.charStream(), type)
+                val errorResponse: JwtResponse? = gson.fromJson(it.errorBody()?.charStream(), type)
                 if (errorResponse?.message.equals("ERR_INVALID_LOGIN")) {
                     throw AuthorizationException
                 }
