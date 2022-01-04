@@ -105,4 +105,8 @@
     <string name="wrong_login_or_password">Неверный логин или пароль</string>
     <string name="lost_network_connection">Отсутствует подключение к интернет. Проверьте соединение и попробуйте снова.</string>
     <string name="no_rules_for_news_control_panel">Управлять новостями может только Администратор</string>
+    <string name="version">Версия: </string>
+    <string name="privacy_policy">User Guide <a href="http://www.cleverfinger.com.au/user-guide/">http://www.cleverfinger.com.au/user-guide/</a></string>
+    <string name="terms_of_use">Пользовательское соглашение</string>
+    <string name="about">О приложении</string>
 </resources>
