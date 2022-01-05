@@ -69,6 +69,10 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                     findNavController().navigate(R.id.action_newsControlPanelFragment_to_newsListFragment)
                     true
                 }
+                R.id.menu_item_about -> {
+                    findNavController().navigate(R.id.action_newsControlPanelFragment_to_aboutFragment)
+                    true
+                }
                 else -> false
             }
         }

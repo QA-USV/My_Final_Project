@@ -104,6 +104,10 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                     findNavController().navigate(R.id.action_claimListFragment_to_newsListFragment)
                     true
                 }
+                R.id.menu_item_about -> {
+                    findNavController().navigate(R.id.action_claimListFragment_to_aboutFragment)
+                    true
+                }
                 else -> {
                     false
                 }
