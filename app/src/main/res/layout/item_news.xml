@@ -6,11 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="68dp"
-    android:layout_marginBottom="2dp"
     app:cardCornerRadius="0dp"
     app:strokeColor="@color/claim_stroke_color"
-    app:cardElevation="@dimen/card_item_elevation"
-    android:outlineSpotShadowColor="@color/execution_priority_low"
     tools:targetApi="p">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +54,30 @@
             app:layout_constraintBottom_toBottomOf="@id/category_icon_image_view"
             tools:text="@string/news_item_title" />
 
+        <TextView
+            android:id="@+id/news_item_date_text_view"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:layout_marginTop="16dp"
+            android:textSize="13sp"
+            android:background="#F5F5F5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="@string/news_item_date"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageView
+            android:id="@+id/news_divider_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_divider_height"
+            android:background="#F5F5F5"
+            android:contentDescription="@string/line_divider_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/news_item_date_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <androidx.constraintlayout.widget.Group
             android:id="@+id/news_item_group"
             android:layout_width="wrap_content"
@@ -76,18 +97,6 @@
             app:layout_constraintTop_toBottomOf="@id/news_item_title_text_view"
             tools:text="@string/news_item_description" />
 
-        <TextView
-            android:id="@+id/news_item_date_text_view"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:layout_marginTop="16dp"
-            android:textSize="13sp"
-            android:background="#F5F5F5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@string/news_item_date"
-            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/news_item_category_text_view"
