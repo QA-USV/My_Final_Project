@@ -1,6 +1,5 @@
 package ru.netology.fmhandroid.ui
 
-import android.app.job.JobInfo
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
@@ -13,8 +12,9 @@ class AboutFragment: Fragment(R.layout.fragment_about) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val binding = FragmentAboutBinding.bind(view)
         binding.aboutVersionValueTextView.text = BuildConfig.VERSION_NAME
-        binding.aboutPrivacyPolicyTextView.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutPrivacyPolicyValueTextView.movementMethod = LinkMovementMethod.getInstance()
     }
 }

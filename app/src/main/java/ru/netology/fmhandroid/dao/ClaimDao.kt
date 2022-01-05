@@ -9,6 +9,7 @@ import ru.netology.fmhandroid.entity.ClaimEntity
 @Dao
 interface ClaimDao {
 
+    @Transaction
     @Query(
         "SELECT * FROM ClaimEntity ORDER BY planExecuteDate ASC, createDate DESC"
     )
@@ -32,6 +33,7 @@ interface ClaimDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClaim(claims: List<ClaimEntity>)
 
+    @Transaction
     @Query("SELECT * FROM ClaimEntity WHERE id = :id")
     fun getClaimById(id: Int): Flow<FullClaim>
 }

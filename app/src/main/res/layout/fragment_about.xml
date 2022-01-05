@@ -26,27 +26,54 @@
         tools:text="1.0.0" />
 
     <TextView
-        android:id="@+id/about_privacy_policy_text_view"
+        android:id="@+id/about_privacy_policy_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:linksClickable="true"
         android:text="@string/privacy_policy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_version_value_text_view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/about_terms_of_use_text_view"
+        android:id="@+id/about_privacy_policy_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:text="@string/privacy_policy_url"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_privacy_policy_label_text_view" />
+
+    <TextView
+        android:id="@+id/about_terms_of_use_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:autoLink="web"
-        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_privacy_policy_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/about_privacy_policy_value_text_view"
         android:text="@string/terms_of_use"/>
 
+    <TextView
+        android:id="@+id/about_terms_of_use_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:focusable="true"
+        android:text="@string/terms_of_use_url"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_terms_of_use_label_text_view" />
+
+    <TextView
+        android:id="@+id/about_company_info_label_text_view"
+        style="@style/SmallBlackTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company_info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

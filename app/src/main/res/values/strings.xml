@@ -106,7 +106,10 @@
     <string name="lost_network_connection">There is no internet connection. Check your connection and try again.</string>
     <string name="no_rules_for_news_control_panel">Only the Administrator can manage news</string>
     <string name="version">Version: </string>
-    <string name="privacy_policy">User Guide <a href="http://www.cleverfinger.com.au/user-guide/">http://www.cleverfinger.com.au/user-guide/</a></string>
-    <string name="terms_of_use">Terms of use</string>
+    <string name="privacy_policy">Privacy Policy:</string>
+    <string name="terms_of_use">Terms of use:</string>
     <string name="about">About</string>
+    <string name="privacy_policy_url">https://ru.wikipedia.org/</string>
+    <string name="terms_of_use_url">https://www.atlassian.com/ru/git/tutorials/</string>
+    <string name="company_info">© I-Teco, 2022</string>
 </resources>
