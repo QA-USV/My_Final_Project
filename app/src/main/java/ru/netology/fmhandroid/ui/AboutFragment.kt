@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ru.netology.fmhandroid.BuildConfig
 import ru.netology.fmhandroid.R
 import ru.netology.fmhandroid.databinding.FragmentAboutBinding
@@ -16,5 +17,14 @@ class AboutFragment: Fragment(R.layout.fragment_about) {
         val binding = FragmentAboutBinding.bind(view)
         binding.aboutVersionValueTextView.text = BuildConfig.VERSION_NAME
         binding.aboutPrivacyPolicyValueTextView.movementMethod = LinkMovementMethod.getInstance()
+        with(binding.containerCustomAppBarIncludeOnFragmentAbout) {
+            ourMissionImageButton.visibility = View.GONE
+            authorizationImageButton.visibility = View.GONE
+            mainMenuImageButton.visibility = View.GONE
+            aboutBackImageButton.visibility = View.VISIBLE
+        }
+        binding.containerCustomAppBarIncludeOnFragmentAbout.aboutBackImageButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }
