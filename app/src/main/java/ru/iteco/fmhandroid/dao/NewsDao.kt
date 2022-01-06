@@ -2,8 +2,6 @@ package ru.iteco.fmhandroid.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
-import ru.iteco.fmhandroid.dto.News
 import ru.iteco.fmhandroid.dto.NewsWithCategory
 import ru.iteco.fmhandroid.entity.NewsCategoryEntity
 import ru.iteco.fmhandroid.entity.NewsEntity

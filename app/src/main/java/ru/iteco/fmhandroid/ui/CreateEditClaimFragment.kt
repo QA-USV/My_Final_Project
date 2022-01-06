@@ -1,12 +1,12 @@
 package ru.iteco.fmhandroid.ui
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -119,7 +119,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
 
             saveButton.setOnClickListener {
                 val activity = activity ?: return@setOnClickListener
-                val dialog = android.app.AlertDialog.Builder(activity)
+                val dialog = AlertDialog.Builder(activity)
                 if (titleTextInputLayout.editText?.text.isNullOrBlank() ||
                     dateInPlanTextInputLayout.editText?.text.isNullOrBlank() ||
                     timeInPlanTextInputLayout.editText?.text.isNullOrBlank() ||

@@ -10,10 +10,7 @@ import ru.iteco.fmhandroid.dao.NewsCategoryDao
 import ru.iteco.fmhandroid.dao.NewsDao
 import ru.iteco.fmhandroid.dto.News
 import ru.iteco.fmhandroid.entity.*
-import ru.iteco.fmhandroid.exceptions.ServerException
 import ru.iteco.fmhandroid.utils.Utils
-import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
