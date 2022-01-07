@@ -63,6 +63,7 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
             mainMenuImageButton.visibility = View.GONE
             authorizationImageButton.visibility = View.GONE
             ourMissionImageButton.visibility = View.GONE
+            trademarkImageView.visibility = View.GONE
         }
 
         if (comment != null) {

@@ -75,20 +75,28 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 View.GONE
             containerCustomAppBarIncludeOnFragmentCreateEditNews.ourMissionImageButton.visibility =
                 View.GONE
+            containerCustomAppBarIncludeOnFragmentCreateEditNews.trademarkImageView.visibility =
+                View.GONE
             if (args.newsItemArg == null) {
                 containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarTitleTextView.apply {
+                    visibility = View.VISIBLE
                     setText(R.string.creating)
                     textSize = 18F
                 }
-                containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarSubTitleTextView
-                    .setText(R.string.news)
+                containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarSubTitleTextView.apply {
+                    visibility = View.VISIBLE
+                    setText(R.string.news)
+                }
             } else {
                 containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarTitleTextView.apply {
+                    visibility = View.VISIBLE
                     setText(R.string.editing)
                     textSize = 18F
                 }
-                containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarSubTitleTextView
-                    .setText(R.string.news)
+                containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarSubTitleTextView.apply {
+                    visibility = View.VISIBLE
+                    setText(R.string.news)
+                }
             }
             args.newsItemArg?.let { newsItem ->
                 newsItemCategoryTextAutoCompleteTextView.setText(newsItem.category.name)

@@ -75,20 +75,28 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 View.GONE
             containerCustomAppBarIncludeOnFragmentCreateEditClaim.ourMissionImageButton.visibility =
                 View.GONE
+            containerCustomAppBarIncludeOnFragmentCreateEditClaim.trademarkImageView.visibility =
+                View.GONE
             if (args.argClaim == null) {
                 containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarTitleTextView.apply {
+                    visibility = View.VISIBLE
                     setText(R.string.creating)
                     textSize = 18F
                 }
-                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarSubTitleTextView
-                    .setText(R.string.claims)
+                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarSubTitleTextView.apply {
+                    visibility = View.VISIBLE
+                    setText(R.string.claims)
+                }
             } else {
                 containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarTitleTextView.apply {
+                    visibility = View.VISIBLE
                     setText(R.string.editing)
                     textSize = 18F
                 }
-                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarSubTitleTextView
-                    .setText(R.string.claims)
+                containerCustomAppBarIncludeOnFragmentCreateEditClaim.customAppBarSubTitleTextView.apply {
+                    visibility = View.VISIBLE
+                    setText(R.string.claims)
+                }
             }
 
             args.argClaim?.let { claim ->
