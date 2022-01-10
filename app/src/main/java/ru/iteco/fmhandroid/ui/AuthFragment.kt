@@ -1,5 +1,7 @@
 package ru.iteco.fmhandroid.ui
 
+import android.os.Build.VERSION.SDK
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast

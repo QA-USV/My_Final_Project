@@ -57,6 +57,7 @@ dependencies {
     def recycler_version = '1.2.1'
     def material_version = '1.4.0'
     def constraint_version = '2.1.2'
+    def ssl_utils_version = '1.0.1'
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -71,6 +72,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitgson_version"
     implementation 'com.google.code.gson:gson:2.8.9'
+    implementation "com.squareup.okhttp3:okhttp-tls:4.9.3"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttploggin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.2"
