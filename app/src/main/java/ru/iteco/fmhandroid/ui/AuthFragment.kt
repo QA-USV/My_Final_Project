@@ -1,7 +1,5 @@
 package ru.iteco.fmhandroid.ui
 
-import android.os.Build.VERSION.SDK
-import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -57,7 +55,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             }
         }
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
