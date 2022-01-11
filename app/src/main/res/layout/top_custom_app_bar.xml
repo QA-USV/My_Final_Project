@@ -59,7 +59,7 @@
         android:id="@+id/trademark_image_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/in_hospice_trademark_png"
+        android:src="@drawable/in_hospice_trademark"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/our_mission_image_button"
