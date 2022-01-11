@@ -3,7 +3,6 @@
     <string name="app_name">Первый московский хоспис</string>
     <string name="claims">Заявки</string>
     <string name="claim">Заявка</string>
-    <string name="full_name_format">%s %s %s</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
     <string name="error">Что-то пошло не так. Попробуйте позднее.</string>
     <string name="retry_loading">Повторить</string>
@@ -104,4 +103,13 @@
     <string name="empty_login_or_password">Логин и пароль не могут быть пустыми</string>
     <string name="log_out">Выйти</string>
     <string name="wrong_login_or_password">Неверный логин или пароль</string>
+    <string name="lost_network_connection">Отсутствует подключение к интернет. Проверьте соединение и попробуйте снова.</string>
+    <string name="no_rules_for_news_control_panel">Управлять новостями может только Администратор</string>
+    <string name="version">Версия: </string>
+    <string name="privacy_policy">Политика конфиденциальности:</string>
+    <string name="terms_of_use">Пользовательское соглашение:</string>
+    <string name="about">О приложении</string>
+    <string name="privacy_policy_url">http://vhospice.org/documents</string>
+    <string name="terms_of_use_url">http://vhospice.org/documents</string>
+    <string name="company_info">© Айтеко, 2022</string>
 </resources>
