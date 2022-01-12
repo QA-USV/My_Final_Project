@@ -3,6 +3,7 @@ package ru.iteco.fmhandroid.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +22,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback{
+            activity?.finishAffinity()
+        }
 
         lifecycleScope.launch {
             viewModel.loginEvent.collectLatest {
