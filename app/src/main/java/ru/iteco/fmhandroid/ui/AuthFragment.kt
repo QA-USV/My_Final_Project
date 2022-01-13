@@ -23,10 +23,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback{
-            activity?.finishAffinity()
-        }
-
         lifecycleScope.launch {
             viewModel.loginEvent.collectLatest {
                 findNavController().navigate(R.id.action_authFragment_to_mainFragment)
@@ -85,6 +81,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                     binding.passwordTextInputLayout.editText?.text.toString().trim()
                 )
             }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            activity?.finishAffinity()
         }
     }
 }
