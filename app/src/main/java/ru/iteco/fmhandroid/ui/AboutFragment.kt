@@ -9,8 +9,7 @@ import ru.iteco.fmhandroid.BuildConfig
 import ru.iteco.fmhandroid.R
 import ru.iteco.fmhandroid.databinding.FragmentAboutBinding
 
-class AboutFragment: Fragment(R.layout.fragment_about) {
-
+class AboutFragment : Fragment(R.layout.fragment_about) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

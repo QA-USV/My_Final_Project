@@ -31,4 +31,3 @@ fun ClaimComment.toEntity() = ClaimCommentEntity(
     creatorName = creatorName,
     createDate = createDate
 )
-

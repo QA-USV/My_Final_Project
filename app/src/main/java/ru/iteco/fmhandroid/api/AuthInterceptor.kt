@@ -11,8 +11,8 @@ class AuthInterceptor(private val auth: AppAuth) : Interceptor {
         }.accessToken
 
         val newRequest = chain.request().newBuilder()
-                .header("Authorization", token)
-                .build()
+            .header("Authorization", token)
+            .build()
         return chain.proceed(newRequest)
     }
 }

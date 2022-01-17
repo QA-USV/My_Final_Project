@@ -26,7 +26,6 @@ class NewsListAdapter(private val onNewsItemClickListener: OnNewsItemClickListen
             parent,
             false
         )
-
         return NewsViewHolder(binding, onNewsItemClickListener)
     }
 

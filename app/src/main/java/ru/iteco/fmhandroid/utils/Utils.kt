@@ -16,7 +16,6 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
 object Utils {
     object Empty {
         val emptyClaimComment = ClaimComment(

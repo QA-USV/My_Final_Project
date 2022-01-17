@@ -20,7 +20,7 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository,
     private val userRepository: UserRepository
-    ) : ViewModel(), OnNewsItemClickListener {
+) : ViewModel(), OnNewsItemClickListener {
 
     private val sortDirection = MutableStateFlow(SortDirection.ASC)
     private val clearFilter = Filter(

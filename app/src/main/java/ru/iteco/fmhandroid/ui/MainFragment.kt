@@ -207,7 +207,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         lifecycleScope.launch {
             binding.mainSwipeRefresh.setOnRefreshListener {
-                    claimViewModel.onRefresh()
+                claimViewModel.onRefresh()
                 binding.mainSwipeRefresh.isRefreshing = false
             }
         }

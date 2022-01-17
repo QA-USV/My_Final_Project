@@ -8,7 +8,6 @@ import retrofit2.Retrofit
 import ru.iteco.fmhandroid.api.qualifier.NonAuthorized
 import javax.inject.Singleton
 
-
 @InstallIn(SingletonComponent::class)
 @Module(includes = [NetworkModule::class])
 object AuthApiModule {

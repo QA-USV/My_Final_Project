@@ -7,10 +7,10 @@ import ru.iteco.fmhandroid.dto.ClaimComment
 
 interface ClaimApi {
     @GET("claims")
-    suspend fun getAllClaims() : Response<List<Claim>>
+    suspend fun getAllClaims(): Response<List<Claim>>
 
     @GET("claims/open-in-progress")
-    suspend fun getClaimsInOpenAndInProgressStatus() : Response<List<Claim>>
+    suspend fun getClaimsInOpenAndInProgressStatus(): Response<List<Claim>>
 
     @GET("claims/{id}/comments")
     suspend fun getAllClaimComments(@Path("id") id: Int): Response<List<ClaimComment>>
@@ -33,7 +33,7 @@ interface ClaimApi {
         @Query("status") claimStatus: Claim.Status,
         @Query("executorId") executorId: Int?,
         @Body claimComment: ClaimComment
-        ): Response<Claim>
+    ): Response<Claim>
 
     @PUT("claims/comments")
     suspend fun updateClaimComment(@Body claimComment: ClaimComment): Response<ClaimComment>

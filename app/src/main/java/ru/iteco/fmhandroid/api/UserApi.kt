@@ -1,7 +1,8 @@
 package ru.iteco.fmhandroid.api
 
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.POST
 import ru.iteco.fmhandroid.dto.User
 
 interface UserApi {

@@ -17,7 +17,7 @@ import ru.iteco.fmhandroid.dto.Claim
 import ru.iteco.fmhandroid.viewmodel.ClaimViewModel
 
 @AndroidEntryPoint
-class ClaimListFilteringDialogFragment: DialogFragment() {
+class ClaimListFilteringDialogFragment : DialogFragment() {
 
     private val viewModel: ClaimViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -60,7 +60,6 @@ class ClaimListFilteringDialogFragment: DialogFragment() {
         return dialog
     }
 
-
     private fun mutableListOfClaimStatus(dialogView: View): MutableList<Claim.Status> {
         val checkedStatusList = mutableListOf<Claim.Status>()
 
@@ -82,7 +81,7 @@ class ClaimListFilteringDialogFragment: DialogFragment() {
         fun check(@IdRes id: Int) {
             dialogView.findViewById<MaterialCheckBox>(id).isChecked = true
         }
-        when(status) {
+        when (status) {
             Claim.Status.CANCELLED -> check(R.id.item_filter_cancelled)
             Claim.Status.EXECUTED -> check(R.id.item_filter_executed)
             Claim.Status.IN_PROGRESS -> check(R.id.item_filter_in_progress)

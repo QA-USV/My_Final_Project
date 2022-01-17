@@ -83,7 +83,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             }
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             activity?.finishAffinity()
         }
     }

@@ -9,7 +9,9 @@ import ru.iteco.fmhandroid.api.NewsApi
 import ru.iteco.fmhandroid.dao.NewsCategoryDao
 import ru.iteco.fmhandroid.dao.NewsDao
 import ru.iteco.fmhandroid.dto.News
-import ru.iteco.fmhandroid.entity.*
+import ru.iteco.fmhandroid.entity.toEntity
+import ru.iteco.fmhandroid.entity.toNewsCategoryDto
+import ru.iteco.fmhandroid.entity.toNewsCategoryEntity
 import ru.iteco.fmhandroid.utils.Utils
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,7 +47,7 @@ class NewsRepositoryImpl @Inject constructor(
             val apiId = body
                 .map { it.id }
             val databaseId = newsDao.getAllNewsList()
-                .map{ it.newsItem.id}
+                .map { it.newsItem.id }
                 .toMutableList()
             databaseId.removeAll(apiId)
             newsDao.removeNewsItemsByIdList(databaseId)

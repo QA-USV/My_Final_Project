@@ -60,8 +60,13 @@ data class NewsCategoryEntity(
         deleted = deleted,
     )
 }
-fun List<NewsCategoryEntity>.toNewsCategoryDto(): List<News.Category> = map(NewsCategoryEntity::toDto)
-fun List<News.Category>.toNewsCategoryEntity(): List<NewsCategoryEntity> = map(News.Category::toNewsCategoryEntity)
+
+fun List<NewsCategoryEntity>.toNewsCategoryDto(): List<News.Category> =
+    map(NewsCategoryEntity::toDto)
+
+fun List<News.Category>.toNewsCategoryEntity(): List<NewsCategoryEntity> =
+    map(News.Category::toNewsCategoryEntity)
+
 fun News.Category.toNewsCategoryEntity() = NewsCategoryEntity(
     id = id,
     name = name,

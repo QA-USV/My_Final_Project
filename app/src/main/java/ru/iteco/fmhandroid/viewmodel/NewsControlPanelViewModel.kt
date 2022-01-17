@@ -13,7 +13,6 @@ import ru.iteco.fmhandroid.repository.newsRepository.NewsRepository
 import ru.iteco.fmhandroid.repository.userRepository.UserRepository
 import javax.inject.Inject
 
-
 @HiltViewModel
 class NewsControlPanelViewModel @Inject constructor(
     private val newsRepository: NewsRepository,

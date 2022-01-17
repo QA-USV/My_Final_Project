@@ -16,7 +16,7 @@ data class News(
     val createDate: Long,
     val publishDate: Long,
     val publishEnabled: Boolean = false,
-     val isOpen: Boolean = false
+    val isOpen: Boolean = false
 ) : Parcelable {
     @kotlinx.parcelize.Parcelize
     data class Category(

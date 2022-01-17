@@ -16,5 +16,4 @@ data class FullClaim(
         entityColumn = "claimId"
     )
     val comments: List<ClaimComment>?
-
 ) : Parcelable

@@ -13,9 +13,7 @@ class RefreshAuthenticator(
     private val authRepositoryProvider: Provider<AuthRepository>,
     private val appAuth: AppAuth
 ) : Authenticator {
-
     override fun authenticate(route: Route?, response: Response): Request? {
-
         synchronized(this) {
             val authRepository = authRepositoryProvider.get()
             val refreshToken = checkNotNull(appAuth.authState) {
