@@ -17,8 +17,8 @@ android {
         applicationId "ru.iteco.fmhandroid"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 3
-        versionName "0.5.2"
+        versionCode 4
+        versionName "0.5.3"
     }
 
     compileOptions {
