@@ -8,12 +8,9 @@ import ru.iteco.fmhandroid.entity.ClaimEntity
 
 @Dao
 interface ClaimDao {
-
     @Transaction
-    @Query(
-        "SELECT * FROM ClaimEntity ORDER BY planExecuteDate ASC, createDate DESC"
-    )
-    fun getAllClaims(): Flow<List<FullClaim>>
+    @Query("SELECT * FROM ClaimEntity")
+    suspend fun getAllClaims(): List<FullClaim>
 
     @Transaction
     @Query(
@@ -36,6 +33,9 @@ interface ClaimDao {
     @Transaction
     @Query("SELECT * FROM ClaimEntity WHERE id = :id")
     fun getClaimById(id: Int): Flow<FullClaim>
+
+    @Query("DELETE FROM ClaimEntity WHERE id IN (:idList)")
+    suspend fun removeClaimsItemsByIdList(idList: List<Int?>)
 }
 
 class ClaimClaimStatusConverter {

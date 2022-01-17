@@ -30,6 +30,14 @@ class ClaimRepositoryImpl @Inject constructor(
     override suspend fun refreshClaims() = makeRequest(
         request = { claimApi.getAllClaims() },
         onSuccess = { body ->
+//            claimDao.insertClaim(body.toEntity())
+            val apiId = body
+                .map { it.id }
+            val databaseId = claimDao.getAllClaims()
+                .map{ it.claim.id}
+                .toMutableList()
+            databaseId.removeAll(apiId)
+            claimDao.removeClaimsItemsByIdList(databaseId)
             claimDao.insertClaim(body.toEntity())
         }
     )
