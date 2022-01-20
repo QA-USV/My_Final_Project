@@ -157,6 +157,8 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
                         viewModel.onRefresh()
                         binding.claimListSwipeRefresh.isRefreshing = false
                     }
+                } else {
+                    binding.containerListClaimInclude.emptyClaimListGroup.isVisible = false
                 }
             }
         }
