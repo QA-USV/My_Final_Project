@@ -202,4 +202,8 @@
         <item name="android:textColor">@color/filtering_claim_title_text_color</item>
     </style>
 
+    <style name="TextInputLayoutOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/execution_priority_low</item>
+    </style>
+
 </resources>
