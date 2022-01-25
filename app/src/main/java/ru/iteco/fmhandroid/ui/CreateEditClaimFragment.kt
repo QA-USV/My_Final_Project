@@ -180,10 +180,14 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
 
         vDatePicker.setOnClickListener {
             DatePickerDialog(
-                this.requireContext(), datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(
-                    Calendar.MONTH
-                ), myCalendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+                this.requireContext(),
+                datePicker,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            ).apply {
+                this.datePicker.minDate = (System.currentTimeMillis() - 1000)
+            }.show()
         }
 
         /* TimePickerDialog */
@@ -198,9 +202,7 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 this.requireContext(),
                 timePicker,
                 myCalendar.get(Calendar.HOUR_OF_DAY),
-                myCalendar.get(
-                    Calendar.MINUTE
-                ),
+                myCalendar.get(Calendar.MINUTE),
                 true
             ).show()
         }

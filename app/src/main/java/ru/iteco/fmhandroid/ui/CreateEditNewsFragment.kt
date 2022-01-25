@@ -193,11 +193,11 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 this.requireContext(),
                 publishDatePicker,
                 calendar.get(Calendar.YEAR),
-                calendar.get(
-                    Calendar.MONTH
-                ),
+                calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            ).apply {
+                this.datePicker.minDate = (System.currentTimeMillis() - 1000)
+            }.show()
         }
 
         vPublishTimePicker = binding.newsItemPublishTimeTextInputEditText
@@ -213,9 +213,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 this.requireContext(),
                 publishTimePicker,
                 calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(
-                    Calendar.MINUTE
-                ),
+                calendar.get(Calendar.MINUTE),
                 true
             ).show()
         }
