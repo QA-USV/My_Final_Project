@@ -38,6 +38,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/them"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
