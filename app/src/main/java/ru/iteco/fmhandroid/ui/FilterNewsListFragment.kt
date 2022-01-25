@@ -112,6 +112,8 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         }
 
         var dates: List<Long>? = null
+        var statuses: List<Boolean>? = null
+
         binding.filterButton.setOnClickListener {
             if (vPublishDateStartPicker.text.toString().isNotBlank() &&
                 vPublishDateEndPicker.text.toString().isNotBlank()

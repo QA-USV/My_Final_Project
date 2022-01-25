@@ -46,5 +46,6 @@ data class NewsWithCategory(
 @kotlinx.parcelize.Parcelize
 data class NewsFilterArgs(
     val category: String? = null,
-    val dates: List<Long>? = null
+    val dates: List<Long>? = null,
+    val statuses: List<Boolean>? = null
 ) : Parcelable
