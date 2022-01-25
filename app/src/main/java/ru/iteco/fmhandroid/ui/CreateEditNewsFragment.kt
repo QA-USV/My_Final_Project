@@ -111,6 +111,11 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 switcher.isChecked = newsItem.newsItem.publishEnabled
             }
 
+            if (args.newsItemArg == null) {
+                switcher.isChecked = true
+                switcher.isEnabled = false
+            }
+
             if (switcher.isChecked) {
                 switcher.setText(R.string.news_item_active)
             } else {
