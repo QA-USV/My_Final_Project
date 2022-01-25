@@ -93,7 +93,7 @@ class ClaimRepositoryImpl @Inject constructor(
             },
             onSuccess = { body ->
                 claimDao.insertClaim(body.toEntity())
-                claimCommentDao.insertComment(claimComment.toEntity())
+                getAllCommentsForClaim(claimId)
                 body
             }
         )
