@@ -9,6 +9,7 @@ import ru.iteco.fmhandroid.api.NewsApi
 import ru.iteco.fmhandroid.dao.NewsCategoryDao
 import ru.iteco.fmhandroid.dao.NewsDao
 import ru.iteco.fmhandroid.dto.News
+import ru.iteco.fmhandroid.dto.NewsWithCategory
 import ru.iteco.fmhandroid.entity.toEntity
 import ru.iteco.fmhandroid.entity.toNewsCategoryDto
 import ru.iteco.fmhandroid.entity.toNewsCategoryEntity
@@ -28,13 +29,15 @@ class NewsRepositoryImpl @Inject constructor(
         publishDateBefore: Long?,
         newsCategoryId: Int?,
         dateStart: Long?,
-        dateEnd: Long?
-    ) = newsDao.getAllNews(
+        dateEnd: Long?,
+        status: Boolean?
+    ): Flow<List<NewsWithCategory>> = newsDao.getAllNews(
         publishEnabled = publishEnabled,
         publishDateBefore = publishDateBefore,
         newsCategoryId = newsCategoryId,
         dateStart = dateStart,
-        dateEnd = dateEnd
+        dateEnd = dateEnd,
+        status = status
     ).flowOn(Dispatchers.Default)
 
     override suspend fun changeIsOpen(newsItem: News) {

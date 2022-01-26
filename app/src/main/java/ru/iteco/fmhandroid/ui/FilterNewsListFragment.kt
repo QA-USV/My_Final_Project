@@ -10,6 +10,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import ru.iteco.fmhandroid.R
 import ru.iteco.fmhandroid.databinding.FragmentFilterNewsBinding
 import ru.iteco.fmhandroid.dto.NewsFilterArgs
+import ru.iteco.fmhandroid.enum.FragmentsTags
 import ru.iteco.fmhandroid.utils.Utils.saveDateTime
 import ru.iteco.fmhandroid.utils.Utils.updateDateLabel
 import ru.iteco.fmhandroid.viewmodel.NewsViewModel
@@ -29,6 +31,11 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
     private lateinit var vPublishDateEndPicker: TextInputEditText
     private val newsListViewModel: NewsViewModel by viewModels()
 
+    private val nameFragment: FragmentsTags by lazy {
+        val args by navArgs<FilterNewsListFragmentArgs>()
+        args.fragmentName
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -37,6 +44,19 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFilterNewsBinding.bind(view)
+
+        when (nameFragment) {
+            FragmentsTags.NEWS_LIST_FRAGMENT -> {
+                binding.filterNewsActiveMaterialCheckBox.visibility = View.GONE
+                binding.filterNewsInactiveMaterialCheckBox.visibility = View.GONE
+            }
+            FragmentsTags.NEWS_CONTROL_PANEL_FRAGMENT -> {
+                binding.filterNewsActiveMaterialCheckBox.visibility = View.VISIBLE
+                binding.filterNewsInactiveMaterialCheckBox.visibility = View.VISIBLE
+                binding.filterNewsActiveMaterialCheckBox.isChecked = true
+                binding.filterNewsInactiveMaterialCheckBox.isChecked = true
+            }
+        }
 
         lifecycleScope.launch {
             newsListViewModel.getAllNewsCategories().collect { category ->
@@ -112,9 +132,18 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         }
 
         var dates: List<Long>? = null
-        var statuses: List<Boolean>? = null
+        var status: Boolean?
 
         binding.filterButton.setOnClickListener {
+            status =
+                if (binding.filterNewsActiveMaterialCheckBox.isChecked && !binding.filterNewsInactiveMaterialCheckBox.isChecked) {
+                    true
+                } else if (!binding.filterNewsActiveMaterialCheckBox.isChecked && binding.filterNewsInactiveMaterialCheckBox.isChecked) {
+                    false
+                } else {
+                    null
+                }
+
             if (vPublishDateStartPicker.text.toString().isNotBlank() &&
                 vPublishDateEndPicker.text.toString().isNotBlank()
             ) {
@@ -122,7 +151,7 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
                     saveDateTime(vPublishDateStartPicker.text.toString(), "00:00"),
                     saveDateTime(vPublishDateEndPicker.text.toString(), "23:59")
                 )
-                navigateUp(category, dates)
+                navigateUp(category, dates, status)
 
             } else if (vPublishDateStartPicker.text.toString().isNotBlank() &&
                 vPublishDateEndPicker.text.isNullOrBlank() ||
@@ -138,7 +167,7 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
                     .create()
                     .show()
 
-            } else navigateUp(category, dates)
+            } else navigateUp(category, dates, status)
         }
 
         binding.cancelButton.setOnClickListener {
@@ -146,10 +175,11 @@ class FilterNewsListFragment : Fragment(R.layout.fragment_filter_news) {
         }
     }
 
-    private fun navigateUp(category: String?, dates: List<Long>?) {
+    private fun navigateUp(category: String?, dates: List<Long>?, status: Boolean?) {
         val newsFilterArgs = NewsFilterArgs(
-            category,
-            dates
+            category = category,
+            dates = dates,
+            status = status
         )
         setFragmentResult("requestKey", bundleOf("filterArgs" to newsFilterArgs))
         findNavController().navigateUp()

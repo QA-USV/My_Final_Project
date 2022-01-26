@@ -16,6 +16,7 @@ interface NewsDao {
             AND (:newsCategoryId IS NULL OR :newsCategoryId = newsCategoryId)
             AND (:dateStart IS NULL OR publishDate >= :dateStart)
             AND (:dateEnd IS NULL OR publishDate <= :dateEnd)
+            AND (:status IS NULL OR :status = publishEnabled)
             ORDER BY publishDate DESC
         """
     )
@@ -24,7 +25,8 @@ interface NewsDao {
         publishDateBefore: Long? = null,
         newsCategoryId: Int? = null,
         dateStart: Long? = null,
-        dateEnd: Long? = null
+        dateEnd: Long? = null,
+        status: Boolean? = null
     ): Flow<List<NewsWithCategory>>
 
     @Transaction

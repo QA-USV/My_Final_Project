@@ -20,6 +20,7 @@ import ru.iteco.fmhandroid.R
 import ru.iteco.fmhandroid.adapter.NewsListAdapter
 import ru.iteco.fmhandroid.databinding.FragmentNewsListBinding
 import ru.iteco.fmhandroid.dto.NewsFilterArgs
+import ru.iteco.fmhandroid.enum.FragmentsTags
 import ru.iteco.fmhandroid.utils.Utils.convertNewsCategory
 import ru.iteco.fmhandroid.viewmodel.AuthViewModel
 import ru.iteco.fmhandroid.viewmodel.NewsViewModel
@@ -42,7 +43,6 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsListBinding.bind(view)
-
         val mainMenu = PopupMenu(
             context,
             binding.containerCustomAppBarIncludeOnFragmentNewsList.mainMenuImageButton
@@ -160,7 +160,10 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
 
             containerListNewsInclude.filterNewsMaterialButton.setOnClickListener {
-                findNavController().navigate(R.id.action_newsListFragment_to_filterNewsFragment)
+                val action = NewsListFragmentDirections.actionNewsListFragmentToFilterNewsFragment(
+                    FragmentsTags.NEWS_LIST_FRAGMENT
+                )
+                findNavController().navigate(action)
             }
         }
 

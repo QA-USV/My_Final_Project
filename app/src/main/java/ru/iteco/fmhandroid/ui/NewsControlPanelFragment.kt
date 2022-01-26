@@ -23,6 +23,7 @@ import ru.iteco.fmhandroid.databinding.FragmentNewsControlPanelBinding
 import ru.iteco.fmhandroid.dto.News
 import ru.iteco.fmhandroid.dto.NewsFilterArgs
 import ru.iteco.fmhandroid.dto.NewsWithCategory
+import ru.iteco.fmhandroid.enum.FragmentsTags
 import ru.iteco.fmhandroid.utils.Utils
 import ru.iteco.fmhandroid.viewmodel.AuthViewModel
 import ru.iteco.fmhandroid.viewmodel.NewsControlPanelViewModel
@@ -175,7 +176,11 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             }
 
             filterNewsMaterialButton.setOnClickListener {
-                findNavController().navigate(R.id.action_newsControlPanelFragment_to_filterNewsFragment)
+                val action =
+                    NewsControlPanelFragmentDirections.actionNewsControlPanelFragmentToFilterNewsFragment(
+                        FragmentsTags.NEWS_CONTROL_PANEL_FRAGMENT
+                    )
+                findNavController().navigate(action)
             }
 
             controlPanelNewsRetryMaterialButton.setOnClickListener {
@@ -195,7 +200,8 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
             viewModel.onFilterNewsClicked(
                 args?.category?.let { Utils.convertNewsCategory(it) },
                 args?.dates?.get(0),
-                args?.dates?.get(1)
+                args?.dates?.get(1),
+                args?.status
             )
         }
     }

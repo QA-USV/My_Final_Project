@@ -18,7 +18,8 @@ interface NewsRepository {
         publishDateBefore: Long? = null,
         newsCategoryId: Int? = null,
         dateStart: Long? = null,
-        dateEnd: Long? = null
+        dateEnd: Long? = null,
+        status: Boolean? = null
     ): Flow<List<NewsWithCategory>>
 
     suspend fun changeIsOpen(newsItem: News)

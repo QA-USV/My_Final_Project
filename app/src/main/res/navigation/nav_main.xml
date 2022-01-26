@@ -87,9 +87,9 @@
         android:label="CreateEditClaimFragment">
         <argument
             android:name="argClaim"
+            android:defaultValue="@null"
             app:argType="ru.iteco.fmhandroid.dto.FullClaim"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_createEditClaimFragment_to_openClaimFragment"
             app:destination="@id/openClaimFragment" />
@@ -101,9 +101,9 @@
         android:label="CreateEditClaimCommentFragment">
         <argument
             android:name="argComment"
+            android:defaultValue="@null"
             app:argType="ru.iteco.fmhandroid.dto.ClaimComment"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="argClaimId"
             app:argType="integer" />
@@ -119,6 +119,9 @@
         <action
             android:id="@+id/action_filterNewsFragment_to_newsControlPanelFragment"
             app:destination="@id/newsControlPanelFragment" />
+        <argument
+            android:name="fragmentName"
+            app:argType="ru.iteco.fmhandroid.enum.FragmentsTags" />
     </fragment>
 
     <fragment
@@ -152,9 +155,9 @@
         android:label="CreateEditNewsFragment">
         <argument
             android:name="newsItemArg"
+            android:defaultValue="@null"
             app:argType="ru.iteco.fmhandroid.dto.NewsWithCategory"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -189,7 +192,7 @@
             android:id="@+id/action_authFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/authFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"

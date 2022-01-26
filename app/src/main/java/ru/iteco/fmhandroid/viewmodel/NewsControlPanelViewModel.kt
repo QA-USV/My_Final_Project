@@ -22,7 +22,8 @@ class NewsControlPanelViewModel @Inject constructor(
     private val clearFilter = Filter(
         newsCategoryId = null,
         dateStart = null,
-        dateEnd = null
+        dateEnd = null,
+        status = null
     )
     private val sortDirection = MutableStateFlow(NewsViewModel.SortDirection.ASC)
     private val filterFlow = MutableStateFlow(
@@ -45,7 +46,8 @@ class NewsControlPanelViewModel @Inject constructor(
             viewModelScope,
             newsCategoryId = filter.newsCategoryId,
             dateStart = filter.dateStart,
-            dateEnd = filter.dateEnd
+            dateEnd = filter.dateEnd,
+            status = filter.status
         ).combine(sortDirection) { news, sortDirection ->
             when (sortDirection) {
                 NewsViewModel.SortDirection.ASC -> news
@@ -76,12 +78,14 @@ class NewsControlPanelViewModel @Inject constructor(
     fun onFilterNewsClicked(
         newsCategoryId: Int?,
         dateStart: Long?,
-        dateEnd: Long?
+        dateEnd: Long?,
+        status: Boolean?
     ) {
         filterFlow.value = Filter(
-            newsCategoryId,
-            dateStart,
-            dateEnd
+            newsCategoryId = newsCategoryId,
+            dateStart = dateStart,
+            dateEnd = dateEnd,
+            status = status
         )
     }
 
@@ -125,7 +129,8 @@ class NewsControlPanelViewModel @Inject constructor(
     private class Filter(
         val newsCategoryId: Int?,
         val dateStart: Long?,
-        val dateEnd: Long?
+        val dateEnd: Long?,
+        val status: Boolean?
     )
 
     fun onCard(newsItem: News) {

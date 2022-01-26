@@ -47,5 +47,5 @@ data class NewsWithCategory(
 data class NewsFilterArgs(
     val category: String? = null,
     val dates: List<Long>? = null,
-    val statuses: List<Boolean>? = null
+    val status: Boolean? = null
 ) : Parcelable
