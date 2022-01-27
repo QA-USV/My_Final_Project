@@ -206,4 +206,14 @@
         <item name="boxStrokeColor">@color/execution_priority_low</item>
     </style>
 
+    <style name="PopupMenuListView" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@color/white</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">#d8f4f3</item>
+
+    </style>
+
 </resources>
