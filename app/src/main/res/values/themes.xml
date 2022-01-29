@@ -12,9 +12,5 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
-
-         Customize your theme here.
-        <item name="android:popupMenuStyle">@style/PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
     </style>
 </resources>

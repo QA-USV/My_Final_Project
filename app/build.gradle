@@ -19,7 +19,6 @@ android {
         targetSdkVersion 32
         versionCode 6
         versionName "0.6.0"
-        signingConfig signingConfigs.release
     }
 
     compileOptions {
