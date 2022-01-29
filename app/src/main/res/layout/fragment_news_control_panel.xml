@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/app_background_1920x1920">
+
 
     <include
         android:id="@+id/container_custom_app_bar_include_on_fragment_news_control_panel"
