@@ -40,6 +40,9 @@
                     android:hint="@string/them"
                     app:counterEnabled="true"
                     app:counterMaxLength="50"
+                    app:endIconDrawable="@drawable/exclamation_mark"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -47,8 +50,8 @@
                         android:id="@+id/title_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textMultiLine"
+                        android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -77,6 +80,9 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="16dp"
                     android:hint="@string/date"
+                    app:endIconDrawable="@drawable/exclamation_mark"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintEnd_toStartOf="@+id/time_in_plan_text_input_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/executor_drop_menu_text_input_layout">
@@ -95,6 +101,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/time"
+                    app:endIconDrawable="@drawable/exclamation_mark"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/date_in_plan_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@+id/executor_drop_menu_text_input_layout">
@@ -103,7 +112,7 @@
                         android:id="@+id/time_in_plan_text_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"/>
+                        android:focusableInTouchMode="false" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -113,6 +122,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/description"
+                    app:endIconDrawable="@drawable/exclamation_mark"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/time_in_plan_text_input_layout">
 
@@ -123,19 +135,18 @@
                         android:inputType="textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-<!-- блок выбора видимости скрыт до реализации данного функционала -->
+                <!-- блок выбора видимости скрыт до реализации данного функционала -->
                 <LinearLayout
                     android:id="@+id/visibility"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/save_button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout"
-                    android:visibility="gone"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout">
 
                     <TextView
                         android:layout_width="match_parent"

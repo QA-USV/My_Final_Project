@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -133,6 +134,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                     timeInPlanTextInputLayout.editText?.text.isNullOrBlank() ||
                     descriptionTextInputLayout.editText?.text.isNullOrBlank()
                 ) {
+                    emptyFieldWarning()
+
                     dialog.setMessage(R.string.empty_fields)
                         .setPositiveButton(R.string.fragment_positive_button) { alertDialog, _ ->
                             alertDialog.cancel()
@@ -205,6 +208,29 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
                 myCalendar.get(Calendar.MINUTE),
                 true
             ).show()
+        }
+    }
+
+    private fun FragmentCreateEditClaimBinding.emptyFieldWarning() {
+        if (titleTextInputLayout.editText?.text.isNullOrBlank()) {
+            titleTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            titleTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
+        }
+        if (dateInPlanTextInputLayout.editText?.text.isNullOrBlank()) {
+            dateInPlanTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            dateInPlanTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
+        }
+        if (timeInPlanTextInputLayout.editText?.text.isNullOrBlank()) {
+            timeInPlanTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            timeInPlanTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
+        }
+        if (descriptionTextInputLayout.editText?.text.isNullOrBlank()) {
+            descriptionTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            descriptionTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
         }
     }
 
