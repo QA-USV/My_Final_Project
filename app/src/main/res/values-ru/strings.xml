@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Первый московский хоспис</string>
+    <string name="app_name">В Хосписе</string>
     <string name="claims">Заявки</string>
     <string name="claim">Заявка</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>

@@ -38,10 +38,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", '"https://130.193.44.96/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://vhospice.org/api/fmh/"'
         }
         debug {
-            buildConfigField "String", "BASE_URL", '"https://130.193.44.96/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://vhospice.org/api/fmh/"'
         }
     }
 }

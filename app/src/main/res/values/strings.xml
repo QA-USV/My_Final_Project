@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">First moscow hospice</string>
+    <string name="app_name">V Hospice</string>
     <string name="claims">Claims</string>
     <string name="claim">Claim</string>
     <string name="cancellation">The changes won\'t be saved, do you really want to log out?</string>
