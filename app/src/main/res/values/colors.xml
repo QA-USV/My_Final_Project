@@ -29,4 +29,10 @@
     <color name="claim_comment_text_background">#F5F5F5</color>
     <color name="mtrl_textinput_empty_field_stroke_color">#FF0000</color>
     <color name="mtrl_textinput_default_box_stroke_color">#777777</color>
+    <color name="splash_screen_title_1_progress_bar">#F85E02</color>
+    <color name="splash_screen_title_2_progress_bar">#FC415D</color>
+    <color name="splash_screen_title_3_progress_bar">#0660F5</color>
+    <color name="splash_screen_title_4_progress_bar">#069491</color>
+    <color name="splash_screen_title_5_progress_bar">#0AAE04</color>
+    <color name="splash_screen_title_6_progress_bar">#D29903</color>
 </resources>

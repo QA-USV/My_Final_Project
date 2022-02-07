@@ -159,6 +159,71 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
         binding = FragmentSplashScreenBinding.bind(view)
 
+        when (splashscreenImage.titleBackground) {
+            R.drawable.background_splash_screen_title_1 -> {
+                binding.splashScreenCircularProgressIndicator.setIndicatorColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.splash_screen_title_1_progress_bar
+                    )
+                )
+                binding.splashScreenCircularProgressIndicator.trackColor =
+                    ContextCompat.getColor(requireContext(), R.color.splash_screen_title_1)
+            }
+            R.drawable.background_splash_screen_title_2 -> {
+                binding.splashScreenCircularProgressIndicator.setIndicatorColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.splash_screen_title_2_progress_bar
+                    )
+                )
+                binding.splashScreenCircularProgressIndicator.trackColor =
+                    ContextCompat.getColor(requireContext(), R.color.splash_screen_title_2)
+            }
+            R.drawable.background_splash_screen_title_3 -> {
+                binding.splashScreenCircularProgressIndicator.setIndicatorColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.splash_screen_title_3_progress_bar
+                    )
+                )
+                binding.splashScreenCircularProgressIndicator.trackColor =
+                    ContextCompat.getColor(requireContext(), R.color.splash_screen_title_3)
+            }
+            R.drawable.background_splash_screen_title_4 -> {
+                binding.splashScreenCircularProgressIndicator.setIndicatorColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.splash_screen_title_4_progress_bar
+                    )
+                )
+                binding.splashScreenCircularProgressIndicator.trackColor =
+                    ContextCompat.getColor(requireContext(), R.color.splash_screen_title_4)
+            }
+            R.drawable.background_splash_screen_title_5 -> {
+                binding.splashScreenCircularProgressIndicator.setIndicatorColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.splash_screen_title_5_progress_bar
+                    )
+                )
+                binding.splashScreenCircularProgressIndicator.trackColor =
+                    ContextCompat.getColor(requireContext(), R.color.splash_screen_title_5)
+            }
+            R.drawable.background_splash_screen_title_6 -> {
+                binding.splashScreenCircularProgressIndicator.setIndicatorColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.splash_screen_title_6_progress_bar
+                    )
+                )
+                binding.splashScreenCircularProgressIndicator.trackColor =
+                    ContextCompat.getColor(requireContext(), R.color.splash_screen_title_6)
+            }
+        }
+
+        binding.splashScreenCircularProgressIndicator.visibility = View.VISIBLE
+
         binding.splashscreenImageView.setImageResource(splashscreenImage.image)
         binding.splashscreenTextView.apply {
             text = splashscreenImage.title
@@ -175,6 +240,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     override fun onDestroyView() {
         super.onDestroyView()
 
+        binding.splashScreenCircularProgressIndicator.visibility = View.GONE
         offFullScreen()
     }
 

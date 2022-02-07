@@ -18,6 +18,20 @@
       android:contentDescription="@string/splashscreen_image"
       tools:src="@drawable/image_splashscreen_1" />
 
+  <com.google.android.material.progressindicator.CircularProgressIndicator
+      android:id="@+id/splash_screen_circular_progress_indicator"
+      android:indeterminateOnly="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="visible"
+      app:indicatorSize="56dp"
+      app:trackThickness="8dp"
+      app:trackCornerRadius="4dp"
+      app:layout_constraintBottom_toTopOf="@+id/splashscreen_text_view"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/splashscreen_image_view" />
+
   <TextView
       android:id="@+id/splashscreen_text_view"
       android:layout_width="match_parent"

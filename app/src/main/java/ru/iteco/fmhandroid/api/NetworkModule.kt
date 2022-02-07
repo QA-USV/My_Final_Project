@@ -6,8 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.tls.HandshakeCertificates
-import okhttp3.tls.decodeCertificatePem
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.iteco.fmhandroid.BuildConfig
@@ -16,7 +14,6 @@ import ru.iteco.fmhandroid.api.qualifier.NonAuthorized
 import ru.iteco.fmhandroid.api.qualifier.Refresh
 import ru.iteco.fmhandroid.auth.AppAuth
 import ru.iteco.fmhandroid.repository.authRepository.AuthRepository
-import java.security.cert.X509Certificate
 import javax.inject.Provider
 
 @InstallIn(SingletonComponent::class)
