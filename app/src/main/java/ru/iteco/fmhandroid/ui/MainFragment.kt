@@ -79,7 +79,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton
         )
         mainMenu.inflate(R.menu.menu_main)
-        mainMenu.menu.removeItem(R.id.menu_item_main)
+        val menuItemMain = mainMenu.menu.getItem(0)
+        menuItemMain.isEnabled = false
         binding.containerCustomAppBarIncludeOnFragmentMain.mainMenuImageButton.setOnClickListener {
             mainMenu.show()
         }

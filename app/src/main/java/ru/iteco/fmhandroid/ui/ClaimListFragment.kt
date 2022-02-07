@@ -7,9 +7,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -45,15 +43,13 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             }
         }
 
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.claimsLoadException.collect {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.error,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+        lifecycleScope.launchWhenStarted {
+            viewModel.claimsLoadException.collect {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.error,
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
@@ -92,7 +88,8 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             binding.containerCustomAppBarIncludeOnFragmentListClaim.mainMenuImageButton
         )
         mainMenu.inflate(R.menu.menu_main)
-        mainMenu.menu.removeItem(R.id.menu_item_claims)
+        val menuItemClaims = mainMenu.menu.getItem(1)
+        menuItemClaims.isEnabled = false
 
         mainMenu.setOnMenuItemClickListener {
             when (it.itemId) {

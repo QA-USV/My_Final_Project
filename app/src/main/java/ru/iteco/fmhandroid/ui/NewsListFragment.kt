@@ -48,7 +48,8 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             binding.containerCustomAppBarIncludeOnFragmentNewsList.mainMenuImageButton
         )
         mainMenu.inflate(R.menu.menu_main)
-        mainMenu.menu.removeItem(R.id.menu_item_news)
+        val menuItemNews = mainMenu.menu.getItem(2)
+        menuItemNews.isEnabled = false
 
         mainMenu.setOnMenuItemClickListener {
             when (it.itemId) {
