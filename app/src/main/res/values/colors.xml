@@ -35,4 +35,5 @@
     <color name="splash_screen_title_4_progress_bar">#069491</color>
     <color name="splash_screen_title_5_progress_bar">#0AAE04</color>
     <color name="splash_screen_title_6_progress_bar">#D29903</color>
+    <color name="our_mission_title_background">#D1FFFE</color>
 </resources>
