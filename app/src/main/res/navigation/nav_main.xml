@@ -183,6 +183,9 @@
         <action
             android:id="@+id/action_mainFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -213,5 +216,9 @@
         android:id="@+id/aboutFragment"
         android:name="ru.iteco.fmhandroid.ui.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/our_mission_fragment"
+        android:name="ru.iteco.fmhandroid.ui.OurMissionFragment"
+        android:label="OurMissionFragment"/>
 
 </navigation>

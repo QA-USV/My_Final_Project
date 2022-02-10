@@ -59,9 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_news_control_panel" />
+                tools:listitem="@layout/item_our_mission" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </RelativeLayout>
 </LinearLayout>

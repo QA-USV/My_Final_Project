@@ -112,6 +112,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             authorizationMenu.show()
         }
 
+        binding.containerCustomAppBarIncludeOnFragmentMain.ourMissionImageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_our_mission_fragment)
+        }
+
         authorizationMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.authorization_logout_menu_item -> {

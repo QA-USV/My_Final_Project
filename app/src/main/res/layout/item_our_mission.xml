@@ -12,7 +12,7 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    app:cardElevation="10dp">
+    app:cardElevation="@dimen/card_item_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             android:layout_marginTop="8dp"
             android:paddingStart="4dp"
             android:paddingEnd="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/our_mission_item_title_text_view"
