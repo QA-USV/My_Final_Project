@@ -85,10 +85,39 @@ class OpenClaimFragment : Fragment() {
 
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarTitleTextView.visibility =
             View.GONE
-        binding.containerCustomAppBarIncludeOnFragmentOpenClaim.mainMenuImageButton.visibility =
-            View.GONE
+
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
             .setText(R.string.claim)
+
+        val mainMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentOpenClaim.mainMenuImageButton
+        )
+        mainMenu.inflate(R.menu.menu_main)
+        binding.containerCustomAppBarIncludeOnFragmentOpenClaim.mainMenuImageButton.setOnClickListener {
+            mainMenu.show()
+        }
+        mainMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_item_main -> {
+                    findNavController().navigate(R.id.action_openClaimFragment_to_mainFragment)
+                    true
+                }
+                R.id.menu_item_claims -> {
+                    findNavController().navigate(R.id.action_openClaimFragment_to_claimListFragment)
+                    true
+                }
+                R.id.menu_item_news -> {
+                    findNavController().navigate(R.id.action_openClaimFragment_to_newsListFragment)
+                    true
+                }
+                R.id.menu_item_about -> {
+                    findNavController().navigate(R.id.action_openClaimFragment_to_aboutFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.ourMissionImageButton.setOnClickListener {
             findNavController().navigate(R.id.action_openClaimFragment_to_our_mission_fragment)

@@ -1,5 +1,6 @@
 package ru.iteco.fmhandroid.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
@@ -20,6 +21,7 @@ import ru.iteco.fmhandroid.utils.Utils
 import ru.iteco.fmhandroid.viewmodel.AuthViewModel
 import ru.iteco.fmhandroid.viewmodel.ClaimViewModel
 import ru.iteco.fmhandroid.viewmodel.NewsViewModel
+
 
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -69,6 +71,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
+    @SuppressLint("Recycle")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

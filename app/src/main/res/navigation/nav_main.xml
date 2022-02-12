@@ -88,6 +88,18 @@
         <action
             android:id="@+id/action_openClaimFragment_to_our_mission_fragment"
             app:destination="@id/our_mission_fragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -245,6 +257,9 @@
         <action
             android:id="@+id/action_our_mission_fragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 
 </navigation>

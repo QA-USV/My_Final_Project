@@ -14,15 +14,13 @@ import ru.iteco.fmhandroid.adapter.OnOurMissionItemClickListener
 import ru.iteco.fmhandroid.adapter.OurMissionItemListAdapter
 import ru.iteco.fmhandroid.databinding.FragmentOurMissionBinding
 import ru.iteco.fmhandroid.ui.viewdata.OurMissionItemViewData
+import ru.iteco.fmhandroid.viewmodel.AuthViewModel
 import ru.iteco.fmhandroid.viewmodel.OurMissionViewModel
 
 @AndroidEntryPoint
 class OurMissionFragment : Fragment(R.layout.fragment_our_mission) {
     private val viewModel: OurMissionViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,6 +51,26 @@ class OurMissionFragment : Fragment(R.layout.fragment_our_mission) {
                 }
                 R.id.menu_item_about -> {
                     findNavController().navigate(R.id.action_our_mission_fragment_to_aboutFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        val authorizationMenu = PopupMenu(
+            context,
+            binding.containerCustomAppBarIncludeOnFragmentOurMission.authorizationImageButton
+        )
+        authorizationMenu.inflate(R.menu.authorization)
+
+        binding.containerCustomAppBarIncludeOnFragmentOurMission.authorizationImageButton.setOnClickListener {
+            authorizationMenu.show()
+        }
+        authorizationMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.authorization_logout_menu_item -> {
+                    authViewModel.logOut()
+                    findNavController().navigate(R.id.action_our_mission_fragment_to_authFragment)
                     true
                 }
                 else -> false
