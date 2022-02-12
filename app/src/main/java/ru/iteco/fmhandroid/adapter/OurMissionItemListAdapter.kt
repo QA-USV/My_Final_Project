@@ -17,7 +17,7 @@ interface OnOurMissionItemClickListener {
 }
 
 class OurMissionItemListAdapter(
-    val onOurMissionItemClickListener: OnOurMissionItemClickListener,
+    private val onOurMissionItemClickListener: OnOurMissionItemClickListener,
     val viewModel: OurMissionViewModel
 ) : ListAdapter<OurMissionItemViewData, OurMissionItemListAdapter.OurMissionViewHolder>(
     OurMissionDiffCallback

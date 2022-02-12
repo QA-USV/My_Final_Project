@@ -111,6 +111,10 @@ class ClaimListFragment : Fragment(R.layout.fragment_list_claim) {
             }
         }
 
+        binding.containerCustomAppBarIncludeOnFragmentListClaim.ourMissionImageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_claimListFragment_to_our_mission_fragment)
+        }
+
         val authorizationMenu = PopupMenu(
             context,
             binding.containerCustomAppBarIncludeOnFragmentListClaim.authorizationImageButton

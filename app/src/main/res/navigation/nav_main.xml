@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_newsListFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
     </fragment>
 
     <fragment
@@ -61,6 +64,9 @@
         <action
             android:id="@+id/action_newsControlPanelFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
     </fragment>
 
     <fragment
@@ -79,6 +85,9 @@
         <action
             android:id="@+id/action_openClaimFragment_to_authFragment"
             app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
     </fragment>
 
     <fragment
@@ -147,6 +156,9 @@
         <action
             android:id="@+id/action_claimListFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
     </fragment>
 
     <fragment
@@ -219,6 +231,20 @@
     <fragment
         android:id="@+id/our_mission_fragment"
         android:name="ru.iteco.fmhandroid.ui.OurMissionFragment"
-        android:label="OurMissionFragment"/>
+        android:label="OurMissionFragment"
+        tools:layout="@layout/fragment_our_mission">
+        <action
+            android:id="@+id/action_our_mission_fragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
 
 </navigation>

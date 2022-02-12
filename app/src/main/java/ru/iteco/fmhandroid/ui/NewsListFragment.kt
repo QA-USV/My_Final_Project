@@ -71,6 +71,10 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             }
         }
 
+        binding.containerCustomAppBarIncludeOnFragmentNewsList.ourMissionImageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_newsListFragment_to_our_mission_fragment)
+        }
+
         val authorizationMenu = PopupMenu(
             context,
             binding.containerCustomAppBarIncludeOnFragmentNewsList.authorizationImageButton

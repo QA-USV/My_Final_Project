@@ -90,6 +90,10 @@ class OpenClaimFragment : Fragment() {
         binding.containerCustomAppBarIncludeOnFragmentOpenClaim.customAppBarSubTitleTextView
             .setText(R.string.claim)
 
+        binding.containerCustomAppBarIncludeOnFragmentOpenClaim.ourMissionImageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_openClaimFragment_to_our_mission_fragment)
+        }
+
         val authorizationMenu = PopupMenu(
             context,
             binding.containerCustomAppBarIncludeOnFragmentOpenClaim.authorizationImageButton
