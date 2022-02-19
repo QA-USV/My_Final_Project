@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -137,6 +138,7 @@ class NewsControlPanelFragment : Fragment(R.layout.fragment_news_control_panel) 
                     adapter.submitList(state)
                     binding.controlPanelEmptyNewsListGroup.isVisible =
                         state.isEmpty()
+                    binding.layoutBackgroundImageView.isGone = state.isEmpty()
                 }
             }
         }

@@ -38,6 +38,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/news_item_category"
+                    app:startIconDrawable="@drawable/ic_warning_circle"
+                    app:startIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -56,6 +58,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/news_item_title"
+                    app:endIconDrawable="@drawable/ic_warning_circle"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/news_item_category_text_input_layout">
 
@@ -74,6 +79,9 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="16dp"
                     android:hint="@string/news_item_publish_date"
+                    app:endIconDrawable="@drawable/ic_warning_circle"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintEnd_toStartOf="@id/news_item_publish_time_text_input_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/news_item_title_text_input_layout">
@@ -92,6 +100,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/news_item_publish_time"
+                    app:endIconDrawable="@drawable/ic_warning_circle"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/news_item_create_date_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/news_item_title_text_input_layout">
@@ -110,6 +121,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="@string/news_item_description"
+                    app:endIconDrawable="@drawable/ic_warning_circle"
+                    app:endIconMode="none"
+                    app:endIconTint="@color/mtrl_textinput_empty_field_stroke_color"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/news_item_create_date_text_input_layout">
 

@@ -38,10 +38,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", '"https://vhospice.org/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://test.vhospice.org:8443/api/fmh/"'
         }
         debug {
-            buildConfigField "String", "BASE_URL", '"https://vhospice.org/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://test.vhospice.org:8443/api/fmh/"'
         }
     }
 }
@@ -51,7 +51,7 @@ dependencies {
     def retrofit_gson_version = "2.9.0"
     def okhttp_logging_version = "4.9.2"
     def fragment_version = "1.4.1"
-    def lifecycle_version = "2.4.0"
+    def lifecycle_version = "2.4.1"
     def room_version = '2.4.1'
     def nav_version = '2.3.5'
     def recycler_version = '1.2.1'

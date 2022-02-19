@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,8 +26,9 @@ import ru.iteco.fmhandroid.utils.Utils.saveDateTime
 import ru.iteco.fmhandroid.utils.Utils.updateDateLabel
 import ru.iteco.fmhandroid.utils.Utils.updateTimeLabel
 import ru.iteco.fmhandroid.viewmodel.NewsControlPanelViewModel
-import java.time.*
 import java.time.Instant.now
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 @AndroidEntryPoint
@@ -77,6 +79,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 View.GONE
             containerCustomAppBarIncludeOnFragmentCreateEditNews.trademarkImageView.visibility =
                 View.GONE
+            newsItemCategoryTextInputLayout.isStartIconVisible = false
             if (args.newsItemArg == null) {
                 containerCustomAppBarIncludeOnFragmentCreateEditNews.customAppBarTitleTextView.apply {
                     visibility = View.VISIBLE
@@ -152,6 +155,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                     newsItemPublishTimeTextInputEditText.text.isNullOrBlank() ||
                     newsItemDescriptionTextInputEditText.text.isNullOrBlank()
                 ) {
+                    emptyFieldWarning()
                     showErrorToast(R.string.empty_fields)
                 } else {
                     fillNewsItem()
@@ -221,6 +225,31 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                 calendar.get(Calendar.MINUTE),
                 true
             ).show()
+        }
+    }
+
+    private fun FragmentCreateEditNewsBinding.emptyFieldWarning() {
+        newsItemCategoryTextInputLayout.isStartIconVisible =
+            newsItemCategoryTextAutoCompleteTextView.text.isNullOrBlank()
+        if (newsItemTitleTextInputEditText.text.isNullOrBlank()) {
+            newsItemTitleTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            newsItemTitleTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
+        }
+        if (newsItemPublishDateTextInputEditText.text.isNullOrBlank()) {
+            newsItemCreateDateTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            newsItemCreateDateTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
+        }
+        if (newsItemPublishTimeTextInputEditText.text.isNullOrBlank()) {
+            newsItemPublishTimeTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            newsItemPublishTimeTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
+        }
+        if (newsItemDescriptionTextInputEditText.text.isNullOrBlank()) {
+            newsItemDescriptionTextInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+        } else {
+            newsItemDescriptionTextInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
         }
     }
 
