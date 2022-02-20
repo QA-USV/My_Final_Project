@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <include
         android:id="@+id/container_custom_app_bar_include_on_fragment_news_control_panel"
         layout="@layout/top_custom_app_bar"
@@ -87,10 +86,10 @@
             android:id="@+id/layout_background_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             android:contentDescription="@string/app_background_image"
             android:scaleType="centerCrop"
-            android:src="@drawable/app_background_1920x1920" />
+            android:src="@drawable/app_background_1920x1920"
+            android:visibility="visible" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/news_control_panel_swipe_to_refresh"
@@ -106,9 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:listitem="@layout/item_news_control_panel" />
@@ -117,8 +114,8 @@
                     android:id="@+id/control_panel_empty_news_list_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/empty_list_image"
                     android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/empty_list_image"
                     app:layout_constraintBottom_toTopOf="@+id/control_panel_empty_news_list_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
