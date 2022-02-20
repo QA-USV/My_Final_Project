@@ -11,6 +11,7 @@ import ru.iteco.fmhandroid.dto.LoginData
 import ru.iteco.fmhandroid.dto.RefreshRequest
 import ru.iteco.fmhandroid.exceptions.ApiException
 import ru.iteco.fmhandroid.exceptions.AuthorizationException
+import ru.iteco.fmhandroid.exceptions.UnknownException
 import ru.iteco.fmhandroid.utils.Utils
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,6 +34,8 @@ class AuthRepositoryImpl @Inject constructor(
                 val errorResponse: JwtResponse? = gson.fromJson(it.errorBody()?.charStream(), type)
                 if (errorResponse?.message.equals("ERR_INVALID_LOGIN")) {
                     throw AuthorizationException
+                } else {
+                    throw UnknownException
                 }
             }
         )
