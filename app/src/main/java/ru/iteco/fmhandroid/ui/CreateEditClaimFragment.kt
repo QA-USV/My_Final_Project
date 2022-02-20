@@ -256,8 +256,8 @@ class CreateEditClaimFragment : Fragment(R.layout.fragment_create_edit_claim) {
             } else {
                 val createdClaim = Claim(
                     id = null,
-                    title = titleEditText.text.toString(),
-                    description = descriptionEditText.text.toString(),
+                    title = titleEditText.text.toString().trim(),
+                    description = descriptionEditText.text.toString().trim(),
                     executorId = executor?.id,
                     creatorName = fullUserNameGenerator(
                         lastName = claimCardViewModel.currentUser.lastName,

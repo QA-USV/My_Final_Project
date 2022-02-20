@@ -285,7 +285,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
             } else {
                 val createdNews = News(
                     id = null,
-                    title = newsItemTitleTextInputEditText.text.toString(),
+                    title = newsItemTitleTextInputEditText.text.toString().trim(),
                     newsCategoryId = convertNewsCategory(
                         newsItemCategoryTextAutoCompleteTextView.text.toString()
                     ),
@@ -301,7 +301,7 @@ class CreateEditNewsFragment : Fragment(R.layout.fragment_create_edit_news) {
                         newsItemPublishDateTextInputEditText.text.toString(),
                         newsItemPublishTimeTextInputEditText.text.toString()
                     ),
-                    description = newsItemDescriptionTextInputEditText.text.toString(),
+                    description = newsItemDescriptionTextInputEditText.text.toString().trim(),
                     publishEnabled = switcher.isChecked
                 )
                 viewModel.save(createdNews)

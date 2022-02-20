@@ -98,7 +98,7 @@ class CreateEditClaimCommentFragment : Fragment(R.layout.fragment_create_edit_co
                 .setText(R.string.genitive_comment)
 
             binding.saveButton.setOnClickListener {
-                val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString()
+                val newCommentDescription = binding.commentTextInputLayout.editText?.text.toString().trim()
 
                 if (newCommentDescription.isNotBlank()) {
                     claimCardViewModel.createClaimComment(
