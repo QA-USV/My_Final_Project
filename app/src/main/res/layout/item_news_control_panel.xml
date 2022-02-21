@@ -12,9 +12,7 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    android:outlineSpotShadowColor="@color/execution_priority_low"
-    app:cardElevation="10dp"
-    tools:targetApi="p">
+    app:cardElevation="@dimen/card_item_elevation" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
