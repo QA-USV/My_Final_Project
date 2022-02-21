@@ -22,7 +22,6 @@ import ru.iteco.fmhandroid.viewmodel.AuthViewModel
 import ru.iteco.fmhandroid.viewmodel.ClaimViewModel
 import ru.iteco.fmhandroid.viewmodel.NewsViewModel
 
-
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding

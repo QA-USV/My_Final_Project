@@ -17,8 +17,8 @@ android {
         applicationId "ru.iteco.fmhandroid"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 12
-        versionName "0.6.6"
+        versionCode 14
+        versionName "1.0.0"
     }
 
     compileOptions {
@@ -38,7 +38,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", '"https://test.vhospice.org:8443/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"https://fmh.vhospice.org/api/fmh/"'
         }
         debug {
             buildConfigField "String", "BASE_URL", '"https://test.vhospice.org:8443/api/fmh/"'

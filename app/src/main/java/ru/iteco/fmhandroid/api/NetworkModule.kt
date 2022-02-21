@@ -22,9 +22,9 @@ object NetworkModule {
     @Provides
     fun loggingInterceptor() = HttpLoggingInterceptor()
         .apply {
-//            if (BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 level = HttpLoggingInterceptor.Level.BODY
-//            }
+            }
         }
 
     @NonAuthorized
