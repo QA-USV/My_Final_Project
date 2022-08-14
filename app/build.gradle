@@ -38,10 +38,10 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", '"https://test.vhospice.org:8443/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"http://www.981757-ca08998.tmweb.ru:8080/fmh/"'
         }
         debug {
-            buildConfigField "String", "BASE_URL", '"https://test.vhospice.org:8443/api/fmh/"'
+            buildConfigField "String", "BASE_URL", '"http://www.981757-ca08998.tmweb.ru:8080/fmh/"'
         }
     }
 }
@@ -58,8 +58,8 @@ dependencies {
     def material_version = '1.5.0'
     def constraint_version = '2.1.3'
     def coroutines_version = '1.5.2'
-    def hilt_version = '2.40.5'
-    def gson_version = '2.8.9'
+    def hilt_version = '2.41'
+    def gson_version = '2.9.0'
     def swipe_refresh_version = '1.1.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
