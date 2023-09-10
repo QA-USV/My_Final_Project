@@ -53,8 +53,8 @@
             public String cutSymbolsMoreThen50InTitleOrComment = "Этот пример ввода текста содержит более 50 валидны";
 3.4. Не подлежат изменению переменные, определенные в Приложении
 
-        Например,
-            public String takeClaimForExecutionButton = getApplicationContext().getString(R.string.take_to_work);
+      Например,
+          public String takeClaimForExecutionButton = getApplicationContext().getString(R.string.take_to_work);
 
 ## **4. Запуск тестов**
 Выберите в папке AdminRoleTests интересующую Вас группу тестов.
