@@ -14,7 +14,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.allOf;
-import static ValuesForTests.Methods.childAtPosition;
+import static ru.iteco.fmhandroid.ValuesForTests.Methods.childAtPosition;
 
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -33,7 +33,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminMainPageTests extends ValuesForTests.ValuesForTests {
+public class AdminMainPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -59,7 +59,7 @@ public class AdminMainPageTests extends ValuesForTests.ValuesForTests {
 
     @After
     public void QuitApp() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         try {
             onView(withId(android.R.id.button2)).perform(click());
         } catch (NoMatchingViewException ignore) {
@@ -94,7 +94,7 @@ public class AdminMainPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(4000);
 
         onView(withId(R.id.news_list_recycler_view))
-                .perform(scrollToPosition(9))
+                .perform(scrollToPosition(positionNum))
                 .check(matches(isDisplayed()));
     }
 
@@ -122,7 +122,7 @@ public class AdminMainPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(4000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(15))
+                .perform(scrollToPosition(positionNum))
                 .check(matches(isDisplayed()));
     }
 
@@ -157,20 +157,6 @@ public class AdminMainPageTests extends ValuesForTests.ValuesForTests {
 
         onView(withId(R.id.about_version_value_text_view))
                 .check(matches(isDisplayed()));
-
-        onView(withId(R.id.about_privacy_policy_label_text_view))
-                .check(matches(isDisplayed()));
-
-        onView(withId(R.id.about_privacy_policy_value_text_view))
-                .check(matches(isDisplayed()))
-                .check(matches(isClickable()));
-
-        onView(withId(R.id.about_terms_of_use_label_text_view))
-                .check(matches(isDisplayed()));
-
-        onView(withId(R.id.about_terms_of_use_value_text_view))
-                .check(matches(isDisplayed()))
-                .check(matches(isClickable()));
 
         onView(withId(R.id.about_back_image_button))
                 .check(matches(isDisplayed()))

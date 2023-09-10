@@ -22,7 +22,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 @RunWith(AllureAndroidJUnit4.class)
 
 
-public class AuthorizationFieldsAndButtonTests extends ValuesForTests.ValuesForTests {
+public class AuthorizationFieldsAndButtonTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =

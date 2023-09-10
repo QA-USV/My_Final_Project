@@ -14,19 +14,21 @@ import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static ValuesForTests.Methods.childAtPosition;
 
 import android.view.View;
 import android.widget.DatePicker;
 
+import androidx.test.espresso.NoMatchingRootException;
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -42,7 +44,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests {
+public class AdminCreatingClaimsPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -65,12 +67,12 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
             }
             AdminOpenCreatingClaimPage();
         }
-        Thread.sleep(1000);
+        Thread.sleep(4000);
     }
 
     @After
     public void QuitApp() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         try {
             onView(withId(android.R.id.button1)).perform(click());
         } catch (NoMatchingViewException ignore) {
@@ -91,10 +93,10 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
 
 
     @Test
-    public void shouldCreateClaimTimePickerNoExecutor() throws InterruptedException {
+    public void shouldCreateClaimWithTimePickerNoExecutor() throws InterruptedException {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(claimTitle), closeSoftKeyboard());
+                .perform(replaceText(claimTitleNoExecutor), closeSoftKeyboard());
 
         SetPlanDay();
 
@@ -115,14 +117,17 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
         Thread.sleep(3000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .check(matches(isDisplayed()));
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(claimTitleNoExecutor))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.executor_name_material_text_view),
+                        withText(emptyStringField)))));
     }
 
     @Test
-    public void shouldCreateClaimKeyboardNoExecutor() throws InterruptedException {
+    public void shouldCreateClaimWithKeyboardForTimeNoExecutor() throws Exception {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(claimTitle), closeSoftKeyboard());
+                .perform(replaceText(claimTitleNoExecutor), closeSoftKeyboard());
 
         SetPlanDay();
 
@@ -137,20 +142,24 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
-        onView(withId(R.id.claim_list_recycler_view))
-                .check(matches(isDisplayed()));
+       onView(withId(R.id.claim_list_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(claimTitleNoExecutor))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.executor_name_material_text_view),
+                        withText(emptyStringField)))));
     }
 
     @Test
     public void shouldCreateClaimAppointExecutor() throws InterruptedException {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(claimTitle), closeSoftKeyboard());
+                .perform(replaceText(claimTitleWithExecutor), closeSoftKeyboard());
 
         onView(withId(R.id.executor_drop_menu_auto_complete_text_view))
                 .perform(click());
@@ -176,20 +185,24 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .check(matches(isDisplayed()));
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(claimTitleWithExecutor))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.executor_name_material_text_view),
+                        withText(claimExecutorName)))));
     }
 
     @Test
-    public void shouldNotCreateClaimAppointFakeExecutor() throws InterruptedException {
+    public void shouldDeleteFakeExecutorCreatingClaim() throws InterruptedException {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(claimTitle), closeSoftKeyboard());
+                .perform(replaceText(claimTitleForFakeExecutor), closeSoftKeyboard());
 
         onView(withId(R.id.executor_drop_menu_auto_complete_text_view))
                 .perform(click())
@@ -210,13 +223,17 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         Thread.sleep(4000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .check(matches(not(hasDescendant(withText(claimFakeExecutor)))));
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(claimTitleForFakeExecutor))))))
+                .check(matches(not(hasDescendant(allOf(withId(R.id.executor_name_material_text_view),
+                        withText(claimFakeExecutor))))));
     }
 
     @Test
@@ -238,8 +255,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -263,8 +281,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -284,8 +303,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -311,8 +331,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(emptyStringField), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -338,8 +359,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         Thread.sleep(3000);
 
@@ -367,8 +389,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(hyphenInStringField), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -376,7 +399,7 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
     }
 
     @Test
-    public void shouldCreateClaimWithHyphenFirstInTitleField() throws InterruptedException {
+    public void shouldCutOffFirstHyphenInTitleFieldCreatingClaim() throws InterruptedException {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(hyphenFirstInStringField), closeSoftKeyboard());
@@ -394,20 +417,24 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         Thread.sleep(3000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .check(matches(not(hasDescendant(withText(hyphenFirstInStringField)))));
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(hyphenFirstInStringFieldDeleted))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(hyphenFirstInStringFieldDeleted)))));
     }
 
     @Test
-    public void shouldCreateClaimWithHyphenFirstInDescriptionField() throws InterruptedException {
+    public void shouldCutOffFirstHyphenInDescriptionFieldCreatingClaim() throws InterruptedException {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(claimTitle), closeSoftKeyboard());
+                .perform(replaceText(claimTitleFirstHyphenInDescription), closeSoftKeyboard());
 
         SetPlanDay();
 
@@ -422,39 +449,54 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(hyphenFirstInStringField), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .check(matches(not(hasDescendant(withText(hyphenFirstInStringField)))));
+                .perform(RecyclerViewActions
+                        .scrollTo(first(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(claimTitleAboveUpperEdgeInDescription))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.description_material_text_view),
+                        withText(hyphenFirstInStringFieldDeleted)))));
     }
 
     @Test
-    public void shouldNotLetInputInvalidSymbolsInTitleFieldCreatingClaimPage() {
+    public void shouldBanToInputInvalidSymbolsInTitleFieldCreatingClaim() throws Exception {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(invalidSymbols), closeSoftKeyboard());
+                .perform(replaceText(invalidSymbols), closeSoftKeyboard())
+                .check(matches(withText(not(containsString(invalidSymbols)))));
 
-        onView(withText(invalidSymbolsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(invalidSymbolsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + invalidSymbolsNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetInputInvalidSymbolsInDescriptionFieldCreatingClaimPage() {
+    public void shouldBanToInputInvalidSymbolsInDescriptionFieldCreatingClaim() throws Exception {
         onView(withId(R.id.description_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(invalidSymbols), closeSoftKeyboard());
+                .perform(replaceText(invalidSymbols), closeSoftKeyboard())
+                .check(matches(withText(not(containsString(invalidSymbols)))));
 
-        onView(withText(invalidSymbolsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(invalidSymbolsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + invalidSymbolsNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotCreateClaimWithUnderLowerEdgeInTitleField() {
+    public void shouldNotCreateClaimWithSymbolsUnderLowerEdgeInTitleField() throws Exception {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(lessThen5ValidSymbolsTitleOrComment), closeSoftKeyboard());
@@ -474,27 +516,29 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(claimDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .check(matches(isNotClickable()));
 
-        onView(withText(symbolsOutOfEdgesTitleNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(symbolsOutOfEdgesTitleNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + symbolsOutOfEdgesTitleNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetInputSymbolsAboveUpperEdgeInTitleFieldCreatingClaimPage() {
+    public void shouldCutOffInputSymbolsAboveUpperEdgeInTitleFieldCreatingClaimPage() {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(moreThen30ValidSymbolsTitleOrComment), closeSoftKeyboard());
-
-        onView(withText(symbolsOutOfEdgesTitleNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+                .perform(replaceText(moreThen50ValidSymbolsTitleOrComment))
+                .check(matches(withText(cutSymbolsMoreThen50InTitleOrComment)));
     }
 
     @Test
-    public void shouldNotCreateClaimWithUnderLowerEdgeInDescriptionField() {
+    public void shouldNotCreateClaimWithSymbolsUnderLowerEdgeInDescriptionField() throws Exception {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(claimTitle), closeSoftKeyboard());
@@ -514,23 +558,25 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
                 .perform(replaceText(lessThen10ValidSymbolsDescription), closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .check(matches(isNotClickable()));
 
-        onView(withText(symbolsOutOfEdgesDescriptionNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(symbolsOutOfEdgesDescriptionNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + symbolsOutOfEdgesDescriptionNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetInputSymbolsAboveUpperEdgeInDescriptionFieldCreatingClaimPage() {
+    public void shouldCutOffInputSymbolsAboveUpperEdgeInDescriptionFieldCreatingClaim() {
         onView(withId(R.id.description_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(moreThen100ValidSymbolsDescription), closeSoftKeyboard());
-
-        onView(withText(symbolsOutOfEdgesDescriptionNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+                .perform(replaceText(moreThen100ValidSymbolsDescription))
+                .check(matches(withText(cutSymbolsMoreThen100InDescription)));
     }
 
     @Test
@@ -555,41 +601,14 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
     }
 
     @Test
-    public void shouldNotCreateClaimWithInvalidPlanTime() {
+    public void shouldNotCreateClaimWithInvalidPlanTime() throws Exception {
         onView(withId(R.id.time_in_plan_text_input_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageButton")),
-                childAtPosition(
-                        childAtPosition(
-                                withClassName(is("android.widget.LinearLayout")),
-                                4),
-                        0),
-                isDisplayed()))
-                .perform(click());
+        SetInvalidPlanTimeWithKeyboard();
 
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
-                childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
-                                childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
-                                        1)),
-                        0),
-                isDisplayed()))
-                .perform(replaceText(String.valueOf(invalidPlanHour)), closeSoftKeyboard());
-
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
-                childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
-                                childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
-                                        1)),
-                        3),
-                isDisplayed()))
-                .perform(replaceText(String.valueOf(invalidPlanMinutes)), closeSoftKeyboard());
-
-        onView(allOf(withId(android.R.id.button1)))
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        onView(withText(wrongTimeNotification))
+        onView(anyOf(withText(wrongTimeNotification1), withText(wrongTimeNotification2)))
                 .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
@@ -597,8 +616,9 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
     @Test
     public void shouldCancelCreatingClaim() throws InterruptedException {
         onView(withId(R.id.cancel_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(areYouSureCancelMessage))
                 .inRoot(withDecorView(not(decorView)))
@@ -615,15 +635,16 @@ public class AdminCreatingClaimsPageTests extends ValuesForTests.ValuesForTests 
     }
 
     @Test
-    public void shouldReturnToCreatingClaimPageAfterRefusalToCancel() {
+    public void shouldReturnToCreatingClaimAfterRefusalToCancel() {
         onView(withId(R.id.title_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(claimTitle),
                         closeSoftKeyboard());
 
         onView(withId(R.id.cancel_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(areYouSureCancelMessage))
                 .inRoot(withDecorView(not(decorView)))

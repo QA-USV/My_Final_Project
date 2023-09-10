@@ -14,19 +14,21 @@ import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static ValuesForTests.Methods.childAtPosition;
 
 import android.view.View;
 import android.widget.DatePicker;
 
+import androidx.test.espresso.NoMatchingRootException;
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -42,7 +44,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
+public class AdminCreatingNewsPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -65,7 +67,7 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
             }
             AdminOpenCreatingNewsPage();
         }
-        Thread.sleep(1000);
+        Thread.sleep(4000);
     }
 
     @After
@@ -96,8 +98,6 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        Thread.sleep(2000);
-
         onData(anything())
                 .inRoot(isPlatformPopup())
                 .atPosition(categoryNum)
@@ -105,7 +105,7 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
 
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(newsTitle),
+                .perform(replaceText(newsTitleForTimePicker),
                         closeSoftKeyboard());
 
        SetPublicationDate();
@@ -122,22 +122,24 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
-                .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(5000);
-
-        onView(withId(R.id.news_list_recycler_view))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void shouldCreateNewsWithTimeKeyboard() throws InterruptedException {
-        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        Thread.sleep(1000);
+        Thread.sleep(4000);
+
+        onView(withId(R.id.news_list_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                        withText(newsTitleForTimePicker))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                        withText(newsTitleForTimePicker)))));
+    }
+
+    @Test
+    public void shouldCreateNewsWithTimeKeyboardForTime() throws Exception {
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .check(matches(isDisplayed()))
+                .perform(click());
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -146,7 +148,7 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
 
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(newsTitle),
+                .perform(replaceText(newsTitleForKeyboard),
                         closeSoftKeyboard());
 
         SetPublicationDate();
@@ -163,17 +165,21 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
-        Thread.sleep(5000);
+        Thread.sleep(4000);
 
         onView(withId(R.id.news_list_recycler_view))
-                .check(matches(isDisplayed()));
+                .perform(RecyclerViewActions.scrollTo(first(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                        withText(newsTitleForKeyboard))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                        withText(newsTitleForKeyboard)))));
     }
 
     @Test
-    public void shouldNotCreateNewsWithEmptyCategoryField() throws InterruptedException {
+    public void shouldNotCreateNewsWithEmptyCategoryField() {
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(newsTitle),
@@ -193,10 +199,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(2000);
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -204,12 +209,10 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotCreateNewsWithEmptyTitleField() throws InterruptedException {
+    public void shouldNotCreateNewsWithEmptyTitleField() {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -235,10 +238,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(2000);
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -246,12 +248,10 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotCreateNewsWithEmptyDateField() throws InterruptedException {
+    public void shouldNotCreateNewsWithEmptyDateField() {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -275,10 +275,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(2000);
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -286,12 +285,10 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotCreateNewsWithEmptyTimeField() throws InterruptedException {
+    public void shouldNotCreateNewsWithEmptyTimeField() {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -311,10 +308,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(2000);
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -322,12 +318,10 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotCreateNewsWithEmptyDescriptionField() throws InterruptedException {
+    public void shouldNotCreateNewsWithEmptyDescriptionField() {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -356,20 +350,16 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                 .check(matches(isDisplayed()))
                 .perform(scrollTo(), click());
 
-        Thread.sleep(2000);
-
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
     @Test
-    public void shouldNotCreateNewsWithOnlyHyphenInTitleField() throws InterruptedException {
+    public void shouldNotCreateNewsWithOnlyHyphenInTitleField() {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -395,10 +385,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(2000);
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -406,12 +395,10 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotCreateNewsWithOnlyHyphenInDescriptionField() throws InterruptedException {
+    public void shouldNotCreateNewsWithOnlyHyphenInDescriptionField() {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -437,10 +424,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(2000);
+                .perform(click());
 
         onView(withText(emptyFieldsNotification))
                 .inRoot(withDecorView(not(decorView)))
@@ -448,12 +434,10 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldCreateNewsWithHyphenFirstInTitleField() throws InterruptedException {
+    public void shouldCutOffFirstHyphenInTitleFieldCreatingNews() throws InterruptedException {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -479,22 +463,25 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
-                .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(3000);
-
-        onView(withId(R.id.news_list_recycler_view))
-                .check(matches(not(hasDescendant(withText(hyphenFirstInStringField)))));
-    }
-
-    @Test
-    public void shouldCreateNewsWithHyphenFirstInDescriptionField() throws InterruptedException {
-        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        Thread.sleep(1000);
+        Thread.sleep(4000);
+
+        onView(withId(R.id.news_list_recycler_view))
+                .perform(RecyclerViewActions
+                        .scrollTo(first(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                withText(hyphenFirstInStringFieldDeleted))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                        withText(hyphenFirstInStringFieldDeleted)))));
+    }
+
+    @Test
+    public void shouldCutOffFirstHyphenInDescriptionFieldCreatingNews() throws InterruptedException {
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .check(matches(isDisplayed()))
+                .perform(click());
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -503,7 +490,7 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
 
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(newsTitle),
+                .perform(replaceText(newsTitleFirstHyphenInDescription),
                         closeSoftKeyboard());
 
         SetPublicationDate();
@@ -520,46 +507,57 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
-                .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
-
-        Thread.sleep(3000);
-
-        onView(withId(R.id.news_list_recycler_view))
-                .check(matches(not(hasDescendant(withText(hyphenFirstInStringField)))));
-    }
-
-    @Test
-    public void shouldNotLetInputInvalidSymbolsInTitleFieldCreatingNewsPage() {
-        onView(withId(R.id.news_item_title_text_input_edit_text))
-                .check(matches(isDisplayed()))
-                .perform(replaceText(invalidSymbols),
-                        closeSoftKeyboard());
-
-        onView(withText(invalidSymbolsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void shouldNotLetInputInvalidSymbolsInDescriptionFieldCreatingNewsPage() {
-        onView(withId(R.id.news_item_description_text_input_edit_text))
-                .check(matches(isDisplayed()))
-                .perform(replaceText(invalidSymbols),
-                        closeSoftKeyboard());
-
-        onView(withText(invalidSymbolsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void shouldNotCreateNewsWithUnderLowerEdgeInTitleField() throws InterruptedException {
-        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        Thread.sleep(1000);
+        Thread.sleep(4000);
+
+        onView(withId(R.id.news_list_recycler_view))
+                .perform(RecyclerViewActions
+                        .scrollTo(first(hasDescendant(allOf(withId(R.id.news_item_title_text_view),
+                                withText(containsString(newsTitleFirstHyphenInDescription)))))))
+                .check(matches(hasDescendant(allOf(withId(R.id.news_item_description_text_view),
+                        withText(hyphenFirstInStringFieldDeleted)))));
+    }
+
+    @Test
+    public void shouldBanToInputInvalidSymbolsInTitleFieldCreatingNews() throws Exception {
+        onView(withId(R.id.news_item_title_text_input_edit_text))
+                .check(matches(isDisplayed()))
+                .perform(replaceText(invalidSymbols), closeSoftKeyboard())
+                .check(matches(withText(not(containsString(invalidSymbols)))));
+
+        try {
+            onView(withText(invalidSymbolsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + invalidSymbolsNotification + '"');
+        }
+    }
+
+    @Test
+    public void shouldBanToInputInvalidSymbolsInDescriptionFieldCreatingNews() throws Exception {
+        onView(withId(R.id.news_item_description_text_input_edit_text))
+                .check(matches(isDisplayed()))
+                .perform(replaceText(invalidSymbols), closeSoftKeyboard())
+                .check(matches(withText(not(containsString(invalidSymbols)))));
+
+        try {
+            onView(withText(invalidSymbolsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + invalidSymbolsNotification + '"');
+        }
+    }
+
+    @Test
+    public void shouldNotCreateNewsWithSymbolsUnderLowerEdgeInTitleField() throws Exception {
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .check(matches(isDisplayed()))
+                .perform(click());
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -585,33 +583,32 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .check(matches(isNotClickable()));
 
-        onView(withText(symbolsOutOfEdgesTitleNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(symbolsOutOfEdgesTitleNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + symbolsOutOfEdgesTitleNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetInputSymbolsAboveUpperEdgeInTitleFieldCreatingNewsPage() {
+    public void shouldCutOffInputSymbolsAboveUpperEdgeInTitleFieldCreatingNews() {
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(moreThen30ValidSymbolsTitleOrComment),
-                        closeSoftKeyboard());
-
-        onView(withText(symbolsOutOfEdgesTitleNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+                .perform(replaceText(moreThen50ValidSymbolsTitleOrComment))
+                .check(matches(withText(cutSymbolsMoreThen50InTitleOrComment)));
     }
 
     @Test
-    public void shouldNotCreateNewsWithUnderLowerEdgeInDescriptionField() throws InterruptedException {
+    public void shouldNotCreateNewsWithSymbolsUnderLowerEdgeInDescriptionField() throws Exception {
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .check(matches(isDisplayed()))
                 .perform(click());
-
-        Thread.sleep(1000);
 
         onData(anything())
                 .inRoot(isPlatformPopup())
@@ -637,28 +634,30 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
                         closeSoftKeyboard());
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .check(matches(isNotClickable()));
 
-        onView(withText(symbolsOutOfEdgesDescriptionNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(symbolsOutOfEdgesDescriptionNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + symbolsOutOfEdgesDescriptionNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetInputSymbolsAboveUpperEdgeInDescriptionFieldCreatingNewsPage() {
+    public void shouldCutOffInputSymbolsAboveUpperEdgeInDescriptionFieldCreatingNews() {
         onView(withId(R.id.news_item_description_text_input_edit_text))
                 .check(matches(isDisplayed()))
-                .perform(replaceText(moreThen100ValidSymbolsDescription),
-                        closeSoftKeyboard());
-
-        onView(withText(symbolsOutOfEdgesDescriptionNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+                .perform(click())
+                .perform(replaceText(moreThen100ValidSymbolsDescription))
+                .check(matches(withText(cutSymbolsMoreThen100InDescription)));
     }
 
     @Test
-    public void shouldNotCreateNewsWithInvalidPastPublicationDate() {
+    public void shouldBanInputPastPublicationDateCreatingNews() {
         onView(withId(R.id.news_item_publish_date_text_input_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -679,41 +678,14 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotCreateNewsWithInvalidPublicationTime() {
+    public void shouldBanInputInvalidPublicationTimeWithKeyboardCreatingNews() throws Exception {
         onView(withId(R.id.news_item_publish_time_text_input_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageButton")),
-                childAtPosition(
-                        childAtPosition(
-                                withClassName(is("android.widget.LinearLayout")),
-                                4),
-                        0),
-                isDisplayed()))
-                .perform(click());
+        SetInvalidPlanTimeWithKeyboard();
 
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
-                childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
-                                childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
-                                        1)),
-                        0),
-                isDisplayed()))
-                .perform(replaceText(String.valueOf(invalidPlanHour)), closeSoftKeyboard());
-
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
-                childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
-                                childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
-                                        1)),
-                        3),
-                isDisplayed()))
-                .perform(replaceText(String.valueOf(invalidPlanMinutes)), closeSoftKeyboard());
-
-        onView(allOf(withId(android.R.id.button1)))
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        onView(withText(wrongTimeNotification))
+        onView(anyOf(withText(wrongTimeNotification1), withText(wrongTimeNotification2)))
                 .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
@@ -721,8 +693,9 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     @Test
     public void shouldCancelCreatingNews() throws InterruptedException {
         onView(withId(R.id.cancel_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(areYouSureCancelMessage))
                 .inRoot(withDecorView(not(decorView)))
@@ -739,15 +712,16 @@ public class AdminCreatingNewsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldReturnToCreatingNewsPageAfterRefusalToCancel() {
+    public void shouldReturnToCreatingPageAfterRefusalToCancel() {
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(newsTitle),
                         closeSoftKeyboard());
 
         onView(withId(R.id.cancel_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
-                .perform(scrollTo(), click());
+                .perform(click());
 
         onView(withText(areYouSureCancelMessage))
                 .inRoot(withDecorView(not(decorView)))

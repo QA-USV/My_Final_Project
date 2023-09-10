@@ -1,4 +1,4 @@
-package ValuesForTests
+package ru.iteco.fmhandroid.ValuesForTests
 
 import android.os.IBinder
 

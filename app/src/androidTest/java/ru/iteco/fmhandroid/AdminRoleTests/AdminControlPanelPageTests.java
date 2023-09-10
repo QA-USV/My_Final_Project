@@ -4,7 +4,6 @@ import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.PickerActions.setDate;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
@@ -19,7 +18,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
-import static ValuesForTests.Methods.childAtPosition;
+import static ru.iteco.fmhandroid.ValuesForTests.Methods.childAtPosition;
 
 import android.widget.DatePicker;
 
@@ -39,7 +38,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
+public class AdminControlPanelPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -49,17 +48,17 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
     public void setUp() throws InterruptedException {
         mActivityScenarioRule.getScenario().onActivity(activity -> activity.getWindow().getDecorView());
         try {
-            Thread.sleep(500);
+            Thread.sleep(3000);
             ToSignOutApp();
         } catch (NoMatchingViewException ignore) {
         } finally {
             try {
-                Thread.sleep(500);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             AdminAuthorization();
-            Thread.sleep(3000);
+            Thread.sleep(4000);
             onView(withId(R.id.all_news_text_view))
                     .check(matches(isDisplayed()))
                     .perform(click());
@@ -68,12 +67,12 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
                     .check(matches(isDisplayed()))
                     .perform(click());
         }
-        Thread.sleep(2000);
+        Thread.sleep(3000);
     }
 
     @After
     public void QuitApp() throws InterruptedException {
-//        Thread.sleep(1000);
+        Thread.sleep(2000);
         try {
             onView(withId(android.R.id.button1)).perform(click());
         } catch (NoMatchingViewException ignore) {
@@ -96,7 +95,7 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
     @Test
     public void shouldScrollingControlPanelPage() {
         onView(withId(R.id.news_list_recycler_view))
-                .perform(scrollToPosition(25))
+                .perform(scrollToPosition(positionNum))
                 .check(matches(isDisplayed()));
     }
 
@@ -193,12 +192,10 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
 
         Thread.sleep(3000);
 
-        onView(allOf(withId(R.id.news_item_material_card_view),
-                childAtPosition(withId(R.id.news_list_recycler_view), 0),
-                        isDisplayed()))
-                .check(matches(hasDescendant(allOf(
+        onView(withId(R.id.news_list_recycler_view))
+                .check(matches(not(hasDescendant(allOf(
                         withId(R.id.news_item_published_text_view),
-                        withText(active)))));
+                        withText(not_active))))));
     }
 
     @Test
@@ -219,12 +216,10 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
 
         Thread.sleep(3000);
 
-        onView(allOf(withId(R.id.news_item_material_card_view),
-                childAtPosition(withId(R.id.news_list_recycler_view), 0),
-                isDisplayed()))
-                .check(matches(hasDescendant(allOf(
+        onView(withId(R.id.news_list_recycler_view))
+                .check(matches(not(hasDescendant(allOf(
                         withId(R.id.news_item_published_text_view),
-                        withText(not_active)))));
+                        withText(active))))));
     }
 
     @Test
@@ -284,13 +279,10 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
 
         Thread.sleep(5000);
 
-        onView(allOf(withId(R.id.news_item_material_card_view),
-                childAtPosition(withId(R.id.news_list_recycler_view), 0),
-                isDisplayed()))
-                .perform(scrollTo())
-                .check(matches(hasDescendant(allOf(
+        onView(withId(R.id.news_list_recycler_view))
+                .check(matches(not(hasDescendant(allOf(
                         withId(R.id.news_item_published_text_view),
-                        withText(active)))));
+                        withText(not_active))))));
     }
 
     @Test
@@ -319,24 +311,20 @@ public class AdminControlPanelPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldExpandAndCollapseNewsDescription() throws InterruptedException {
-        onView(allOf(withId(R.id.news_list_recycler_view),
-                isDisplayed()))
+    public void shouldExpandAndCollapseNewsDescription() {
+        onView(withId(R.id.news_list_recycler_view))
+                .check(matches(isDisplayed()))
                 .perform(actionOnItemAtPosition(0, click()));
-
-        Thread.sleep(3000);
 
         onView(first(withId(R.id.news_item_description_text_view)))
                 .check(matches(isDisplayed()));
 
-        onView(allOf(withId(R.id.news_list_recycler_view),
-                isDisplayed()))
-                .perform(actionOnItemAtPosition(0, click()));
-
-        Thread.sleep(3000);
+        onView(first(withId(R.id.view_news_item_image_view)))
+                .perform(click());
 
         onView(first(withId(R.id.news_item_description_text_view)))
                 .check(matches(not(isDisplayed())));
+
     }
 
     @Test

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ValuesForTests;
+package ru.iteco.fmhandroid.ValuesForTests;
 
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;

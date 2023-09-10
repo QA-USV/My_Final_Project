@@ -30,7 +30,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminOurMissionPageTests extends ValuesForTests.ValuesForTests {
+public class AdminOurMissionPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -57,7 +57,7 @@ public class AdminOurMissionPageTests extends ValuesForTests.ValuesForTests {
 
     @After
     public void QuitApp() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         try {
             ToSignOutApp();
             } catch (NoMatchingViewException ignore2) {

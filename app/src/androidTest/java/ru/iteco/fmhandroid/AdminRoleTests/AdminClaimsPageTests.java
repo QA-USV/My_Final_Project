@@ -2,7 +2,6 @@ package ru.iteco.fmhandroid.AdminRoleTests;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -11,17 +10,20 @@ import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPositio
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static ValuesForTests.Methods.childAtPosition;
+import static ru.iteco.fmhandroid.ValuesForTests.Methods.childAtPosition;
 
 import android.view.View;
 
+import androidx.test.espresso.NoMatchingRootException;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
@@ -33,14 +35,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ValuesForTests.ToastMatcher;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ValuesForTests.ToastMatcher;
 import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
+public class AdminClaimsPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -62,7 +64,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 e.printStackTrace();
             }
             AdminAuthorization();
-            Thread.sleep(3000);
+            Thread.sleep(4000);
             onView(withId(R.id.all_claims_text_view))
                     .perform(scrollTo())
                     .check(matches(isDisplayed()))
@@ -73,7 +75,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
 
     @After
     public void QuitApp() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         try {
             onView(withId(android.R.id.button1)).perform(click());
         } catch (NoMatchingViewException ignore) {
@@ -97,24 +99,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     public void shouldScrollClaimsPage() {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(15));
+                .perform(scrollToPosition(positionNum));
     }
-
-    /*
-     * This test is for a future functionality not currently in the App
-     * Filtering by claim's creating time period
-     */
-//    @Test
-//    public void filteringClaimsByCreatingTimePeriod() throws InterruptedException {
-//        SetDatesForFilteringClaims();
-//
-//        onView(withId(R.id.filter_button))
-//                .check(matches(isDisplayed()))
-//                .perform(click());
-//
-//        onView(withId(R.id.all_claims_cards_block_constraint_layout))
-//                .check(matches(isDisplayed()));
-//    }
 
     @Test
     public void shouldFilterClaimsByStatusOpened() throws InterruptedException {
@@ -135,26 +121,6 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         onView(withId(R.id.all_claims_cards_block_constraint_layout))
                 .check(matches(isDisplayed()));
     }
-
-    /*
-     * This test is for a future functionality not currently in the App
-     * Filtering by claim's creating time period and claim's status
-     */
-//    @Test
-//    public void filteringClaimsByCreatingTimePeriodAndStatus () throws InterruptedException {
-//        SetDatesForFilteringClaims();
-//
-//        onView(withId(R.id.item_filter_in_progress))
-//                .check(matches(isDisplayed()))
-//                .perform(click());
-//
-//        onView(withId(R.id.filter_button))
-//                .check(matches(isDisplayed()))
-//                .perform(click());
-//
-//        onView(withId(R.id.all_claims_cards_block_constraint_layout))
-//                .check(matches(isDisplayed()));
-//    }
 
     @Test
     public void shouldOpenAndCloseClaimCard() throws InterruptedException {
@@ -179,10 +145,9 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldLeaveCommentsInClaimCard() throws InterruptedException {
+    public void shouldLeaveCommentsInClaimCard() throws Exception {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-//                .perform(scrollToPosition(1))
                 .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
@@ -205,23 +170,24 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .perform(replaceText(claimComments));
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
         Thread.sleep(2000);
 
-        onView(withId(R.id.comments_material_card_view))
+        onView(allOf(withId(R.id.comment_description_text_view), withText(claimComments),
+                withParent(withParent(withId(R.id.claim_comments_list_recycler_view)))))
                 .perform(scrollTo())
-                .check(matches(isDisplayed()))
-                .check(matches(hasDescendant(withText(claimComments))));
+                .check(matches(withText(claimComments)));
     }
 
     @Test
-    public void shouldNotLetToLeaveEmptyCommentsInClaimCard() throws InterruptedException {
+    public void shouldBanToLeaveEmptyCommentsInClaimCard() throws InterruptedException {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(2))
-                .perform(actionOnItemAtPosition(2, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -233,6 +199,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(2000);
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
@@ -242,11 +209,11 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotLetLeaveOnlyHyphenInCommentsInClaimCard() throws InterruptedException {
+    public void shouldNotLeaveOnlyHyphenInCommentsInClaimCard() throws InterruptedException {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -269,6 +236,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .perform(replaceText(hyphenInStringField));
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
@@ -278,13 +246,15 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldLetStartWithHyphenFirstInCommentsInClaimCard() throws InterruptedException {
+    public void shouldDeleteFirstHyphenInCommentsInClaimCard() throws Exception {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(0))
-                .perform(actionOnItemAtPosition(0, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(3000);
+
+
 
         onView(withId(R.id.add_comment_image_button))
                 .perform(scrollTo())
@@ -305,22 +275,22 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .perform(replaceText(hyphenFirstInStringField));
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
         Thread.sleep(3000);
 
-        onView(withId(R.id.comments_material_card_view))
-                .check(matches(isDisplayed()))
-                .check(matches(not(hasDescendant(withText(hyphenFirstInStringField)))));
+        onView(withId(R.id.claim_comments_list_recycler_view))
+                .check(matches(hasDescendant(withText(hyphenFirstInStringFieldDeleted))));
     }
 
     @Test
-    public void shouldNotLetInvalidSymbolsInCommentsInClaimCard() throws InterruptedException {
+    public void shouldBanToInputInvalidSymbolsInCommentsInClaimCard() throws Exception {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         onView(withId(R.id.add_comment_image_button))
                 .perform(scrollTo())
@@ -338,19 +308,24 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                                 withId(R.id.comment_text_input_layout),
                                 0), 0),
                 isDisplayed()))
-                .perform(replaceText(invalidSymbols));
+                .perform(replaceText(invalidSymbols))
+                .check(matches(withText(not(containsString(invalidSymbols)))));
 
-        onView(withText(invalidSymbolsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        try {
+            onView(withText(invalidSymbolsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + invalidSymbolsNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetCommentsUnderLowerEdgeInClaimCard() throws InterruptedException {
+    public void shouldNotLeaveCommentsUnderLowerEdgeInClaimCard() throws Exception {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         onView(withId(R.id.add_comment_image_button))
                 .perform(scrollTo())
@@ -370,17 +345,26 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 isDisplayed()))
                 .perform(replaceText(lessThen5ValidSymbolsTitleOrComment));
 
-        onView(withText(symbolsOutOfEdgesCommentsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+        onView(withId(R.id.save_button))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .check(matches(isNotClickable()));
+
+        try {
+            onView(withText(symbolsOutOfEdgesCommentsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + symbolsOutOfEdgesCommentsNotification + '"');
+        }
     }
 
     @Test
-    public void shouldNotLetCommentsAboveUpperEdgeInClaimCard() throws InterruptedException {
+    public void shouldCutOffCommentsAboveUpperEdgeInClaimCard() throws InterruptedException {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -400,19 +384,16 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                                 withId(R.id.comment_text_input_layout),
                                 0), 0),
                 isDisplayed()))
-                .perform(replaceText(moreThen30ValidSymbolsTitleOrComment));
-
-        onView(withText(symbolsOutOfEdgesCommentsNotification))
-                .inRoot(withDecorView(not(decorView)))
-                .check(matches(isDisplayed()));
+                .perform(replaceText(moreThen50ValidSymbolsTitleOrComment))
+                .check(matches(withText(cutSymbolsMoreThen50InTitleOrComment)));
     }
 
     @Test
     public void shouldCancelLeavingCommentsInClaimCard() throws InterruptedException {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(1))
+                .perform(actionOnItemAtPosition(1, click()));
 
         Thread.sleep(2000);
 
@@ -430,100 +411,40 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldChangeCommentsInClaimCard() throws InterruptedException {
+    public void shouldChangeCommentsInClaimCard() throws Exception {
         onView(withId(R.id.claim_list_recycler_view))
                 .check(matches(isDisplayed()))
                 .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
-        //In case there is not a comment to change in Claim Card
-        try {
-            onView(allOf(withId(R.id.edit_comment_image_button),
-                    childAtPosition(
-                            childAtPosition(
-                                    withId(R.id.claim_comments_list_recycler_view), 0),
-                            1),
-                    isDisplayed()))
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-        } catch (NoMatchingViewException ignore) {
-            onView(withId(R.id.add_comment_image_button))
-                    .perform(scrollTo(),(click()));
-            Thread.sleep(1000);
-            onView(withId(R.id.comment_text_input_layout))
-                    .perform(click());
-            onView(allOf(childAtPosition(childAtPosition(
-                            withId(R.id.comment_text_input_layout),
-                            0), 0),
-                    isDisplayed()))
-                    .perform(replaceText(claimComments));
-            onView(withId(R.id.save_button))
-                    .perform(click());
-            onView(allOf(withId(R.id.edit_comment_image_button),
-                    childAtPosition(
-                            childAtPosition(
-                                    withId(R.id.claim_comments_list_recycler_view), 0),
-                            1),
-                    isDisplayed()))
-                    .perform(click());
-        }
+        // In case there is not a comment to change in Claim Card yet
+        InCaseNoCommentInClaimCardYet();
 
         Thread.sleep(2000);
 
         onView(allOf(childAtPosition(
-                childAtPosition(
-                        withId(R.id.comment_text_input_layout),
-                        0),
-                1),
+                        childAtPosition(
+                                withId(R.id.comment_text_input_layout),
+                                0),
+                        1),
                 isDisplayed()))
                 .perform(click())
-                .perform(replaceText(claimCommentsChanged))
-                .perform(closeSoftKeyboard());
+                .perform(replaceText(claimCommentsChanged));
 
         onView(withId(R.id.save_button))
+                .perform(scrollTo())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        onView(withId(R.id.comments_material_card_view))
-                .check(matches(isDisplayed()))
-                .check(matches(hasDescendant(withText(claimCommentsChanged))));
+        onView(allOf(withId(R.id.comment_description_text_view), withText(claimCommentsChanged),
+                withParent(withParent(withId(R.id.claim_comments_list_recycler_view))),
+                isDisplayed()))
+                .check(matches(withText(claimCommentsChanged)));
     }
 
-    /*
-     * This test is for a future functionality not currently in the App
-     * Deleting a claim's Comment
-     */
-//    @Test
-//    public void deleteCommentsInClaimCard() throws InterruptedException {
-//        onView(withId(R.id.claim_list_recycler_view))
-//                .check(matches(isDisplayed()))
-//                .perform(scrollToPosition(1))
-//                .perform(actionOnItemAtPosition(1, click()));
-//
-//        Thread.sleep(2000);
-//
-//        onView(allOf(withId(R.id.delete_claim_item_image_view),
-//                childAtPosition(
-//                        childAtPosition(
-//                                withId(R.id.claim_comments_list_recycler_view), 0),
-//                        2),
-//                isDisplayed()))
-//                .check(matches(isDisplayed()))
-//                .perform(click());
-//
-//                Thread.sleep(3000);
-//
-//        onView(allOf(withId(android.R.id.message), withText(ARE_YOU_SURE_DELETE_MESSAGE)))
-//                .check(matches(isDisplayed()));
-//
-//        onView(withId(android.R.id.button1))
-//                .check(matches(isDisplayed()))
-//                .perform(scrollTo(), click());
-//    }
-
     @Test
-    public void shouldTakeClaimForExecution() throws InterruptedException {
+    public void shouldTakeClaimForExecution() throws Exception {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -548,10 +469,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        onView(allOf(withId(android.R.id.title), withText(takeClaimForExecutionButton),
-//                childAtPosition(childAtPosition(withId(android.R.id.content),
-//                        0), 0),
-                isDisplayed()))
+        onView(allOf(withId(android.R.id.title), withText(takeClaimForExecutionButton)))
+                .check(matches(isDisplayed()))
                 .perform(click());
 
         Thread.sleep(2000);
@@ -563,7 +482,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldCancelClaim() throws InterruptedException {
+    public void shouldCancelClaim() throws Exception {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -576,13 +495,14 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
+
 
         onView(withId(R.id.status_processing_image_button))
                 .perform(scrollTo())
@@ -593,15 +513,16 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
-        onView(withId(R.id.status_label_text_view))
-                .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.status_label_text_view),
+                withParent(withParent(IsInstanceOf.instanceOf(androidx.cardview.widget.CardView.class))),
+                isDisplayed()))
                 .check(matches(withText(claimIsCanceled)));
     }
 
     @Test
-    public void shouldResetClaim() throws InterruptedException {
+    public void shouldResetClaim() throws Exception {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -617,8 +538,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(3000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -643,13 +564,14 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
 
         Thread.sleep(2000);
 
-        onView(withId(R.id.status_label_text_view))
-                .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.status_label_text_view),
+                withParent(withParent(IsInstanceOf.instanceOf(androidx.cardview.widget.CardView.class))),
+                isDisplayed()))
                 .check(matches(withText(claimIsOpenedStatus)));
     }
 
     @Test
-    public void shouldNotLetToResetClaimWithNoComments() throws InterruptedException {
+    public void shouldNotResetClaimWithNoComments() throws Exception {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -665,10 +587,11 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(2000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
+
 
         onView(withId(R.id.status_processing_image_button))
                 .perform(scrollTo())
@@ -680,6 +603,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         Thread.sleep(2000);
+
         onView(withId(R.id.editText))
                 .check(matches(isDisplayed()))
                 .perform(replaceText(emptyStringField));
@@ -696,7 +620,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldExecuteClaim() throws InterruptedException {
+    public void shouldExecuteClaim() throws Exception {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -712,8 +636,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(2000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(1))
-                .perform(actionOnItemAtPosition(1, click()));
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -738,13 +661,14 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
 
         Thread.sleep(2000);
 
-        onView(withId(R.id.status_label_text_view))
-                .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.status_label_text_view),
+                withParent(withParent(IsInstanceOf.instanceOf(androidx.cardview.widget.CardView.class))),
+                isDisplayed()))
                 .check(matches(withText(claimExecutedStatus)));
     }
 
     @Test
-    public void shouldNotToExecuteClaimWithNoComments() throws InterruptedException {
+    public void shouldNotExecuteClaimWithNoComments() throws Exception {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -760,8 +684,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(2000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(3))
-                .perform(actionOnItemAtPosition(3, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -810,7 +734,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldGoToEditingClaimPageOpenStatus() throws InterruptedException {
+    public void shouldGoToEditingClaimPageWithOpenStatus() throws InterruptedException {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -826,8 +750,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(5000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(2))
-                .perform(actionOnItemAtPosition(2, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -849,7 +773,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotGoToEditingClaimPageInProgressStatus() throws InterruptedException {
+    public void shouldNotGoToEditingClaimPageWithInProgressStatus() throws InterruptedException {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -865,8 +789,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(5000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(2))
-                .perform(actionOnItemAtPosition(2, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -884,7 +808,7 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
     }
 
     @Test
-    public void shouldNotGoToEditingClaimPageExecutedStatus() throws InterruptedException {
+    public void shouldNotGoToEditingClaimPageWithExecutedStatus() throws InterruptedException {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -908,8 +832,8 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(5000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(2))
-                .perform(actionOnItemAtPosition(2, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
@@ -921,13 +845,15 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
                 .perform(scrollTo())
                 .perform(click());
 
+        Thread.sleep(2000);
+
         onView(withText(impossibleToEditClaimNotification))
                 .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
     @Test
-    public void shouldNotGoToEditingClaimPageCanceledStatus() throws InterruptedException {
+    public void shouldNotGoToEditingClaimPageWithCanceledStatus() throws InterruptedException {
         onView(withId(R.id.filters_material_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -951,21 +877,219 @@ public class AdminClaimsPageTests extends ValuesForTests.ValuesForTests {
         Thread.sleep(5000);
 
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(2))
-                .perform(actionOnItemAtPosition(2, click()));
+                .perform(scrollToPosition(positionNum))
+                .perform(actionOnItemAtPosition(positionNum, click()));
 
         Thread.sleep(2000);
 
         onView(allOf(withId(R.id.edit_processing_image_button),
                 childAtPosition(childAtPosition(
                         withClassName(is("com.google.android.material.card.MaterialCardView")),
-                        0),25),
-                isDisplayed()))
+                        0),25), isDisplayed()))
                 .perform(scrollTo())
                 .perform(click());
+
+        Thread.sleep(3000);
 
         onView(withText(impossibleToEditClaimNotification))
                 .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldBanChangeCommentsIntoEmptyInClaimCard() throws Exception {
+        onView(withId(R.id.claim_list_recycler_view))
+                .check(matches(isDisplayed()))
+                .perform(actionOnItemAtPosition(positionNum, click()));
+
+        Thread.sleep(2000);
+
+        //In case there is not a comment to change in Claim Card yet
+        InCaseNoCommentInClaimCardYet();
+
+        Thread.sleep(2000);
+
+        onView(allOf(childAtPosition(
+                childAtPosition(
+                        withId(R.id.comment_text_input_layout),
+                        0),1), isDisplayed()))
+                .perform(click())
+                .perform(replaceText(emptyStringField));
+
+        onView(withId(R.id.save_button))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        Thread.sleep(2000);
+
+        onView(withText(emptyOneFieldNotification))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldBanChangeCommentsWithOnlyHyphenInClaimCard() throws InterruptedException {
+        onView(withId(R.id.claim_list_recycler_view))
+                .check(matches(isDisplayed()))
+                .perform(actionOnItemAtPosition(positionNum, click()));
+
+        Thread.sleep(2000);
+
+        onView(withId(R.id.add_comment_image_button))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        Thread.sleep(2000);
+
+        onView(withId(R.id.comment_text_input_layout))
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        onView(allOf(childAtPosition(
+                childAtPosition(
+                        withId(R.id.comment_text_input_layout),
+                        0),1), isDisplayed()))
+                .perform(click())
+                .perform(replaceText(hyphenInStringField));
+
+        Thread.sleep(2000);
+
+        onView(allOf(withId(R.id.save_button), withText(saveButtonText)))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        Thread.sleep(2000);
+
+        onView(withText(emptyOneFieldNotification))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldCutOffFirstHyphenInChangeCommentsInClaimCard() throws Exception {
+        onView(withId(R.id.claim_list_recycler_view))
+                .check(matches(isDisplayed()))
+                .perform(actionOnItemAtPosition(positionNum, click()));
+
+        Thread.sleep(2000);
+
+        // In case there is not a comment to change in Claim Card yet
+        InCaseNoCommentInClaimCardYet();
+
+        onView(allOf(childAtPosition(
+                        childAtPosition(
+                                withId(R.id.comment_text_input_layout),
+                                0),1), isDisplayed()))
+                .perform(click())
+                .perform(replaceText(hyphenFirstInStringField));
+
+        onView(withId(R.id.save_button))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        Thread.sleep(2000);
+
+        onView(allOf(withId(R.id.comment_description_text_view),
+                withText(containsString(hyphenFirstInStringFieldDeleted)),
+                withParent(withParent(withId(R.id.claim_comments_list_recycler_view))),
+                isDisplayed()))
+                .perform(scrollTo())
+                .check(matches(withText(hyphenFirstInStringFieldDeleted)));
+    }
+
+    @Test
+    public void shouldBanInputInvalidSymbolsInChangedCommentsInClaimCard() throws Exception {
+        onView(withId(R.id.claim_list_recycler_view))
+                .check(matches(isDisplayed()))
+                .perform(actionOnItemAtPosition(positionNum, click()));
+
+        Thread.sleep(2000);
+
+        // In case there is not a comment to change in Claim Card yet
+        InCaseNoCommentInClaimCardYet();
+
+        Thread.sleep(2000);
+
+        onView(allOf(childAtPosition(
+                        childAtPosition(
+                                withId(R.id.comment_text_input_layout),
+                                0),
+                        1),
+                isDisplayed()))
+                .perform(click())
+                .perform(replaceText(invalidSymbols))
+                .check(matches(withText(not(containsString(invalidSymbols)))));
+
+        try {
+            onView(withText(invalidSymbolsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + invalidSymbolsNotification + '"');
+        }
+    }
+
+    @Test
+    public void shouldNotChangeCommentsLessLowerEdgeInClaimCard() throws Exception {
+        onView(withId(R.id.claim_list_recycler_view))
+                .check(matches(isDisplayed()))
+                .perform(actionOnItemAtPosition(positionNum, click()));
+
+        Thread.sleep(2000);
+
+        // In case there is not a comment to change in Claim Card yet
+        InCaseNoCommentInClaimCardYet();
+
+        Thread.sleep(2000);
+
+        onView(allOf(childAtPosition(
+                        childAtPosition(
+                                withId(R.id.comment_text_input_layout),
+                                0),
+                        1),
+                isDisplayed()))
+                .perform(click())
+                .perform(replaceText(lessThen5ValidSymbolsTitleOrComment));
+
+        onView(withId(R.id.save_button))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .check(matches(isNotClickable()));
+
+        try {
+            onView(withText(symbolsOutOfEdgesCommentsNotification))
+                    .inRoot(withDecorView(not(decorView)))
+                    .check(matches(isDisplayed()));
+        } catch (NoMatchingRootException e) {
+            throw new Exception("There is no Toast: " + '"' + symbolsOutOfEdgesCommentsNotification + '"');
+        }
+    }
+
+    @Test
+    public void shouldCutOffChangedCommentsAboveUpperEdgeInClaimCard() throws Exception {
+        onView(withId(R.id.claim_list_recycler_view))
+                .check(matches(isDisplayed()))
+                .perform(actionOnItemAtPosition(positionNum, click()));
+
+        Thread.sleep(2000);
+
+        // In case there is not a comment to change in Claim Card yet
+        InCaseNoCommentInClaimCardYet();
+
+        Thread.sleep(2000);
+
+        onView(allOf(childAtPosition(
+                        childAtPosition(
+                                withId(R.id.comment_text_input_layout),
+                                0),
+                        1),
+                isDisplayed()))
+                .perform(click())
+                .perform(replaceText(moreThen50ValidSymbolsTitleOrComment))
+                .check(matches(withText(cutSymbolsMoreThen50InTitleOrComment)));
     }
 }

@@ -26,7 +26,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminAboutPageTests extends ValuesForTests.ValuesForTests {
+public class AdminAboutPageTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -55,7 +55,7 @@ public class AdminAboutPageTests extends ValuesForTests.ValuesForTests {
 
     @After
     public void QuitApp() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         try {
             onView(withId(R.id.about_back_image_button)).perform(click());
         } catch (NoMatchingViewException ignore1) {

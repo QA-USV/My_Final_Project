@@ -1,4 +1,4 @@
-package ValuesForTests;
+package ru.iteco.fmhandroid.ValuesForTests;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -4,20 +4,22 @@ package ru.iteco.fmhandroid.AdminRoleTests;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 import android.view.View;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,7 +31,7 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
+public class AdminAuthorizationTests extends ru.iteco.fmhandroid.ValuesForTests.ValuesForTests {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -90,7 +92,7 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         onView(withText(wrongLogPassNotification))
-                .inRoot(withDecorView(Matchers.not(decorView)))
+                .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
@@ -106,7 +108,7 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         onView(withText(wrongLogPassNotification))
-                .inRoot(withDecorView(Matchers.not(decorView)))
+                .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
@@ -124,7 +126,7 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         onView(withText(wrongLogPassNotification))
-                .inRoot(withDecorView(Matchers.not(decorView)))
+                .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
@@ -138,7 +140,7 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         onView(withText(emptyLogPassNotification))
-                .inRoot(withDecorView(Matchers.not(decorView)))
+                .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
@@ -152,7 +154,7 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         onView(withText(emptyLogPassNotification))
-                .inRoot(withDecorView(Matchers.not(decorView)))
+                .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
@@ -163,7 +165,7 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
                 .perform(click());
 
         onView(withText(emptyLogPassNotification))
-                .inRoot(withDecorView(Matchers.not(decorView)))
+                .inRoot(withDecorView(not(decorView)))
                 .check(matches(isDisplayed()));
     }
 
@@ -189,5 +191,20 @@ public class AdminAuthorizationTests extends ValuesForTests.ValuesForTests {
 
         enterButton
                 .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldSignOutAfterCloseApp() throws InterruptedException {
+        AdminAuthorization();
+
+        Thread.sleep(5000);
+
+        mActivityScenarioRule.getScenario().close();
+        ActivityScenario.launch(AppActivity.class);
+
+        Thread.sleep(5000);
+
+        onView(withId(R.id.authorization_image_button))
+                .check(doesNotExist());
     }
 }

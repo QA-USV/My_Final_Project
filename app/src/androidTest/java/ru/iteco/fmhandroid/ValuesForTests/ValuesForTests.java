@@ -1,4 +1,4 @@
-package ValuesForTests;
+package ru.iteco.fmhandroid.ValuesForTests;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onData;
@@ -7,6 +7,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.PickerActions.setDate;
 import static androidx.test.espresso.contrib.PickerActions.setTime;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
@@ -24,11 +25,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
-import static ValuesForTests.Methods.childAtPosition;
+import static ru.iteco.fmhandroid.ValuesForTests.Methods.childAtPosition;
 
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 
@@ -54,14 +56,6 @@ public class ValuesForTests {
     public String password = getApplicationContext().getString(R.string.password);
 
     /**
-     * Variables for Manager Authorization
-     **/
-    public String loginManager = ""; //To be added for Manager Role
-    public String passwordManager = ""; //To be added for Manager Role
-    public String wrongLoginManager = ""; //To be added for Manager Role
-    public String wrongPasswordManager = ""; //To be added for Manager Role
-
-    /**
      * Authorization Page
      **/
     public ViewInteraction loginField = onView(allOf(
@@ -85,7 +79,6 @@ public class ValuesForTests {
     public String news = getApplicationContext().getString(R.string.news);
     public String main = getApplicationContext().getString(R.string.main);
     public String claims = getApplicationContext().getString(R.string.claims);
-    public String claim = getApplicationContext().getString(R.string.claim);
     public String about = getApplicationContext().getString(R.string.about);
 
     public ViewInteraction vHospiceTradeMarkImage = onView(
@@ -130,7 +123,6 @@ public class ValuesForTests {
     public String not_active = getApplicationContext().getString(R.string.news_control_panel_not_active);
     public String creating = getApplicationContext().getString(R.string.creating);
     public String editing = getApplicationContext().getString(R.string.editing);
-    public String refresh = getApplicationContext().getString(R.string.refresh);
 
     /**
      * Toasts & Notifications
@@ -147,17 +139,14 @@ public class ValuesForTests {
     public String emptyOneFieldNotification
             = getApplicationContext().getString(R.string.toast_empty_field);
 
-    public String wrongTimeNotification
+    public String wrongTimeNotification1
             = "Указано недопустимое время.";
 
-    public String wrongNewsDatePeriod
-            = getApplicationContext().getString(R.string.wrong_news_date_period);
+    public String wrongTimeNotification2 =
+            "Введите действительное значение времени";
 
     public String impossibleToEditClaimNotification
             = getApplicationContext().getString(R.string.inability_to_edit_claim);
-
-    public String noRulesForControlPanel
-            = getApplicationContext().getString(R.string.no_rules_for_news_control_panel);
 
     public String areYouSureDeleteMessage
             = getApplicationContext().getString(R.string.irrevocable_deletion);
@@ -165,29 +154,26 @@ public class ValuesForTests {
     public String areYouSureCancelMessage
             = getApplicationContext().getString(R.string.cancellation);
 
-    public String nothingHere
-            = getApplicationContext().getString(R.string.empty_claim_list_text);
-
     public String invalidSymbolsNotification
             = "Поле может содержать только русские буквы и цифры";
 
-    public String firstSymbolForTextFieldsNotification
-            = "Текст должен начинать с буквы или цифры.";
-
     public String symbolsOutOfEdgesTitleNotification
-            = "Поле Заголовок или Тема должно содержать от 5 до 30 символов";
+            = "Поле Заголовок или Тема должно содержать от 5 до 50 символов";
 
     public String symbolsOutOfEdgesDescriptionNotification
             = "Поле Описание должно содержать от 10 до 100 символов";
 
     public String symbolsOutOfEdgesCommentsNotification
-            = "Поле Комментарий должно содержать от 5 до 30 символов";
+            = "Поле Комментарий должно содержать от 5 до 50 символов";
 
     /**
      * NEWS
      * Filling string fields
      **/
     public String newsTitle = "Тестовый Заголовок НОВОСТИ";
+    public String newsTitleForTimePicker = "Заголовок НОВОСТИ для создания с циферблатом";
+    public String newsTitleForKeyboard = "Заголовок НОВОСТИ для создания с клавиатурой";
+    public String newsTitleFirstHyphenInDescription = "НОВОСТЬ с первым пробелом в Описании";
     public String newsTitleEditing = "Изменение Заголовка НОВОСТИ";
     public String newsDescription = "Тестовое Описание НОВОСТИ";
     public String newsDescriptionEditing = "Изменение Описания НОВОСТИ";
@@ -212,13 +198,16 @@ public class ValuesForTests {
      * NEWS & CLAIMS
      * Random position number in RecycleView for actionOnItemAtPosition
      **/
-    public int[] orderNumberInRecycleViewList = {0, 1, 2, 3, 4, 6, 7, 8, 9};
-    public int positionNum = new Random().nextInt(orderNumberInRecycleViewList.length);
+    public int min = 10;
+    public int max = 70;
+    public int positionNum = new Random().nextInt(max - min + 1) + min;
 
     /**
      * CLAIMS
      * Status buttons and message
      **/
+    public String saveButtonText = getApplicationContext().getString(R.string.save);
+    public String cancelButtonText = getApplicationContext().getString(R.string.cancel);
     public String resetClaimButton = getApplicationContext().getString(R.string.throw_off);
     public String claimIsOpenedStatus = getApplicationContext().getString(R.string.status_open);
     public String takeClaimForExecutionButton = getApplicationContext().getString(R.string.take_to_work);
@@ -233,12 +222,16 @@ public class ValuesForTests {
      * Filling fields
      **/
     public String claimTitle = "Тестовая тема ЗАЯВКИ";
+    public String claimTitleWithExecutor = "Тестовая тема ЗАЯВКИ с исполнителем";
+    public String claimTitleForFakeExecutor = "Тестовая тема ЗАЯВКИ с несуществующим исполнителем";
+    public String claimTitleNoExecutor = "Тестовая тема ЗАЯВКИ без исполнителя";
+    public String claimTitleFirstHyphenInDescription = "ЗАЯВКА с первым пробелом в Описании";
+    public String claimTitleAboveUpperEdgeInDescription = "ЗАЯВКА с превышением символов в Описании";
     public String claimTitleEditing = "Изменение темы ЗАЯВКИ";
     public String claimDescription = "Тестовое Описание ЗАЯВКИ";
     public String claimDescriptionEditing = "Изменение Описания ЗАЯВКИ";
     public String claimComments = "Комментарий к ЗАЯВКЕ";
     public String claimCommentsChanged = "Комментарий к ЗАЯВКЕ изменен";
-    public String claimIsTakenComment = "ЗАЯВКА принята к исполнению";
     public String claimIsResetComment = "Комментарий к сбросу ЗАЯВКИ";
     public String claimIsExecutedComment = "ЗАЯВКА исполнена";
     public String claimExecutorName = "Ivanov Ivan Ivanovich";
@@ -255,11 +248,15 @@ public class ValuesForTests {
     public String hyphenFirstInStringFieldDeleted = "Текст с 1 пробелом в начале";
     public String invalidSymbols = "English and `~@#$%^&*|<>+_{}[]";
     public String lessThen5ValidSymbolsTitleOrComment = "Мало";
-    public String moreThen30ValidSymbolsTitleOrComment
-            = "Этот пример ввода текста содержит более 30 валидных символов.";
+    public String moreThen50ValidSymbolsTitleOrComment
+            = "Этот пример ввода текста содержит более 50 валидных символов.";
+    public String cutSymbolsMoreThen50InTitleOrComment
+            = "Этот пример ввода текста содержит более 50 валидны";
     public String lessThen10ValidSymbolsDescription = "Пока мало";
     public String moreThen100ValidSymbolsDescription
             = "Этот пример ввода текста содержит более 100 валидных символов и предназначен для тестирования поля Описание.";
+    public String cutSymbolsMoreThen100InDescription
+            = "Этот пример ввода текста содержит более 100 валидных символов и предназначен для тестирования поля О";
 
     /**
      * NEWS & CLAIMS
@@ -280,8 +277,7 @@ public class ValuesForTests {
 
     /**
      * OUR MISSION
-    */
-    public String ourMissionTitle = getApplicationContext().getString(R.string.our_mission_title_text);
+     */
     public String quoteTextForPositionOne = "Нет шаблона и стандарта";
 
     /**
@@ -297,7 +293,8 @@ public class ValuesForTests {
      **/
     public void AdminAuthorization() {
         loginField.perform(replaceText(loginAdmin));
-        passwordField.perform(replaceText(passwordAdmin));
+        passwordField.perform(replaceText(passwordAdmin))
+                .perform(closeSoftKeyboard());
         enterButton.perform(click());
     }
 
@@ -306,7 +303,7 @@ public class ValuesForTests {
      **/
     public void AdminOpenCreatingNewsPage() throws InterruptedException {
         AdminAuthorization();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         onView(withId(R.id.all_news_text_view)).perform(click());
         Thread.sleep(2000);
         onView(withId(R.id.edit_news_material_button)).perform(click());
@@ -320,7 +317,7 @@ public class ValuesForTests {
      **/
     public void AdminOpenEditingNewsPage() throws InterruptedException {
         AdminAuthorization();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         onView(withId(R.id.all_news_text_view)).perform(click());
         Thread.sleep(2000);
         onView(withId(R.id.edit_news_material_button)).perform(click());
@@ -338,7 +335,7 @@ public class ValuesForTests {
      **/
     public void AdminOpenCreatingClaimPage() throws InterruptedException {
         AdminAuthorization();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         onView(withId(R.id.all_claims_text_view)).perform(scrollTo(), click());
         onView(withId(R.id.add_new_claim_material_button)).perform(click());
     }
@@ -348,14 +345,14 @@ public class ValuesForTests {
      **/
     public void AdminOpenEditingClaimPage() throws InterruptedException {
         AdminAuthorization();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         onView(withId(R.id.all_claims_text_view)).perform(scrollTo(), click());
         onView(withId(R.id.filters_material_button)).perform(click());
         onView(withId(R.id.item_filter_in_progress)).perform(click());
         onView(withId(R.id.claim_list_filter_ok_material_button)).perform(click());
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         onView(withId(R.id.claim_list_recycler_view))
-                .perform(scrollToPosition(2), actionOnItemAtPosition(2, click()));
+                .perform(scrollToPosition(positionNum), actionOnItemAtPosition(positionNum, click()));
         Thread.sleep(1000);
         onView(allOf(withId(R.id.edit_processing_image_button),
                 childAtPosition(childAtPosition(
@@ -398,7 +395,7 @@ public class ValuesForTests {
     public void SetPlanDay() {
         onView(withId(R.id.date_in_plan_text_input_edit_text)).perform(click());
         onView(isAssignableFrom(DatePicker.class))
-                .perform(setDate(planDay.getYear(),planDay.getMonthValue(),planDay.getDayOfMonth()));
+                .perform(setDate(planDay.getYear(), planDay.getMonthValue(), planDay.getDayOfMonth()));
         onView(allOf(withId(android.R.id.button1))).perform(click());
     }
 
@@ -408,7 +405,7 @@ public class ValuesForTests {
     public void SetPublicationDate() {
         onView(withId(R.id.news_item_publish_date_text_input_edit_text)).perform(click());
         onView(isAssignableFrom(DatePicker.class))
-                .perform(setDate(publicationDay.getYear(), publicationDay.getMonthValue(),publicationDay.getDayOfMonth()));
+                .perform(setDate(publicationDay.getYear(), publicationDay.getMonthValue(), publicationDay.getDayOfMonth()));
         onView(allOf(withId(android.R.id.button1))).perform(click());
     }
 
@@ -424,13 +421,18 @@ public class ValuesForTests {
     /**
      * Set Time with keyboard
      **/
-    public void SetPlanTimeWithKeyboard() {
-        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageButton")),
-                childAtPosition(childAtPosition(
-                        withClassName(is("android.widget.LinearLayout")),
-                        4), 0),
-                isDisplayed()))
-                .perform(click());
+    public void SetPlanTimeWithKeyboard() throws Exception {
+        try {
+            onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageButton")),
+                    childAtPosition(childAtPosition(
+                            withClassName(is("android.widget.LinearLayout")),
+                            4), 0), isDisplayed()))
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+        } catch (NoMatchingViewException e)
+        {
+            throw new Exception("There is no Keyboard button to set Time");
+        }
         onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
                 childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
                         childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
@@ -447,34 +449,67 @@ public class ValuesForTests {
                 .perform(click());
     }
 
+    public void SetInvalidPlanTimeWithKeyboard() throws Exception {
+        try {
+            onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageButton")),
+                    childAtPosition(childAtPosition(
+                            withClassName(is("android.widget.LinearLayout")),
+                            4), 0), isDisplayed()))
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+        } catch (NoMatchingViewException e)
+        {
+            throw new Exception("There is no Keyboard button to set Time");
+        }
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
+                childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
+                        childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
+                                1)), 0),
+                isDisplayed()))
+                .perform(replaceText(String.valueOf(invalidPlanHour)), closeSoftKeyboard());
+        onView(allOf(withClassName(is("androidx.appcompat.widget.AppCompatEditText")),
+                childAtPosition(allOf(withClassName(is("android.widget.RelativeLayout")),
+                        childAtPosition(withClassName(is("android.widget.TextInputTimePickerView")),
+                                1)), 3),
+                isDisplayed()))
+                .perform(replaceText(String.valueOf(invalidPlanMinutes)), closeSoftKeyboard());
+        onView(allOf(withId(android.R.id.button1)))
+                .perform(click());
+    }
 
-//    /** FUNCTIONALITY IS NOT REALISED
-//    * Set Time period for CLAIMS filtering **/
-
-//    public void SetDatesForFilteringClaims() {
-//        onView(withId(R.id.filter_claims_material_button))
-//                .check(matches(isDisplayed()))
-//                .perform(click());
-//        onView(withId(R.id.claims_item_creating_date_start_text_input_edit_text))
-//                .perform(click());
-//        onView(isAssignableFrom(DatePicker.class))
-//                .perform(setDate(
-//                        startDay.getYear(),
-//                        startDay.getMonthValue(),
-//                        startDay.getDayOfMonth()));
-//        onView(withId(android.R.id.button1))
-//                .perform(click());
-//        onView(withId(R.id.claims_item_creating_date_end_text_input_edit_text))
-//                .perform(click());
-//        onView(isAssignableFrom(DatePicker.class))
-//                .perform(setDate(
-//                        endDay.getYear(),
-//                        endDay.getMonthValue(),
-//                        endDay.getDayOfMonth()));
-//        onView(withId(android.R.id.button1))
-//                .perform(click());
-//    }
-
+    public void InCaseNoCommentInClaimCardYet() throws Exception {
+        try {
+            onView(allOf(withId(R.id.edit_comment_image_button),
+                    childAtPosition(
+                            childAtPosition(
+                                    withId(R.id.claim_comments_list_recycler_view), 0),
+                            1),
+                    isDisplayed()))
+                    .perform(scrollTo())
+                    .perform(click());
+        } catch (NoMatchingViewException ignore) {
+            onView(withId(R.id.add_comment_image_button))
+                    .perform(scrollTo(),(click()));
+            Thread.sleep(1000);
+            onView(withId(R.id.comment_text_input_layout))
+                    .perform(click());
+            onView(allOf(childAtPosition(childAtPosition(
+                            withId(R.id.comment_text_input_layout),
+                            0), 0),
+                    isDisplayed()))
+                    .perform(replaceText(claimComments));
+            onView(withId(R.id.save_button))
+                    .perform(click());
+            onView(allOf(withId(R.id.edit_comment_image_button),
+                    childAtPosition(
+                            childAtPosition(
+                                    withId(R.id.claim_comments_list_recycler_view), 0),
+                            1),
+                    isDisplayed()))
+                    .perform(scrollTo())
+                    .perform(click());
+        }
+    }
 
     /**
      * Looking for the First Element
