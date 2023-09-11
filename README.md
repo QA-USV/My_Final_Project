@@ -51,7 +51,7 @@
     * текста, являющегося ожидаемым результатом
         Например,
             public String cutSymbolsMoreThen50InTitleOrComment = "Этот пример ввода текста содержит более 50 валидны";
-3.4. Не подлежат изменению переменные, определенные в Приложении
+3.4. Не подлежат изменению методы, а также переменные, определенные в Приложении
 
       Например,
           public String takeClaimForExecutionButton = getApplicationContext().getString(R.string.take_to_work);
