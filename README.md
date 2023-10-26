@@ -1,4 +1,13 @@
 # Приложение «Мобильный хоспис»
+
+В корне проекта размещены следующие документы:
+1. [Test plan](https://github.com/QA-USV/My_Final_Project/blob/main/Plan.md)
+2. [Check list](https://github.com/QA-USV/My_Final_Project/blob/main/Check.xlsx)
+3. [Test cases](https://github.com/QA-USV/My_Final_Project/blob/main/Cases.xlsx)
+4. [Bug Report](https://github.com/QA-USV/My_Final_Project/blob/main/BugReport.xlsx)
+5. [Test Report](https://github.com/QA-USV/My_Final_Project/blob/main/TestReport.docx)
+6. [Allure Results](https://github.com/QA-USV/My_Final_Project/blob/main/allure-results.zip)
+
 ## **ПРОЦЕДУРА ЗАПУСКА АВТО ТЕСТОВ**
 
 ## **1. Окружение**
